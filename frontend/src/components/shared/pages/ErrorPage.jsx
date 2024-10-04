@@ -1,4 +1,4 @@
-const ErrorPage = () => {
+export const ErrorPage = () => {
   return (
     <main className="relative grid h-screen place-items-center px-6 py-24 sm:py-32 lg:px-8">
       <div className="text-center z-10">
@@ -22,4 +22,3 @@ const ErrorPage = () => {
   );
 };
 
-export default ErrorPage;
