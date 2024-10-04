@@ -1,12 +1,19 @@
-import { Button } from "@/components/ui/button";
-import { ModeToggle } from "./components/ModeToggle";
+import { Routes, Route } from "react-router-dom";
+import Home from "./public/pages/Home";
+import Auth from "./public/pages/Auth";
+import ErrorPage from "./public/pages/ErrorPage";
+
 function App() {
   return (
     <>
-      <div className="container mx-auto px-2">
-        <Button>Click me</Button>
-        <ModeToggle />
-      </div>
+      <Routes>
+        {/* Rutas públicas */}
+        <Route path="/" element={<Home />} />
+        <Route path="/auth" element={<Auth />} />
+
+        {/* Ruta para manejar errores 404 */}
+        <Route path="*" element={<ErrorPage />} />
+      </Routes>
     </>
   );
 }
