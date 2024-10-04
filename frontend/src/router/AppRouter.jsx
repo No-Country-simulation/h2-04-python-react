@@ -12,7 +12,6 @@ export const router = createBrowserRouter([
 	{
 		path: '/',
 		element: <HomeLayout />,
-		errorElement: <ErrorPage />,
 		children: [
 			{
 				index: true,
@@ -24,7 +23,6 @@ export const router = createBrowserRouter([
 	{
 		path: '/auth',
 		element: <AuthLayout />,
-		errorElement: <ErrorPage />,
 		children: [
 			{
 				path: '/auth',
@@ -35,6 +33,9 @@ export const router = createBrowserRouter([
 	{
 		path: '/admin',
 		element: <AdminLayout />,
-		errorElement: <ErrorPage />,
+	},
+	{
+		path: '*',
+		element: <ErrorPage />,
 	},
 ]);
