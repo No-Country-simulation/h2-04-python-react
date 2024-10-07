@@ -166,3 +166,7 @@ SIMPLE_JWT = {
     'ROTATE_REFRESH_TOKENS': True,
     'BLACKLIST_AFTER_ROTATION': True,
 }
+
+
+#modificando tabla usuarios
+AUTH_USER_MODEL = 'core.User'
