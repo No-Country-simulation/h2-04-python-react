@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -20,9 +19,9 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { toast } from "sonner";
-import { Eye, EyeOff } from 'lucide-react'
 import useAuthStore from "../store/authStore";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import PasswordInput from "./PasswordInput";
 
 const loginSchema = z.object({
   emailOrPhone: z.string().min(1, "Este campo es requerido"),
@@ -31,8 +30,6 @@ const loginSchema = z.object({
 
 const LoginForm = () => {
   const login = useAuthStore((state) => state.login);
-  const [showPassword, setShowPassword] = useState(false)
-  const togglePasswordVisibility = () => setShowPassword(!showPassword)
   const navigate = useNavigate();
 
   const loginForm = useForm({
@@ -83,7 +80,7 @@ const LoginForm = () => {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel htmlFor="emailOrPhone">
-                    Correo electrónico o teléfono
+                    Ingresa tu email o teléfono
                   </FormLabel>
                   <FormControl>
                     <Input id="emailOrPhone" {...field} />
@@ -93,43 +90,23 @@ const LoginForm = () => {
               )}
             />
 
-            <FormField
+            <PasswordInput
               control={loginForm.control}
               name="password"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel htmlFor="loginPassword">Contraseña</FormLabel>
-                  <FormControl>
-                    <div className="relative">
-                      <Input
-                        id="loginPassword"
-                        type={showPassword ? "text" : "password"}
-                        {...field}
-                      />
-                      <Button
-                        type="button"
-                        variant="ghost"
-                        size="sm"
-                        className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
-                        onClick={togglePasswordVisibility}
-                      >
-                        {showPassword ? (
-                          <EyeOff className="size-5 text-[#999999]" />
-                        ) : (
-                          <Eye className="size-5 text-[#999999]" />
-                        )}
-                        <span className="sr-only">
-                          {showPassword
-                            ? "Ocultar contraseña"
-                            : "Mostrar contraseña"}
-                        </span>
-                      </Button>
-                    </div>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+              htmlFor="loginPassword"
+              label="Contraseña"
+              id="loginPassword"
             />
+
+            <div className="flex items-center justify-center">
+              <Link
+                to="#"
+                className="text-blueWaki leading-[19px] hover:underline"
+              >
+                ¿Olvidaste tu contraseña?
+              </Link>
+            </div>
+
             <div className="flex items-center justify-center">
               <Button
                 type="submit"
