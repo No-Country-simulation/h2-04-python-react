@@ -74,3 +74,14 @@ input[type="tel"] {
   padding-top: 6px !important;
   padding-bottom: 6px !important;
 }
+
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.bottom-nav {
+  z-index: 50;
+}
