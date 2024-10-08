@@ -1,4 +1,3 @@
-import { useState } from "react";
 import PropTypes from "prop-types";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
@@ -23,8 +22,8 @@ import {
 import { toast } from "sonner";
 import "react-phone-number-input/style.css";
 import PhoneInput from "react-phone-number-input";
-import { Eye, EyeOff } from "lucide-react";
 import useAuthStore from "../store/authStore";
+import PasswordInput from "./PasswordInput";
 
 const registerSchema = z
   .object({
@@ -35,8 +34,9 @@ const registerSchema = z
     email: z.string().email("Correo electrónico inválido"),
     phone: z
       .string()
+      .optional()
       .refine(
-        (phone) => /^\+\d{10,15}$/.test(phone),
+        (phone) => !phone || /^\+\d{10,15}$/.test(phone),
         "Número de teléfono inválido"
       ),
     password: z
@@ -51,8 +51,6 @@ const registerSchema = z
 
 const RegisterForm = ({ onSwitchToLogin }) => {
   const login = useAuthStore((state) => state.login);
-  const [showPassword, setShowPassword] = useState(false);
-  const togglePasswordVisibility = () => setShowPassword(!showPassword);
 
   const form = useForm({
     resolver: zodResolver(registerSchema),
@@ -110,8 +108,7 @@ const RegisterForm = ({ onSwitchToLogin }) => {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel htmlFor="username">
-                    Nombre de usuario
-                    <span className="text-red-400 text-xs">*</span>
+                    Nombre de usuario <span className="text-red-400 text-xs">*</span>
                   </FormLabel>
                   <FormControl>
                     <Input
@@ -132,11 +129,15 @@ const RegisterForm = ({ onSwitchToLogin }) => {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel htmlFor="email">
-                    Correo electrónico
-                    <span className="text-red-400 text-xs">*</span>
+                  Ingresa tu email <span className="text-red-400 text-xs">*</span>
                   </FormLabel>
                   <FormControl>
-                    <Input type="email" id="email" {...field} autoComplete="email"/>
+                    <Input
+                      type="email"
+                      id="email"
+                      {...field}
+                      autoComplete="email"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -149,7 +150,7 @@ const RegisterForm = ({ onSwitchToLogin }) => {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Teléfono</FormLabel>
-                  <FormControl>
+                  <FormControl rules={{ required: false }}>
                     <PhoneInput
                       defaultCountry="AR"
                       international
@@ -164,86 +165,24 @@ const RegisterForm = ({ onSwitchToLogin }) => {
               )}
             />
 
-            <FormField
+            <PasswordInput
               control={form.control}
               name="password"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel htmlFor="password">
-                    Contraseña <span className="text-red-400 text-xs">*</span>
-                  </FormLabel>
-                  <FormControl>
-                    <div className="relative">
-                      <Input
-                        id="password"
-                        type={showPassword ? "text" : "password"}
-                        {...field}
-                      />
-                      <Button
-                        type="button"
-                        variant="ghost"
-                        size="sm"
-                        className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
-                        onClick={togglePasswordVisibility}
-                      >
-                        {showPassword ? (
-                          <EyeOff className="size-5 text-[#999999]" />
-                        ) : (
-                          <Eye className="size-5 text-[#999999]" />
-                        )}
-                        <span className="sr-only">
-                          {showPassword
-                            ? "Ocultar contraseña"
-                            : "Mostrar contraseña"}
-                        </span>
-                      </Button>
-                    </div>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+              htmlFor="loginPassword"
+              label="Contraseña"
+              span="*"
+              id="loginPassword"
             />
 
-            <FormField
+            <PasswordInput
               control={form.control}
               name="confirmPassword"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel htmlFor="confirmPassword">
-                    Repetir contraseña
-                    <span className="text-red-400 text-xs">*</span>
-                  </FormLabel>
-                  <FormControl>
-                    <div className="relative">
-                      <Input
-                        id="confirmPassword"
-                        type={showPassword ? "text" : "password"}
-                        {...field}
-                      />
-                      <Button
-                        type="button"
-                        variant="ghost"
-                        size="sm"
-                        className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
-                        onClick={togglePasswordVisibility}
-                      >
-                        {showPassword ? (
-                          <EyeOff className="size-5 text-[#999999]" />
-                        ) : (
-                          <Eye className="size-5 text-[#999999]" />
-                        )}
-                        <span className="sr-only">
-                          {showPassword
-                            ? "Ocultar contraseña"
-                            : "Mostrar contraseña"}
-                        </span>
-                      </Button>
-                    </div>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+              htmlFor="confirmPassword"
+              label="Repetir contraseña"
+              span="*"
+              id="confirmPassword"
             />
+
             <div className="flex items-center justify-center">
               <Button
                 type="submit"
