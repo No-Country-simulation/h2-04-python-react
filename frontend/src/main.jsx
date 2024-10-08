@@ -1,21 +1,18 @@
-import { StrictMode } from 'react';
-import { createRoot } from 'react-dom/client';
-import { RouterProvider } from 'react-router-dom';
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import { ThemeProvider } from "@/public/components/theme-provider";
+import { Toaster } from "@/common/components/ui/sonner";
+import "./index.css";
+import App from "./App";
+import { BrowserRouter } from "react-router-dom";
 
-import { router } from './router/AppRouter';
-
-import { ThemeProvider } from '@/components/shared/theme-provider';
-import { Toaster } from '@/components/ui/sonner';
-import './index.css';
-
-createRoot(document.getElementById('root')).render(
-	<StrictMode>
-		<ThemeProvider
-			defaultTheme='light'
-			storageKey='vite-ui-theme'>
-			<RouterProvider router={router}>
-				<Toaster />
-			</RouterProvider>
-		</ThemeProvider>
-	</StrictMode>,
+createRoot(document.getElementById("root")).render(
+  <StrictMode>
+    <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
+      <BrowserRouter>
+        <App />
+        <Toaster />
+      </BrowserRouter>
+    </ThemeProvider>
+  </StrictMode>
 );
