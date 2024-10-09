@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-b*oeqe)oa!r=h6-4u0)^#l=4_w1(_5w#m(mm6ch$==k!ms#v8d
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['wakibackend.pythonanywhere.com']
 
 
 # Application definition
