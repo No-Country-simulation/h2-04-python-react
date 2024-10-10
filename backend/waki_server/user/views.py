@@ -5,8 +5,12 @@ from rest_framework import status
 from utils.apiresponse import ApiResponse
 from rest_framework.views import APIView
 from .serializers import UserSerializer, UserUpdateSerializer
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from core.models import User
+from rest_framework_simplejwt.views import TokenObtainPairView
+
+
+
 
 class RegisterView(generics.CreateAPIView):
     """

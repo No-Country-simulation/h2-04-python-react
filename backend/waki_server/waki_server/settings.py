@@ -148,9 +148,9 @@ REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
     # or allow read-only access for unauthenticated users.
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.AllowAny'
-    ],
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_simplejwt.authentication.JWTAuthentication',
         'rest_framework.authentication.BasicAuthentication',
@@ -190,7 +190,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
     "https://waki-hackathon.vercel.app",
     "http://127.0.0.1:8000",
-    'wakibackend.pythonanywhere.com'
+    'http://wakibackend.pythonanywhere.com'
 ]
 
 CORS_ALLOW_CREDENTIALS = True

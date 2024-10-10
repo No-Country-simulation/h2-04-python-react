@@ -2,7 +2,7 @@ from django.urls import path, include
 from rest_framework_simplejwt.views import TokenObtainPairView,TokenRefreshView
 from user.views import RegisterView, UserMeView, UpdateUserView
 from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
-
+from rest_framework.permissions import AllowAny
 from django.contrib import admin
 
 from django.conf import settings
@@ -10,6 +10,9 @@ from django.conf.urls.static import static
 from rest_framework.routers import DefaultRouter
 
 from user.views import UserViewSet
+
+class CustomTokenObtainPairView(TokenObtainPairView):
+    permission_classes = (AllowAny,)
 
 
 router = DefaultRouter()
@@ -22,9 +25,11 @@ urlpatterns = [
     # Registro de usuarios
     path('user/register/', RegisterView.as_view(), name='register'),
     path('user/me/',UserMeView.as_view(), name='me'),
-     path('', include(router.urls)),
+    path('', include(router.urls)),
+
     # Obtener tokens (login)
-    path('user/login/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/', CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 
     # Refrescar tokens
     path('user/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
