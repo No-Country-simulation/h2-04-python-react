@@ -28,7 +28,11 @@ SECRET_KEY = 'django-insecure-b*oeqe)oa!r=h6-4u0)^#l=4_w1(_5w#m(mm6ch$==k!ms#v8d
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'http://localhost:5173/',
+    'https://waki-hackathon.vercel.app/',
+    '127.0.0.1'
+]
 
 
 # Application definition
@@ -46,12 +50,14 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'rest_framework_simplejwt.token_blacklist',
     'drf_spectacular',
+    'corsheaders',
     #aplicaciones propias
     'core',
     'user',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -177,3 +183,12 @@ AUTH_USER_MODEL = 'core.User'
 # Configuración para manejar archivos multimedia
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",
+    "https://waki-hackathon.vercel.app",
+    "http://127.0.0.1:8000"
+]
+
+CORS_ALLOW_CREDENTIALS = True
