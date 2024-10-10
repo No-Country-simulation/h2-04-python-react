@@ -85,3 +85,11 @@ input[type="tel"] {
 .bottom-nav {
   z-index: 50;
 }
+
+.customProgressBar {
+  @apply bg-gradient-to-r from-[#317EF4] to-[#8E2BFF]
+}
+
+.shadow-divisionCard{
+  box-shadow: 0px 0px 14.6px 0px #00000033;
+}
