@@ -85,3 +85,17 @@ input[type="tel"] {
 .bottom-nav {
   z-index: 50;
 }
+
+
+.custom-accordion-item[data-state="open"] svg {
+  color: #317EF4; 
+  font-size: 12px;
+}
+
+.custom-accordion-item[data-state="closed"] svg {
+  color: #317EF4; 
+  font-size: 12px;
+}
+
+
+

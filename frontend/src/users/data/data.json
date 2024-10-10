@@ -1,0 +1,168 @@
+{
+    "get": "fixtures",
+    "parameters": {
+      "league": "78",
+      "season": "2024"
+    },
+    "errors": [],
+    "results": 306,
+    "paging": {
+      "current": 1,
+      "total": 1
+    },
+    "response": [
+      {
+        "fixture": {
+          "id": 1224024,
+          "referee": "T. Welz",
+          "timezone": "UTC",
+          "date": "2024-10-10T13:30:00+00:00",
+          "timestamp": 1728135000,
+          "periods": {
+            "first": null,
+            "second": null
+          },
+          "venue": {
+            "id": 755,
+            "name": "Weserstadion",
+            "city": "Bremen"
+          },
+          "status": {
+            "long": "Time to be defined",
+            "short": "TBD",
+            "elapsed": null,
+            "extra": null
+          }
+        },
+        "league": {
+          "id": 78,
+          "name": "Bundesliga",
+          "country": "Germany",
+          "logo": "https://media.api-sports.io/football/leagues/78.png",
+          "flag": "https://media.api-sports.io/flags/de.svg",
+          "season": 2024,
+          "round": "Regular Season - 6"
+        },
+        "teams": {
+          "home": {
+            "id": 162,
+            "name": "Werder Bremen",
+            "logo": "https://media.api-sports.io/football/teams/162.png",
+            "winner": null
+          },
+          "away": {
+            "id": 160,
+            "name": "SC Freiburg",
+            "logo": "https://media.api-sports.io/football/teams/160.png",
+            "winner": null
+          }
+        },
+        "goals": {
+          "home": null,
+          "away": null
+        },
+        "score": {
+          "halftime": {
+            "home": null,
+            "away": null
+          },
+          "fulltime": {
+            "home": null,
+            "away": null
+          },
+          "extratime": {
+            "home": null,
+            "away": null
+          },
+          "penalty": {
+            "home": null,
+            "away": null
+          }
+        }
+      }
+]
+}
+
+{
+  "get": "fixtures",
+  "parameters": {
+    "league": "128",
+    "season": "2024"
+  },
+  "errors": [],
+  "results": 378,
+  "paging": {
+    "current": 1,
+    "total": 1
+  },
+  "response": [
+    {
+      "fixture": {
+        "id": 1158667,
+        "referee": "Sebastian Nicolas Martinez, Argentina",
+        "timezone": "UTC",
+        "date": "2024-05-11T22:00:00+00:00",
+        "timestamp": 1715378400,
+        "periods": {
+          "first": null,
+          "second": null
+        },
+        "venue": {
+          "id": 107,
+          "name": "Estadio Eva Perón de Junín",
+          "city": "Junín, Provincia de Buenos Aires"
+        },
+        "status": {
+          "long": "Time to be defined",
+          "short": "TBD",
+          "elapsed": null,
+          "extra": null
+        }
+      },
+      "league": {
+        "id": 128,
+        "name": "Liga Profesional Argentina",
+        "country": "Argentina",
+        "logo": "https://media.api-sports.io/football/leagues/128.png",
+        "flag": "https://media.api-sports.io/flags/ar.svg",
+        "season": 2024,
+        "round": "2nd Phase - 1"
+      },
+      "teams": {
+        "home": {
+          "id": 474,
+          "name": "Sarmiento Junin",
+          "logo": "https://media.api-sports.io/football/teams/474.png",
+          "winner": null
+        },
+        "away": {
+          "id": 478,
+          "name": "Instituto Cordoba",
+          "logo": "https://media.api-sports.io/football/teams/478.png",
+          "winner": null
+        }
+      },
+      "goals": {
+        "home": null,
+        "away": null
+      },
+      "score": {
+        "halftime": {
+          "home": null,
+          "away": null
+        },
+        "fulltime": {
+          "home": null,
+          "away": null
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      }
+    }
+]}
