@@ -1,0 +1,215 @@
+{
+    "get": "teams",
+    "parameters": {
+        "league": "9",
+        "season": "2021"
+    },
+    "errors": [],
+    "results": 10,
+    "paging": {
+        "current": 1,
+        "total": 1
+    },
+    "response": [
+        {
+            "team": {
+                "id": 6,
+                "name": "Brazil",
+                "code": "BRA",
+                "country": "Brazil",
+                "founded": 1914,
+                "national": true,
+                "logo": "https://media.api-sports.io/football/teams/6.png"
+            },
+            "venue": {
+                "id": 204,
+                "name": "Estadio Jornalista M\u00e1rio Filho (Maracan\u00e3)",
+                "address": "Rua Professor Eurico Rabelo, Maracan\u00e3",
+                "city": "Rio de Janeiro, Rio de Janeiro",
+                "capacity": 78838,
+                "surface": "grass",
+                "image": "https://media.api-sports.io/football/venues/204.png"
+            }
+        },
+        {
+            "team": {
+                "id": 7,
+                "name": "Uruguay",
+                "code": "URU",
+                "country": "Uruguay",
+                "founded": 1900,
+                "national": true,
+                "logo": "https://media.api-sports.io/football/teams/7.png"
+            },
+            "venue": {
+                "id": 1624,
+                "name": "Estadio Centenario",
+                "address": "Avenida Dr. Alfredo Navarro y Dr. Am\u00e9rico Ricaldoni, Parque Batlle",
+                "city": "Montevideo",
+                "capacity": 60235,
+                "surface": "grass",
+                "image": "https://media.api-sports.io/football/venues/1624.png"
+            }
+        },
+        {
+            "team": {
+                "id": 8,
+                "name": "Colombia",
+                "code": "COL",
+                "country": "Colombia",
+                "founded": 1924,
+                "national": true,
+                "logo": "https://media.api-sports.io/football/teams/8.png"
+            },
+            "venue": {
+                "id": 366,
+                "name": "Estadio Metropolitano Roberto Mel\u00e9ndez",
+                "address": "Intersecci\u00f3n de la Avenida Circunvalar con la Calle 45",
+                "city": "Barranquilla",
+                "capacity": 49612,
+                "surface": "grass",
+                "image": "https://media.api-sports.io/football/venues/366.png"
+            }
+        },
+        {
+            "team": {
+                "id": 26,
+                "name": "Argentina",
+                "code": "ARG",
+                "country": "Argentina",
+                "founded": 1893,
+                "national": true,
+                "logo": "https://media.api-sports.io/football/teams/26.png"
+            },
+            "venue": {
+                "id": 19570,
+                "name": "Estadio M\u00e2s Monumental",
+                "address": "Avenida Presidente Jos\u00e9 Figueroa Alcorta 7597, N\u00fa\u00f1ez",
+                "city": "Capital Federal, Ciudad de Buenos Aires",
+                "capacity": 83214,
+                "surface": "grass",
+                "image": "https://media.api-sports.io/football/venues/19570.png"
+            }
+        },
+        {
+            "team": {
+                "id": 30,
+                "name": "Peru",
+                "code": "PER",
+                "country": "Peru",
+                "founded": 1922,
+                "national": true,
+                "logo": "https://media.api-sports.io/football/teams/30.png"
+            },
+            "venue": {
+                "id": 1228,
+                "name": "Estadio Nacional de Lima",
+                "address": "Paseo de la Republica",
+                "city": "Lima",
+                "capacity": 45574,
+                "surface": "grass",
+                "image": "https://media.api-sports.io/football/venues/1228.png"
+            }
+        },
+        {
+            "team": {
+                "id": 2379,
+                "name": "Venezuela",
+                "code": "VEN",
+                "country": "Venezuela",
+                "founded": 1926,
+                "national": true,
+                "logo": "https://media.api-sports.io/football/teams/2379.png"
+            },
+            "venue": {
+                "id": 1649,
+                "name": "Estadio Polideportivo de Pueblo Nuevo",
+                "address": "Avenida Espa\u00f1a",
+                "city": "San Crist\u00f3bal",
+                "capacity": 40000,
+                "surface": "grass",
+                "image": "https://media.api-sports.io/football/venues/1649.png"
+            }
+        },
+        {
+            "team": {
+                "id": 2380,
+                "name": "Paraguay",
+                "code": "PAR",
+                "country": "Paraguay",
+                "founded": 1906,
+                "national": true,
+                "logo": "https://media.api-sports.io/football/teams/2380.png"
+            },
+            "venue": {
+                "id": 20705,
+                "name": "Estadio ueno Defensores del Chaco",
+                "address": "Avenida Martinez y Juan Diaz De Solis, Barrio Sajonia",
+                "city": "Asunci\u00f3n",
+                "capacity": 42354,
+                "surface": "grass",
+                "image": "https://media.api-sports.io/football/venues/20705.png"
+            }
+        },
+        {
+            "team": {
+                "id": 2381,
+                "name": "Bolivia",
+                "code": "BOL",
+                "country": "Bolivia",
+                "founded": 1925,
+                "national": true,
+                "logo": "https://media.api-sports.io/football/teams/2381.png"
+            },
+            "venue": {
+                "id": 198,
+                "name": "Estadio Hernando Siles",
+                "address": "Avenida Saavedra, Miraflores",
+                "city": "La Paz",
+                "capacity": 45000,
+                "surface": "grass",
+                "image": "https://media.api-sports.io/football/venues/198.png"
+            }
+        },
+        {
+            "team": {
+                "id": 2382,
+                "name": "Ecuador",
+                "code": "ECU",
+                "country": "Ecuador",
+                "founded": 1925,
+                "national": true,
+                "logo": "https://media.api-sports.io/football/teams/2382.png"
+            },
+            "venue": {
+                "id": 465,
+                "name": "Estadio Ol\u00edmpico Atahualpa",
+                "address": "Avenida 6 de Diciembre y Avenida Naciones Unidas",
+                "city": "Quito",
+                "capacity": 40958,
+                "surface": "grass",
+                "image": "https://media.api-sports.io/football/venues/465.png"
+            }
+        },
+        {
+            "team": {
+                "id": 2383,
+                "name": "Chile",
+                "code": "CHI",
+                "country": "Chile",
+                "founded": 1895,
+                "national": true,
+                "logo": "https://media.api-sports.io/football/teams/2383.png"
+            },
+            "venue": {
+                "id": 316,
+                "name": "Estadio Nacional Julio Mart\u00ednez Pr\u00e1danos",
+                "address": "Avenida Grecia 2001, \u00d1u\u00f1oa",
+                "city": "Santiago de Chile",
+                "capacity": 48665,
+                "surface": "grass",
+                "image": "https://media.api-sports.io/football/venues/316.png"
+            }
+        }
+    ]
+}
