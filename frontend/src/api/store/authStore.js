@@ -2,23 +2,22 @@ import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 
 const useAuthStore = create(
-    //modificar lo necesario luego de conectar con back
   persist(
     (set) => ({
-      user: null,
+      accessToken: null,
+      refreshToken: null,
       isAuthenticated: false,
-      token: null,
-      login: (userData, token) =>
+      login: (access, refresh) =>
         set({
-          user: userData,
+          accessToken: access,
+          refreshToken: refresh,
           isAuthenticated: true,
-          token: token,
         }),
       logout: () =>
         set({
-          user: null,
+          accessToken: null,
+          refreshToken: null,
           isAuthenticated: false,
-          token: null,
         }),
     }),
     {

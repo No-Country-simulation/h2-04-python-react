@@ -17,7 +17,7 @@ export const AuthPage = () => {
   };
 
   return (
-    <div className="h-screen mt-24 w-full min-w-fit max-w-2xl">
+    <div className="h-screen mt-7 w-full min-w-fit max-w-2xl">
       <Tabs value={activeTab} onValueChange={setActiveTab}>
         <TabsList className="grid w-full grid-cols-2 rounded-none bg-white shadow-md">
           <TabsTrigger
