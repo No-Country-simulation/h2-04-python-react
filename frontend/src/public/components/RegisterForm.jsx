@@ -19,11 +19,13 @@ import {
   FormLabel,
   FormMessage,
 } from "@/common/components/ui/form";
-import { toast } from "sonner";
 import "react-phone-number-input/style.css";
 import PhoneInput from "react-phone-number-input";
-import useAuthStore from "../../store/authStore";
+import useAuthStore from "@/api/store/authStore";
 import PasswordInput from "./PasswordInput";
+import { useState } from "react";
+import { register } from "@/api/services/auth";
+import { toast } from "sonner";
 
 const registerSchema = z
   .object({
@@ -51,6 +53,7 @@ const registerSchema = z
 
 const RegisterForm = ({ onSwitchToLogin }) => {
   const login = useAuthStore((state) => state.login);
+  const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm({
     resolver: zodResolver(registerSchema),
@@ -63,24 +66,18 @@ const RegisterForm = ({ onSwitchToLogin }) => {
   });
 
   const onRegisterSubmit = async (data) => {
+    setIsLoading(true);
     try {
-      const userData = {
-        id: Date.now(),
-        username: data.username,
-        email: data.email,
-        phone: data.phone,
-      };
-      const token = "fake-jwt-token-" + Date.now(); // Simulamos un token
-
-      login(userData, token);
-
-      console.log("Usuario registrado:", userData);
-      toast("Registro exitoso!");
-
-      onSwitchToLogin();
+      const response = await register(data);
+      if (response) {
+        login(response);
+        onSwitchToLogin();
+        toast.success("Registro exitoso!"); 
+      }
     } catch (error) {
       console.error("Error al registrar:", error);
-      toast("Error al registrar:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -189,8 +186,9 @@ const RegisterForm = ({ onSwitchToLogin }) => {
               <Button
                 type="submit"
                 className="w-full max-w-36 bg-purpleWaki hover:bg-purple-700"
+                disabled={isLoading}
               >
-                Registrarse
+                {isLoading ? "Registrando..." : "Registrarse"}
               </Button>
             </div>
           </form>
@@ -211,6 +209,7 @@ const RegisterForm = ({ onSwitchToLogin }) => {
         <Button
           variant="outline"
           className="w-full flex items-center justify-center space-x-2"
+          disabled
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"

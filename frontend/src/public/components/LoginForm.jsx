@@ -18,10 +18,11 @@ import {
   FormLabel,
   FormMessage,
 } from "@/common/components/ui/form";
-import { toast } from "sonner";
-import useAuthStore from "../../store/authStore";
 import { Link, useNavigate } from "react-router-dom";
 import PasswordInput from "./PasswordInput";
+import { useState } from "react";
+import useAuthStore from "@/api/store/authStore";
+import { toast } from "sonner";
 
 const loginSchema = z.object({
   emailOrPhone: z.string().min(1, "Este campo es requerido"),
@@ -29,7 +30,8 @@ const loginSchema = z.object({
 });
 
 const LoginForm = () => {
-  const login = useAuthStore((state) => state.login);
+  const login = useAuthStore((state) => state.login)
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   const loginForm = useForm({
@@ -41,22 +43,36 @@ const LoginForm = () => {
   });
 
   const onLoginSubmit = async (data) => {
+    setIsLoading(true);
+  
     try {
-      const userData = {
-        id: Date.now(),
-        emailOrPhone: data.emailOrPhone,
-      };
-      const token = "fake-jwt-token-" + Date.now();
+      const response = await fetch('https://wakibackend.pythonanywhere.com/api/token/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username: data.emailOrPhone,
+          password: data.password,
+        }),
+      });
 
-      login(userData, token);
+      if (!response.ok) {
+        throw new Error('Credenciales invalidas');
+      }
 
-      console.log("Usuario autenticado:", userData);
-      navigate("/matches");
+      const responseData = await response.json();
+      login(responseData.access, responseData.refresh);
+      toast.success('Bienvenido!');
+      navigate('/matches');
     } catch (error) {
       console.error("Error al iniciar sesión:", error);
-      toast("Error al iniciar sesión:", error);
+      toast.error("Error: " + error.message);
+    } finally {
+      setIsLoading(false);
     }
   };
+  
 
   return (
     <Card className="border-none border-0 shadow-none">
@@ -111,8 +127,9 @@ const LoginForm = () => {
               <Button
                 type="submit"
                 className="w-full max-w-40 bg-purpleWaki hover:bg-purple-700"
+                disabled={isLoading}
               >
-                Iniciar sesión
+                {isLoading ? "Iniciando sesión..." : "Iniciar sesión"}
               </Button>
             </div>
           </form>
@@ -129,6 +146,7 @@ const LoginForm = () => {
         <Button
           variant="outline"
           className="w-full flex items-center justify-center space-x-2"
+          disabled
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
