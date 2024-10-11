@@ -6,10 +6,13 @@ import http.client
 import json
 from core.models import League, Match
 from utils.apiresponse import ApiResponse
-from .serializers import LeagueSerializer
+from .serializers import LeagueSerializer, MatchSerializer
 from rest_framework.pagination import PageNumberPagination
 from drf_spectacular.utils import extend_schema, OpenApiParameter
+from django.db.models import Q
 
+@extend_schema(
+    tags=["api-connect"],)
 @api_view(['GET'])
 @permission_classes([IsAdminUser])  # Solo superusuarios pueden acceder
 def fetch_leagues(request):
@@ -45,6 +48,7 @@ def fetch_leagues(request):
                 }, status_code=status.HTTP_201_CREATED)
 
 @extend_schema(
+    tags=["Match"],
     summary="Buscar ligas por nombre o país",
     description=(
         "Este endpoint permite buscar ligas de fútbol por nombre o país. "
@@ -129,7 +133,8 @@ def search_leagues(request):
 
     return ApiResponse.success(data=paginated_response, status_code=status.HTTP_200_OK)
 
-
+@extend_schema(
+    tags=["api-connect"],)
 @api_view(['GET'])
 @permission_classes([IsAdminUser])  # Solo superusuarios pueden acceder
 def update_match(request):
@@ -153,7 +158,6 @@ def update_match(request):
     # Decodificar y convertir la respuesta a un diccionario JSON
     data_json = json.loads(data.decode("utf-8"))
 
-    print(data_json)
     # Recorrer las ligas y guardar en la base de datos
     for fixture in data_json['response']:
         try:
@@ -187,7 +191,6 @@ def update_match(request):
         away_goals = away_goals if away_goals is not None else 0
 
 
-        print(id_fixture)
         # Verificar si el id_league ya existe en la base de datos
         if not Match.objects.filter(id_fixture=id_fixture).exists():
             Match.objects.create(
@@ -209,3 +212,56 @@ def update_match(request):
     return ApiResponse.success(data={
                     'message': 'Fixture fetched and saved successfully.'
                 }, status_code=status.HTTP_201_CREATED)
+
+
+
+
+
+@extend_schema(
+    tags=["Match"],
+    summary="Buscar partidos por fecha o equipo",
+    description=(
+        "Este endpoint permite buscar los partidos que se van a disputar o ya estan finalizados por fecha o por nombre de equipo. "
+        "También implementa paginación para devolver resultados en bloques de 10 ligas por página."
+    ),
+    parameters=[
+        OpenApiParameter(
+            name="teams", description="Filtrar partidos con este valor en su nombre tanto de local como de visitante", required=False, type=str
+        ),
+        OpenApiParameter(
+            name="date", description="Filtrar los partidos por fecha", required=False, type=str
+        ),
+        OpenApiParameter(
+            name="page", description="Número de página a devolver en la paginación", required=False, type=int
+        ),
+    ],
+)
+@api_view(['GET'])
+def search_match(request):
+    """Endpoint para buscar ligas por nombre o país"""
+    # Obtener los parámetros de búsqueda
+    teams = request.query_params.get('teams', None)
+    date = request.query_params.get('date', None)
+
+    # Filtrar las ligas en base a los parámetros recibidos
+    matchs = Match.objects.all()
+    
+    if teams:
+        matchs = matchs.filter(Q(home_team__icontains=teams) | Q(away_team__icontains=teams))
+    if date:
+        matchs = matchs.filter(date__icontains=date)  
+
+    paginator = PageNumberPagination()
+    paginator.page_size = 10  
+    result_page = paginator.paginate_queryset(matchs, request)
+
+    serializer = MatchSerializer(result_page, many=True)
+
+    paginated_response = {
+        'count': paginator.page.paginator.count,  
+        'next': paginator.get_next_link(),        
+        'previous': paginator.get_previous_link(),
+        'results': serializer.data                  
+    }
+
+    return ApiResponse.success(data=paginated_response, status_code=status.HTTP_200_OK)
