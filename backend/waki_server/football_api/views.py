@@ -137,7 +137,7 @@ def search_leagues(request):
     tags=["api-connect"],)
 @api_view(['GET'])
 @permission_classes([IsAdminUser])  # Solo superusuarios pueden acceder
-def update_match(request):
+def fetch_match(request):
     """Actualiza la base de datos de partidos"""
     # Conexión HTTP para la API
     conn = http.client.HTTPSConnection("v3.football.api-sports.io")
@@ -146,7 +146,7 @@ def update_match(request):
             'x-rapidapi-key': "33e976d6787480b32a1208914e80d636"
     }
 
-    season = 2021
+    season = 2022
     league = 128
     ruta = f"/fixtures?season={season}&league={league}"
 
@@ -214,7 +214,90 @@ def update_match(request):
                 }, status_code=status.HTTP_201_CREATED)
 
 
+@extend_schema(
+    tags=["api-connect"],)
+@api_view(['GET'])
+@permission_classes([IsAdminUser])  # Solo superusuarios pueden acceder
+def update_match(request):
+    """Actualiza la base de datos de partidos"""
+    # Conexión HTTP para la API
+    conn = http.client.HTTPSConnection("v3.football.api-sports.io")
+    headers = {
+            'x-rapidapi-host': "v3.football.api-sports.io",
+            'x-rapidapi-key': "33e976d6787480b32a1208914e80d636"
+    }
 
+    season = 2022
+    league = 128
+    ruta = f"/fixtures?season={season}&league={league}"
+
+    conn.request("GET",ruta , headers=headers)
+
+    res = conn.getresponse()
+    data = res.read()
+
+    # Decodificar y convertir la respuesta a un diccionario JSON
+    data_json = json.loads(data.decode("utf-8"))
+
+    # Recorrer las ligas y guardar en la base de datos
+    for fixture in data_json['response']:
+        try:
+            id_fixture = fixture['fixture']['id']
+            date = fixture['fixture']['date']
+            league = fixture['league']['id']
+            home = fixture['teams']['home']['name']
+            home_logo = fixture['teams']['home']['logo']
+            home_goals = fixture['goals']['home']  # Puede ser None, verificar
+            away_goals = fixture['goals']['away']  # Puede ser None, verificar
+            away = fixture['teams']['away']['name']
+            away_logo = fixture['teams']['away']['logo']
+            match_status = fixture['fixture']['status']
+
+            try:
+                league_instance = League.objects.get(id_league=league)
+            except League.DoesNotExist:
+                return ApiResponse.error(
+                    message=f"League with ID {league} does not exist.",
+                    status_code=status.HTTP_400_BAD_REQUEST
+                )
+        except KeyError as e:
+            # Si falta algún dato en la API, capturamos el error
+            return ApiResponse.error(
+                message=f"Missing field in fixture data: {e}",
+                status_code=status.HTTP_400_BAD_REQUEST
+            )
+        
+        # Si no hay goles, establecerlos en 0
+        home_goals = home_goals if home_goals is not None else 0
+        away_goals = away_goals if away_goals is not None else 0
+
+
+        # Verificar si el id_league ya existe en la base de datos
+        match = Match.objects.filter(id_fixture=id_fixture).first()
+        if match:
+            # Si el partido existe, verificar si algún campo cambió
+            if (match.date != date or 
+                match.home_team != home or 
+                match.away_team != away or 
+                match.home_team_goals != home_goals or 
+                match.away_team_goals != away_goals or 
+                match.match_status != match_status):
+                
+                # Actualizar los datos del partido
+                match.date = date
+                match.home_team = home
+                match.home_team_logo = home_logo
+                match.away_team = away
+                match.away_team_logo = away_logo
+                match.home_team_goals = home_goals
+                match.away_team_goals = away_goals
+                match.match_status = match_status
+                match.league = league_instance
+                match.save()
+
+    return ApiResponse.success(data={
+                    'message': 'Fixture fetched and saved successfully.'
+                }, status_code=status.HTTP_201_CREATED)
 
 
 @extend_schema(
