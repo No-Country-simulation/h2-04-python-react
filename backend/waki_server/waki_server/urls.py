@@ -9,7 +9,9 @@ from django.conf import settings
 from django.conf.urls.static import static
 from rest_framework.routers import DefaultRouter
 
-from user.views import UserViewSet
+from user.views import UserViewSet, LoginView
+
+from football_api.views import fetch_leagues, search_leagues, fetch_match, search_match, update_match
 
 class CustomTokenObtainPairView(TokenObtainPairView):
     permission_classes = (AllowAny,)
@@ -28,7 +30,9 @@ urlpatterns = [
     path('', include(router.urls)),
 
     # Obtener tokens (login)
-    path('api/token/', CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/', LoginView.as_view(), name='token_obtain_pair'),
+
+    #path('api/token/', CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 
     # Refrescar tokens
@@ -39,6 +43,12 @@ urlpatterns = [
     path('schema/doc/',SpectacularSwaggerView.as_view(url_name='schema'), name='doc'),
     path('schema/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
 
+
+    path('fetch-leagues/', fetch_leagues, name='fetch-leagues'),
+    path('search-leagues/', search_leagues, name='search-leagues'),
+    path('fetch-match/', fetch_match, name='fetch-match'),
+    path('update-match/', update_match, name='update-match'),
+    path('search-match/', search_match, name='search-match'),
 ]
 
 if settings.DEBUG:
