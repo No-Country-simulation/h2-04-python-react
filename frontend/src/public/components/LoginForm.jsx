@@ -23,6 +23,7 @@ import PasswordInput from "./PasswordInput";
 import { useState } from "react";
 import useAuthStore from "@/api/store/authStore";
 import { toast } from "sonner";
+import { fetchData } from "@/api/services/fetchData";
 
 const loginSchema = z.object({
   emailOrPhone: z.string().min(1, "Este campo es requerido"),
@@ -46,34 +47,20 @@ const LoginForm = () => {
     setIsLoading(true);
   
     try {
-      const response = await fetch('https://wakibackend.pythonanywhere.com/api/token/', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          username: data.emailOrPhone,
-          password: data.password,
-        }),
+      const responseData = await fetchData('api/token/', 'POST', {
+        username: data.emailOrPhone,
+        password: data.password,
       });
-
-      if (!response.ok) {
-        throw new Error('Credenciales invalidas');
-      }
-
-      const responseData = await response.json();
       login(responseData.access, responseData.refresh);
       toast.success('Bienvenido!');
       navigate('/matches');
     } catch (error) {
-      console.error("Error al iniciar sesión:", error);
       toast.error("Error: " + error.message);
     } finally {
       setIsLoading(false);
     }
   };
   
-
   return (
     <Card className="border-none border-0 shadow-none">
       <CardHeader>

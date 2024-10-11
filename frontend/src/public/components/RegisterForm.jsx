@@ -24,8 +24,8 @@ import PhoneInput from "react-phone-number-input";
 import useAuthStore from "@/api/store/authStore";
 import PasswordInput from "./PasswordInput";
 import { useState } from "react";
-import { register } from "@/api/services/auth";
 import { toast } from "sonner";
+import { fetchData } from "@/api/services/fetchData";
 
 const registerSchema = z
   .object({
@@ -67,15 +67,20 @@ const RegisterForm = ({ onSwitchToLogin }) => {
 
   const onRegisterSubmit = async (data) => {
     setIsLoading(true);
+
     try {
-      const response = await register(data);
-      if (response) {
-        login(response);
-        onSwitchToLogin();
-        toast.success("Registro exitoso!"); 
-      }
+      const responseData = await fetchData("user/register/", "POST", {
+        full_name: data.username,
+        email: data.email,
+        phone: data.phone,
+        password: data.password,
+        password2: data.confirmPassword,
+      });
+      login(responseData);
+      onSwitchToLogin();
+      toast.success("Registro exitoso!");
     } catch (error) {
-      console.error("Error al registrar:", error);
+      toast.error("Error: " + error.message);
     } finally {
       setIsLoading(false);
     }
@@ -195,12 +200,12 @@ const RegisterForm = ({ onSwitchToLogin }) => {
         </Form>
       </CardContent>
       <CardFooter className="flex flex-col space-y-4">
-        <div className="text-sm text-center">
+        {/* <div className="text-sm text-center">
           ¿Ya tienes una cuenta?{" "}
           <Button variant="link" onClick={onSwitchToLogin}>
             Iniciar Sesión
           </Button>
-        </div>
+        </div> */}
         <div className="flex items-center w-full">
           <div className="flex-grow h-px bg-gray-300"></div>
           <span className="px-4 text-sm text-gray-500">O registrate con</span>
