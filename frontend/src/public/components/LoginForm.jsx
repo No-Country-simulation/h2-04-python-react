@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -20,10 +21,10 @@ import {
 } from "@/common/components/ui/form";
 import { Link, useNavigate } from "react-router-dom";
 import PasswordInput from "./PasswordInput";
-import { useState } from "react";
 import useAuthStore from "@/api/store/authStore";
 import { toast } from "sonner";
 import { fetchData } from "@/api/services/fetchData";
+import useUserDataStore from "@/api/store/userStore";
 
 const loginSchema = z.object({
   emailOrPhone: z.string().min(1, "Este campo es requerido"),
@@ -31,8 +32,9 @@ const loginSchema = z.object({
 });
 
 const LoginForm = () => {
-  const login = useAuthStore((state) => state.login)
   const [isLoading, setIsLoading] = useState(false);
+  const login = useAuthStore((state) => state.login);
+  const setUserData = useUserDataStore((state) => state.setUserData)
   const navigate = useNavigate();
 
   const loginForm = useForm({
@@ -51,11 +53,16 @@ const LoginForm = () => {
         username: data.emailOrPhone,
         password: data.password,
       });
+      
       login(responseData.access, responseData.refresh);
+      
+      const userData = await fetchData('user/me/', 'GET', null, responseData.access);
+      setUserData(userData)
+      
       toast.success('Bienvenido!');
       navigate('/matches');
     } catch (error) {
-      toast.error("Error: " + error.message);
+      console.log("Error: " + error.message);
     } finally {
       setIsLoading(false);
     }
