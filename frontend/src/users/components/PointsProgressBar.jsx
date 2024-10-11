@@ -3,18 +3,22 @@ import { starPoint, liga1, liga2, liga3 } from "@/common/assets";
 import { Card } from "@/common/components/ui/card";
 import { Progress } from "@/common/components/ui/progress";
 
-const getLevelImage = (level) => {
-  const levelMap = {
-    Oro: liga1,
-    Plata: liga2,
-    Bronce: liga3
-  };
-  return levelMap[level] || liga3;
+const getDivisionInfo = (points) => {
+  if (points >= 301) {
+    return { name: "Oro", image: liga1, nextLevel: null, maxPoints: null };
+  } else if (points >= 200) {
+    return { name: "Plata", image: liga2, nextLevel: "Oro", maxPoints: 301 };
+  } else {
+    return { name: "Bronce", image: liga3, nextLevel: "Plata", maxPoints: 200 };
+  }
 };
 
-const PointsProgressBar = ({ currentPoints, maxPoints, level }) => {
-  const progress = (currentPoints / maxPoints) * 100;
-  const levelImage = getLevelImage(level);
+const PointsProgressBar = ({ currentPoints }) => {
+  const { name: currentDivision, nextLevel, maxPoints, image: currentImage } = getDivisionInfo(currentPoints);
+  
+  const progress = nextLevel ? (currentPoints / maxPoints) * 100 : 100;
+  const pointsNeeded = nextLevel ? maxPoints - currentPoints : 0;
+
 
   return (
     <Card className="my-6 bg-white rounded-t-[9px] rounded-b-[2px] shadow-md">
@@ -29,20 +33,20 @@ const PointsProgressBar = ({ currentPoints, maxPoints, level }) => {
       </div>
       <div className="px-5 py-7 flex flex-col gap-5">
         <div className="flex flex-row justify-between text-sm font-normal mb-1">
-          <p>Desbloquear división</p>
+          <p>Desbloquear siguiente división</p>
           <p>
-            {currentPoints} de {maxPoints} puntos
+            {currentPoints} de {pointsNeeded} puntos
           </p>
         </div>
         <div className="relative">
           <Progress
             value={progress}
-            className="h-11 bg-[#F3F4F5] border-[1.5px] border-purpleWaki rounded-3xl"
+            className="h-11 bg-zinc-200 border-[1.5px] border-purpleWaki rounded-3xl"
           />
           <div className="absolute left-0 top-0 h-full flex items-center pl-2">
             <div className="flex flex-row items-center space-x-2 pl-2">
-              <img src={levelImage} alt={`Division ${level}`} className="h-6" />
-              <span className="text-white text-base font-medium">{level}</span>
+              <img src={currentImage} alt={`Division ${currentDivision}`} className="h-6" />
+              <span className="text-white text-base font-medium">{currentDivision}</span>
             </div>
           </div>
         </div>
