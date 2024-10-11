@@ -6,6 +6,7 @@ import {
   TabsTrigger,
 } from "@/common/components/ui/tabs";
 import RewardsView from "../components/RewardsView";
+import DivisionRanking from "./DivisionRanking";
 
 const Divisions = () => {
   const [activeTab, setActiveTab] = useState("Rewards");
@@ -39,7 +40,9 @@ const Divisions = () => {
           </TabsTrigger>
         </TabsList>
 
-        <TabsContent value="Ranking">ranking</TabsContent>
+        <TabsContent value="Ranking">
+          <DivisionRanking />
+        </TabsContent>
         <TabsContent value="Rewards">
           <RewardsView />
         </TabsContent>

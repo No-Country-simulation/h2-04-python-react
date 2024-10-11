@@ -100,6 +100,7 @@ input[type="tel"] {
   @apply bg-gradient-to-r from-[#317EF4] to-[#8E2BFF]
 }
 
-.shadow-divisionCard{
+.shadow-divisionCard,
+.waki-shadow{
   box-shadow: 0px 0px 14.6px 0px #00000033;
 }
