@@ -24,13 +24,14 @@ headers = {
     'x-rapidapi-key': "33e976d6787480b32a1208914e80d636"
 }
 
-conn.request("GET", "/fixtures?league=128&season=2022", headers=headers)
+conn.request("GET", "/leagues", headers=headers)
 
 res = conn.getresponse()
 data = res.read()
 
 # Decodificar y convertir la respuesta a un diccionario JSON
 data_json = json.loads(data.decode("utf-8"))
+
 
 # Recorrer los fixtures y guardar en la base de datos
 for fixture in data_json['response']:
@@ -42,8 +43,8 @@ for fixture in data_json['response']:
 
     # Insertar los datos en la base de datos
     cursor.execute('''INSERT INTO fixtures (id_fixture, date, league, home_team, away_team)
-                      VALUES (?, ?, ?, ?, ?)''', 
-                   (id_fixture, date, league, home, away))
+                    VALUES (?, ?, ?, ?, ?)''', 
+                    (id_fixture, date, league, home, away))
 
 # Guardar los cambios
 db_conn.commit()

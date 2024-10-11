@@ -1,5 +1,36 @@
 from rest_framework import serializers
 from core.models import User
+from django.core.exceptions import ValidationError
+from django.contrib.auth import authenticate
+
+class LoginSerializer(serializers.Serializer):
+    username = serializers.CharField()
+    password = serializers.CharField(write_only=True)
+
+    def validate(self, attrs):
+        username = attrs.get('username')
+        password = attrs.get('password')
+
+        if not username:
+            raise serializers.ValidationError("El identificador no puede estar vacío.")
+
+        # Intentar autenticar por correo (asumiendo que el username es el correo)
+        user = authenticate(username=username, password=password)
+        if user is None:
+            try:
+                # Busca el usuario por teléfono
+                user = User.objects.get(phone=username)
+                # Validar la contraseña
+                if not user.check_password(password):
+                    raise serializers.ValidationError("Credenciales inválidas.")
+            except User.DoesNotExist:
+                raise serializers.ValidationError("Credenciales inválidas.")
+
+        attrs['user'] = user
+        return attrs
+
+
+
 
 class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, required=True)
