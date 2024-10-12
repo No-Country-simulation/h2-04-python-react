@@ -1,4 +1,12 @@
+import { useNavigate } from "react-router-dom";
+
 export const ErrorPage = () => {
+  const navigate = useNavigate();
+
+  const handleGoBack = () => {
+    navigate(-1); 
+  };
+
   return (
     <main className="relative grid h-screen place-items-center px-6 py-24 sm:py-32 lg:px-8">
       <div className="text-center z-10">
@@ -10,15 +18,14 @@ export const ErrorPage = () => {
         </p>
 
         <div className="mt-6">
-          <a
-            href="/"
+          <button
+            onClick={handleGoBack}
             className="rounded-md bg-primary px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-secondary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
           >
-            Volver al Inicio
-          </a>
+            Volver
+          </button>
         </div>
       </div>
     </main>
   );
 };
-

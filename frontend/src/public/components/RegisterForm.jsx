@@ -19,11 +19,13 @@ import {
   FormLabel,
   FormMessage,
 } from "@/common/components/ui/form";
-import { toast } from "sonner";
 import "react-phone-number-input/style.css";
 import PhoneInput from "react-phone-number-input";
-import useAuthStore from "../../store/authStore";
+import useAuthStore from "@/api/store/authStore";
 import PasswordInput from "./PasswordInput";
+import { useState } from "react";
+import { toast } from "sonner";
+import { fetchData } from "@/api/services/fetchData";
 
 const registerSchema = z
   .object({
@@ -51,6 +53,7 @@ const registerSchema = z
 
 const RegisterForm = ({ onSwitchToLogin }) => {
   const login = useAuthStore((state) => state.login);
+  const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm({
     resolver: zodResolver(registerSchema),
@@ -63,24 +66,23 @@ const RegisterForm = ({ onSwitchToLogin }) => {
   });
 
   const onRegisterSubmit = async (data) => {
+    setIsLoading(true);
+
     try {
-      const userData = {
-        id: Date.now(),
-        username: data.username,
+      const responseData = await fetchData("user/register/", "POST", {
+        full_name: data.username,
         email: data.email,
         phone: data.phone,
-      };
-      const token = "fake-jwt-token-" + Date.now(); // Simulamos un token
-
-      login(userData, token);
-
-      console.log("Usuario registrado:", userData);
-      toast("Registro exitoso!");
-
+        password: data.password,
+        password2: data.confirmPassword,
+      });
+      login(responseData);
       onSwitchToLogin();
+      toast.success("Registro exitoso! Por favor, inicia sesión.");
     } catch (error) {
-      console.error("Error al registrar:", error);
-      toast("Error al registrar:", error);
+      toast.error("Error de registro: " + error.message);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -189,20 +191,21 @@ const RegisterForm = ({ onSwitchToLogin }) => {
               <Button
                 type="submit"
                 className="w-full max-w-36 bg-purpleWaki hover:bg-purple-700"
+                disabled={isLoading}
               >
-                Registrarse
+                {isLoading ? "Registrando..." : "Registrarse"}
               </Button>
             </div>
           </form>
         </Form>
       </CardContent>
       <CardFooter className="flex flex-col space-y-4">
-        <div className="text-sm text-center">
+        {/* <div className="text-sm text-center">
           ¿Ya tienes una cuenta?{" "}
           <Button variant="link" onClick={onSwitchToLogin}>
             Iniciar Sesión
           </Button>
-        </div>
+        </div> */}
         <div className="flex items-center w-full">
           <div className="flex-grow h-px bg-gray-300"></div>
           <span className="px-4 text-sm text-gray-500">O registrate con</span>
@@ -211,6 +214,7 @@ const RegisterForm = ({ onSwitchToLogin }) => {
         <Button
           variant="outline"
           className="w-full flex items-center justify-center space-x-2"
+          disabled
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
