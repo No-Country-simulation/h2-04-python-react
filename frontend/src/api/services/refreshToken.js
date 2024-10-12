@@ -1,7 +1,8 @@
 import useAuthStore from "../store/authStore";
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
-export const refreshToken = async (refreshToken) => {
+export const refreshToken = async () => {
+  const refreshToken = useAuthStore.getState().refreshToken;
   try {
     const response = await fetch(`${BASE_URL}/user/token/refresh`, {
       method: "POST",

@@ -57,12 +57,13 @@ const LoginForm = () => {
       login(responseData.access, responseData.refresh);
       
       const userData = await fetchData('user/me/', 'GET', null, responseData.access);
-      setUserData(userData)
+      setUserData(userData);
       
       toast.success('Bienvenido!');
       navigate('/matches');
     } catch (error) {
       console.log("Error: " + error.message);
+      toast.error("Error de inicio de sesión: " + error.message);
     } finally {
       setIsLoading(false);
     }

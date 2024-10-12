@@ -78,9 +78,9 @@ const RegisterForm = ({ onSwitchToLogin }) => {
       });
       login(responseData);
       onSwitchToLogin();
-      toast.success("Registro exitoso!");
+      toast.success("Registro exitoso! Por favor, inicia sesión.");
     } catch (error) {
-      toast.error("Error: " + error.message);
+      toast.error("Error de registro: " + error.message);
     } finally {
       setIsLoading(false);
     }
