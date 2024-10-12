@@ -35,6 +35,7 @@ const Divisions = () => {
           <TabsTrigger
             value="Quests"
             className="data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-blue-500 data-[state=active]:rounded-none"
+            disabled
           >
             Quests
           </TabsTrigger>
