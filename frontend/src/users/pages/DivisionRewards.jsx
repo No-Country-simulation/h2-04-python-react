@@ -16,6 +16,9 @@ import {
   CarouselContent,
   CarouselItem,
 } from "@/common/components/ui/carousel";
+import Autoplay from "embla-carousel-autoplay";
+import TableTokensGold from "../components/TableTokensGold";
+import TableTokensSilver from "../components/TableTokensSilver";
 
 const divisionData = {
   "division-oro": {
@@ -43,13 +46,22 @@ const divisionData = {
       {
         image: jersey,
         title: "Sorteo división Oro",
-        description: "Camiseta oficial argentina firmada por tu jugador favorito",
+        description:
+          "Camiseta oficial argentina firmada por tu jugador favorito",
       },
       {
         image: jersey,
         title: "Sorteo división Oro",
         description: "Entradas al partido Argentina vs Venezuela",
       },
+    ],
+    tokens: [
+      {
+        table: <TableTokensGold />
+      },
+      {
+        table: <TableTokensSilver />
+      }
     ],
   },
   "division-plata": {
@@ -71,6 +83,11 @@ const divisionData = {
         title: "Sorteo división plata",
         description: "Camiseta selección argentina",
       },
+    ],
+    tokens: [
+      {
+        table: <TableTokensSilver />
+      }
     ],
   },
 };
@@ -125,7 +142,15 @@ const DivisionRewards = () => {
           Premios del mes
         </h2>
 
-        <Carousel className="w-full">
+        <Carousel
+          className="w-full"
+          plugins={[
+            Autoplay({
+              delay: 4000,
+              loop: true,
+            }),
+          ]}
+        >
           <CarouselContent className="-ml-4">
             {division.monthlyPrize.map((prize, index) => (
               <CarouselItem
@@ -143,16 +168,19 @@ const DivisionRewards = () => {
                     />
                     <div>
                       <h3 className="text-lg font-semibold">{prize.title}</h3>
-                      <p className="text-sm text-[#181818]">{prize.description}</p>
+                      <p className="text-sm text-[#181818]">
+                        {prize.description}
+                      </p>
                     </div>
                     <div className="absolute -top-[2px] right-6">
                       <div className="relative">
+                        <img src={banderin} alt="Banderín" />
                         <img
-                          src={banderin}
-                          alt="Banderín"
-                        />
-                        <img
-                          src={division.title === "División Oro" ? goldPrice : silverPrice}
+                          src={
+                            division.title === "División Oro"
+                              ? goldPrice
+                              : silverPrice
+                          }
                           alt="Prize"
                           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 size-6"
                         />
@@ -164,6 +192,29 @@ const DivisionRewards = () => {
             ))}
           </CarouselContent>
         </Carousel>
+
+        <Carousel
+          className="w-full mb-10"
+          plugins={[
+            Autoplay({
+              delay: 4000,
+              loop: true,
+            }),
+          ]}
+        >
+          <CarouselContent className="p-2 -ml-2">
+            {division.tokens.map((token, index) => (
+              <CarouselItem
+                key={index}
+                className="p-2"
+              >
+                {token.table}
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+        </Carousel>
+        
+        
       </Card>
     </>
   );

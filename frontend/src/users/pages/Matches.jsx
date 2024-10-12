@@ -128,7 +128,7 @@ const Matches = () => {
             />
           ))}
         </TabsContent>
-        <TabsContent value={selectedDate.toISOString()}>
+        <TabsContent value={selectedDate.toISOString()} className="waki-shadow rounded-[9px]">
           {leagues.map((league) => (
            <LeagueAccordion
            key={league.id_league}
