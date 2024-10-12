@@ -147,10 +147,10 @@ def fetch_match(request):
     }
 
     season = 2022
-    league = 128
+    league = 39
     ruta = f"/fixtures?season={season}&league={league}"
 
-    conn.request("GET",ruta , headers=headers)
+    conn.request("GET",ruta , headers=headers, timeout=30)
 
     res = conn.getresponse()
     data = res.read()
@@ -181,7 +181,7 @@ def fetch_match(request):
                 )
         except KeyError as e:
             # Si falta algún dato en la API, capturamos el error
-            return ApiResponse.error(
+            return ApiResponse.error(error_code=status.HTTP_400_BAD_REQUEST,
                 message=f"Missing field in fixture data: {e}",
                 status_code=status.HTTP_400_BAD_REQUEST
             )
@@ -315,6 +315,9 @@ def update_match(request):
             name="date", description="Filtrar los partidos por fecha", required=False, type=str
         ),
         OpenApiParameter(
+            name="league", description="Filtrar los partidos por id de liga", required=False, type=str
+        ),
+        OpenApiParameter(
             name="page", description="Número de página a devolver en la paginación", required=False, type=int
         ),
     ],
@@ -325,6 +328,7 @@ def search_match(request):
     # Obtener los parámetros de búsqueda
     teams = request.query_params.get('teams', None)
     date = request.query_params.get('date', None)
+    league = request.query_params.get('league', None)
 
     # Filtrar las ligas en base a los parámetros recibidos
     matchs = Match.objects.all()
@@ -333,6 +337,8 @@ def search_match(request):
         matchs = matchs.filter(Q(home_team__icontains=teams) | Q(away_team__icontains=teams))
     if date:
         matchs = matchs.filter(date__icontains=date)  
+    if league:
+        matchs = matchs.filter(league=league)  
 
     paginator = PageNumberPagination()
     paginator.page_size = 10  

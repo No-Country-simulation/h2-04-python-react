@@ -194,7 +194,8 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
     "https://waki-hackathon.vercel.app",
     "http://127.0.0.1:8000",
-    'http://wakibackend.pythonanywhere.com'
+    'http://wakibackend.pythonanywhere.com',
+    'https://api-football-v1.p.rapidapi.com'
 ]
 
 CORS_ALLOW_CREDENTIALS = True
