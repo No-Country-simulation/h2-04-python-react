@@ -65,7 +65,6 @@
   }
 }
 
-
 .phone-input {
   @apply flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50;
 }
@@ -87,20 +86,35 @@ input[type="tel"] {
 }
 
 .custom-accordion-item[data-state="open"] svg {
-  color: #317EF4; 
+  color: #317ef4;
   font-size: 12px;
 }
 
 .custom-accordion-item[data-state="closed"] svg {
-  color: #317EF4; 
+  color: #317ef4;
   font-size: 12px;
 }
 
 .customProgressBar {
-  @apply bg-gradient-to-r from-[#317EF4] to-[#8E2BFF]
+  @apply bg-gradient-to-r from-[#317EF4] to-[#8E2BFF];
 }
 
 .shadow-divisionCard,
-.waki-shadow{
+.waki-shadow {
   box-shadow: 0px 0px 14.6px 0px #00000033;
+}
+
+.customCalendar {
+  @apply bg-purple-500 !important;
+  @apply text-white !important;
+  @apply hover:bg-purple-600 hover:text-white focus:bg-purple-600 focus:text-white !important;
+  @apply rounded-full !important;
+}
+
+.lucide-calendar{
+  @apply text-blueWaki
+}
+
+.matchCard{
+  content-visibility: auto;
 }

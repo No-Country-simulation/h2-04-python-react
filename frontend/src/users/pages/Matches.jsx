@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { DatePicker } from "../components/DatePicker";
 import {
   Tabs,
@@ -6,13 +6,41 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/common/components/ui/tabs";
-import LeagueAccordion from "../components/LeagueAccordionStatic";
-import { format, addDays, isSameDay, isAfter } from "date-fns";
+import LeagueAccordion from "../components/LeagueAccordion";
+import { format, addDays, isSameDay, isAfter, subYears } from "date-fns";
 import { Search } from "lucide-react";
 import { Input } from "@/common/components/ui/input";
+import useAuthStore from "@/api/store/authStore";
+import { fetchData } from "@/api/services/fetchData";
+
+const COUNTRIES = ["Argentina"];
+
+//retrocediendo la fecha 3 años, solo para pruebas
+const adjustDateTo2021 = (date) => {
+  return subYears(date, 3);
+};
 
 const Matches = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
+  const [leagues, setLeagues] = useState([]);
+  const accessToken = useAuthStore((state) => state.accessToken);
+
+  useEffect(() => {
+    const fetchAllLeagues = async () => {
+      try {
+        const allLeagues = [];
+        for (const country of COUNTRIES) {
+          const response = await fetchData(`search-leagues/?country=${country}`, 'GET', null, accessToken);
+          allLeagues.push(...response.data.results);
+        }
+        setLeagues(allLeagues);
+      } catch (err) {
+        console.log(err.message);
+      }
+    };
+
+    fetchAllLeagues();
+  }, [accessToken]);
 
   const handleDateChange = (newDate) => {
     setSelectedDate(newDate);
@@ -43,21 +71,6 @@ const Matches = () => {
       return selectedDate.toISOString();
     }
   };
-
-  const leaguesData = [
-    {
-      id: 78,
-      name: "Bundesliga",
-      country: "Alemania",
-      logo: "https://media.api-sports.io/football/leagues/78.png",
-    },
-    {
-      id: 128,
-      name: "Liga Profesional",
-      country: "Argentina",
-      logo: "https://media.api-sports.io/football/leagues/128.png",
-    },
-  ];
 
   return (
     <section className="p-2 py-4 mb-28">
@@ -105,33 +118,36 @@ const Matches = () => {
         </div>
 
         <TabsContent value={previousDate.toISOString()}>
-          {leaguesData.map((league) => (
+          {leagues.map((league) => (
             <LeagueAccordion
-              key={league.id}
-              logo={league.logo}
-              name={league.name}
-              country={league.country}
+            key={league.id_league}
+            league={league}
+            // date={format(previousDate, 'yyyy-MM-dd')}
+            date={format(adjustDateTo2021(previousDate), 'yyyy-MM-dd')}
+            accessToken={accessToken}
             />
           ))}
         </TabsContent>
         <TabsContent value={selectedDate.toISOString()}>
-          {leaguesData.map((league) => (
-            <LeagueAccordion
-              key={league.id}
-              logo={league.logo}
-              name={league.name}
-              country={league.country}
-            />
+          {leagues.map((league) => (
+           <LeagueAccordion
+           key={league.id_league}
+           league={league}
+          //  date={format(selectedDate, 'yyyy-MM-dd')}
+           date={format(adjustDateTo2021(selectedDate), 'yyyy-MM-dd')}
+           accessToken={accessToken}
+         />
           ))}
         </TabsContent>
         <TabsContent value={nextDate.toISOString()}>
-          {leaguesData.map((league) => (
-            <LeagueAccordion
-              key={league.id}
-              logo={league.logo}
-              name={league.name}
-              country={league.country}
-            />
+          {leagues.map((league) => (
+             <LeagueAccordion
+             key={league.id_league}
+             league={league}
+            //  date={format(nextDate, 'yyyy-MM-dd')}
+             date={format(adjustDateTo2021(nextDate), 'yyyy-MM-dd')}
+             accessToken={accessToken}
+           />
           ))}
         </TabsContent>
       </Tabs>
