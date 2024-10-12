@@ -32,9 +32,9 @@ const PointsProgressBar = ({ currentPoints }) => {
         </span>
       </div>
       <div className="px-5 py-7 flex flex-col gap-5">
-        <div className="flex flex-row justify-between text-sm font-normal mb-1">
-          <p>Desbloquear siguiente división</p>
-          <p>
+        <div className="flex flex-row justify-between gap-x-1 text-sm font-normal mb-1">
+          <p className="font-normal text-sm">Desbloquear división</p>
+          <p className="font-normal text-sm items-end">
             {currentPoints} de {pointsNeeded} puntos
           </p>
         </div>

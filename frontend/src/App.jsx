@@ -12,7 +12,7 @@ import {Players, Matches, Divisions, Profile, DivisionRewards} from "@/users/pag
 
 const App = () => {
   return (
-    <div className="">
+    <div className="font-poppins">
       <Routes>
         {/* Rutas públicas */}
         <Route
