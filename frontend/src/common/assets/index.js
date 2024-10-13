@@ -9,6 +9,8 @@ import price1 from "./icons/1.svg";
 import coin from "./icons/coin.svg";
 import banderin from "./icons/banderin.svg";
 import locked from "./icons/locked.svg";
+import spain from "./icons/spain.svg";
+import usa from "./icons/unitedStates.svg";
 
 export {
     liga1,
@@ -22,4 +24,6 @@ export {
     coin,
     banderin,
     locked,
+    spain,
+    usa,
 }

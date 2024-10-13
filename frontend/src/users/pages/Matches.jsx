@@ -12,6 +12,8 @@ import { Search } from "lucide-react";
 import { Input } from "@/common/components/ui/input";
 import useAuthStore from "@/api/store/authStore";
 import { fetchData } from "@/api/services/fetchData";
+import { useTranslation } from "react-i18next";
+import useLanguageStore from "@/api/store/language-store";
 
 const COUNTRIES = ["Argentina"];
 
@@ -21,6 +23,8 @@ const adjustDateTo2021 = (date) => {
 };
 
 const Matches = () => {
+  const { t } = useTranslation();
+  const { currentLanguage } = useLanguageStore()
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [leagues, setLeagues] = useState([]);
   const accessToken = useAuthStore((state) => state.accessToken);
@@ -52,7 +56,7 @@ const Matches = () => {
   const formatDate = (date) => {
     const today = new Date();
     if (isSameDay(date, today)) {
-      return "Hoy";
+      return currentLanguage === "en" ? "Today" : "Hoy" ;
     } else {
       return format(date, "d MMM");
     }
@@ -77,7 +81,7 @@ const Matches = () => {
       <div className="flex justify-between items-center mb-4">
         <div className="flex-1" />
         <h1 className="text-2xl font-bold text-blueWaki flex-1 text-center">
-          Partidos
+        {t('navigation.matches')}
         </h1>
         <div className="flex-1 flex justify-end mr-7">
           <DatePicker date={selectedDate} onDateChange={handleDateChange} />

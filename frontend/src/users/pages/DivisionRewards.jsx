@@ -19,6 +19,7 @@ import {
 import Autoplay from "embla-carousel-autoplay";
 import TableTokensGold from "../components/TableTokensGold";
 import TableTokensSilver from "../components/TableTokensSilver";
+import { useTranslation } from "react-i18next";
 
 const divisionData = {
   "division-oro": {
@@ -95,13 +96,14 @@ const divisionData = {
 const DivisionRewards = () => {
   const { leagueType } = useParams();
   const division = divisionData[leagueType];
+  const { t } = useTranslation();
 
   return (
     <>
       <div className="p-4 max-w-md mx-auto">
         <Link to="/divisions" className="flex items-center text-blue-500 mb-4">
           <ChevronLeft className="mr-1" />
-          Rewards
+          {t('tabs.rewards')}
         </Link>
 
         <div className="flex flex-col items-center justify-center gap-4">
@@ -117,7 +119,7 @@ const DivisionRewards = () => {
       </div>
 
       <Card className="w-full bg-[#F7F7F7] border-none rounded-[9px] shadow-divisionCard mt-7 p-5 mb-20">
-        <h2 className="text-lg text-[#181818] font-medium mb-4">Recompensas</h2>
+        <h2 className="text-lg text-[#181818] font-medium mb-4">{t('Rewards')}</h2>
         <div className="w-full max-w-md mx-auto bg-white rounded-lg shadow-md overflow-hidden">
           {division.rewards.map((reward, index) => (
             <div
@@ -139,7 +141,7 @@ const DivisionRewards = () => {
         </div>
 
         <h2 className="text-lg text-[#181818] font-medium my-4">
-          Premios del mes
+        {t('MonthlyPrizes')}
         </h2>
 
         <Carousel

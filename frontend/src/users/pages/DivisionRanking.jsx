@@ -10,8 +10,10 @@ import { liga1, liga2, liga3 } from "@/common/assets";
 import useUserDataStore from "@/api/store/userStore";
 import DivisionIcon from "../components/DivisionIcon";
 import { users, getDivisionInfo } from "../data/usersData";
+import { useTranslation } from "react-i18next";
 
 const DivisionRanking = () => {
+  const { t } = useTranslation();
   const { user } = useUserDataStore();
   const currentDivision = getDivisionInfo(user.total_points);
 
@@ -54,8 +56,8 @@ const DivisionRanking = () => {
           <TableHeader>
             <TableRow>
               <TableHead className="w-12 text-center">#</TableHead>
-              <TableHead>Nombre de usuario</TableHead>
-              <TableHead className="text-center">Puntos</TableHead>
+              <TableHead>{t('table.username')}</TableHead>
+              <TableHead className="text-center">{t('table.points')}</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>

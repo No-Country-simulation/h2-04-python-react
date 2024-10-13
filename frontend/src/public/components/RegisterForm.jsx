@@ -26,6 +26,7 @@ import PasswordInput from "./PasswordInput";
 import { useState } from "react";
 import { toast } from "sonner";
 import { fetchData } from "@/api/services/fetchData";
+import { useTranslation } from "react-i18next";
 
 const registerSchema = z
   .object({
@@ -52,6 +53,7 @@ const registerSchema = z
   });
 
 const RegisterForm = ({ onSwitchToLogin }) => {
+  const { t } = useTranslation();
   const login = useAuthStore((state) => state.login);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -89,12 +91,12 @@ const RegisterForm = ({ onSwitchToLogin }) => {
   return (
     <Card className="border-none border-0 shadow-none">
       <CardHeader>
-        <CardTitle className="flex flex-col gap-y-1">
+        <CardTitle className="flex flex-col gap-y-2">
           <span className="text-[22px] text-blueWaki font-semibold">
-            Bienvenido a Waki,
+          {t('auth.registerTitle')}
           </span>
-          <span className="text-zinc-500 text-sm">
-            Crea tu cuenta completando los datos
+          <span className="text-zinc-500 text-sm font-normal">
+          {t('auth.registerDescription')}
           </span>
         </CardTitle>
       </CardHeader>
@@ -110,7 +112,7 @@ const RegisterForm = ({ onSwitchToLogin }) => {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel htmlFor="username">
-                    Nombre de usuario{" "}
+                  {t('auth.username')}{" "}
                     <span className="text-red-400 text-xs">*</span>
                   </FormLabel>
                   <FormControl>
@@ -132,7 +134,7 @@ const RegisterForm = ({ onSwitchToLogin }) => {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel htmlFor="email">
-                    Ingresa tu email{" "}
+                  {t('auth.email')}{" "}
                     <span className="text-red-400 text-xs">*</span>
                   </FormLabel>
                   <FormControl>
@@ -153,7 +155,7 @@ const RegisterForm = ({ onSwitchToLogin }) => {
               name="phone"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Teléfono</FormLabel>
+                  <FormLabel>{t('auth.phone')}</FormLabel>
                   <FormControl rules={{ required: false }}>
                     <PhoneInput
                       defaultCountry="AR"
@@ -173,7 +175,7 @@ const RegisterForm = ({ onSwitchToLogin }) => {
               control={form.control}
               name="password"
               htmlFor="loginPassword"
-              label="Contraseña"
+              label={t('auth.password')}
               span="*"
               id="loginPassword"
             />
@@ -182,7 +184,7 @@ const RegisterForm = ({ onSwitchToLogin }) => {
               control={form.control}
               name="confirmPassword"
               htmlFor="confirmPassword"
-              label="Repetir contraseña"
+              label={t('auth.password2')}
               span="*"
               id="confirmPassword"
             />
@@ -193,7 +195,7 @@ const RegisterForm = ({ onSwitchToLogin }) => {
                 className="w-full max-w-36 bg-purpleWaki hover:bg-purple-700"
                 disabled={isLoading}
               >
-                {isLoading ? "Registrando..." : "Registrarse"}
+                {isLoading ? t('auth.loadRegister') : t('auth.register')}
               </Button>
             </div>
           </form>
@@ -208,7 +210,7 @@ const RegisterForm = ({ onSwitchToLogin }) => {
         </div> */}
         <div className="flex items-center w-full">
           <div className="flex-grow h-px bg-gray-300"></div>
-          <span className="px-4 text-sm text-gray-500">O registrate con</span>
+          <span className="px-4 text-sm text-gray-500">{t('auth.orSingUp')}</span>
           <div className="flex-grow h-px bg-gray-300"></div>
         </div>
         <Button
@@ -239,7 +241,7 @@ const RegisterForm = ({ onSwitchToLogin }) => {
               d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"
             />
           </svg>
-          <span>Continuar con Google</span>
+          <span>{t('auth.continueWithGoogle')}</span>
         </Button>
       </CardFooter>
     </Card>

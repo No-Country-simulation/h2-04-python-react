@@ -1,10 +1,11 @@
 import * as React from "react"
 import { ChevronLeftIcon, ChevronRightIcon } from "@radix-ui/react-icons"
 import { DayPicker } from "react-day-picker"
-import { es } from 'date-fns/locale'
+import { es, enUS } from 'date-fns/locale'
 
 import { cn } from "@/lib/utils"
 import { buttonVariants } from "@/common/components/ui/button"
+import useLanguageStore from "@/api/store/language-store"
 
 function Calendar({
   className,
@@ -12,6 +13,13 @@ function Calendar({
   showOutsideDays = true,
   ...props
 }) {
+  const { currentLanguage } = useLanguageStore()
+
+  const locales = {
+    es: es,
+    en: enUS
+  }
+
   return (
     (<DayPicker
       showOutsideDays={showOutsideDays}
@@ -60,7 +68,7 @@ function Calendar({
         IconLeft: ({ ...props }) => <ChevronLeftIcon className="h-4 w-4" />,
         IconRight: ({ ...props }) => <ChevronRightIcon className="h-4 w-4" />,
       }}
-      locale={es}
+      locale={locales[currentLanguage]}
       {...props} />)
   );
 }
