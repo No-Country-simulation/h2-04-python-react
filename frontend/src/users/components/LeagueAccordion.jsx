@@ -9,8 +9,10 @@ import { useEffect, useState } from "react";
 import { fetchData } from "@/api/services/fetchData";
 import MatchCardWrapper from "./MatchCardWrapper";
 import useAuthStore from '@/api/store/authStore';
+import { useTranslation } from "react-i18next";
 
 const LeagueAccordion = ({ league, date }) => {
+  const { t } = useTranslation();
   const { accessToken, refreshToken, logout } = useAuthStore();
   const [matches, setMatches] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -63,13 +65,13 @@ const LeagueAccordion = ({ league, date }) => {
         <AccordionContent className="p-0 lg:p-2">
           {loading ? (
             <div className="p-4 text-center text-gray-500">
-              Cargando partidos...
+              {t('infoMsg.loadMatch')}
             </div>
           ) : error ? (
             <div className="p-4 text-center text-red-500">Error: {error}</div>
           ) : matches.length === 0 ? (
             <div className="p-4 text-center text-gray-500">
-              No hay partidos disponibles para esta liga en esta fecha.
+              {t('infoMsg.infoMatch')}
             </div>
           ) : (
             <div className="p-4">

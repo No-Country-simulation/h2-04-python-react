@@ -1,0 +1,60 @@
+{
+  "mensaje": "hello test ingles",
+  "Español": "Spanish",
+  "Inglés": "English",
+  "selectLanguage": "Select language",
+  "auth": {
+    "login": "Log In",
+    "register": "Register",
+    "loginTitle": "Welcome back,",
+    "loginDescription": "Please log in.",
+    "registerTitle": "Welcome to Waki,",
+    "registerDescription": "Please create your account by completing the form",
+    "loginButton": "Log In",
+    "username": "Username",
+    "emailOrPhone": "Enter your email or phone number",
+    "forgotPassword": "Forgot your password?",
+    "email": "Enter your email",
+    "phone": "Phone number",
+    "password": "Password",
+    "password2": "Confirm password",
+    "orSingUp": "Or sign up with",
+    "loadLogin": "Logging in...",
+    "orLogin": "Or log in with",
+    "loadRegister": "Registrando...",
+    "continueWithGoogle": "Continue with Google"
+  },
+  "navigation": {
+    "scoutPlayers": "Scout Players",
+    "matches": "Matches",
+    "divisions": "Divisions",
+    "profile": "Profile"
+  },
+  "errorPage": {
+    "notFound": "Page not found",
+    "searchAnotherPage": "Please try searching for another page.",
+    "back": "Back"
+  },
+  "tabs": {
+    "ranking": "Ranking",
+    "market": "Market",
+    "rewards": "Rewards",
+    "quests": "Quests"
+  },
+  "titles": {
+    "playerRanking": "Player ranking"
+  },
+  "table": {
+    "player": "Player",
+    "released": "Released",
+    "price": "Price",
+    "username": "Username",
+    "points": "Points"
+  },
+  "infoMsg": {
+    "infoMatch": "No matches are available for this league on this date.",
+    "loadMatch": "Fetching matches..."
+  },
+  "Rewards": "Rewards",
+  "MonthlyPrizes": "Monthly prizes"
+}

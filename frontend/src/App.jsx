@@ -7,10 +7,7 @@ import { ErrorPage } from "./public/pages/ErrorPage";
 import { SplashScreenWrapper } from "./public/components/SplashScreen";
 import {Players, Matches, Divisions, Profile, DivisionRewards} from "@/users/pages/index";
 
-
-
-
-const App = () => {
+const App = () => {  
   return (
     <div className="font-poppins">
       <Routes>

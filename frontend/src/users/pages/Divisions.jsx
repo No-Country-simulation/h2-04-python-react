@@ -7,15 +7,17 @@ import {
 } from "@/common/components/ui/tabs";
 import RewardsView from "../components/RewardsView";
 import DivisionRanking from "./DivisionRanking";
+import { useTranslation } from "react-i18next";
 
 const Divisions = () => {
   const [activeTab, setActiveTab] = useState("Rewards");
+  const { t } = useTranslation();
 
   return (
     <section className="p-2 py-4 mb-28">
       <div className="flex justify-center items-center mb-4">
         <h1 className="text-2xl font-bold text-blueWaki flex-1 text-center">
-          Divisiones
+        {t('navigation.divisions')}
         </h1>
       </div>
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-auto">
@@ -24,20 +26,20 @@ const Divisions = () => {
             value="Ranking"
             className="data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-blue-500 data-[state=active]:rounded-none"
           >
-            Ranking
+            {t('tabs.ranking')}
           </TabsTrigger>
           <TabsTrigger
             value="Rewards"
             className="data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-blue-500 data-[state=active]:rounded-none"
           >
-            Rewards
+            {t('tabs.rewards')}
           </TabsTrigger>
           <TabsTrigger
             value="Quests"
             className="data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-blue-500 data-[state=active]:rounded-none"
             disabled
           >
-            Quests
+            {t('tabs.quests')}
           </TabsTrigger>
         </TabsList>
 

@@ -1,0 +1,60 @@
+{
+  "mensaje": "Hola probando spanish",
+  "Español": "Español",
+  "Inglés": "Inglés",
+  "selectLanguage": "Seleccionar idioma",
+  "auth": {
+    "login": "Iniciar Sesión",
+    "register": "Registrarse",
+    "loginTitle": "Hola de nuevo,",
+    "loginDescription": "Por favor inicia sesión",
+    "registerTitle": "Bienvenido a Waki,",
+    "registerDescription": "Crea tu cuenta completando los datos",
+    "loginButton": "Iniciar sesión",
+    "username": "Nombre de usuario",
+    "emailOrPhone": "Ingresa tu email o teléfono",
+    "forgotPassword": "¿Olvidaste tu contraseña?",
+    "email": "Ingresa tu email",
+    "phone": "Teléfono",
+    "password": "Contraseña",
+    "password2": "Repetir contraseña",
+    "orSingUp": "O registrate con",
+    "loadLogin": "Iniciando sesión...",
+    "orLogin": "O inicia sesión con",
+    "loadRegister": "Registrando...",
+    "continueWithGoogle": "Continuar con Google"
+  },
+  "navigation": {
+    "scoutPlayers": "Explorar Jugadores",
+    "matches": "Partidos",
+    "divisions": "Divisiones",
+    "profile": "Perfil"
+  },
+  "errorPage": {
+    "notFound": "Página no encontrada",
+    "searchAnotherPage": "Por favor, intenta buscar otra página.",
+    "back": "Volver"
+  },
+  "tabs": {
+    "ranking": "Clasificación",
+    "market": "Mercado",
+    "rewards": "Premios",
+    "quests": "Misiones"
+  },
+  "titles": {
+    "playerRanking": "Clasificación de jugadores"
+  },
+  "table": {
+    "player": "Jugador",
+    "released": "Liberado",
+    "price": "Precio",
+    "username": "Nombre de usuario",
+    "points": "Puntos"
+  },
+  "infoMsg": {
+    "infoMatch": "No hay partidos disponibles para esta liga en esta fecha.",
+    "loadMatch": "Cargando partidos..."
+  },
+  "Rewards": "Recompenzas",
+  "MonthlyPrizes": "Premios del mes"
+}
