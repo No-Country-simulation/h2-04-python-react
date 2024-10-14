@@ -148,7 +148,7 @@ const Matches = () => {
           <Input
             type="text"
             name="search"
-            placeholder="Busca un jugador"
+            placeholder={currentLanguage === "en" ? "Find a match" : "Busca un partido"}
             className="pl-12"
             disabled
           />

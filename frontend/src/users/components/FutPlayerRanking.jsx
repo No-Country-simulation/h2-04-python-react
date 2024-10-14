@@ -28,9 +28,11 @@ import {
   SelectTrigger,
 } from "@/common/components/ui/select";
 import { useTranslation } from "react-i18next";
+import useLanguageStore from "@/api/store/language-store";
 
 const FutPlayerRanking = () => {
   const { t } = useTranslation();
+  const { currentLanguage } = useLanguageStore();
   const filterOptions = [
     { value: "valor", label: "Valor", icon: BadgeDollarSign },
     { value: "liga", label: "Liga", icon: BarChart2 },
@@ -52,7 +54,7 @@ const FutPlayerRanking = () => {
         <Input
           type="text"
           name="search"
-          placeholder="Busca un jugador"
+          placeholder={currentLanguage === "en" ? "Find a player" : "Busca un jugador"}
           className="pl-12"
           disabled
         />
