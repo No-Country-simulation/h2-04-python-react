@@ -24,7 +24,7 @@ const adjustDateTo2021 = (date) => {
 
 const Matches = () => {
   const { t } = useTranslation();
-  const { currentLanguage } = useLanguageStore()
+  const { currentLanguage } = useLanguageStore();
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [leagues, setLeagues] = useState([]);
   const accessToken = useAuthStore((state) => state.accessToken);
@@ -115,7 +115,7 @@ const Matches = () => {
           <Input
             type="text"
             name="search"
-            placeholder="Busca un jugador"
+            placeholder={currentLanguage === "en" ? "Find a match" : "Busca un partido"}
             className="pl-12"
             disabled
           />
