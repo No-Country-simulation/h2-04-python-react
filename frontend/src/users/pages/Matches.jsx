@@ -18,11 +18,12 @@ import useLanguageStore from "@/api/store/language-store";
 const LEAGUES = [
   { country: "Spain", name: "La Liga" },
   { country: "Argentina", name: "Liga Profesional Argentina" },
+  { country: "England", name: "Premier League" },
   { country: "World", name: "UEFA Champions League" },
-  { country: "World", name: "UEFA Europa League" },
   { country: "Germany", name: "Bundesliga" },
   { country: "Italy", name: "Serie A" },
   { country: "France", name: "Ligue 1" },
+  { country: "World", name: "UEFA Europa League" },
 ];
 
 const Matches = () => {
