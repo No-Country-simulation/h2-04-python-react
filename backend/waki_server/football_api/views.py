@@ -140,17 +140,28 @@ def search_leagues(request):
 def fetch_match(request):
     """Actualiza la base de datos de partidos"""
     # Conexión HTTP para la API
-    conn = http.client.HTTPSConnection("v3.football.api-sports.io")
+    conn = http.client.HTTPSConnection("api-football-v1.p.rapidapi.com")
     headers = {
-            'x-rapidapi-host': "v3.football.api-sports.io",
-            'x-rapidapi-key': "33e976d6787480b32a1208914e80d636"
+            'x-rapidapi-host': "api-football-v1.p.rapidapi.com",
+            'x-rapidapi-key': "425a2f8650msh2c93977c1d9775fp1d700djsnccb1675c3877"
     }
 
-    season = 2022
-    league = 39
-    ruta = f"/fixtures?season={season}&league={league}"
+    lista_ligas = {
+        "id":1, "name": "World Cup",#no en este año
+        "id":39, "name": "Premier League",#ok
+        "id":140, "name": "La liga",#ok
+        "id":78, "name": "Bundesliga",#ok
+        "id":135, "name": "Serie A", #ok
+        "id":61, "name": "Ligue 1",#ok
+        "id":128, "name": "Liga Profesional Argentina",#ok
+        "id":13, "name": "CONMEBOL Libertadores",#ok
+        "id":2, "name": "UEFA Champions League",#ok
+    }    
+    season = 2024
+    league = 2
+    ruta = f"/v3/fixtures?season={season}&league={league}"
 
-    conn.request("GET",ruta , headers=headers, timeout=30)
+    conn.request("GET",ruta , headers=headers)
 
     res = conn.getresponse()
     data = res.read()
@@ -158,6 +169,7 @@ def fetch_match(request):
     # Decodificar y convertir la respuesta a un diccionario JSON
     data_json = json.loads(data.decode("utf-8"))
 
+    print(data_json)
     # Recorrer las ligas y guardar en la base de datos
     for fixture in data_json['response']:
         try:
@@ -187,8 +199,8 @@ def fetch_match(request):
             )
         
         # Si no hay goles, establecerlos en 0
-        home_goals = home_goals if home_goals is not None else 0
-        away_goals = away_goals if away_goals is not None else 0
+        home_goals = home_goals if home_goals is not None else None
+        away_goals = away_goals if away_goals is not None else None
 
 
         # Verificar si el id_league ya existe en la base de datos
@@ -210,7 +222,7 @@ def fetch_match(request):
                 )
 
     return ApiResponse.success(data={
-                    'message': 'Fixture fetched and saved successfully.'
+                    'message': f'Fixture fetched and saved successfully. league {league}'
                 }, status_code=status.HTTP_201_CREATED)
 
 

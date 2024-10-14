@@ -29,8 +29,8 @@ class Match(models.Model):
     home_team_logo = models.URLField()  # O FileField
     away_team = models.CharField(max_length=100)
     away_team_logo = models.URLField()  # O FileField
-    home_team_goals = models.IntegerField(default=0)
-    away_team_goals = models.IntegerField(default=0)
+    home_team_goals = models.IntegerField(null=True)
+    away_team_goals = models.IntegerField(null=True)
     match_status = models.CharField(max_length=50)
     home_odds = models.DecimalField(max_digits=10, decimal_places=2)
     draw_odds = models.DecimalField(max_digits=10, decimal_places=2)
