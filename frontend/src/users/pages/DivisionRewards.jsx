@@ -22,7 +22,7 @@ import TableTokensSilver from "../components/TableTokensSilver";
 import { useTranslation } from "react-i18next";
 
 const divisionData = {
-  "division-oro": {
+  "division-gold": {
     title: "División Oro",
     icon: liga1,
     rewards: [
@@ -65,7 +65,7 @@ const divisionData = {
       }
     ],
   },
-  "division-plata": {
+  "division-silver": {
     title: "División Plata",
     icon: liga2,
     rewards: [
