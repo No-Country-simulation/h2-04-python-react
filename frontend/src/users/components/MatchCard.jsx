@@ -15,6 +15,7 @@ const MatchCard = ({
 }) => {
   const date = new Date(fixtureDate);
   const formattedTime = format(date, "HH:mm");
+  const formattedDate = format(date, "dd MMM")
   const isFinished = status.short === "FT";
 
   return (
@@ -45,7 +46,8 @@ const MatchCard = ({
               </div>
             ) : (
               <div className="flex flex-col items-center justify-around space-y-2">
-                <span className="text-lg font-medium">{formattedTime}</span>
+                <span className="text-sm font-medium">{formattedDate}</span>
+                <span className="text-base font-medium">{formattedTime}</span>
               </div>
             )}
           </div>

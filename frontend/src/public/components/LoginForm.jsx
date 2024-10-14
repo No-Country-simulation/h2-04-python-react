@@ -66,8 +66,16 @@ const LoginForm = () => {
       });
       navigate('/matches');
     } catch (error) {
-      console.log("Error: " + error.message);
-      toast.error("Error de inicio de sesión: " + error.message);
+      console.error("Error de inicio de sesión:", error);
+      
+      if (error.message === 'Credenciales inválidas') {
+        toast.error("Credenciales inválidas", {
+          description: 'Por favor, inténtalo de nuevo.',
+          duration: 2500,
+        });
+      } else {
+        toast.error("Error de inicio de sesión: " + error.message);
+      }
     } finally {
       setIsLoading(false);
     }

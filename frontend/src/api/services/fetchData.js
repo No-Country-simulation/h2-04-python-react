@@ -22,11 +22,14 @@ export const fetchData = async (endpoint, method = 'GET', body = null, token = n
     const response = await fetch(`${BASE_URL}/${endpoint}`, options);
 
     if (!response.ok) {
-      if (response.status === 401) {
+      const errorData = await response.json();
+      if (response.status === 400) {
+        if (endpoint === 'api/token/') {
+          throw new Error('Credenciales inválidas');
+        }
         throw new Error('El token es inválido o expirado');
       }
-      const errorData = await response.json();
-      throw new Error(errorData.detail || 'Network response was not ok');
+      throw new Error(errorData.detail || 'Ocurrió un error en la solicitud');
     }
 
     return response.json();

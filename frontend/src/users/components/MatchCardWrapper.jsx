@@ -26,9 +26,9 @@ const MatchCardWrapper = ({ match }) => {
     };
   } else {
     const odds = {
-      home: parseFloat(match.home_odds),
-      draw: parseFloat(match.draw_odds),
-      away: parseFloat(match.away_odds),
+      home: match.home_odds,
+      draw: match.draw_odds,
+      away: match.away_odds,
     };
     displayData = {
       type: "odds",
