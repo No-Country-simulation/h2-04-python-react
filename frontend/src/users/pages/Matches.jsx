@@ -8,12 +8,13 @@ import {
 } from "@/common/components/ui/tabs";
 import LeagueAccordion from "../components/LeagueAccordion";
 import { format, addDays, isSameDay, isAfter } from "date-fns";
-import { Search } from "lucide-react";
+import { LogOut, Search } from "lucide-react";
 import { Input } from "@/common/components/ui/input";
 import useAuthStore from "@/api/store/authStore";
 import { fetchData } from "@/api/services/fetchData";
 import { useTranslation } from "react-i18next";
 import useLanguageStore from "@/api/store/language-store";
+import { useNavigate } from "react-router-dom";
 
 const LEAGUES = [
   { country: "Spain", name: "La Liga" },
@@ -33,6 +34,14 @@ const Matches = () => {
   const [leagues, setLeagues] = useState([]);
   const [loading, setLoading] = useState(true);
   const accessToken = useAuthStore((state) => state.accessToken);
+
+  const logout = useAuthStore((state) => state.logout);
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate("/auth");
+  };
 
   useEffect(() => {
     const fetchAllLeagues = async () => {
@@ -95,7 +104,15 @@ const Matches = () => {
   return (
     <section className="p-2 py-4 mb-28">
       <div className="flex justify-between items-center mb-4">
-        <div className="flex-1" />
+        {/* <div className="flex-1"  /> */}
+        <button
+          id="logout"
+          name="logout"
+          onClick={handleLogout}
+          className="flex-1 cursor-pointer"
+        >
+          <LogOut className="size-4 text-zinc-400" />
+        </button>
         <h1 className="text-2xl font-bold text-blueWaki flex-1 text-center">
           {t("navigation.matches")}
         </h1>
