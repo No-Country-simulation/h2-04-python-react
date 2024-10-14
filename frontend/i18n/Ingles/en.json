@@ -56,5 +56,15 @@
     "loadMatch": "Fetching matches..."
   },
   "Rewards": "Rewards",
-  "MonthlyPrizes": "Monthly prizes"
+  "MonthlyPrizes": "Monthly prizes",
+  "bronze": "Bronze",
+  "silver": "Silver",
+  "gold": "Gold",
+  "divGold": "Gold Division",
+  "divGoldDescription": "Discover the rewards of this division.",
+  "divSilver": "Silver Division",
+  "divSilverDescription": "Discover the rewards of this division.",
+  "divBronze": "Bronze Division",
+  "divBronzeDescription": "No prizes in this division. Level up to Silver to win awesome loot!",
+  "unlockDiv": "Unlock division"
 }

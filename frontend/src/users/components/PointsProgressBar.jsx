@@ -1,31 +1,46 @@
 /* eslint-disable react/prop-types */
+import useLanguageStore from "@/api/store/language-store";
 import { starPoint, liga1, liga2, liga3 } from "@/common/assets";
 import { Card } from "@/common/components/ui/card";
 import { Progress } from "@/common/components/ui/progress";
+import { useTranslation } from "react-i18next";
 
 const getDivisionInfo = (points) => {
   if (points >= 301) {
-    return { name: "Oro", image: liga1, nextLevel: null, maxPoints: null };
+    return { name: "gold", image: liga1, nextLevel: null, maxPoints: null };
   } else if (points >= 200) {
-    return { name: "Plata", image: liga2, nextLevel: "Oro", maxPoints: 301 };
+    return { name: "silver", image: liga2, nextLevel: "gold", maxPoints: 301 };
   } else {
-    return { name: "Bronce", image: liga3, nextLevel: "Plata", maxPoints: 200 };
+    return {
+      name: "bronze",
+      image: liga3,
+      nextLevel: "silver",
+      maxPoints: 200,
+    };
   }
 };
 
 const PointsProgressBar = ({ currentPoints }) => {
-  const { name: currentDivision, nextLevel, maxPoints, image: currentImage } = getDivisionInfo(currentPoints);
-  
+  const { t } = useTranslation();
+  const { currentLanguage } = useLanguageStore();
+  const {
+    name: currentDivision,
+    nextLevel,
+    maxPoints,
+    image: currentImage,
+  } = getDivisionInfo(currentPoints);
+
   const progress = nextLevel ? (currentPoints / maxPoints) * 100 : 100;
   const pointsNeeded = nextLevel ? maxPoints - currentPoints : 0;
-
 
   return (
     <Card className="my-6 bg-white rounded-t-[9px] rounded-b-[2px] shadow-md">
       <div className="flex justify-between items-center bg-blueWaki p-5 rounded-t-[9px]">
         <div className="flex flex-row items-center space-x-3">
           <img src={starPoint} alt="Point" className="size-7" />
-          <span className="text-lg font-medium text-white">Tus Puntos</span>
+          <span className="text-lg font-medium text-white">
+            {currentLanguage === "en" ? "Your Points" : "Tus Puntos"}
+          </span>
         </div>
         <span className="text-2xl font-semibold text-white">
           {currentPoints}
@@ -33,9 +48,14 @@ const PointsProgressBar = ({ currentPoints }) => {
       </div>
       <div className="px-5 py-7 flex flex-col gap-5">
         <div className="flex flex-row justify-between gap-x-1 text-sm font-normal mb-1">
-          <p className="font-normal text-sm">Desbloquear división</p>
+          <p className="font-normal text-sm">
+            {currentLanguage === "en"
+              ? "Unlock division"
+              : "Desbloquear división"}
+          </p>
           <p className="font-normal text-sm items-end">
-            {currentPoints} de {pointsNeeded} puntos
+            {currentPoints} {currentLanguage === "en" ? "of" : "de"}{" "}
+            {pointsNeeded} {currentLanguage === "en" ? "points" : "puntos"}
           </p>
         </div>
         <div className="relative">
@@ -45,8 +65,14 @@ const PointsProgressBar = ({ currentPoints }) => {
           />
           <div className="absolute left-0 top-0 h-full flex items-center pl-2">
             <div className="flex flex-row items-center space-x-2 pl-2">
-              <img src={currentImage} alt={`Division ${currentDivision}`} className="h-6" />
-              <span className="text-white text-base font-medium">{currentDivision}</span>
+              <img
+                src={currentImage}
+                alt={`Division ${currentDivision}`}
+                className="h-6"
+              />
+              <span className="text-white text-base font-medium">
+                {t(currentDivision)}
+              </span>
             </div>
           </div>
         </div>

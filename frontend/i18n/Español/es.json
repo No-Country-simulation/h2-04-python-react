@@ -56,5 +56,15 @@
     "loadMatch": "Cargando partidos..."
   },
   "Rewards": "Recompenzas",
-  "MonthlyPrizes": "Premios del mes"
+  "MonthlyPrizes": "Premios del mes",
+  "bronze": "Bronce",
+  "silver": "Plata",
+  "gold": "Oro",
+  "divGold": "Gold Division",
+  "divGoldDescription": "Descubre las recompensas de esta división.",
+  "divSilver": "Silver Division",
+  "divSilverDescription": "Descubre las recompensas de esta división.",
+  "divBronze": "Bronze Division",
+  "divBronzeDescription": "Esta división no ofrece recompensas. Sube a la división plata para participar por premios.",
+  "unlockDiv": "Desbloquear división"
 }
