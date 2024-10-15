@@ -32,9 +32,9 @@ class Match(models.Model):
     home_team_goals = models.IntegerField(null=True)
     away_team_goals = models.IntegerField(null=True)
     match_status = models.CharField(max_length=50)
-    home_odds = models.DecimalField(max_digits=10, decimal_places=2)
-    draw_odds = models.DecimalField(max_digits=10, decimal_places=2)
-    away_odds = models.DecimalField(max_digits=10, decimal_places=2)
+    home_odds = models.DecimalField(max_digits=10, decimal_places=2, null=True)
+    draw_odds = models.DecimalField(max_digits=10, decimal_places=2, null=True)
+    away_odds = models.DecimalField(max_digits=10, decimal_places=2, null=True)
 
     def __str__(self):
         return f"{self.home_team} vs {self.away_team}"

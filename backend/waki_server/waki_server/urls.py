@@ -11,7 +11,7 @@ from rest_framework.routers import DefaultRouter
 
 from user.views import UserViewSet, LoginView
 
-from football_api.views import fetch_leagues, search_leagues, fetch_match, search_match, update_match
+from football_api.views import fetch_leagues, search_leagues, fetch_match, search_match, update_match, update_match_odds
 
 class CustomTokenObtainPairView(TokenObtainPairView):
     permission_classes = (AllowAny,)
@@ -49,6 +49,7 @@ urlpatterns = [
     path('fetch-match/', fetch_match, name='fetch-match'),
     path('update-match/', update_match, name='update-match'),
     path('search-match/', search_match, name='search-match'),
+    path('search-match-odds/', update_match_odds, name='search-match-odds'),
 ]
 
 if settings.DEBUG:

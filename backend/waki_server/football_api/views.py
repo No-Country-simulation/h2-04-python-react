@@ -366,3 +366,85 @@ def search_match(request):
     }
 
     return ApiResponse.success(data=paginated_response, status_code=status.HTTP_200_OK)
+
+
+
+@extend_schema(
+    tags=["api-connect"],)
+@api_view(['GET'])
+@permission_classes([IsAdminUser])  # Solo superusuarios pueden acceder
+def update_match_odds(request):
+    """Actualiza la base de datos de partidos con todas las páginas de cuotas"""
+    
+    # Conexión HTTP para la API
+    conn = http.client.HTTPSConnection("api-football-v1.p.rapidapi.com")
+    headers = {
+        'x-rapidapi-host': "api-football-v1.p.rapidapi.com",
+        'x-rapidapi-key': "425a2f8650msh2c93977c1d9775fp1d700djsnccb1675c3877"
+    }
+
+    page = 1
+    total_pages = 1  # Inicializamos a 1 para comenzar el bucle
+    registros_actualizados = 0
+    
+    while page <= total_pages:
+        ruta = f"/v3/odds?season=2024&bet=1&bookmaker=6&league=128&page={page}&fixture=1158911"
+
+        conn.request("GET", ruta, headers=headers)
+        res = conn.getresponse()
+        data = res.read()
+
+        # Decodificar y convertir la respuesta a un diccionario JSON
+        data_json = json.loads(data.decode("utf-8"))
+        print(data_json)
+        # Procesar los fixtures y actualizar la base de datos
+        for fixture in data_json.get('response', []):
+            try:
+                id_fixture = fixture['fixture']['id']
+                bookmakers = fixture.get('bookmakers', [])
+                
+                home_odds = None
+                draw_odds = None
+                away_odds = None
+                
+                # Recorrer los bookmakers y encontrar las odds
+                for bookmaker in bookmakers:
+                    if bookmaker['id'] == 8:  # Bet365 tiene id 8
+                        for bet in bookmaker['bets']:
+                            if bet['name'] == "Match Winner":
+                                for value in bet['values']:
+                                    if value['value'] == "Home":
+                                        home_odds = value['odd']
+                                    elif value['value'] == "Draw":
+                                        draw_odds = value['odd']
+                                    elif value['value'] == "Away":
+                                        away_odds = value['odd']
+
+                if home_odds and draw_odds and away_odds:
+                    # Verificar si el id_fixture ya existe en la base de datos
+                    match = Match.objects.filter(id_fixture=id_fixture).first()
+
+                    if match:
+                        # Actualizar las cuotas del partido
+                        match.home_odds = home_odds
+                        match.draw_odds = draw_odds
+                        match.away_odds = away_odds
+                        match.save()
+                        registros_actualizados = registros_actualizados + 1
+
+            except Exception as e:
+                print(f"Error al procesar el fixture {id_fixture}: {e}")
+
+        # Obtener la información de paginación
+        pagination = data_json.get('paging', {})
+        total_pages = pagination.get('total', 1)
+        current_page = pagination.get('current', 1)
+
+        print(f"Procesando página {current_page} de {total_pages}")
+        
+        # Avanzar a la siguiente página
+        page += 1
+    messange = f'All fixtures fetched and saved successfully. registros: {registros_actualizados}'
+    return ApiResponse.success(data={
+        'message': messange
+    }, status_code=status.HTTP_201_CREATED)
