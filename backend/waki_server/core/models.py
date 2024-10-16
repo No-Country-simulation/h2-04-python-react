@@ -32,14 +32,12 @@ class Match(models.Model):
     home_team_goals = models.IntegerField(null=True)
     away_team_goals = models.IntegerField(null=True)
     match_status = models.CharField(max_length=50)
-    home_odds = models.DecimalField(max_digits=10, decimal_places=2, null=True)
-    draw_odds = models.DecimalField(max_digits=10, decimal_places=2, null=True)
-    away_odds = models.DecimalField(max_digits=10, decimal_places=2, null=True)
+    home_odds = models.DecimalField(max_digits=10, decimal_places=2,null=True, blank=True,default=None)
+    draw_odds = models.DecimalField(max_digits=10, decimal_places=2,null=True, blank=True,default=None)
+    away_odds = models.DecimalField(max_digits=10, decimal_places=2,null=True, blank=True,default=None)
 
     def __str__(self):
         return f"{self.home_team} vs {self.away_team}"
-
-"""
 
 class Prediction(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -51,6 +49,10 @@ class Prediction(models.Model):
 
     def __str__(self):
         return f"{self.user.full_name} - {self.bet_type}"
+    
+    @property
+    def details(self):
+        return self.predictiondetail_set.all()  # Obtiene todos los detalles relacionados
 
 
 class PredictionDetail(models.Model):
@@ -63,4 +65,3 @@ class PredictionDetail(models.Model):
     def __str__(self):
         return f"{self.prediction} - {self.match}"
 
-        """
