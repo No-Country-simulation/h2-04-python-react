@@ -49,7 +49,7 @@ urlpatterns = [
     path('fetch-match/', fetch_match, name='fetch-match'),
     path('update-match/', update_match, name='update-match'),
     path('search-match/', search_match, name='search-match'),
-    path('search-match-odds/', update_match_odds, name='search-match-odds'),
+    path('update-match-odds/', update_match_odds, name='update-match-odds'),
 ]
 
 if settings.DEBUG:

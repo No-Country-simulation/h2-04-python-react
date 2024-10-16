@@ -156,7 +156,7 @@ def fetch_match(request):
         "id":128, "name": "Liga Profesional Argentina",#ok
         "id":13, "name": "CONMEBOL Libertadores",#ok
         "id":2, "name": "UEFA Champions League",#ok
-    }    
+    }
     season = 2024
     league = 2
     ruta = f"/v3/fixtures?season={season}&league={league}"
@@ -386,9 +386,9 @@ def update_match_odds(request):
     page = 1
     total_pages = 1  # Inicializamos a 1 para comenzar el bucle
     registros_actualizados = 0
-    
+    league = 2
     while page <= total_pages:
-        ruta = f"/v3/odds?season=2024&bet=1&bookmaker=6&league=128&page={page}&fixture=1158911"
+        ruta = f"/v3/odds?season=2024&bet=1&bookmaker=8&league={league}&page={page}"
 
         conn.request("GET", ruta, headers=headers)
         res = conn.getresponse()
