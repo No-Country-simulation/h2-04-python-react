@@ -13,7 +13,7 @@ const parseMatchStatus = (statusString) => {
   }
 };
 
-const MatchCardWrapper = ({ match }) => {
+const MatchCardWrapper = ({ match, onOddsSelect }) => {
   const matchStatus = parseMatchStatus(match.match_status);
   const isMatchFinished = matchStatus.short === "FT";
 
@@ -51,6 +51,8 @@ const MatchCardWrapper = ({ match }) => {
       fixtureDate={match.date}
       displayData={displayData}
       status={matchStatus}
+      onOddsSelect={onOddsSelect}
+      matchId={match.id_fixture}
     />
   );
 }
@@ -74,6 +76,7 @@ MatchCardWrapper.propTypes = {
     draw_odds: PropTypes.string,
     away_odds: PropTypes.string,
   }).isRequired,
+  onOddsSelect: PropTypes.func.isRequired,
 };
 
 export default MatchCardWrapper

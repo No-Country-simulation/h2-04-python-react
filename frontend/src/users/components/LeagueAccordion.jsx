@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import PropTypes from 'prop-types';
 import {
   Accordion,
@@ -11,7 +12,7 @@ import MatchCardWrapper from "./MatchCardWrapper";
 import useAuthStore from '@/api/store/authStore';
 import { useTranslation } from "react-i18next";
 
-const LeagueAccordion = ({ league, date }) => {
+const LeagueAccordion = ({ league, date, onOddsSelect }) => {
   const { t } = useTranslation();
   const { accessToken, refreshToken, logout } = useAuthStore();
   const [matches, setMatches] = useState([]);
@@ -76,7 +77,7 @@ const LeagueAccordion = ({ league, date }) => {
           ) : (
             <div className="p-4">
               {matches.map((match) => (
-                <MatchCardWrapper key={match.id_fixture} match={match} />
+                <MatchCardWrapper key={match.id_fixture} match={match} onOddsSelect={onOddsSelect} />
               ))}
             </div>
           )}

@@ -22,6 +22,9 @@ export const fetchData = async (endpoint, method = 'GET', body = null, token = n
     const response = await fetch(`${BASE_URL}/${endpoint}`, options);
 
     if (!response.ok) {
+      if (response.status === 401) {
+        throw new Error('Unauthorized');
+      }
       const errorData = await response.json();
       if (response.status === 400) {
         if (endpoint === 'api/token/') {
@@ -35,12 +38,16 @@ export const fetchData = async (endpoint, method = 'GET', body = null, token = n
     return response.json();
   };
 
+  let currentToken = token;
+
   try {
-    return await fetchWithToken(token);
+    return await fetchWithToken(currentToken);
   } catch (error) {
-    if (error.message === 'El token es inválido o expirado' && token) {
+    if (error.message === 'Unauthorized' && currentToken) {
       try {
         const newToken = await refreshToken();
+        useAuthStore.getState().setToken(newToken);
+        currentToken = newToken;
         return await fetchWithToken(newToken);
       } catch (refreshError) {
         console.error('Error refrescando el token:', refreshError);

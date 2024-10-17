@@ -95,7 +95,7 @@ input[type="tel"] {
   font-size: 12px;
 }
 
-.customProgressBar {
+.customProgressBar, .waki-gradient {
   @apply bg-gradient-to-r from-[#317EF4] to-[#8E2BFF];
 }
 
