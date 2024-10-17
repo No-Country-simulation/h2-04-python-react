@@ -6,10 +6,10 @@ import { Progress } from "@/common/components/ui/progress";
 import { useTranslation } from "react-i18next";
 
 const getDivisionInfo = (points) => {
-  if (points >= 301) {
+  if (points >= 601) {
     return { name: "gold", image: liga1, nextLevel: null, maxPoints: null };
   } else if (points >= 200) {
-    return { name: "silver", image: liga2, nextLevel: "gold", maxPoints: 301 };
+    return { name: "silver", image: liga2, nextLevel: "gold", maxPoints: 600 };
   } else {
     return {
       name: "bronze",
@@ -31,7 +31,7 @@ const PointsProgressBar = ({ currentPoints }) => {
   } = getDivisionInfo(currentPoints);
 
   const progress = nextLevel ? (currentPoints / maxPoints) * 100 : 100;
-  const pointsNeeded = nextLevel ? maxPoints - currentPoints : 0;
+  const pointsNeeded = maxPoints || currentPoints;
 
   return (
     <Card className="my-6 bg-white rounded-t-[9px] rounded-b-[2px] shadow-md">

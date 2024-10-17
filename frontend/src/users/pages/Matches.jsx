@@ -15,6 +15,7 @@ import { fetchData } from "@/api/services/fetchData";
 import { useTranslation } from "react-i18next";
 import useLanguageStore from "@/api/store/language-store";
 import { useNavigate } from "react-router-dom";
+import BetCoupon from "../components/BetCoupon";
 
 const LEAGUES = [
   { country: "Spain", name: "La Liga" },
@@ -34,6 +35,7 @@ const Matches = () => {
   const [leagues, setLeagues] = useState([]);
   const [loading, setLoading] = useState(true);
   const accessToken = useAuthStore((state) => state.accessToken);
+  const [selections, setSelections] = useState([]);
 
   const logout = useAuthStore((state) => state.logout);
   const navigate = useNavigate();
@@ -101,6 +103,28 @@ const Matches = () => {
     }
   };
 
+  const handleOddsSelect = (selection) => {
+    setSelections((prevSelections) => {
+      const existingIndex = prevSelections.findIndex(
+        (s) => s.matchId === selection.matchId
+      );
+      if (existingIndex !== -1) {
+        const updatedSelections = [...prevSelections];
+        updatedSelections[existingIndex] = selection;
+        return updatedSelections;
+      } else {
+        return [...prevSelections, selection];
+      }
+    });
+  };
+
+  const removeSelection = (index) => {
+    setSelections((prevSelections) => 
+      prevSelections.filter((_, i) => i !== index)
+    );
+  };
+
+
   return (
     <section className="p-2 py-4 mb-28">
       <div className="flex justify-between items-center mb-4">
@@ -166,6 +190,7 @@ const Matches = () => {
                 league={league}
                 date={format(previousDate, "yyyy-MM-dd")}
                 accessToken={accessToken}
+                onOddsSelect={handleOddsSelect}
               />
             ))
           )}
@@ -185,6 +210,7 @@ const Matches = () => {
                 league={league}
                 date={format(selectedDate, "yyyy-MM-dd")}
                 accessToken={accessToken}
+                onOddsSelect={handleOddsSelect}
               />
             ))
           )}
@@ -201,11 +227,13 @@ const Matches = () => {
                 league={league}
                 date={format(nextDate, "yyyy-MM-dd")}
                 accessToken={accessToken}
+                onOddsSelect={handleOddsSelect}
               />
             ))
           )}
         </TabsContent>
       </Tabs>
+      <BetCoupon selections={selections} setSelections={setSelections} removeSelection={removeSelection} />
     </section>
   );
 };

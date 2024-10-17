@@ -12,11 +12,25 @@ const MatchCard = ({
   fixtureDate,
   displayData,
   status,
+  onOddsSelect,
+  matchId,
 }) => {
   const date = new Date(fixtureDate);
   const formattedTime = format(date, "HH:mm");
-  const formattedDate = format(date, "dd MMM")
+  const formattedDate = format(date, "dd MMM");
   const isFinished = status.short === "FT";
+
+  const handleOddsClick = (selectedTeam, odds) => {
+    onOddsSelect({
+      matchId,
+      homeTeam: homeTeam.name,
+      awayTeam: awayTeam.name,
+      homeTeamLogo: homeTeam.logo,
+      awayTeamLogo: awayTeam.logo,
+      selectedTeam,
+      odds,
+    });
+  };
 
   return (
     <Card className="matchCard w-full max-w-sm overflow-hidden rounded-xl bg-[#F3F4F5] shadow-lg my-2">
@@ -60,13 +74,28 @@ const MatchCard = ({
           {!isFinished &&
             (displayData.type === "odds" && displayData.value ? (
               <>
-                <Button className="bg-white hover:bg-gray-200 text-black font-normal text-xs px-5 py-1 leading-[18px]">
+                <Button
+                  className="bg-white hover:bg-gray-200 text-black font-normal text-xs px-5 py-1 leading-[18px]"
+                  onClick={() =>
+                    handleOddsClick(homeTeam.name, displayData.value.home)
+                  }
+                >
                   {displayData.value.home}
                 </Button>
-                <Button className="bg-white hover:bg-gray-200 text-black font-normal text-xs px-5 py-1 leading-[18px]">
+                <Button
+                  className="bg-white hover:bg-gray-200 text-black font-normal text-xs px-5 py-1 leading-[18px]"
+                  onClick={() =>
+                    handleOddsClick("Empate", displayData.value.draw)
+                  }
+                >
                   {displayData.value.draw}
                 </Button>
-                <Button className="bg-white hover:bg-gray-200 text-black font-normal text-xs px-5 py-1 leading-[18px]">
+                <Button
+                  className="bg-white hover:bg-gray-200 text-black font-normal text-xs px-5 py-1 leading-[18px]"
+                  onClick={() =>
+                    handleOddsClick(awayTeam.name, displayData.value.away)
+                  }
+                >
                   {displayData.value.away}
                 </Button>
               </>
