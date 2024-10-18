@@ -66,5 +66,12 @@
   "divSilverDescription": "Descubre las recompensas de esta división.",
   "divBronze": "Bronze Division",
   "divBronzeDescription": "Esta división no ofrece recompensas. Sube a la división plata para participar por premios.",
-  "unlockDiv": "Desbloquear división"
+  "unlockDiv": "Desbloquear división",
+  "prediction": {
+    "all": "Todas",
+    "win": "Ganadas",
+    "loss": "Perdidas",
+    "yourPredictions": "Tus predicciones",
+    "availablePredictions": "Predicciones disponibles hoy"
+  }
 }

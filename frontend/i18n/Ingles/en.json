@@ -66,5 +66,12 @@
   "divSilverDescription": "Discover the rewards of this division.",
   "divBronze": "Bronze Division",
   "divBronzeDescription": "No prizes in this division. Level up to Silver to win awesome loot!",
-  "unlockDiv": "Unlock division"
+  "unlockDiv": "Unlock division",
+  "prediction": {
+    "all": "All",
+    "win": "Won",
+    "loss": "Lost",
+    "yourPredictions": "Your predictions",
+    "availablePredictions": "Predictions available today"
+  }
 }
