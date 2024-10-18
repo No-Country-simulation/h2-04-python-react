@@ -115,6 +115,6 @@ input[type="tel"] {
   @apply text-blueWaki
 }
 
-.matchCard{
+.matchCard, .content-visibility{
   content-visibility: auto;
 }

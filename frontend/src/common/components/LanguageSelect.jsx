@@ -24,8 +24,8 @@ export default function LanguageSelect() {
   };
 
   return (
-    <Select value={currentLanguage} onValueChange={handleChange}>
-      <SelectTrigger className="w-[70px]" aria-label={t("selectLanguage")}>
+    <Select value={currentLanguage} onValueChange={handleChange} className="border-none">
+      <SelectTrigger className="w-[70px] border-none focus:ring-0" aria-label={t("selectLanguage")}>
         <SelectValue>
           {currentLanguage === "es" ? (
             <img src={spain} alt={t("Español")} />
