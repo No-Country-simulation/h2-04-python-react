@@ -2,16 +2,24 @@ from rest_framework import serializers
 
 from core.models import Prediction, PredictionDetail, Match
 
+
+class MatchSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Match  # Reemplaza 'Match' con el nombre exacto de tu modelo de partido
+        fields = ['id_fixture', 'league ', 'date', 'home_team', 'score_a', 'score_b']  # Ajusta los campos según tu modelo
+
+
+
 class PredictionDetailSerializer(serializers.ModelSerializer):
     match = serializers.SlugRelatedField(slug_field='id_fixture', queryset=Match.objects.all())
-
+    
     class Meta:
         model = PredictionDetail
-        fields = ['match', 'prediction_text', 'selected_odds', 'potential_gain']
+        fields = ['id','match', 'prediction_text', 'selected_odds', 'potential_gain']
 
 
 class PredictionSerializer(serializers.ModelSerializer):
-    details = PredictionDetailSerializer(many=True)
+    details = PredictionDetailSerializer(many=True, required=False)
 
     class Meta:
         model = Prediction
