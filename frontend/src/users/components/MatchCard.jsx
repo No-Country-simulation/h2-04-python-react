@@ -73,6 +73,7 @@ const MatchCard = ({
         <div className="flex justify-around text-sm">
           {!isFinished &&
             (displayData.type === "odds" && displayData.value ? (
+              displayData.oddsAvailable ? (
               <>
                 <Button
                   className="bg-white hover:bg-gray-200 text-black font-normal text-xs px-5 py-1 leading-[18px]"
@@ -120,7 +121,8 @@ const MatchCard = ({
                   <Lock className="size-4" />
                 </Button>
               </>
-            ))}
+            )
+          ) : null)}
         </div>
       </div>
     </Card>

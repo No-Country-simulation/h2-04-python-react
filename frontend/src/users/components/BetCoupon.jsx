@@ -70,16 +70,16 @@ const BetCoupon = ({ selections, setSelections, removeSelection }) => {
         dataToSend,
         accessToken
       );
-      console.log("Full API response:", response);
+    //   console.log("Full API response:", response);
 
       if (response.status_code !== 201) {
-        console.error("API error response:", response.errors);
+        // console.error("API error response:", response.errors);
         throw new Error(
           `Error enviando la predicción: ${JSON.stringify(response.errors)}`
         );
       }
 
-      console.log("Predicción enviada con éxito:", response.data);
+    //   console.log("Predicción enviada con éxito:", response.data);
       toast.success("¡Predicción realizada con éxito!");
       setSelections([]);
     } catch (error) {
