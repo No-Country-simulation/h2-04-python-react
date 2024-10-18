@@ -8,14 +8,18 @@ import {
 } from "@/common/components/ui/tabs";
 import LeagueAccordion from "../components/LeagueAccordion";
 import { format, addDays, isSameDay, isAfter } from "date-fns";
-import { LogOut, Search } from "lucide-react";
+import { Search } from "lucide-react";
 import { Input } from "@/common/components/ui/input";
 import useAuthStore from "@/api/store/authStore";
 import { fetchData } from "@/api/services/fetchData";
 import { useTranslation } from "react-i18next";
 import useLanguageStore from "@/api/store/language-store";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import BetCoupon from "../components/BetCoupon";
+import useUserDataStore from "@/api/store/userStore";
+import ProfileImage from "../components/ProfileImage";
+
+const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 const LEAGUES = [
   { country: "Spain", name: "La Liga" },
@@ -30,20 +34,15 @@ const LEAGUES = [
 
 const Matches = () => {
   const { t } = useTranslation();
+  const { user } = useUserDataStore();
+  const profilePhoto = user.profile_image;
+  const username = user.full_name;
   const { currentLanguage } = useLanguageStore();
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [leagues, setLeagues] = useState([]);
   const [loading, setLoading] = useState(true);
   const accessToken = useAuthStore((state) => state.accessToken);
   const [selections, setSelections] = useState([]);
-
-  const logout = useAuthStore((state) => state.logout);
-  const navigate = useNavigate();
-
-  const handleLogout = () => {
-    logout();
-    navigate("/auth");
-  };
 
   useEffect(() => {
     const fetchAllLeagues = async () => {
@@ -119,28 +118,28 @@ const Matches = () => {
   };
 
   const removeSelection = (index) => {
-    setSelections((prevSelections) => 
+    setSelections((prevSelections) =>
       prevSelections.filter((_, i) => i !== index)
     );
   };
 
-
   return (
     <section className="p-2 py-4 mb-28">
       <div className="flex justify-between items-center mb-4">
-        {/* <div className="flex-1"  /> */}
-        <button
-          id="logout"
-          name="logout"
-          onClick={handleLogout}
-          className="flex-1 cursor-pointer"
-        >
-          <LogOut className="size-4 text-zinc-400" />
-        </button>
+        <Link to={"/profile"}>
+          <div className="flex-1 size-10 rounded-full ml-3">
+            <ProfileImage
+              profilePhoto={profilePhoto}
+              username={username}
+              BASE_URL={BASE_URL}
+              size="size-10"
+            />
+          </div>
+        </Link>
         <h1 className="text-2xl font-bold text-blueWaki flex-1 text-center">
           {t("navigation.matches")}
         </h1>
-        <div className="flex-1 flex justify-end mr-7">
+        <div className=" flex justify-end mr-7">
           <DatePicker date={selectedDate} onDateChange={handleDateChange} />
         </div>
       </div>
@@ -172,7 +171,9 @@ const Matches = () => {
           <Input
             type="text"
             name="search"
-            placeholder={currentLanguage === "en" ? "Find a match" : "Busca un partido"}
+            placeholder={
+              currentLanguage === "en" ? "Find a match" : "Busca un partido"
+            }
             className="pl-12"
             disabled
           />
@@ -233,7 +234,11 @@ const Matches = () => {
           )}
         </TabsContent>
       </Tabs>
-      <BetCoupon selections={selections} setSelections={setSelections} removeSelection={removeSelection} />
+      <BetCoupon
+        selections={selections}
+        setSelections={setSelections}
+        removeSelection={removeSelection}
+      />
     </section>
   );
 };
