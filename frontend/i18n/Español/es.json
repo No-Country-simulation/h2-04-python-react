@@ -1,5 +1,4 @@
 {
-  "mensaje": "Hola probando spanish",
   "Español": "Español",
   "Inglés": "Inglés",
   "selectLanguage": "Seleccionar idioma",
@@ -60,11 +59,11 @@
   "bronze": "Bronce",
   "silver": "Plata",
   "gold": "Oro",
-  "divGold": "Gold Division",
+  "divGold": "División oro",
   "divGoldDescription": "Descubre las recompensas de esta división.",
-  "divSilver": "Silver Division",
+  "divSilver": "División Plata",
   "divSilverDescription": "Descubre las recompensas de esta división.",
-  "divBronze": "Bronze Division",
+  "divBronze": "División Bronze",
   "divBronzeDescription": "Esta división no ofrece recompensas. Sube a la división plata para participar por premios.",
   "unlockDiv": "Desbloquear división",
   "prediction": {
