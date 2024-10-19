@@ -71,6 +71,11 @@
     "win": "Won",
     "loss": "Lost",
     "yourPredictions": "Your predictions",
-    "availablePredictions": "Predictions available today"
+    "availablePredictions": "Predictions available today",
+    "betEmpty": "No selections in the betslip",
+    "predictionSummary": "Prediction summary",
+    "totalPoints": "Total points:",
+    "predict": "Predict",
+    "predictionUsed": "Predictions used today:"
   }
 }

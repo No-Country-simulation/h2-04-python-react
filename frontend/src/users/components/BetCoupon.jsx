@@ -3,7 +3,7 @@
 import { fetchData } from "@/api/services/fetchData";
 import useAuthStore from "@/api/store/authStore";
 import useUserDataStore from "@/api/store/userStore";
-import { betIcon } from "@/common/assets";
+import { betIcon, betIconEmpty } from "@/common/assets";
 import { Badge } from "@/common/components/ui/badge";
 import { Button } from "@/common/components/ui/button";
 import {
@@ -21,15 +21,20 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/common/components/ui/sheet";
-import { Ticket, X } from "lucide-react";
+import useIsDesktop from "@/common/hooks/useIsDesktop";
+import { X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import { useTranslation } from "react-i18next";
+import PredictionUsageIndicator from "./PredictionUsageIndicator";
 
-const BetCoupon = ({ selections, setSelections, removeSelection }) => {
+const BetCoupon = ({ selections, setSelections, removeSelection, usedPredictions = 2 }) => {
+  const { t } = useTranslation();
   const accessToken = useAuthStore((state) => state.accessToken);
   const { user } = useUserDataStore();
   const [totalOdds, setTotalOdds] = useState(1);
   const [potentialEarning, setPotentialEarning] = useState(0);
+  const isDesktop = useIsDesktop();
 
   useEffect(() => {
     const newTotalOdds = selections.reduce(
@@ -70,7 +75,7 @@ const BetCoupon = ({ selections, setSelections, removeSelection }) => {
         dataToSend,
         accessToken
       );
-    //   console.log("Full API response:", response);
+      //   console.log("Full API response:", response);
 
       if (response.status_code !== 201) {
         // console.error("API error response:", response.errors);
@@ -79,7 +84,7 @@ const BetCoupon = ({ selections, setSelections, removeSelection }) => {
         );
       }
 
-    //   console.log("Predicción enviada con éxito:", response.data);
+      //   console.log("Predicción enviada con éxito:", response.data);
       toast.success("¡Predicción realizada con éxito!");
       setSelections([]);
     } catch (error) {
@@ -128,13 +133,12 @@ const BetCoupon = ({ selections, setSelections, removeSelection }) => {
     </div>
   );
 
-  const side = "bottom";
+  const side = isDesktop ? "right" : "bottom";
   return (
     <Sheet>
       <SheetTrigger asChild>
         {selections.length > 0 && (
           <Button className="fixed bottom-24 right-3 z-50 size-12 rounded-full p-3 waki-gradient">
-            {/* <Ticket className="h-6 w-6" /> */}
             <img src={betIcon} alt="" className="h-6 w-6" />
             {selections.length > 0 && (
               <Badge className="absolute -top-2 -right-2 h-6 w-6 rounded-full p-0 flex items-center justify-center bg-blueWaki">
@@ -151,7 +155,9 @@ const BetCoupon = ({ selections, setSelections, removeSelection }) => {
       <SheetContent side={side} className="rounded-t-lg cupon">
         <Card className="border-0 shadow-none lg:shadow">
           <CardHeader className="py-6 px-3">
-            <CardTitle className="font-medium text-[#181818]">Resumen de Predicciones</CardTitle>
+            <CardTitle className="font-medium text-[#181818]">
+              {t("prediction.predictionSummary")}
+            </CardTitle>
           </CardHeader>
           <CardContent className="p-2">
             {selections.length > 0 ? (
@@ -160,23 +166,27 @@ const BetCoupon = ({ selections, setSelections, removeSelection }) => {
                 <div className="mt-4">
                   {/* <p>Cuota total: {totalOdds}</p> */}
                   <div className="flex flex-row gap-1 mt-2 font-bold text-blueWaki">
-                    <p>Puntos totales:</p>
+                    <p>{t("prediction.totalPoints")}</p>
                     <span>{potentialEarning}</span>
                   </div>
                 </div>
               </>
             ) : (
-              <p>No hay selecciones en el cupón</p>
+              <div className="flex flex-col items-center justify-center p-6 gap-y-4 text-[#555]">
+                <img src={betIconEmpty} alt="BetSlip Empty" className="h-12 w-auto" />
+              <p>{t("prediction.betEmpty")}</p>
+              </div>
             )}
           </CardContent>
-          <CardFooter className="flex items-center justify-center">
+          <CardFooter className="flex flex-col items-center justify-center gap-y-2 p-2">
             <Button
               onClick={realizarPrediccion}
               className="w-full max-w-40 bg-purpleWaki hover:bg-purple-700"
               disabled={selections.length === 0}
             >
-              Predecir
+              {t("prediction.predict")}
             </Button>
+            <PredictionUsageIndicator total={5} used={usedPredictions} />
           </CardFooter>
         </Card>
       </SheetContent>

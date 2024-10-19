@@ -12,9 +12,11 @@ import locked from "./icons/locked.svg";
 import spain from "./icons/spain.svg";
 import usa from "./icons/unitedStates.svg";
 import betIcon from "./icons/BettingSlipIcon.svg";
+import betIconEmpty from "./icons/BettingSlipEmpty.svg";
 
 export {
     betIcon,
+    betIconEmpty,
     liga1,
     liga2,
     liga3,

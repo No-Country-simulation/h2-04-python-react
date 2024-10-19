@@ -71,6 +71,11 @@
     "win": "Ganadas",
     "loss": "Perdidas",
     "yourPredictions": "Tus predicciones",
-    "availablePredictions": "Predicciones disponibles hoy"
+    "availablePredictions": "Predicciones disponibles hoy",
+    "betEmpty": "Sin selecciones en el boleto de predicción",
+    "predictionSummary": "Resumen de Predicciones",
+    "totalPoints": "Puntos totales:",
+    "predict": "Predicir",
+    "predictionUsed": "Predicciones utilizadas de hoy:"
   }
 }
