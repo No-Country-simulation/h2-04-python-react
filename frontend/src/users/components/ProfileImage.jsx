@@ -2,9 +2,10 @@
 import { useState } from 'react';
 import { Loader2 } from 'lucide-react';
 
-export default function ProfileImage({ profilePhoto, username, BASE_URL, size = 'size-10' }) {
+export default function ProfileImage({ profilePhoto, username, size = 'size-10' }) {
   const [imageLoaded, setImageLoaded] = useState(false);
-
+  const BASE_URL = import.meta.env.VITE_BASE_URL;
+  
   const imageUrl = profilePhoto
     ? `${BASE_URL}${profilePhoto}`
     : `https://avatar.iran.liara.run/username?username=${username}`;

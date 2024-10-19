@@ -1,33 +1,16 @@
 import PointsProgressBar from "./PointsProgressBar";
-import { liga1, liga2, liga3 } from "@/common/assets";
 import { Card } from "@/common/components/ui/card";
 import LeagueCard from "./LeagueCard";
 import useUserDataStore from "@/api/store/userStore";
 import useLanguageStore from "@/api/store/language-store";
 import { useTranslation } from "react-i18next";
-
-const getDivisionInfo = (points) => {
-  if (points >= 301) {
-    return { name: "gold", image: liga1, nextLevel: null, maxPoints: null };
-  } else if (points >= 200) {
-    return { name: "silver", image: liga2, nextLevel: "gold", maxPoints: 301 };
-  } else {
-    return {
-      name: "bronze",
-      image: liga3,
-      nextLevel: "silver",
-      maxPoints: 200,
-    };
-  }
-};
+import { getDivisionInfo } from '@/common/utils/division';
 
 const RewardsView = () => {
   const { user } = useUserDataStore();
   const { currentLanguage } = useLanguageStore();
   const { t } = useTranslation();
-  const { name: divisionName, image: divisionImage } = getDivisionInfo(
-    user.total_points
-  );
+  const { name: divisionName, image: divisionImage } = getDivisionInfo(user.total_points);
 
   return (
     <div className="px-4 py-5">

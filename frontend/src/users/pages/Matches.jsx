@@ -1,36 +1,18 @@
 import { useEffect, useState } from "react";
 import { DatePicker } from "../components/DatePicker";
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "@/common/components/ui/tabs";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/common/components/ui/tabs";
 import LeagueAccordion from "../components/LeagueAccordion";
 import { format, addDays, isSameDay, isAfter } from "date-fns";
 import { Search } from "lucide-react";
 import { Input } from "@/common/components/ui/input";
 import useAuthStore from "@/api/store/authStore";
-import { fetchData } from "@/api/services/fetchData";
 import { useTranslation } from "react-i18next";
 import useLanguageStore from "@/api/store/language-store";
 import { Link } from "react-router-dom";
 import BetCoupon from "../components/BetCoupon";
 import useUserDataStore from "@/api/store/userStore";
 import ProfileImage from "../components/ProfileImage";
-
-const BASE_URL = import.meta.env.VITE_BASE_URL;
-
-const LEAGUES = [
-  { country: "Spain", name: "La Liga" },
-  { country: "Argentina", name: "Liga Profesional Argentina" },
-  { country: "England", name: "Premier League" },
-  { country: "World", name: "UEFA Champions League" },
-  { country: "Germany", name: "Bundesliga" },
-  { country: "Italy", name: "Serie A" },
-  { country: "France", name: "Ligue 1" },
-  { country: "World", name: "UEFA Europa League" },
-];
+import { useLeagues } from "@/api/services/matches";
 
 const Matches = () => {
   const { t } = useTranslation();
@@ -39,38 +21,18 @@ const Matches = () => {
   const username = user.full_name;
   const { currentLanguage } = useLanguageStore();
   const [selectedDate, setSelectedDate] = useState(new Date());
-  const [leagues, setLeagues] = useState([]);
-  const [loading, setLoading] = useState(true);
   const accessToken = useAuthStore((state) => state.accessToken);
-  const [selections, setSelections] = useState([]);
+  
+  const [selections, setSelections] = useState(() => {
+    const savedSelections = localStorage.getItem('betSelections');
+    return savedSelections ? JSON.parse(savedSelections) : [];
+  });
 
   useEffect(() => {
-    const fetchAllLeagues = async () => {
-      try {
-        const allLeagues = [];
-        for (const league of LEAGUES) {
-          const response = await fetchData(
-            `search-leagues/?country=${encodeURIComponent(
-              league.country
-            )}&name=${encodeURIComponent(league.name)}`,
-            "GET",
-            null,
-            accessToken
-          );
-          if (response.data.results.length > 0) {
-            allLeagues.push(response.data.results[0]);
-          }
-        }
-        setLeagues(allLeagues);
-        setLoading(false);
-      } catch (err) {
-        console.error("Error fetching leagues:", err);
-        setLoading(false);
-      }
-    };
+    localStorage.setItem('betSelections', JSON.stringify(selections));
+  }, [selections]);
 
-    fetchAllLeagues();
-  }, [accessToken]);
+  const { data: leagues, isLoading } = useLeagues(accessToken);
 
   const handleDateChange = (newDate) => {
     setSelectedDate(newDate);
@@ -90,10 +52,7 @@ const Matches = () => {
 
   const getActiveTabValue = () => {
     const today = new Date();
-    if (
-      isSameDay(selectedDate, today) ||
-      isSameDay(selectedDate, previousDate)
-    ) {
+    if (isSameDay(selectedDate, today) || isSameDay(selectedDate, previousDate)) {
       return selectedDate.toISOString();
     } else if (isAfter(selectedDate, nextDate)) {
       return nextDate.toISOString();
@@ -104,9 +63,7 @@ const Matches = () => {
 
   const handleOddsSelect = (selection) => {
     setSelections((prevSelections) => {
-      const existingIndex = prevSelections.findIndex(
-        (s) => s.matchId === selection.matchId
-      );
+      const existingIndex = prevSelections.findIndex((s) => s.matchId === selection.matchId);
       if (existingIndex !== -1) {
         const updatedSelections = [...prevSelections];
         updatedSelections[existingIndex] = selection;
@@ -118,9 +75,7 @@ const Matches = () => {
   };
 
   const removeSelection = (index) => {
-    setSelections((prevSelections) =>
-      prevSelections.filter((_, i) => i !== index)
-    );
+    setSelections((prevSelections) => prevSelections.filter((_, i) => i !== index));
   };
 
   return (
@@ -131,7 +86,6 @@ const Matches = () => {
             <ProfileImage
               profilePhoto={profilePhoto}
               username={username}
-              BASE_URL={BASE_URL}
               size="size-10"
             />
           </div>
@@ -171,19 +125,15 @@ const Matches = () => {
           <Input
             type="text"
             name="search"
-            placeholder={
-              currentLanguage === "en" ? "Find a match" : "Busca un partido"
-            }
+            placeholder={currentLanguage === "en" ? "Find a match" : "Busca un partido"}
             className="pl-12"
             disabled
           />
         </div>
 
         <TabsContent value={previousDate.toISOString()}>
-          {loading ? (
-            <div className="p-4 text-center text-gray-500">
-              {t("infoMsg.loadMatch")}
-            </div>
+          {isLoading ? (
+            <div className="p-4 text-center text-gray-500">{t("infoMsg.loadMatch")}</div>
           ) : (
             leagues.map((league) => (
               <LeagueAccordion
@@ -196,14 +146,9 @@ const Matches = () => {
             ))
           )}
         </TabsContent>
-        <TabsContent
-          value={selectedDate.toISOString()}
-          className="waki-shadow rounded-[9px]"
-        >
-          {loading ? (
-            <div className="p-4 text-center text-gray-500">
-              {t("infoMsg.loadMatch")}
-            </div>
+        <TabsContent value={selectedDate.toISOString()} className="waki-shadow rounded-[9px]">
+          {isLoading ? (
+            <div className="p-4 text-center text-gray-500">{t("infoMsg.loadMatch")}</div>
           ) : (
             leagues.map((league) => (
               <LeagueAccordion
@@ -217,10 +162,8 @@ const Matches = () => {
           )}
         </TabsContent>
         <TabsContent value={nextDate.toISOString()}>
-          {loading ? (
-            <div className="p-4 text-center text-gray-500">
-              {t("infoMsg.loadMatch")}
-            </div>
+          {isLoading ? (
+            <div className="p-4 text-center text-gray-500">{t("infoMsg.loadMatch")}</div>
           ) : (
             leagues.map((league) => (
               <LeagueAccordion

@@ -1,24 +1,10 @@
 /* eslint-disable react/prop-types */
 import useLanguageStore from "@/api/store/language-store";
-import { starPoint, liga1, liga2, liga3 } from "@/common/assets";
+import { starPoint } from "@/common/assets";
 import { Card } from "@/common/components/ui/card";
 import { Progress } from "@/common/components/ui/progress";
 import { useTranslation } from "react-i18next";
-
-const getDivisionInfo = (points) => {
-  if (points >= 601) {
-    return { name: "gold", image: liga1, nextLevel: null, maxPoints: null };
-  } else if (points >= 200) {
-    return { name: "silver", image: liga2, nextLevel: "gold", maxPoints: 600 };
-  } else {
-    return {
-      name: "bronze",
-      image: liga3,
-      nextLevel: "silver",
-      maxPoints: 200,
-    };
-  }
-};
+import { getDivisionInfo } from '@/common/utils/division';
 
 const PointsProgressBar = ({ currentPoints }) => {
   const { t } = useTranslation();

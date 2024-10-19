@@ -3,6 +3,7 @@ import { Card } from "@/common/components/ui/card";
 import { Button } from "@/common/components/ui/button";
 import { format } from "date-fns";
 import { Lock, Minus } from "lucide-react";
+import useLanguageStore from "@/api/store/language-store";
 
 const MatchCard = ({
   leagueName,
@@ -19,6 +20,7 @@ const MatchCard = ({
   const formattedTime = format(date, "HH:mm");
   const formattedDate = format(date, "dd MMM");
   const isFinished = status.short === "FT";
+  const { currentLanguage } = useLanguageStore();
 
   const handleOddsClick = (selectedTeam, odds) => {
     onOddsSelect({
@@ -47,7 +49,7 @@ const MatchCard = ({
           <div className="flex flex-col items-center justify-center flex-1">
             {isFinished ? (
               <div className="flex flex-col items-center justify-center space-y-4">
-                <span className="text-sm font-normal">Finalizado</span>
+                <span className="text-sm font-normal">{currentLanguage === "en" ? "Match Finished" : "Finalizado"}</span>
                 <div className="score space-x-2 flex flex-row items-center">
                   <span className="font-semibold text-black text-2xl">
                     {displayData.homeTeamGoals}

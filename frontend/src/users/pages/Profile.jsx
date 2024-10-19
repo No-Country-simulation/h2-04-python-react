@@ -15,7 +15,6 @@ import {
 import { useTranslation } from "react-i18next";
 import { Link, useNavigate } from "react-router-dom";
 import ProfileImage from "../components/ProfileImage";
-const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 const Profile = () => {
   const { t } = useTranslation();
@@ -47,7 +46,6 @@ const Profile = () => {
         <ProfileImage
           profilePhoto={profilePhoto}
           username={username}
-          BASE_URL={BASE_URL}
           size="size-[134px]"
         />
         <span className="capitalize text-base font-bold">{username}</span>
@@ -58,7 +56,7 @@ const Profile = () => {
             <div className="flex flex-row items-center justify-between p-4 border-b">
               <div className="flex flex-row items-center justify-between space-x-4">
                 <Star className="text-blueWaki" />
-                <p className="text-xs ">Mis predicciones</p>
+                <p className="text-xs ">{t("profile.myPredictions")}</p>
               </div>
             </div>
           </Link>
@@ -66,40 +64,40 @@ const Profile = () => {
           <div className="flex flex-row items-center justify-between p-4 border-b last:border-b-0">
             <div className="flex flex-row items-center justify-between space-x-4">
               <Heart className="text-blueWaki" />
-              <p className="text-xs ">Mis equipos favoritos</p>
+              <p className="text-xs ">{t("profile.favoriteTeams")}</p>
             </div>
           </div>
 
           <div className="flex flex-row items-center justify-between p-4 border-b last:border-b-0">
             <div className="flex flex-row items-center justify-between space-x-4">
               <UsersRound className="text-blueWaki" />
-              <p className="text-xs ">Invitar amigos</p>
+              <p className="text-xs ">{t("profile.friends")}</p>
             </div>
           </div>
 
           <div className="flex flex-row items-center justify-between p-4 border-b last:border-b-0">
             <div className="flex flex-row items-center justify-between space-x-4">
               <Mail className="text-blueWaki" />
-              <p className="text-xs ">Mensajes</p>
+              <p className="text-xs ">{t("profile.messages")}</p>
             </div>
           </div>
 
           <div className="flex flex-row items-center justify-between p-4 border-b last:border-b-0">
             <div className="flex flex-row items-center justify-between space-x-4">
               <UserRound className="text-blueWaki" />
-              <p className="text-xs ">Informacion personal</p>
+              <p className="text-xs ">{t("profile.information")}</p>
             </div>
           </div>
           <div className="flex flex-row items-center justify-between p-4 border-b last:border-b-0">
             <div className="flex flex-row items-center justify-between space-x-4">
               <Bolt className="text-blueWaki" />
-              <p className="text-xs ">Ajustes</p>
+              <p className="text-xs ">{t("profile.settings")}</p>
             </div>
           </div>
           <div className="flex flex-row items-center justify-between p-4 border-b last:border-b-0">
             <div className="flex flex-row items-center justify-between space-x-4">
               <Globe className="text-blueWaki" />
-              <p className="text-xs ">Idioma preferido</p>
+              <p className="text-xs ">{t("profile.language")}</p>
               <LanguageSelect />
             </div>
           </div>

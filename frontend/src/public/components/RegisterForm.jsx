@@ -21,12 +21,9 @@ import {
 } from "@/common/components/ui/form";
 import "react-phone-number-input/style.css";
 import PhoneInput from "react-phone-number-input";
-import useAuthStore from "@/api/store/authStore";
 import PasswordInput from "./PasswordInput";
-import { useState } from "react";
-import { toast } from "sonner";
-import { fetchData } from "@/api/services/fetchData";
 import { useTranslation } from "react-i18next";
+import { useRegister } from "@/api/services/auth";
 
 const registerSchema = z
   .object({
@@ -54,8 +51,7 @@ const registerSchema = z
 
 const RegisterForm = ({ onSwitchToLogin }) => {
   const { t } = useTranslation();
-  const login = useAuthStore((state) => state.login);
-  const [isLoading, setIsLoading] = useState(false);
+  const { mutate: register, isLoading } = useRegister(onSwitchToLogin);
 
   const form = useForm({
     resolver: zodResolver(registerSchema),
@@ -67,25 +63,8 @@ const RegisterForm = ({ onSwitchToLogin }) => {
     },
   });
 
-  const onRegisterSubmit = async (data) => {
-    setIsLoading(true);
-
-    try {
-      const responseData = await fetchData("user/register/", "POST", {
-        full_name: data.username,
-        email: data.email,
-        phone: data.phone,
-        password: data.password,
-        password2: data.confirmPassword,
-      });
-      login(responseData);
-      onSwitchToLogin();
-      toast.success("Registro exitoso! Por favor, inicia sesión.");
-    } catch (error) {
-      toast.error("Error de registro: " + error.message);
-    } finally {
-      setIsLoading(false);
-    }
+  const onRegisterSubmit = (data) => {
+    register(data);
   };
 
   return (
@@ -93,10 +72,10 @@ const RegisterForm = ({ onSwitchToLogin }) => {
       <CardHeader>
         <CardTitle className="flex flex-col gap-y-2">
           <span className="text-[22px] text-blueWaki font-semibold">
-          {t('auth.registerTitle')}
+            {t("auth.registerTitle")}
           </span>
           <span className="text-zinc-500 text-sm font-normal">
-          {t('auth.registerDescription')}
+            {t("auth.registerDescription")}
           </span>
         </CardTitle>
       </CardHeader>
@@ -112,7 +91,7 @@ const RegisterForm = ({ onSwitchToLogin }) => {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel htmlFor="username">
-                  {t('auth.username')}{" "}
+                    {t("auth.username")}{" "}
                     <span className="text-red-400 text-xs">*</span>
                   </FormLabel>
                   <FormControl>
@@ -134,7 +113,7 @@ const RegisterForm = ({ onSwitchToLogin }) => {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel htmlFor="email">
-                  {t('auth.email')}{" "}
+                    {t("auth.email")}{" "}
                     <span className="text-red-400 text-xs">*</span>
                   </FormLabel>
                   <FormControl>
@@ -155,7 +134,7 @@ const RegisterForm = ({ onSwitchToLogin }) => {
               name="phone"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>{t('auth.phone')}</FormLabel>
+                  <FormLabel>{t("auth.phone")}</FormLabel>
                   <FormControl rules={{ required: false }}>
                     <PhoneInput
                       defaultCountry="AR"
@@ -175,7 +154,7 @@ const RegisterForm = ({ onSwitchToLogin }) => {
               control={form.control}
               name="password"
               htmlFor="loginPassword"
-              label={t('auth.password')}
+              label={t("auth.password")}
               span="*"
               id="loginPassword"
             />
@@ -184,7 +163,7 @@ const RegisterForm = ({ onSwitchToLogin }) => {
               control={form.control}
               name="confirmPassword"
               htmlFor="confirmPassword"
-              label={t('auth.password2')}
+              label={t("auth.password2")}
               span="*"
               id="confirmPassword"
             />
@@ -195,7 +174,7 @@ const RegisterForm = ({ onSwitchToLogin }) => {
                 className="w-full max-w-36 bg-purpleWaki hover:bg-purple-700"
                 disabled={isLoading}
               >
-                {isLoading ? t('auth.loadRegister') : t('auth.register')}
+                {isLoading ? t("auth.loadRegister") : t("auth.register")}
               </Button>
             </div>
           </form>
@@ -210,7 +189,9 @@ const RegisterForm = ({ onSwitchToLogin }) => {
         </div> */}
         <div className="flex items-center w-full">
           <div className="flex-grow h-px bg-gray-300"></div>
-          <span className="px-4 text-sm text-gray-500">{t('auth.orSingUp')}</span>
+          <span className="px-4 text-sm text-gray-500">
+            {t("auth.orSingUp")}
+          </span>
           <div className="flex-grow h-px bg-gray-300"></div>
         </div>
         <Button
@@ -241,7 +222,7 @@ const RegisterForm = ({ onSwitchToLogin }) => {
               d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"
             />
           </svg>
-          <span>{t('auth.continueWithGoogle')}</span>
+          <span>{t("auth.continueWithGoogle")}</span>
         </Button>
       </CardFooter>
     </Card>

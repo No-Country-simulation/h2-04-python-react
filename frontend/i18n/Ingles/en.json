@@ -77,5 +77,14 @@
     "totalPoints": "Total points:",
     "predict": "Predict",
     "predictionUsed": "Predictions used today:"
+  },
+  "profile": {
+    "myPredictions": "My predictions",
+    "favoriteTeams": "My favorite teams",
+    "friends": "Invite friends",
+    "messages": "Messages",
+    "information": "Personal information",
+    "settings": "Settings",
+    "language": "Preferred language"
   }
 }
