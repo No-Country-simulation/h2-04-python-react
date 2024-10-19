@@ -59,10 +59,10 @@ const MyPredictions = () => {
           <div className="w-full p-5">
             <div className="m-auto max-w-sm h-12 rounded-[9px] bg-white p-1.5 flex flex-row items-center justify-between">
               <p className="font-normal text-[#555] text-xs pl-5">
-                ¿Te quedaste sin predicciones?
+                {t("prediction.outPredictions")}
               </p>
               <Button className="bg-purpleWaki hover:bg-purple-700">
-                Comprar predicciones
+              {t("prediction.buyPrediction")}
               </Button>
             </div>
           </div>

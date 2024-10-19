@@ -48,6 +48,7 @@ const PointsProgressBar = ({ currentPoints }) => {
           <Progress
             value={progress}
             className="h-11 bg-zinc-200 border-[1.5px] border-purpleWaki rounded-3xl"
+            aria-label="Progress Bar"
           />
           <div className="absolute left-0 top-0 h-full flex items-center pl-2">
             <div className="flex flex-row items-center space-x-2 pl-2">

@@ -10,7 +10,7 @@ import {
   price1,
   silverPrice,
 } from "@/common/assets";
-import { ChevronLeft } from "lucide-react";
+import { MoveLeft } from "lucide-react";
 import {
   Carousel,
   CarouselContent,
@@ -47,12 +47,14 @@ const divisionData = {
       {
         image: jersey,
         title: "Sorteo división Oro",
+        icon: goldPrice,
         description:
           "Camiseta oficial argentina firmada por tu jugador favorito",
       },
       {
         image: jersey,
-        title: "Sorteo división Oro",
+        title: "Sorteo división Plata",
+        icon: silverPrice,
         description: "Entradas al partido Argentina vs Venezuela",
       },
     ],
@@ -81,8 +83,9 @@ const divisionData = {
     monthlyPrize: [
       {
         image: jersey,
-        title: "Sorteo división plata",
-        description: "Camiseta selección argentina",
+        title: "Sorteo división Plata",
+        icon: silverPrice,
+        description: "Entradas al partido Argentina vs Venezuela",
       },
     ],
     tokens: [
@@ -101,9 +104,8 @@ const DivisionRewards = () => {
   return (
     <>
       <div className="p-4 max-w-md mx-auto">
-        <Link to="/divisions" className="flex items-center text-blue-500 mb-4">
-          <ChevronLeft className="mr-1" />
-          {t('tabs.rewards')}
+        <Link to="/divisions" className="flex flex-row items-center gap-x-2 text-blue-500 mb-4">
+        <MoveLeft /> {t('tabs.rewards')}
         </Link>
 
         <div className="flex flex-col items-center justify-center gap-4">
@@ -178,11 +180,7 @@ const DivisionRewards = () => {
                       <div className="relative">
                         <img src={banderin} alt="Banderín" />
                         <img
-                          src={
-                            division.title === "División Oro"
-                              ? goldPrice
-                              : silverPrice
-                          }
+                          src={prize.icon}
                           alt="Prize"
                           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 size-6"
                         />
@@ -199,7 +197,7 @@ const DivisionRewards = () => {
           className="w-full mb-10"
           plugins={[
             Autoplay({
-              delay: 4000,
+              delay: 10000,
               loop: true,
             }),
           ]}

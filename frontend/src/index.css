@@ -118,3 +118,7 @@ input[type="tel"] {
 .matchCard, .content-visibility{
   content-visibility: auto;
 }
+
+.waki-gradient-blur{
+  @apply bg-gradient-to-b from-[#317EF46B] to-[#8E2BFF6B] backdrop-blur-sm
+}

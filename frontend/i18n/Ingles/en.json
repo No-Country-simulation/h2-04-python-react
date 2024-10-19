@@ -21,7 +21,12 @@
     "loadLogin": "Logging in...",
     "orLogin": "Or log in with",
     "loadRegister": "Registrando...",
-    "continueWithGoogle": "Continue with Google"
+    "continueWithGoogle": "Continue with Google",
+    "forgotPasswordTitle": "Password recovery",
+    "forgotPasswordDescription": "Enter your email address and we'll send you a link to reset your password.",
+    "resetPassword": "Send",
+    "emailError": "Please enter a valid email",
+    "fieldRequired": "This field is required"
   },
   "navigation": {
     "scoutPlayers": "Scout Players",
@@ -76,7 +81,9 @@
     "predictionSummary": "Prediction summary",
     "totalPoints": "Total points:",
     "predict": "Predict",
-    "predictionUsed": "Predictions used today:"
+    "predictionUsed": "Predictions used today:",
+    "outPredictions": "Are you out of predictions?",
+    "buyPrediction": "Get more predictions"
   },
   "profile": {
     "myPredictions": "My predictions",

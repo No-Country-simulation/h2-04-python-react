@@ -18,10 +18,10 @@ import {
   FormLabel,
   FormMessage,
 } from "@/common/components/ui/form";
-import { Link } from "react-router-dom";
 import PasswordInput from "./PasswordInput";
 import { useTranslation } from "react-i18next";
 import { useLogin } from "@/api/services/auth";
+import ForgotPasswordDialog from "./ForgotPasswordDialog";
 
 const loginSchema = z.object({
   emailOrPhone: z.string().min(1, "Este campo es requerido"),
@@ -87,15 +87,6 @@ const LoginForm = () => {
             />
 
             <div className="flex items-center justify-center">
-              <Link
-                to="#"
-                className="text-blueWaki leading-[19px] hover:underline"
-              >
-                {t("auth.forgotPassword")}
-              </Link>
-            </div>
-
-            <div className="flex items-center justify-center">
               <Button
                 type="submit"
                 className="w-full max-w-40 bg-purpleWaki hover:bg-purple-700"
@@ -106,6 +97,9 @@ const LoginForm = () => {
             </div>
           </form>
         </Form>
+        <div className="flex items-center justify-center py-2.5">
+          <ForgotPasswordDialog />
+        </div>
       </CardContent>
       <CardFooter className="flex flex-col space-y-4">
         <div className="flex items-center w-full">

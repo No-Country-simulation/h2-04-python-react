@@ -21,7 +21,12 @@
     "loadLogin": "Iniciando sesión...",
     "orLogin": "O inicia sesión con",
     "loadRegister": "Registrando...",
-    "continueWithGoogle": "Continuar con Google"
+    "continueWithGoogle": "Continuar con Google",
+    "forgotPasswordTitle": "Recuperación de contraseña",
+    "forgotPasswordDescription": "Ingrese su correo electrónico para recibir un enlace de recuperación de contraseña",
+    "resetPassword": "Enviar",
+    "emailError": "Ingrese un correo electrónico válido",
+    "fieldRequired": "Este campo es requerido"
   },
   "navigation": {
     "scoutPlayers": "Jugadores",
@@ -76,7 +81,9 @@
     "predictionSummary": "Resumen de Predicciones",
     "totalPoints": "Puntos totales:",
     "predict": "Predicir",
-    "predictionUsed": "Predicciones utilizadas de hoy:"
+    "predictionUsed": "Predicciones utilizadas de hoy:",
+    "outPredictions": "¿Te quedaste sin predicciones?",
+    "buyPrediction": "Comprar predicciones"
   },
   "profile": {
     "myPredictions": "Mis predicciones",
