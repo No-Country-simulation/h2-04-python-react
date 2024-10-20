@@ -32,7 +32,8 @@
     "scoutPlayers": "Scout Players",
     "matches": "Matches",
     "divisions": "Divisions",
-    "profile": "Profile"
+    "profile": "Profile",
+    "goToRank": "Go to ranking"
   },
   "errorPage": {
     "notFound": "Page not found",

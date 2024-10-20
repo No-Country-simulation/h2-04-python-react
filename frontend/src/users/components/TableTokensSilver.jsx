@@ -9,19 +9,23 @@ import {
 import { ChevronRight, MoveRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { tokenDivision } from "../data/footballPlayers";
+import { useTranslation } from "react-i18next";
+import useLanguageStore from "@/api/store/language-store";
 
 const TableTokensSilver = () => {
+  const { t } = useTranslation();
+  const { currentLanguage } = useLanguageStore();
   const filteredPlayers = tokenDivision.filter(player => player.division === 2);
 
   return (
     <div>
       <div className="flex flex-row justify-between items-center">
         <h2 className="text-lg text-[#181818] font-medium my-4">
-          Tokens división Plata
+          {currentLanguage === "en" ? "Silver division tokens" : "Tokens división plata"}
         </h2>
         <Link to="/players">
           <div className="flex flex-row items-center gap-x-2 text-purpleWaki text-sm font-normal">
-            Ir al ranking <MoveRight />
+          {t('navigation.goToRank')}<MoveRight />
           </div>
         </Link>
       </div>
@@ -30,9 +34,9 @@ const TableTokensSilver = () => {
           <TableHeader>
             <TableRow>
               <TableHead className="w-12 text-center">#</TableHead>
-              <TableHead>Jugador</TableHead>
-              <TableHead className="w-20 text-center">Released</TableHead>
-              <TableHead className="w-20 text-center">Precio</TableHead>
+              <TableHead>{t('table.player')}</TableHead>
+              <TableHead className="w-20 text-center">{t('table.released')}</TableHead>
+              <TableHead className="w-20 text-center">{t('table.price')}</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>

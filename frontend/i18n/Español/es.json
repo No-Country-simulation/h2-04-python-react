@@ -32,7 +32,8 @@
     "scoutPlayers": "Jugadores",
     "matches": "Partidos",
     "divisions": "Divisiones",
-    "profile": "Perfil"
+    "profile": "Perfil",
+    "goToRank": "Ir al ranking"
   },
   "errorPage": {
     "notFound": "Página no encontrada",

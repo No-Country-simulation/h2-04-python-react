@@ -20,10 +20,11 @@ import Autoplay from "embla-carousel-autoplay";
 import TableTokensGold from "../components/TableTokensGold";
 import TableTokensSilver from "../components/TableTokensSilver";
 import { useTranslation } from "react-i18next";
+import useLanguageStore from "@/api/store/language-store";
 
 const divisionData = {
   "division-gold": {
-    title: "División Oro",
+    title: "gold",
     icon: liga1,
     rewards: [
       {
@@ -68,7 +69,7 @@ const divisionData = {
     ],
   },
   "division-silver": {
-    title: "División Plata",
+    title: "silver",
     icon: liga2,
     rewards: [
       {
@@ -100,6 +101,7 @@ const DivisionRewards = () => {
   const { leagueType } = useParams();
   const division = divisionData[leagueType];
   const { t } = useTranslation();
+  const { currentLanguage } = useLanguageStore();
 
   return (
     <>
@@ -109,9 +111,16 @@ const DivisionRewards = () => {
         </Link>
 
         <div className="flex flex-col items-center justify-center gap-4">
+          
+          {currentLanguage === "en" ? (
           <h1 className="text-[22px] font-semibold text-blueWaki">
-            {division.title}
+            {t(division.title)} Division
           </h1>
+        ) : (
+          <h1 className="text-[22px] font-semibold text-blueWaki">
+            Division {t(division.title)}
+          </h1>
+        )}
           <img
             src={division.icon}
             alt={division.title}
