@@ -5,24 +5,29 @@ import { Card } from "@/common/components/ui/card";
 import {
   Bolt,
   Globe,
-  Heart,
   LogOut,
   Mail,
   Star,
   UserRound,
-  UsersRound,
 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { Link, useNavigate } from "react-router-dom";
-import ProfileImage from "../components/ProfileImage";
+import ProfileImageUploader from "../components/ProfileImageUploader";
+import { soccerField, whistle } from "@/common/assets";
+
 
 const Profile = () => {
   const { t } = useTranslation();
-  const { user } = useUserDataStore();
-  const profilePhoto = user.profile_image;
+  const { user, setUserData } = useUserDataStore();
   const username = user.full_name;
   const logout = useAuthStore((state) => state.logout);
   const navigate = useNavigate();
+
+  const handleUpdateSuccess = (newPhotoUrl) => {
+    if (user) {
+      setUserData({ data: { ...user, profile_image: newPhotoUrl } });
+    }
+  };
 
   const handleLogout = () => {
     logout();
@@ -43,10 +48,11 @@ const Profile = () => {
         </button>
       </div>
       <div className="flex flex-col items-center justify-center gap-1">
-        <ProfileImage
-          profilePhoto={profilePhoto}
+        <ProfileImageUploader
+          profilePhoto={user.profile_image}
           username={username}
-          size="size-[134px]"
+          userId={user.id}
+          onUpdateSuccess={handleUpdateSuccess}
         />
         <span className="capitalize text-base font-bold">{username}</span>
       </div>
@@ -55,7 +61,7 @@ const Profile = () => {
           <Link to={"/predictions"}>
             <div className="flex flex-row items-center justify-between p-4 border-b">
               <div className="flex flex-row items-center justify-between space-x-4">
-                <Star className="text-blueWaki" />
+                <Star strokeWidth={1.5} className="text-purpleWaki size-6" />
                 <p className="text-xs ">{t("profile.myPredictions")}</p>
               </div>
             </div>
@@ -63,40 +69,40 @@ const Profile = () => {
 
           <div className="flex flex-row items-center justify-between p-4 border-b last:border-b-0">
             <div className="flex flex-row items-center justify-between space-x-4">
-              <Heart className="text-blueWaki" />
+              <img src={soccerField} alt="Soccer Field icon" className="w-6 h-auto object-cover" />
               <p className="text-xs ">{t("profile.favoriteTeams")}</p>
             </div>
           </div>
 
           <div className="flex flex-row items-center justify-between p-4 border-b last:border-b-0">
             <div className="flex flex-row items-center justify-between space-x-4">
-              <UsersRound className="text-blueWaki" />
+              <img src={whistle} alt="Whistle icon" className="w-6 h-auto object-cover" />
               <p className="text-xs ">{t("profile.friends")}</p>
             </div>
           </div>
 
           <div className="flex flex-row items-center justify-between p-4 border-b last:border-b-0">
             <div className="flex flex-row items-center justify-between space-x-4">
-              <Mail className="text-blueWaki" />
+              <Mail strokeWidth={1.5} className="text-purpleWaki" />
               <p className="text-xs ">{t("profile.messages")}</p>
             </div>
           </div>
 
           <div className="flex flex-row items-center justify-between p-4 border-b last:border-b-0">
             <div className="flex flex-row items-center justify-between space-x-4">
-              <UserRound className="text-blueWaki" />
+              <UserRound strokeWidth={1.5} className="text-purpleWaki" />
               <p className="text-xs ">{t("profile.information")}</p>
             </div>
           </div>
           <div className="flex flex-row items-center justify-between p-4 border-b last:border-b-0">
             <div className="flex flex-row items-center justify-between space-x-4">
-              <Bolt className="text-blueWaki" />
+              <Bolt strokeWidth={1.5} className="text-purpleWaki" />
               <p className="text-xs ">{t("profile.settings")}</p>
             </div>
           </div>
           <div className="flex flex-row items-center justify-between p-4 border-b last:border-b-0">
             <div className="flex flex-row items-center justify-between space-x-4">
-              <Globe className="text-blueWaki" />
+              <Globe strokeWidth={1.5} className="text-purpleWaki" />
               <p className="text-xs ">{t("profile.language")}</p>
               <LanguageSelect />
             </div>

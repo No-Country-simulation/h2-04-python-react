@@ -13,8 +13,12 @@ import spain from "./icons/spain.svg";
 import usa from "./icons/unitedStates.svg";
 import betIcon from "./icons/BettingSlipIcon.svg";
 import betIconEmpty from "./icons/BettingSlipEmpty.svg";
+import whistle from "./icons/whistle.svg";
+import soccerField from "./icons/soccerField.svg";
 
 export {
+    whistle,
+    soccerField,
     betIcon,
     betIconEmpty,
     liga1,
