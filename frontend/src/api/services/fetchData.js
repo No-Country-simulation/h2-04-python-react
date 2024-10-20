@@ -4,18 +4,20 @@ const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 export const fetchData = async (endpoint, method = 'GET', body = null, accessToken = null) => {
   const fetchWithToken = async (token) => {
-    const headers = {
-      'Content-Type': 'application/json',
-    };
+    const headers = {};
 
     if (token) {
       headers['Authorization'] = `Bearer ${token}`;
     }
 
+    if (!(body instanceof FormData) && body !== null) {
+      headers['Content-Type'] = 'application/json';
+    }
+
     const options = {
       method,
       headers,
-      body: body ? JSON.stringify(body) : null,
+      body: body instanceof FormData ? body : (body ? JSON.stringify(body) : null),
     };
 
     const response = await fetch(`${BASE_URL}/${endpoint}`, options);
@@ -25,13 +27,14 @@ export const fetchData = async (endpoint, method = 'GET', body = null, accessTok
       throw new Error(errorData.detail || 'Ocurrió un error en la solicitud');
     }
 
-    return response.json();
+    const responseData = await response.json();
+    return responseData; 
   };
 
   try {
     return await fetchWithToken(accessToken);
   } catch (error) {
-    if (error.message === 'Given token not valid for any token type' || error.message === 'Token is invalid or expired') {
+    if (error.message === 'El token proporcionado no es válido' || error.message === 'El token es inválido o ha caducado') {
       try {
         const newToken = await refreshToken();
         return await fetchWithToken(newToken);
