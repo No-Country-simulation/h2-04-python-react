@@ -122,3 +122,7 @@ input[type="tel"] {
 .waki-gradient-blur{
   @apply bg-gradient-to-b from-[#317EF46B] to-[#8E2BFF6B] backdrop-blur-sm
 }
+
+.shad-popover {
+  @apply w-[460px] border-none shadow-lg !important;
+}

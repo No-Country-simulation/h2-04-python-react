@@ -15,9 +15,11 @@ import betIcon from "./icons/BettingSlipIcon.svg";
 import betIconEmpty from "./icons/BettingSlipEmpty.svg";
 import whistle from "./icons/whistle.svg";
 import soccerField from "./icons/soccerField.svg";
+import subtract from "./icons/Subtract.svg";
 
 export {
     whistle,
+    subtract,
     soccerField,
     betIcon,
     betIconEmpty,

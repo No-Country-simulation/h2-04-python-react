@@ -27,14 +27,21 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { useTranslation } from "react-i18next";
 import PredictionUsageIndicator from "./PredictionUsageIndicator";
+import { usePredictionLimits } from "@/api/services/usePredictionLimits";
 
-const BetCoupon = ({ selections, setSelections, removeSelection, usedPredictions = 2 }) => {
+const BetCoupon = ({
+  selections,
+  setSelections,
+  removeSelection,
+  usedPredictions = 2,
+}) => {
   const { t } = useTranslation();
   const accessToken = useAuthStore((state) => state.accessToken);
   const { user } = useUserDataStore();
   const [totalOdds, setTotalOdds] = useState(1);
   const [potentialEarning, setPotentialEarning] = useState(0);
   const isDesktop = useIsDesktop();
+  const { limits, canMakePrediction, incrementUsage } = usePredictionLimits();
 
   useEffect(() => {
     const newTotalOdds = selections.reduce(
@@ -47,9 +54,12 @@ const BetCoupon = ({ selections, setSelections, removeSelection, usedPredictions
 
   const realizarPrediccion = async () => {
     if (selections.length === 0) {
-      toast.error(
-        "Por favor, realiza al menos una selección antes de hacer tu predicción."
-      );
+      toast.error(t("prediction.errorNoSelection"), { duration: 1500 });
+      return;
+    }
+
+    if (!canMakePrediction()) {
+      toast.error(t("prediction.errorLimitReached"), { duration: 1500 });
       return;
     }
 
@@ -84,14 +94,15 @@ const BetCoupon = ({ selections, setSelections, removeSelection, usedPredictions
         );
       }
 
-      //   console.log("Predicción enviada con éxito:", response.data);
-      toast.success("¡Predicción realizada con éxito!");
+      //console.log("Predicción enviada con éxito:", response.data);
+      toast.success(t("prediction.successMessage"), { duration: 1500 });
       setSelections([]);
+      incrementUsage();
     } catch (error) {
       console.error("Error enviando predicción:", error);
-      toast.error(
-        `Ha ocurrido un error al enviar la predicción: ${error.message}`
-      );
+      toast.error(`${t("error.successMessage")}: ${error.message}`, {
+        duration: 1500,
+      });
     }
   };
 
@@ -173,8 +184,12 @@ const BetCoupon = ({ selections, setSelections, removeSelection, usedPredictions
               </>
             ) : (
               <div className="flex flex-col items-center justify-center p-6 gap-y-4 text-[#555]">
-                <img src={betIconEmpty} alt="BetSlip Empty" className="h-12 w-auto" />
-              <p>{t("prediction.betEmpty")}</p>
+                <img
+                  src={betIconEmpty}
+                  alt="BetSlip Empty"
+                  className="h-12 w-auto"
+                />
+                <p>{t("prediction.betEmpty")}</p>
               </div>
             )}
           </CardContent>
@@ -186,7 +201,10 @@ const BetCoupon = ({ selections, setSelections, removeSelection, usedPredictions
             >
               {t("prediction.predict")}
             </Button>
-            <PredictionUsageIndicator total={5} used={usedPredictions} />
+            <PredictionUsageIndicator
+              total={limits.dailyLimit}
+              used={limits.usedToday}
+            />
           </CardFooter>
         </Card>
       </SheetContent>

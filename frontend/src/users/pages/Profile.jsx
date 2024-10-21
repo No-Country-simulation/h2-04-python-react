@@ -3,7 +3,9 @@ import useUserDataStore from "@/api/store/userStore";
 import LanguageSelect from "@/common/components/LanguageSelect";
 import { Card } from "@/common/components/ui/card";
 import {
+  Bell,
   Bolt,
+  CreditCard,
   Globe,
   LogOut,
   Mail,
@@ -13,8 +15,15 @@ import {
 import { useTranslation } from "react-i18next";
 import { Link, useNavigate } from "react-router-dom";
 import ProfileImageUploader from "../components/ProfileImageUploader";
-import { soccerField, whistle } from "@/common/assets";
-
+import { soccerField, subtract, whistle } from "@/common/assets";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/common/components/ui/dialog";
 
 const Profile = () => {
   const { t } = useTranslation();
@@ -22,6 +31,7 @@ const Profile = () => {
   const username = user.full_name;
   const logout = useAuthStore((state) => state.logout);
   const navigate = useNavigate();
+  const count = 0;
 
   const handleUpdateSuccess = (newPhotoUrl) => {
     if (user) {
@@ -55,6 +65,40 @@ const Profile = () => {
           onUpdateSuccess={handleUpdateSuccess}
         />
         <span className="capitalize text-base font-bold">{username}</span>
+        
+        <div className="flex flex-row space-x-8 items-center pt-4">
+          <div className="flex flex-row items-center gap-1">
+            <img
+              src={subtract}
+              alt="subtract icon"
+              width={28}
+              height={28}
+              className="size-7 object-cover"
+            />
+            <span>0</span>
+          </div>
+          <Dialog>
+            <DialogTrigger className="relative flex size-10 items-center justify-center rounded-lg ">
+              <Bell className="size-7 text-purpleWaki" />
+              {count > 0 && (
+                <div className="absolute right-1 top-1 z-20 size-4 rounded-full bg-purpleWaki flex items-center justify-center p-1">
+                  <span className="text-white text-xs font-semibold">
+                    {count}
+                  </span>
+                </div>
+              )}
+            </DialogTrigger>
+            <DialogContent align="end" className="w-80 rounded-[9px] p-3 text-center">
+              <DialogHeader>
+                <DialogTitle className="text-left">{t("notifications.notificationTitle")}</DialogTitle>
+                <DialogDescription className="hidden"></DialogDescription>
+              </DialogHeader>
+              {t("notifications.empty")}
+            </DialogContent>
+          </Dialog>
+
+          <CreditCard className="size-7 text-purpleWaki" />
+        </div>
       </div>
       <section className="p-2 pt-6">
         <Card className="w-full max-w-md mx-auto bg-white rounded-lg shadow-none waki-shadow border-none overflow-hidden">
@@ -69,14 +113,22 @@ const Profile = () => {
 
           <div className="flex flex-row items-center justify-between p-4 border-b last:border-b-0">
             <div className="flex flex-row items-center justify-between space-x-4">
-              <img src={soccerField} alt="Soccer Field icon" className="w-6 h-auto object-cover" />
+              <img
+                src={soccerField}
+                alt="Soccer Field icon"
+                className="w-6 h-auto object-cover"
+              />
               <p className="text-xs ">{t("profile.favoriteTeams")}</p>
             </div>
           </div>
 
           <div className="flex flex-row items-center justify-between p-4 border-b last:border-b-0">
             <div className="flex flex-row items-center justify-between space-x-4">
-              <img src={whistle} alt="Whistle icon" className="w-6 h-auto object-cover" />
+              <img
+                src={whistle}
+                alt="Whistle icon"
+                className="w-6 h-auto object-cover"
+              />
               <p className="text-xs ">{t("profile.friends")}</p>
             </div>
           </div>

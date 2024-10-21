@@ -84,7 +84,11 @@
     "predict": "Predicir",
     "predictionUsed": "Predicciones utilizadas de hoy:",
     "outPredictions": "¿Te quedaste sin predicciones?",
-    "buyPrediction": "Comprar predicciones"
+    "buyPrediction": "Comprar predicciones",
+    "errorLimitReached": "Limite de predicciones diarias alcanzado",
+    "errorNoSelection": "Por favor, realiza al menos una selección antes de hacer tu predicción.",
+    "successMessage": "¡Predicción realizada con éxito!",
+    "errorMessage": "Ha ocurrido un error al enviar la predicción"
   },
   "profile": {
     "myPredictions": "Mis predicciones",
@@ -94,5 +98,11 @@
     "information": "Informacion personal",
     "settings": "Ajustes",
     "language": "Idioma preferido"
+  },
+  "notifications": {
+    "notificationTitle": "Notificaciones",
+    "news": "Nuevas",
+    "previous": "Anteriores",
+    "empty": "No tienes notificaciones sin leer."
   }
 }

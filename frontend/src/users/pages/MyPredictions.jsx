@@ -10,10 +10,14 @@ import { MoveLeft } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/common/components/ui/button";
 import { Card } from "@/common/components/ui/card";
+import { usePredictionLimits } from "@/api/services/usePredictionLimits";
 
 const MyPredictions = () => {
   const [activeTab, setActiveTab] = useState("All");
   const { t } = useTranslation();
+  const { limits } = usePredictionLimits();
+
+  const availablePredictions = limits.dailyLimit - limits.usedToday;
   return (
     <section className="pb-4 items-center">
       <div className="header waki-gradient">
@@ -27,7 +31,7 @@ const MyPredictions = () => {
             <h1 className="text-white text-2xl font-semibold">
             {t("prediction.yourPredictions")}
             </h1>
-            <span className="font-medium text-6xl text-white">5</span>
+            <span className="font-medium text-6xl text-white">{availablePredictions}</span>
             <p className="font-normal text-base text-white/75">
             {t("prediction.availablePredictions")}
             </p>

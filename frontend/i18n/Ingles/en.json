@@ -84,7 +84,11 @@
     "predict": "Predict",
     "predictionUsed": "Predictions used today:",
     "outPredictions": "Are you out of predictions?",
-    "buyPrediction": "Get more predictions"
+    "buyPrediction": "Get more predictions",
+    "errorLimitReached": "Daily prediction limit reached.",
+    "errorNoSelection": "Please make at least one selection before making your prediction",
+    "successMessage": "Prediction made successfully!",
+    "errorMessage": "An error occurred while sending the prediction."
   },
   "profile": {
     "myPredictions": "My predictions",
@@ -94,5 +98,11 @@
     "information": "Personal information",
     "settings": "Settings",
     "language": "Preferred language"
+  },
+  "notifications": {
+    "notificationTitle": "Notifications",
+    "news": "News",
+    "previous": "Previous",
+    "empty": "You have no unread notifications."
   }
 }
