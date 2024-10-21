@@ -2,7 +2,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from .serializers import PredictionSerializer, PredictionDetailSerializer, PredictionDetailSerializerGet
-from drf_spectacular.utils import extend_schema, OpenApiParameter
+from drf_spectacular.utils import extend_schema, OpenApiParameter, OpenApiTypes
 from utils.apiresponse import ApiResponse
 from core.models import Prediction
 from rest_framework.permissions import IsAuthenticated
@@ -47,12 +47,23 @@ class PredictionCreateView(APIView):
 class PredictionListView(APIView):
     permission_classes = [IsAuthenticated]
     @extend_schema(
-        responses={200: PredictionSerializer(many=True), 400: 'Bad Request'},  # Respuesta esperada
-        description="Devuelve una lista de todas las predicciones del usuario autenticado."
+        parameters=[
+            OpenApiParameter(
+                name='status', 
+                type=OpenApiTypes.STR, 
+                description='Filtrar las predicciones por status (e.g., "finalizado", "pendiente", "ganada")',
+                required=False
+            )
+        ],
+        responses={200: PredictionSerializer(many=True), 400: 'Bad Request'},
+        description="Devuelve una lista de todas las predicciones del usuario autenticado, con opción de filtrar por status."
     )
     def get(self, request):
         predictions = Prediction.objects.filter(user=request.user)
         serializer = PredictionSerializer(predictions, many=True)
+        status_filter = request.query_params.get('status')
+        if status_filter:
+            predictions = predictions.filter(status=status_filter)
 
         # Agregar detalles a cada predicción
         response_data = []
