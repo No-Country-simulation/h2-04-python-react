@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -19,12 +18,10 @@ import {
   FormLabel,
   FormMessage,
 } from "@/common/components/ui/form";
-import { Link, useNavigate } from "react-router-dom";
 import PasswordInput from "./PasswordInput";
-import useAuthStore from "@/api/store/authStore";
-import { toast } from "sonner";
-import { fetchData } from "@/api/services/fetchData";
-import useUserDataStore from "@/api/store/userStore";
+import { useTranslation } from "react-i18next";
+import { useLogin } from "@/api/services/auth";
+import ForgotPasswordDialog from "./ForgotPasswordDialog";
 
 const loginSchema = z.object({
   emailOrPhone: z.string().min(1, "Este campo es requerido"),
@@ -32,10 +29,8 @@ const loginSchema = z.object({
 });
 
 const LoginForm = () => {
-  const [isLoading, setIsLoading] = useState(false);
-  const login = useAuthStore((state) => state.login);
-  const setUserData = useUserDataStore((state) => state.setUserData)
-  const navigate = useNavigate();
+  const { t } = useTranslation();
+  const { mutate: login, isLoading } = useLogin();
 
   const loginForm = useForm({
     resolver: zodResolver(loginSchema),
@@ -45,38 +40,20 @@ const LoginForm = () => {
     },
   });
 
-  const onLoginSubmit = async (data) => {
-    setIsLoading(true);
-  
-    try {
-      const responseData = await fetchData('api/token/', 'POST', {
-        username: data.emailOrPhone,
-        password: data.password,
-      });
-      
-      login(responseData.access, responseData.refresh);
-      
-      const userData = await fetchData('user/me/', 'GET', null, responseData.access);
-      setUserData(userData);
-      
-      toast.success('Bienvenido!');
-      navigate('/matches');
-    } catch (error) {
-      console.log("Error: " + error.message);
-      toast.error("Error de inicio de sesión: " + error.message);
-    } finally {
-      setIsLoading(false);
-    }
+  const onLoginSubmit = (data) => {
+    login(data);
   };
-  
+
   return (
     <Card className="border-none border-0 shadow-none">
       <CardHeader>
-        <CardTitle className="flex flex-col gap-y-1">
+        <CardTitle className="flex flex-col gap-y-2">
           <span className="text-[22px] text-blueWaki font-semibold">
-            Hola de nuevo,
+            {t("auth.loginTitle")}
           </span>
-          <span className="text-zinc-500 text-sm">Por favor inicia sesión</span>
+          <span className="text-zinc-500 text-sm font-normal">
+            {t("auth.loginDescription")}
+          </span>
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-2">
@@ -91,7 +68,7 @@ const LoginForm = () => {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel htmlFor="emailOrPhone">
-                    Ingresa tu email o teléfono
+                    {t("auth.emailOrPhone")}
                   </FormLabel>
                   <FormControl>
                     <Input id="emailOrPhone" {...field} />
@@ -105,18 +82,9 @@ const LoginForm = () => {
               control={loginForm.control}
               name="password"
               htmlFor="loginPassword"
-              label="Contraseña"
+              label={t("auth.password")}
               id="loginPassword"
             />
-
-            <div className="flex items-center justify-center">
-              <Link
-                to="#"
-                className="text-blueWaki leading-[19px] hover:underline"
-              >
-                ¿Olvidaste tu contraseña?
-              </Link>
-            </div>
 
             <div className="flex items-center justify-center">
               <Button
@@ -124,17 +92,20 @@ const LoginForm = () => {
                 className="w-full max-w-40 bg-purpleWaki hover:bg-purple-700"
                 disabled={isLoading}
               >
-                {isLoading ? "Iniciando sesión..." : "Iniciar sesión"}
+                {isLoading ? t("auth.loadLogin") : t("auth.login")}
               </Button>
             </div>
           </form>
         </Form>
+        <div className="flex items-center justify-center py-2.5">
+          <ForgotPasswordDialog />
+        </div>
       </CardContent>
       <CardFooter className="flex flex-col space-y-4">
         <div className="flex items-center w-full">
           <div className="flex-grow h-px bg-gray-300"></div>
           <span className="px-4 text-sm text-gray-500">
-            O inicia sesión con
+            {t("auth.orLogin")}
           </span>
           <div className="flex-grow h-px bg-gray-300"></div>
         </div>
@@ -166,7 +137,7 @@ const LoginForm = () => {
               d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"
             />
           </svg>
-          <span>Continuar con Google</span>
+          <span>{t("auth.continueWithGoogle")}</span>
         </Button>
       </CardFooter>
     </Card>

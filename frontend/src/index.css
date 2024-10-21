@@ -95,7 +95,7 @@ input[type="tel"] {
   font-size: 12px;
 }
 
-.customProgressBar {
+.customProgressBar, .waki-gradient {
   @apply bg-gradient-to-r from-[#317EF4] to-[#8E2BFF];
 }
 
@@ -115,6 +115,14 @@ input[type="tel"] {
   @apply text-blueWaki
 }
 
-.matchCard{
+.matchCard, .content-visibility{
   content-visibility: auto;
+}
+
+.waki-gradient-blur{
+  @apply bg-gradient-to-b from-[#317EF46B] to-[#8E2BFF6B] backdrop-blur-sm
+}
+
+.shad-popover {
+  @apply w-[460px] border-none shadow-lg !important;
 }

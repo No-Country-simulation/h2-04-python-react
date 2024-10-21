@@ -5,12 +5,9 @@ import { AuthPage } from "./public/pages/AuthPage";
 import { ProtectedRoute } from "./common/components/ProtectedRoute";
 import { ErrorPage } from "./public/pages/ErrorPage";
 import { SplashScreenWrapper } from "./public/components/SplashScreen";
-import {Players, Matches, Divisions, Profile, DivisionRewards} from "@/users/pages/index";
+import {Players, Matches, Divisions, Profile, DivisionRewards, MyPredictions} from "@/users/pages/index";
 
-
-
-
-const App = () => {
+const App = () => {  
   return (
     <div className="font-poppins">
       <Routes>
@@ -33,6 +30,7 @@ const App = () => {
             <Route path="/divisions" element={<Divisions />} />
             <Route path="/divisions/:leagueType" element={<DivisionRewards />} />
             <Route path="/profile" element={<Profile />} />
+            <Route path="/predictions" element={<MyPredictions/>} />
           </Route>
         </Route>
 

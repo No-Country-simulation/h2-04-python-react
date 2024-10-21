@@ -3,6 +3,7 @@ import { Card } from "@/common/components/ui/card";
 import { Button } from "@/common/components/ui/button";
 import { format } from "date-fns";
 import { Lock, Minus } from "lucide-react";
+import useLanguageStore from "@/api/store/language-store";
 
 const MatchCard = ({
   leagueName,
@@ -12,10 +13,26 @@ const MatchCard = ({
   fixtureDate,
   displayData,
   status,
+  onOddsSelect,
+  matchId,
 }) => {
   const date = new Date(fixtureDate);
   const formattedTime = format(date, "HH:mm");
+  const formattedDate = format(date, "dd MMM");
   const isFinished = status.short === "FT";
+  const { currentLanguage } = useLanguageStore();
+
+  const handleOddsClick = (selectedTeam, odds) => {
+    onOddsSelect({
+      matchId,
+      homeTeam: homeTeam.name,
+      awayTeam: awayTeam.name,
+      homeTeamLogo: homeTeam.logo,
+      awayTeamLogo: awayTeam.logo,
+      selectedTeam,
+      odds,
+    });
+  };
 
   return (
     <Card className="matchCard w-full max-w-sm overflow-hidden rounded-xl bg-[#F3F4F5] shadow-lg my-2">
@@ -32,7 +49,7 @@ const MatchCard = ({
           <div className="flex flex-col items-center justify-center flex-1">
             {isFinished ? (
               <div className="flex flex-col items-center justify-center space-y-4">
-                <span className="text-sm font-normal">Finalizado</span>
+                <span className="text-sm font-normal">{currentLanguage === "en" ? "Match Finished" : "Finalizado"}</span>
                 <div className="score space-x-2 flex flex-row items-center">
                   <span className="font-semibold text-black text-2xl">
                     {displayData.homeTeamGoals}
@@ -45,7 +62,8 @@ const MatchCard = ({
               </div>
             ) : (
               <div className="flex flex-col items-center justify-around space-y-2">
-                <span className="text-lg font-medium">{formattedTime}</span>
+                <span className="text-sm font-medium">{formattedDate}</span>
+                <span className="text-base font-medium">{formattedTime}</span>
               </div>
             )}
           </div>
@@ -57,14 +75,30 @@ const MatchCard = ({
         <div className="flex justify-around text-sm">
           {!isFinished &&
             (displayData.type === "odds" && displayData.value ? (
+              displayData.oddsAvailable ? (
               <>
-                <Button className="bg-white hover:bg-gray-200 text-black font-normal text-xs px-5 py-1 leading-[18px]">
+                <Button
+                  className="bg-white hover:bg-gray-200 text-black font-normal text-xs px-5 py-1 leading-[18px]"
+                  onClick={() =>
+                    handleOddsClick(homeTeam.name, displayData.value.home)
+                  }
+                >
                   {displayData.value.home}
                 </Button>
-                <Button className="bg-white hover:bg-gray-200 text-black font-normal text-xs px-5 py-1 leading-[18px]">
+                <Button
+                  className="bg-white hover:bg-gray-200 text-black font-normal text-xs px-5 py-1 leading-[18px]"
+                  onClick={() =>
+                    handleOddsClick("Empate", displayData.value.draw)
+                  }
+                >
                   {displayData.value.draw}
                 </Button>
-                <Button className="bg-white hover:bg-gray-200 text-black font-normal text-xs px-5 py-1 leading-[18px]">
+                <Button
+                  className="bg-white hover:bg-gray-200 text-black font-normal text-xs px-5 py-1 leading-[18px]"
+                  onClick={() =>
+                    handleOddsClick(awayTeam.name, displayData.value.away)
+                  }
+                >
                   {displayData.value.away}
                 </Button>
               </>
@@ -89,7 +123,8 @@ const MatchCard = ({
                   <Lock className="size-4" />
                 </Button>
               </>
-            ))}
+            )
+          ) : null)}
         </div>
       </div>
     </Card>
