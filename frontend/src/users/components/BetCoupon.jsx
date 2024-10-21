@@ -73,28 +73,31 @@ const BetCoupon = ({
         potential_gain: parseFloat(
           (parseFloat(selection.odds) * 10).toFixed(2)
         ),
+        status: "pendiente",
       })),
+      potential_gain: potentialEarning,
+      status: "pendiente",
     };
 
     console.log("Data being sent:", JSON.stringify(dataToSend, null, 2));
 
     try {
       const response = await fetchData(
-        "prediccion/",
+        "predictions/create/",
         "POST",
         dataToSend,
         accessToken
       );
-      //   console.log("Full API response:", response);
+      console.log("Full API response:", response);
 
       if (response.status_code !== 201) {
-        // console.error("API error response:", response.errors);
+        console.error("API error response:", response.errors);
         throw new Error(
           `Error enviando la predicción: ${JSON.stringify(response.errors)}`
         );
       }
 
-      //console.log("Predicción enviada con éxito:", response.data);
+      console.log("Predicción enviada con éxito:", response.data);
       toast.success(t("prediction.successMessage"), { duration: 1500 });
       setSelections([]);
       incrementUsage();
