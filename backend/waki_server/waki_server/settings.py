@@ -34,6 +34,8 @@ ALLOWED_HOSTS = [
     '127.0.0.1',
     'wakibackend.pythonanywhere.com',
     'h2-04-python-react.onrender.com',
+    'http://h2-04-python-react.onrender.com',
+    'https://h2-04-python-react.onrender.com'
 ]
 
 
@@ -199,7 +201,8 @@ CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:8000",
     'http://wakibackend.pythonanywhere.com',
     'https://api-football-v1.p.rapidapi.com',
-    'h2-04-python-react.onrender.com',
+    'http://h2-04-python-react.onrender.com',
+    'https://h2-04-python-react.onrender.com'
 ]
 
 CORS_ALLOW_CREDENTIALS = True
