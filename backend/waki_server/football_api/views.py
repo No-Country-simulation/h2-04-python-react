@@ -134,7 +134,16 @@ def search_leagues(request):
     return ApiResponse.success(data=paginated_response, status_code=status.HTTP_200_OK)
 
 @extend_schema(
-    tags=["api-connect"],)
+    tags=["api-connect"],
+    parameters=[
+        OpenApiParameter(
+            name='league', 
+            description='ID de la liga para obtener los partidos. Ej: 39 (Premier League)', 
+            required=True, 
+            type=int
+        )
+    ],
+    )
 @api_view(['GET'])
 @permission_classes([IsAdminUser])  # Solo superusuarios pueden acceder
 def fetch_match(request):
@@ -157,10 +166,12 @@ def fetch_match(request):
         "id":13, "name": "CONMEBOL Libertadores",#ok
         "id":2, "name": "UEFA Champions League",#ok
     }
+
     season = 2024
-    league = 2
+    league = request.query_params.get('league')
     ruta = f"/v3/fixtures?season={season}&league={league}"
     conn.request("GET",ruta , headers=headers)
+    contador = 0
 
     res = conn.getresponse()
     data = res.read()
@@ -168,7 +179,6 @@ def fetch_match(request):
     # Decodificar y convertir la respuesta a un diccionario JSON
     data_json = json.loads(data.decode("utf-8"))
 
-    print(data_json)
     # Recorrer las ligas y guardar en la base de datos
     for fixture in data_json['response']:
         try:
@@ -219,30 +229,40 @@ def fetch_match(request):
                 draw_odds=0,  
                 away_odds=0
                 )
+            contador = contador +1
 
 
 
     return ApiResponse.success(data={
-                    'message': f'Fixture fetched and saved successfully. league {league}'
+                    'message': f'Fixture fetched and saved successfully. league {league}, register create {contador}'
                 }, status_code=status.HTTP_201_CREATED)
 
 @extend_schema(
-    tags=["api-connect"],)
+    tags=["api-connect"],
+    parameters=[
+        OpenApiParameter(
+            name='league', 
+            description='ID de la liga para obtener los partidos. Ej: 39 (Premier League)', 
+            required=True, 
+            type=int
+        )
+    ],
+    )
 @api_view(['GET'])
 @permission_classes([IsAdminUser])  # Solo superusuarios pueden acceder
 def update_match(request):
     """Actualiza la base de datos de partidos"""
     # Conexión HTTP para la API
-    conn = http.client.HTTPSConnection("v3.football.api-sports.io")
+    conn = http.client.HTTPSConnection("api-football-v1.p.rapidapi.com")
     headers = {
-            'x-rapidapi-host': "v3.football.api-sports.io",
-            'x-rapidapi-key': "33e976d6787480b32a1208914e80d636"
+            'x-rapidapi-host': "api-football-v1.p.rapidapi.com",
+            'x-rapidapi-key': "425a2f8650msh2c93977c1d9775fp1d700djsnccb1675c3877"
     }
 
-    season = 2022
-    league = 128
-    ruta = f"/fixtures?season={season}&league={league}"
-
+    season = 2024
+    league = request.query_params.get('league')
+    ruta = f"/v3/fixtures?season={season}&league={league}"
+    contador = 0
     conn.request("GET",ruta , headers=headers)
 
     res = conn.getresponse()
@@ -306,9 +326,10 @@ def update_match(request):
                 match.match_status = match_status
                 match.league = league_instance
                 match.save()
+                contador = contador+1
 
     return ApiResponse.success(data={
-                    'message': 'Fixture fetched and saved successfully.'
+                    f'message': 'Fixture fetched and saved successfully. register update {contador}'
                 }, status_code=status.HTTP_201_CREATED)
 
 @extend_schema(
@@ -367,7 +388,16 @@ def search_match(request):
     return ApiResponse.success(data=paginated_response, status_code=status.HTTP_200_OK)
 
 @extend_schema(
-    tags=["api-connect"],)
+    tags=["api-connect"],
+    parameters=[
+        OpenApiParameter(
+            name='league', 
+            description='ID de la liga para obtener los partidos. Ej: 39 (Premier League)', 
+            required=True, 
+            type=int
+        )
+    ],
+    )
 @api_view(['GET'])
 @permission_classes([IsAdminUser])  # Solo superusuarios pueden acceder
 def update_match_odds(request):
@@ -383,7 +413,7 @@ def update_match_odds(request):
     page = 1
     total_pages = 1  # Inicializamos a 1 para comenzar el bucle
     registros_actualizados = 0
-    league = 2
+    league = request.query_params.get('league')
     while page <= total_pages:
         ruta = f"/v3/odds?season=2024&bet=1&bookmaker=8&league={league}&page={page}"
 
