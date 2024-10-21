@@ -46,6 +46,13 @@ class Prediction(models.Model):
         ('combinada', 'Combinada'),
     ])
     created_at = models.DateTimeField(auto_now_add=True)
+    potential_gain = models.DecimalField(max_digits=10, decimal_places=2)
+    status = models.CharField(max_length=20, choices=[
+        ('ganada', 'Ganada'),
+        ('perdida', 'Perdida'),
+        ('pendiente', 'Pendiente'),
+    ],default='pendiente')
+    
 
     def __str__(self):
         return f"{self.user.full_name} - {self.bet_type}"
@@ -61,6 +68,11 @@ class PredictionDetail(models.Model):
     prediction_text = models.CharField(max_length=255)
     selected_odds = models.DecimalField(max_digits=10, decimal_places=2)
     potential_gain = models.DecimalField(max_digits=10, decimal_places=2)
+    status = models.CharField(max_length=20, choices=[
+        ('ganada', 'Ganada'),
+        ('perdida', 'Perdida'),
+        ('pendiente', 'Pendiente'),
+    ],default='pendiente')
 
     def __str__(self):
         return f"{self.prediction} - {self.match}"

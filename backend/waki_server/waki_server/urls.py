@@ -12,7 +12,7 @@ from rest_framework.routers import DefaultRouter
 from user.views import UserViewSet, LoginView
 
 from football_api.views import fetch_leagues, search_leagues, fetch_match, search_match, update_match, update_match_odds
-from match.views import PredictionCreateView, PredictionUpdateView ,PredictionListView
+from match.views import PredictionCreateView, PredictionListView
 
 class CustomTokenObtainPairView(TokenObtainPairView):
     permission_classes = (AllowAny,)
@@ -53,9 +53,8 @@ urlpatterns = [
     path('update-match-odds/', update_match_odds, name='update-match-odds'),
 
     #predicciones
-    path('prediccion/', PredictionCreateView.as_view(), name='crear_prediccion'),
-    path('predictions/', PredictionListView.as_view(), name='prediction-list'),
-    path('predictions/<int:pk>/update/', PredictionUpdateView.as_view(), name='prediction-update'),
+    path('predictions/', PredictionListView.as_view(), name='predictions-list'),
+    path('predictions/create/', PredictionCreateView.as_view(), name='create_predictions'),
 ]
 
 if settings.DEBUG:

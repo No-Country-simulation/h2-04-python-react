@@ -5,8 +5,8 @@ from core.models import Prediction, PredictionDetail, Match
 
 class MatchSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Match  # Reemplaza 'Match' con el nombre exacto de tu modelo de partido
-        fields = ['id_fixture', 'league ', 'date', 'home_team', 'score_a', 'score_b']  # Ajusta los campos según tu modelo
+        model = Match
+        fields = '__all__'
 
 
 
@@ -15,15 +15,21 @@ class PredictionDetailSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = PredictionDetail
-        fields = ['id','match', 'prediction_text', 'selected_odds', 'potential_gain']
+        fields = ['id','match', 'prediction_text', 'selected_odds', 'potential_gain','status']
 
+class PredictionDetailSerializerGet(serializers.ModelSerializer):
+    match = MatchSerializer()
+    
+    class Meta:
+        model = PredictionDetail
+        fields = ['id','match', 'prediction_text', 'selected_odds', 'potential_gain','status']
 
 class PredictionSerializer(serializers.ModelSerializer):
     details = PredictionDetailSerializer(many=True, required=False)
 
     class Meta:
         model = Prediction
-        fields = ['user','bet_type', 'created_at', 'details']
+        fields = ['user','bet_type', 'created_at', 'details', 'potential_gain','status']
         read_only_fields = ['created_at']
 
     def create(self, validated_data):

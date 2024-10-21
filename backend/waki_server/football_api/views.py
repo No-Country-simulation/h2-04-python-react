@@ -160,7 +160,6 @@ def fetch_match(request):
     season = 2024
     league = 2
     ruta = f"/v3/fixtures?season={season}&league={league}"
-
     conn.request("GET",ruta , headers=headers)
 
     res = conn.getresponse()
@@ -221,10 +220,11 @@ def fetch_match(request):
                 away_odds=0
                 )
 
+
+
     return ApiResponse.success(data={
                     'message': f'Fixture fetched and saved successfully. league {league}'
                 }, status_code=status.HTTP_201_CREATED)
-
 
 @extend_schema(
     tags=["api-connect"],)
@@ -311,7 +311,6 @@ def update_match(request):
                     'message': 'Fixture fetched and saved successfully.'
                 }, status_code=status.HTTP_201_CREATED)
 
-
 @extend_schema(
     tags=["Match"],
     summary="Buscar partidos por fecha o equipo",
@@ -366,8 +365,6 @@ def search_match(request):
     }
 
     return ApiResponse.success(data=paginated_response, status_code=status.HTTP_200_OK)
-
-
 
 @extend_schema(
     tags=["api-connect"],)
