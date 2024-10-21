@@ -32,7 +32,8 @@ ALLOWED_HOSTS = [
     'http://localhost:5173/',
     'https://waki-hackathon.vercel.app/',
     '127.0.0.1',
-    'wakibackend.pythonanywhere.com'
+    'wakibackend.pythonanywhere.com',
+    'h2-04-python-react.onrender.com',
 ]
 
 
@@ -197,7 +198,8 @@ CORS_ALLOWED_ORIGINS = [
     "https://waki-hackathon.vercel.app",
     "http://127.0.0.1:8000",
     'http://wakibackend.pythonanywhere.com',
-    'https://api-football-v1.p.rapidapi.com'
+    'https://api-football-v1.p.rapidapi.com',
+    'h2-04-python-react.onrender.com',
 ]
 
 CORS_ALLOW_CREDENTIALS = True
