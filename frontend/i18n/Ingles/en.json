@@ -1,0 +1,121 @@
+{
+  "Español": "Spanish",
+  "Inglés": "English",
+  "selectLanguage": "Select language",
+  "auth": {
+    "login": "Log In",
+    "register": "Register",
+    "loginTitle": "Welcome back,",
+    "loginDescription": "Please log in.",
+    "registerTitle": "Welcome to Waki,",
+    "registerDescription": "Please create your account by completing the form",
+    "loginButton": "Log In",
+    "username": "Username",
+    "emailOrPhone": "Enter your email or phone number",
+    "forgotPassword": "Forgot your password?",
+    "email": "Enter your email",
+    "phone": "Phone number",
+    "password": "Password",
+    "password2": "Confirm password",
+    "orSingUp": "Or sign up with",
+    "loadLogin": "Logging in...",
+    "orLogin": "Or log in with",
+    "loadRegister": "Registrando...",
+    "continueWithGoogle": "Continue with Google",
+    "forgotPasswordTitle": "Password recovery",
+    "forgotPasswordDescription": "Enter your email address and we'll send you a link to reset your password.",
+    "resetPassword": "Send",
+    "emailError": "Please enter a valid email",
+    "fieldRequired": "This field is required"
+  },
+  "navigation": {
+    "scoutPlayers": "Scout Players",
+    "matches": "Matches",
+    "divisions": "Divisions",
+    "profile": "Profile",
+    "goToRank": "Go to ranking"
+  },
+  "errorPage": {
+    "notFound": "Page not found",
+    "searchAnotherPage": "Please try searching for another page.",
+    "back": "Back"
+  },
+  "tabs": {
+    "ranking": "Ranking",
+    "market": "Market",
+    "rewards": "Rewards",
+    "quests": "Quests"
+  },
+  "titles": {
+    "playerRanking": "Player ranking"
+  },
+  "table": {
+    "player": "Player",
+    "released": "Released",
+    "price": "Price",
+    "username": "Username",
+    "points": "Points"
+  },
+  "infoMsg": {
+    "infoMatch": "No matches are available for this league on this date.",
+    "loadMatch": "Fetching matches..."
+  },
+  "Rewards": "Rewards",
+  "MonthlyPrizes": "Monthly prizes",
+  "bronze": "Bronze",
+  "silver": "Silver",
+  "gold": "Gold",
+  "divGold": "Gold Division",
+  "divGoldDescription": "Discover the rewards of this division.",
+  "divSilver": "Silver Division",
+  "divSilverDescription": "Discover the rewards of this division.",
+  "divBronze": "Bronze Division",
+  "divBronzeDescription": "No prizes in this division. Level up to Silver to win awesome loot!",
+  "unlockDiv": "Unlock division",
+  "prediction": {
+    "all": "All",
+    "win": "Won",
+    "loss": "Lost",
+    "points": "Points",
+    "simple": "Simple",
+    "combinada": "Combined",
+    "Empate": "Draw",
+    "finalResult": "Final result",
+    "yourPredictions": "Your predictions",
+    "availablePredictions": "Predictions available today",
+    "betEmpty": "No selections in the betslip",
+    "predictionSummary": "Prediction summary",
+    "totalPoints": "Total points:",
+    "predict": "Predict",
+    "predictionUsed": "Predictions used today:",
+    "outPredictions": "Are you out of predictions?",
+    "buyPrediction": "Get more predictions",
+    "errorLimitReached": "Daily prediction limit reached.",
+    "errorNoSelection": "Please make at least one selection before making your prediction",
+    "successMessage": "Prediction made successfully!",
+    "errorMessage": "An error occurred while sending the prediction.",
+    "noPredictions": "You haven't made any predictions.",
+    "makePrediction": "Make a prediction",
+    "predictionPending": "Pending",
+    "predictionWin": "Win",
+    "predictionLoss": "Loss",
+    "filterDate": "Filter by date:",
+    "active": "Active",
+    "past": "Past"
+  },
+  "profile": {
+    "myPredictions": "My predictions",
+    "favoriteTeams": "My favorite teams",
+    "friends": "Invite friends",
+    "messages": "Messages",
+    "information": "Personal information",
+    "settings": "Settings",
+    "language": "Preferred language"
+  },
+  "notifications": {
+    "notificationTitle": "Notifications",
+    "news": "News",
+    "previous": "Previous",
+    "empty": "You have no unread notifications."
+  }
+}

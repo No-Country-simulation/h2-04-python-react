@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import PropTypes from 'prop-types';
 import {
   Accordion,
@@ -5,42 +6,22 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/common/components/ui/accordion";
-import { useEffect, useState } from "react";
-import { fetchData } from "@/api/services/fetchData";
+import { useEffect } from "react";
 import MatchCardWrapper from "./MatchCardWrapper";
-import useAuthStore from '@/api/store/authStore';
+import { useTranslation } from "react-i18next";
+import { useMatches } from '@/api/services/matches';
+import { toast } from 'sonner';
 
-const LeagueAccordion = ({ league, date }) => {
-  const { accessToken, refreshToken, logout } = useAuthStore();
-  const [matches, setMatches] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+const LeagueAccordion = ({ league, date, onOddsSelect }) => {
+  const { t } = useTranslation(); 
 
-  useEffect(() => {
-    const fetchMatches = async () => {
-      try {
-        const response = await fetchData(
-          `search-match/?date=${date}&league=${league.id_league}`,
-          "GET",
-          null,
-          accessToken
-        );
-        setMatches(response.data.results);
-        setLoading(false);
-      } catch (err) {
-        console.error("Error fetching matches:", err);
-        if (err.message === 'Sesión expirada. Por favor inicia sesión nuevamente.') {
-          logout();
-          setError("Tu sesión ha expirado. Por favor, inicia sesión nuevamente.");
-        } else {
-          setError("Hubo un problema al cargar los partidos. Por favor, intenta de nuevo.");
-        }
-        setLoading(false);
-      }
-    };
+  const { data: matches, isLoading, error } = useMatches(league, date);
 
-    fetchMatches();
-  }, [league.id_league, date, accessToken, refreshToken, logout]);
+useEffect(() => {
+  if (error) {
+    toast.error(error.message);
+  }
+}, [error]);
 
   return (
     <Accordion
@@ -61,20 +42,20 @@ const LeagueAccordion = ({ league, date }) => {
           </div>
         </AccordionTrigger>
         <AccordionContent className="p-0 lg:p-2">
-          {loading ? (
+          {isLoading ? (
             <div className="p-4 text-center text-gray-500">
-              Cargando partidos...
+              {t('infoMsg.loadMatch')}
             </div>
           ) : error ? (
             <div className="p-4 text-center text-red-500">Error: {error}</div>
           ) : matches.length === 0 ? (
             <div className="p-4 text-center text-gray-500">
-              No hay partidos disponibles para esta liga en esta fecha.
+              {t('infoMsg.infoMatch')}
             </div>
           ) : (
             <div className="p-4">
               {matches.map((match) => (
-                <MatchCardWrapper key={match.id_fixture} match={match} />
+                <MatchCardWrapper key={match.id_fixture} match={match} onOddsSelect={onOddsSelect} />
               ))}
             </div>
           )}

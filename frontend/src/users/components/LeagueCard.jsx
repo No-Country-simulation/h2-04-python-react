@@ -3,33 +3,34 @@ import { Card } from "@/common/components/ui/card";
 import { ChevronRight } from "lucide-react";
 import { liga1, liga2, liga3 } from "@/common/assets";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const leagueData = {
-  oro: {
+  gold: {
     image: liga1,
-    title: "División Oro",
-    description: "Descubre las recompensas de esta división.",
+    title: "divGold",
+    description: "divGoldDescription",
     showChevron: true,
     hasPath: true,
   },
-  plata: {
+  silver: {
     image: liga2,
-    title: "División Plata",
-    description: "Descubre las recompensas de esta división.",
+    title: "divSilver",
+    description: "divSilverDescription",
     showChevron: true,
     hasPath: true,
   },
-  bronce: {
+  bronze: {
     image: liga3,
-    title: "División Bronce",
-    description:
-      "Esta división no ofrece recompensas. Sube a la división plata para participar por premios.",
+    title: "divBronze",
+    description: "divBronzeDescription",
     showChevron: false,
     hasPath: false,
   },
 };
 
 export default function LeagueCard({ type, isCurrentDivision }) {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const league = leagueData[type.toLowerCase()];
 
@@ -57,8 +58,8 @@ export default function LeagueCard({ type, isCurrentDivision }) {
       <div className="flex items-center gap-4">
         <img src={image} alt={title} className="h-16 object-cover" />
         <div className="flex flex-col gap-1">
-          <span className="font-medium">{title}</span>
-          <span className="text-sm text-[#555]">{description}</span>
+          <span className="font-medium">{t(title)}</span>
+          <span className="text-sm text-[#555]">{t(description)}</span>
         </div>
       </div>
       {showChevron && <ChevronRight className="size-10 text-blueWaki" />}

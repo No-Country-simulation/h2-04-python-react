@@ -9,8 +9,22 @@ import price1 from "./icons/1.svg";
 import coin from "./icons/coin.svg";
 import banderin from "./icons/banderin.svg";
 import locked from "./icons/locked.svg";
+import spain from "./icons/spain.svg";
+import usa from "./icons/unitedStates.svg";
+import betIcon from "./icons/BettingSlipIcon.svg";
+import betIconEmpty from "./icons/BettingSlipEmpty.svg";
+import whistle from "./icons/whistle.svg";
+import soccerField from "./icons/soccerField.svg";
+import subtract from "./icons/Subtract.svg";
+import pendingSpin from "./icons/pendingSpin.svg";
 
 export {
+    whistle,
+    pendingSpin,
+    subtract,
+    soccerField,
+    betIcon,
+    betIconEmpty,
     liga1,
     liga2,
     liga3,
@@ -22,4 +36,6 @@ export {
     coin,
     banderin,
     locked,
+    spain,
+    usa,
 }

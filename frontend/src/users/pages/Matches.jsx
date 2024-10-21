@@ -1,46 +1,38 @@
 import { useEffect, useState } from "react";
 import { DatePicker } from "../components/DatePicker";
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "@/common/components/ui/tabs";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/common/components/ui/tabs";
 import LeagueAccordion from "../components/LeagueAccordion";
-import { format, addDays, isSameDay, isAfter, subYears } from "date-fns";
+import { format, addDays, isSameDay, isAfter } from "date-fns";
 import { Search } from "lucide-react";
 import { Input } from "@/common/components/ui/input";
 import useAuthStore from "@/api/store/authStore";
-import { fetchData } from "@/api/services/fetchData";
-
-const COUNTRIES = ["Argentina"];
-
-//retrocediendo la fecha 3 años, solo para pruebas
-const adjustDateTo2021 = (date) => {
-  return subYears(date, 3);
-};
+import { useTranslation } from "react-i18next";
+import useLanguageStore from "@/api/store/language-store";
+import { Link } from "react-router-dom";
+import BetCoupon from "../components/BetCoupon";
+import useUserDataStore from "@/api/store/userStore";
+import ProfileImage from "../components/ProfileImage";
+import { useLeagues } from "@/api/services/matches";
 
 const Matches = () => {
+  const { t } = useTranslation();
+  const { user } = useUserDataStore();
+  const profilePhoto = user.profile_image;
+  const username = user.full_name;
+  const { currentLanguage } = useLanguageStore();
   const [selectedDate, setSelectedDate] = useState(new Date());
-  const [leagues, setLeagues] = useState([]);
   const accessToken = useAuthStore((state) => state.accessToken);
+  
+  const [selections, setSelections] = useState(() => {
+    const savedSelections = localStorage.getItem('betSelections');
+    return savedSelections ? JSON.parse(savedSelections) : [];
+  });
 
   useEffect(() => {
-    const fetchAllLeagues = async () => {
-      try {
-        const allLeagues = [];
-        for (const country of COUNTRIES) {
-          const response = await fetchData(`search-leagues/?country=${country}`, 'GET', null, accessToken);
-          allLeagues.push(...response.data.results);
-        }
-        setLeagues(allLeagues);
-      } catch (err) {
-        console.log(err.message);
-      }
-    };
+    localStorage.setItem('betSelections', JSON.stringify(selections));
+  }, [selections]);
 
-    fetchAllLeagues();
-  }, [accessToken]);
+  const { data: leagues, isLoading } = useLeagues(accessToken);
 
   const handleDateChange = (newDate) => {
     setSelectedDate(newDate);
@@ -52,7 +44,7 @@ const Matches = () => {
   const formatDate = (date) => {
     const today = new Date();
     if (isSameDay(date, today)) {
-      return "Hoy";
+      return currentLanguage === "en" ? "Today" : "Hoy";
     } else {
       return format(date, "d MMM");
     }
@@ -60,10 +52,7 @@ const Matches = () => {
 
   const getActiveTabValue = () => {
     const today = new Date();
-    if (
-      isSameDay(selectedDate, today) ||
-      isSameDay(selectedDate, previousDate)
-    ) {
+    if (isSameDay(selectedDate, today) || isSameDay(selectedDate, previousDate)) {
       return selectedDate.toISOString();
     } else if (isAfter(selectedDate, nextDate)) {
       return nextDate.toISOString();
@@ -72,14 +61,39 @@ const Matches = () => {
     }
   };
 
+  const handleOddsSelect = (selection) => {
+    setSelections((prevSelections) => {
+      const existingIndex = prevSelections.findIndex((s) => s.matchId === selection.matchId);
+      if (existingIndex !== -1) {
+        const updatedSelections = [...prevSelections];
+        updatedSelections[existingIndex] = selection;
+        return updatedSelections;
+      } else {
+        return [...prevSelections, selection];
+      }
+    });
+  };
+
+  const removeSelection = (index) => {
+    setSelections((prevSelections) => prevSelections.filter((_, i) => i !== index));
+  };
+
   return (
     <section className="p-2 py-4 mb-28">
       <div className="flex justify-between items-center mb-4">
-        <div className="flex-1" />
+        <Link to={"/profile"}>
+          <div className="flex-1 size-10 rounded-full ml-3">
+            <ProfileImage
+              profilePhoto={profilePhoto}
+              username={username}
+              size="size-10"
+            />
+          </div>
+        </Link>
         <h1 className="text-2xl font-bold text-blueWaki flex-1 text-center">
-          Partidos
+          {t("navigation.matches")}
         </h1>
-        <div className="flex-1 flex justify-end mr-7">
+        <div className=" flex justify-end mr-7">
           <DatePicker date={selectedDate} onDateChange={handleDateChange} />
         </div>
       </div>
@@ -111,46 +125,63 @@ const Matches = () => {
           <Input
             type="text"
             name="search"
-            placeholder="Busca un jugador"
+            placeholder={currentLanguage === "en" ? "Find a match" : "Busca un partido"}
             className="pl-12"
             disabled
           />
         </div>
 
         <TabsContent value={previousDate.toISOString()}>
-          {leagues.map((league) => (
-            <LeagueAccordion
-            key={league.id_league}
-            league={league}
-            // date={format(previousDate, 'yyyy-MM-dd')}
-            date={format(adjustDateTo2021(previousDate), 'yyyy-MM-dd')}
-            accessToken={accessToken}
-            />
-          ))}
+          {isLoading ? (
+            <div className="p-4 text-center text-gray-500">{t("infoMsg.loadMatch")}</div>
+          ) : (
+            leagues.map((league) => (
+              <LeagueAccordion
+                key={league.id_league}
+                league={league}
+                date={format(previousDate, "yyyy-MM-dd")}
+                accessToken={accessToken}
+                onOddsSelect={handleOddsSelect}
+              />
+            ))
+          )}
         </TabsContent>
-        <TabsContent value={selectedDate.toISOString()}>
-          {leagues.map((league) => (
-           <LeagueAccordion
-           key={league.id_league}
-           league={league}
-          //  date={format(selectedDate, 'yyyy-MM-dd')}
-           date={format(adjustDateTo2021(selectedDate), 'yyyy-MM-dd')}
-           accessToken={accessToken}
-         />
-          ))}
+        <TabsContent value={selectedDate.toISOString()} className="waki-shadow rounded-[9px]">
+          {isLoading ? (
+            <div className="p-4 text-center text-gray-500">{t("infoMsg.loadMatch")}</div>
+          ) : (
+            leagues.map((league) => (
+              <LeagueAccordion
+                key={league.id_league}
+                league={league}
+                date={format(selectedDate, "yyyy-MM-dd")}
+                accessToken={accessToken}
+                onOddsSelect={handleOddsSelect}
+              />
+            ))
+          )}
         </TabsContent>
         <TabsContent value={nextDate.toISOString()}>
-          {leagues.map((league) => (
-             <LeagueAccordion
-             key={league.id_league}
-             league={league}
-            //  date={format(nextDate, 'yyyy-MM-dd')}
-             date={format(adjustDateTo2021(nextDate), 'yyyy-MM-dd')}
-             accessToken={accessToken}
-           />
-          ))}
+          {isLoading ? (
+            <div className="p-4 text-center text-gray-500">{t("infoMsg.loadMatch")}</div>
+          ) : (
+            leagues.map((league) => (
+              <LeagueAccordion
+                key={league.id_league}
+                league={league}
+                date={format(nextDate, "yyyy-MM-dd")}
+                accessToken={accessToken}
+                onOddsSelect={handleOddsSelect}
+              />
+            ))
+          )}
         </TabsContent>
       </Tabs>
+      <BetCoupon
+        selections={selections}
+        setSelections={setSelections}
+        removeSelection={removeSelection}
+      />
     </section>
   );
 };

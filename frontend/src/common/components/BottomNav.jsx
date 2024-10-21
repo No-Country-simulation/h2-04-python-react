@@ -1,7 +1,9 @@
 // import { UserRound } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const BottomNav = () => {
+  const { t } = useTranslation();
   const location = useLocation();
 
   const isActive = (path) => {
@@ -33,7 +35,7 @@ const BottomNav = () => {
               isActive("/players") ? "text-white" : "text-white/30"
             }`}
           >
-            Scout players
+            {t('navigation.scoutPlayers')}
           </span>
         </div>
       </Link>
@@ -57,7 +59,7 @@ const BottomNav = () => {
               isActive("/matches") ? "text-white" : "text-white/30"
             }`}
           >
-            Partidos
+            {t('navigation.matches')}
           </span>
         </div>
       </Link>
@@ -80,7 +82,7 @@ const BottomNav = () => {
               isActive("/divisions") ? "text-white" : "text-white/30"
             }`}
           >
-            Divisiones
+            {t('navigation.divisions')}
           </span>
         </div>
       </Link>
@@ -96,7 +98,7 @@ const BottomNav = () => {
               isActive("/profile") ? "text-white" : "text-white/30"
             }`}
           >
-            Perfil
+            {t('navigation.profile')}
           </span>
         </div>
       </Link> */}
