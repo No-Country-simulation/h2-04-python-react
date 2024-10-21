@@ -51,7 +51,7 @@ class PredictionListView(APIView):
             OpenApiParameter(
                 name='status', 
                 type=OpenApiTypes.STR, 
-                description='Filtrar las predicciones por status (e.g., "finalizado", "pendiente", "ganada")',
+                description='Filtrar las predicciones por status (e.g., "ganada", "perdida", "pendiente")',
                 required=False
             )
         ],
