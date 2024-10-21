@@ -17,8 +17,7 @@ export const refreshToken = async () => {
     });
 
     if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.detail || "Error al refrescar el token");
+      throw new Error("Error al refrescar el token");
     }
 
     const data = await response.json();
@@ -26,7 +25,6 @@ export const refreshToken = async () => {
     return data.access;
   } catch (error) {
     console.error("Error al refrescar el token:", error);
-    useAuthStore.getState().logout();
     throw error;
   }
 };

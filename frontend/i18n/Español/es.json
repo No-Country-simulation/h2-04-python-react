@@ -76,6 +76,11 @@
     "all": "Todas",
     "win": "Ganadas",
     "loss": "Perdidas",
+    "points": "Puntos",
+    "simple": "Simple",
+    "combinada": "Combinada",
+    "Empate": "Empate",
+    "finalResult": "Resultado final",
     "yourPredictions": "Tus predicciones",
     "availablePredictions": "Predicciones disponibles hoy",
     "betEmpty": "Sin selecciones en el boleto de predicción",
@@ -88,7 +93,15 @@
     "errorLimitReached": "Limite de predicciones diarias alcanzado",
     "errorNoSelection": "Por favor, realiza al menos una selección antes de hacer tu predicción.",
     "successMessage": "¡Predicción realizada con éxito!",
-    "errorMessage": "Ha ocurrido un error al enviar la predicción"
+    "errorMessage": "Ha ocurrido un error al enviar la predicción",
+    "noPredictions": "No has realizado predicciones",
+    "makePrediction": "Hacer predicción",
+    "predictionPending": "Pendiente",
+    "predictionWin": "Ganada",
+    "predictionLoss": "Perdida",
+    "filterDate": "Filtrar por fecha:",
+    "active": "Activas",
+    "past": "Pasadas"
   },
   "profile": {
     "myPredictions": "Mis predicciones",

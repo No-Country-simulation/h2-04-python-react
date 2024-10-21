@@ -1,3 +1,4 @@
+import useAuthStore from '../store/authStore';
 import { refreshToken } from './refreshToken';
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
@@ -23,23 +24,27 @@ export const fetchData = async (endpoint, method = 'GET', body = null, accessTok
     const response = await fetch(`${BASE_URL}/${endpoint}`, options);
 
     if (!response.ok) {
+      if (response.status === 401) {
+        throw new Error('Unauthorized');
+      }
       const errorData = await response.json();
       throw new Error(errorData.detail || 'Ocurrió un error en la solicitud');
     }
 
-    const responseData = await response.json();
-    return responseData; 
+    return await response.json();
   };
 
   try {
     return await fetchWithToken(accessToken);
   } catch (error) {
-    if (error.message === 'El token proporcionado no es válido' || error.message === 'El token es inválido o ha caducado') {
+    if (error.message === 'Unauthorized') {
       try {
         const newToken = await refreshToken();
+        useAuthStore.getState().login(newToken, useAuthStore.getState().refreshToken);
         return await fetchWithToken(newToken);
       } catch (refreshError) {
         console.error('Error refrescando el token:', refreshError);
+        useAuthStore.getState().logout();
         throw new Error('Sesión expirada. Por favor inicia sesión nuevamente.');
       }
     }

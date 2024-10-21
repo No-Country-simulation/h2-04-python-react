@@ -16,9 +16,11 @@ import betIconEmpty from "./icons/BettingSlipEmpty.svg";
 import whistle from "./icons/whistle.svg";
 import soccerField from "./icons/soccerField.svg";
 import subtract from "./icons/Subtract.svg";
+import pendingSpin from "./icons/pendingSpin.svg";
 
 export {
     whistle,
+    pendingSpin,
     subtract,
     soccerField,
     betIcon,

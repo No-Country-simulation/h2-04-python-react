@@ -27,13 +27,12 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { useTranslation } from "react-i18next";
 import PredictionUsageIndicator from "./PredictionUsageIndicator";
-import { usePredictionLimits } from "@/api/services/usePredictionLimits";
+import { usePredictionLimits } from "@/api/services/predictions";
 
 const BetCoupon = ({
   selections,
   setSelections,
   removeSelection,
-  usedPredictions = 2,
 }) => {
   const { t } = useTranslation();
   const accessToken = useAuthStore((state) => state.accessToken);
@@ -41,6 +40,8 @@ const BetCoupon = ({
   const [totalOdds, setTotalOdds] = useState(1);
   const [potentialEarning, setPotentialEarning] = useState(0);
   const isDesktop = useIsDesktop();
+
+  //predicciones usadas por el usuario
   const { limits, canMakePrediction, incrementUsage } = usePredictionLimits();
 
   useEffect(() => {
@@ -88,16 +89,14 @@ const BetCoupon = ({
         dataToSend,
         accessToken
       );
-      console.log("Full API response:", response);
 
       if (response.status_code !== 201) {
-        console.error("API error response:", response.errors);
         throw new Error(
           `Error enviando la predicción: ${JSON.stringify(response.errors)}`
         );
       }
 
-      console.log("Predicción enviada con éxito:", response.data);
+      // console.log("Predicción enviada con éxito:", response.data);
       toast.success(t("prediction.successMessage"), { duration: 1500 });
       setSelections([]);
       incrementUsage();
