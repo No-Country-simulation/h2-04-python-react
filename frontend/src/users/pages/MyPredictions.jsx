@@ -2,15 +2,14 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
   Tabs,
-  TabsContent,
   TabsList,
   TabsTrigger,
 } from "@/common/components/ui/tabs";
 import { MoveLeft } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/common/components/ui/button";
-import { Card } from "@/common/components/ui/card";
-import { usePredictionLimits } from "@/api/services/usePredictionLimits";
+import { usePredictionLimits } from "@/api/services/predictions";
+import PredictionsHistory from "../components/PredictionsHistory";
 
 const MyPredictions = () => {
   const [activeTab, setActiveTab] = useState("All");
@@ -22,18 +21,20 @@ const MyPredictions = () => {
     <section className="pb-4 items-center">
       <div className="header waki-gradient">
         <div className="p-2">
-          <Link to="/matches">
+          <Link to="/profile">
             <div className="p-4 flex flex-row items-center gap-x-2 text-white text-sm font-normal">
-              <MoveLeft /> {t("navigation.matches")}
+              <MoveLeft /> {t("navigation.profile")}
             </div>
           </Link>
           <div className="flex flex-col justify-center items-center gap-2.5 px-12 pb-3">
             <h1 className="text-white text-2xl font-semibold">
-            {t("prediction.yourPredictions")}
+              {t("prediction.yourPredictions")}
             </h1>
-            <span className="font-medium text-6xl text-white">{availablePredictions}</span>
+            <span className="font-medium text-6xl text-white">
+              {availablePredictions}
+            </span>
             <p className="font-normal text-base text-white/75">
-            {t("prediction.availablePredictions")}
+              {t("prediction.availablePredictions")}
             </p>
           </div>
         </div>
@@ -66,26 +67,12 @@ const MyPredictions = () => {
                 {t("prediction.outPredictions")}
               </p>
               <Button className="bg-purpleWaki hover:bg-purple-700">
-              {t("prediction.buyPrediction")}
+                {t("prediction.buyPrediction")}
               </Button>
             </div>
           </div>
 
-          <TabsContent value="All">
-            <Card className="bg-white rounded-t-[9px] rounded-b-none min-h-48 shadow-none border-none">
-             * aqui va el historial de las predicciones realizadas*
-            </Card>
-          </TabsContent>
-          <TabsContent value="Win">
-          <Card className="bg-white rounded-t-[9px] rounded-b-none min-h-48 shadow-none border-none">
-             * aqui va el historial solo de las predicciones ganadas*
-            </Card>
-          </TabsContent>
-          <TabsContent value="Loss">
-          <Card className="bg-white rounded-t-[9px] rounded-b-none min-h-48 shadow-none border-none">
-             * aqui va el historial solo de las predicciones perdidas*
-            </Card>
-          </TabsContent>
+          <PredictionsHistory activeTab={activeTab} />
         </Tabs>
       </div>
     </section>

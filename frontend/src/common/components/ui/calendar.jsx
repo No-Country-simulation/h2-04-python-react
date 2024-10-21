@@ -1,27 +1,22 @@
-import * as React from "react"
-import { ChevronLeftIcon, ChevronRightIcon } from "@radix-ui/react-icons"
-import { DayPicker } from "react-day-picker"
-import { es, enUS } from 'date-fns/locale'
+import * as React from "react";
+import { ChevronLeftIcon, ChevronRightIcon } from "@radix-ui/react-icons";
+import { DayPicker } from "react-day-picker";
+import { es, enUS } from "date-fns/locale";
 
-import { cn } from "@/lib/utils"
-import { buttonVariants } from "@/common/components/ui/button"
-import useLanguageStore from "@/api/store/language-store"
+import { cn } from "@/lib/utils";
+import { buttonVariants } from "@/common/components/ui/button";
+import useLanguageStore from "@/api/store/language-store";
 
-function Calendar({
-  className,
-  classNames,
-  showOutsideDays = true,
-  ...props
-}) {
-  const { currentLanguage } = useLanguageStore()
+function Calendar({ className, classNames, showOutsideDays = true, ...props }) {
+  const { currentLanguage } = useLanguageStore();
 
   const locales = {
     es: es,
-    en: enUS
-  }
+    en: enUS,
+  };
 
   return (
-    (<DayPicker
+    <DayPicker
       showOutsideDays={showOutsideDays}
       className={cn("p-3", className)}
       classNames={{
@@ -54,7 +49,7 @@ function Calendar({
         day_range_start: "day-range-start",
         day_range_end: "day-range-end",
         day_selected:
-          "bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground",
+          "bg-primary text-primary-foreground hover:bg-purpleWaki hover:text-primary-foreground focus:bg-purpleWaki focus:text-primary-foreground",
         day_today: "customCalendar bg-accent text-accent-foreground",
         day_outside:
           "day-outside text-muted-foreground opacity-50  aria-selected:bg-accent/50 aria-selected:text-muted-foreground aria-selected:opacity-30",
@@ -69,9 +64,10 @@ function Calendar({
         IconRight: ({ ...props }) => <ChevronRightIcon className="h-4 w-4" />,
       }}
       locale={locales[currentLanguage]}
-      {...props} />)
+      {...props}
+    />
   );
 }
-Calendar.displayName = "Calendar"
+Calendar.displayName = "Calendar";
 
-export { Calendar }
+export { Calendar };
