@@ -4,8 +4,11 @@ from rest_framework.views import APIView
 from .serializers import PredictionSerializer, PredictionDetailSerializer, PredictionDetailSerializerGet
 from drf_spectacular.utils import extend_schema, OpenApiParameter, OpenApiTypes
 from utils.apiresponse import ApiResponse
-from core.models import Prediction
+from core.models import Prediction, PredictionDetail
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import api_view, permission_classes
+from datetime import timedelta, date
+from django.http import JsonResponse
 
 class PredictionCreateView(APIView):
     @extend_schema(
@@ -85,3 +88,51 @@ class PredictionListView(APIView):
             })
 
         return ApiResponse.success(data=response_data, status_code=status.HTTP_200_OK)
+    
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])  # Solo usuarios autenticados pueden acceder
+def predicciones_disponibles(request):
+    """
+    Retorna la cantidad de predicciones disponibles para una fecha específica basada en los partidos.
+    """
+    # Obtener la fecha pasada como parámetro
+    fecha_str = request.query_params.get('fecha')
+    
+    if not fecha_str:
+        return JsonResponse({"error": "Se requiere el parámetro 'fecha'."}, status=400)
+
+    try:
+        # Convertir el string de la fecha en objeto datetime.date
+        fecha = date.fromisoformat(fecha_str)
+    except ValueError:
+        return JsonResponse({"error": "Formato de fecha inválido. Use 'YYYY-MM-DD'."}, status=400)
+
+    # Obtener el usuario autenticado
+    user = request.user
+
+    # Filtrar los PredictionDetail para la fecha del partido
+    predicciones_realizadas = PredictionDetail.objects.filter(
+        prediction__user=user,
+        match__date__date=fecha  # Filtrar por la fecha del partido en la tabla Match
+    ).count()
+
+    # Definir las reglas de predicciones según la fecha
+    hoy = date.today()
+
+    if fecha == hoy:
+        max_predicciones = 5
+    elif hoy < fecha <= hoy + timedelta(days=5):
+        max_predicciones = 2
+    else:
+        max_predicciones = 0  # Fuera del rango permitido
+
+    # Calcular las predicciones disponibles
+    predicciones_disponibles = max_predicciones - predicciones_realizadas
+
+    return JsonResponse({
+        "fecha": fecha_str,
+        "predicciones_disponibles": max(0, predicciones_disponibles),  # Evitar valores negativos
+        "predicciones_realizadas": predicciones_realizadas,
+        "max_predicciones": max_predicciones,
+    })
