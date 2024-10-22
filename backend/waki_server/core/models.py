@@ -78,3 +78,10 @@ class PredictionDetail(models.Model):
     def __str__(self):
         return f"{self.prediction} - {self.match}"
 
+
+class ConfigModel(models.Model):
+    clave = models.CharField(max_length=25)
+    valor = models.CharField(max_length=10)
+
+    def __str__(self):
+        return self.clave

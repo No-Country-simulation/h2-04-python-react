@@ -2,13 +2,23 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from .serializers import PredictionSerializer, PredictionDetailSerializer, PredictionDetailSerializerGet
-from drf_spectacular.utils import extend_schema, OpenApiParameter, OpenApiTypes
+from drf_spectacular.utils import extend_schema, OpenApiParameter, OpenApiTypes, OpenApiExample
 from utils.apiresponse import ApiResponse
-from core.models import Prediction, PredictionDetail
+from core.models import Prediction, PredictionDetail, ConfigModel
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import api_view, permission_classes
 from datetime import timedelta, date
 from django.http import JsonResponse
+
+def get_config_value(clave):
+    """ Helper para obtener el valor de ConfigModel por clave. """
+    try:
+        return int(ConfigModel.objects.get(clave=clave).valor)
+    except ConfigModel.DoesNotExist:
+        return None  # Maneja el caso de que la clave no exista
+
+
+
 
 class PredictionCreateView(APIView):
     @extend_schema(
@@ -90,26 +100,96 @@ class PredictionListView(APIView):
         return ApiResponse.success(data=response_data, status_code=status.HTTP_200_OK)
     
 
+
+
+@extend_schema(
+    parameters=[
+        OpenApiParameter(
+            name='fecha',
+            description="Fecha del partido en formato 'YYYY-MM-DD'",
+            required=True,
+            type=str,
+            location=OpenApiParameter.QUERY
+        )
+    ],
+    responses={
+        200: OpenApiExample(
+            name="Predicción exitosa",
+            value={
+                "status_code": 200,
+                "data": {
+                    "fecha": "2024-10-19",
+                    "predicciones_disponibles": 2,
+                    "predicciones_realizadas": 0,
+                    "max_predicciones": 2
+                },
+                "errors": None
+            }
+        ),
+        400: OpenApiExample(
+            name="Error de solicitud",
+            value={
+                "status_code": 400,
+                "data": None,
+                "errors": [
+                    {
+                        "error": "missing_date_parameter",
+                        "description": "Se requiere el parámetro 'fecha' en el formato 'YYYY-MM-DD'.",
+                        "message": "El parámetro 'fecha' es requerido."
+                    }
+                ]
+            }
+        )
+    }
+)
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])  # Solo usuarios autenticados pueden acceder
+@permission_classes([IsAuthenticated])
 def predicciones_disponibles(request):
     """
-    Retorna la cantidad de predicciones disponibles para una fecha específica basada en los partidos.
+    Retorna la cantidad de predicciones disponibles para una fecha específica basada en los partidos
+    y en el tipo de usuario (Basic o Premium).
     """
     # Obtener la fecha pasada como parámetro
     fecha_str = request.query_params.get('fecha')
     
     if not fecha_str:
-        return JsonResponse({"error": "Se requiere el parámetro 'fecha'."}, status=400)
+        return ApiResponse.error(
+            message="El parámetro 'fecha' es requerido.",
+            error_code="missing_date_parameter",
+            description="Se requiere el parámetro 'fecha' en el formato 'YYYY-MM-DD'.",
+            status_code=400
+        )
 
     try:
         # Convertir el string de la fecha en objeto datetime.date
         fecha = date.fromisoformat(fecha_str)
     except ValueError:
-        return JsonResponse({"error": "Formato de fecha inválido. Use 'YYYY-MM-DD'."}, status=400)
+        return ApiResponse.error(
+            message="Formato de fecha inválido.",
+            error_code="invalid_date_format",
+            description="El formato de fecha debe ser 'YYYY-MM-DD'.",
+            status_code=400
+        )
 
     # Obtener el usuario autenticado
     user = request.user
+
+    # Determinar los valores de configuración según el tipo de usuario
+    if user.type_user == 'Premium':
+        max_predicciones_hoy = get_config_value('MAX_PREDICIONES_HOY_PREM')
+        max_predicciones_fut = get_config_value('MAX_PREDICIONES_FUT_PREM')
+    else:  # Caso para usuarios 'Basic'
+        max_predicciones_hoy = get_config_value('MAX_PREDICIONES_HOY')
+        max_predicciones_fut = get_config_value('MAX_PREDICIONES_FUT')
+
+    # Verificar si los valores de configuración existen
+    if max_predicciones_hoy is None or max_predicciones_fut is None:
+        return ApiResponse.error(
+            message="No se encontraron los valores de configuración.",
+            error_code="missing_config",
+            description="Verifica que las claves de configuración existan en la base de datos.",
+            status_code=500
+        )
 
     # Filtrar los PredictionDetail para la fecha del partido
     predicciones_realizadas = PredictionDetail.objects.filter(
@@ -121,18 +201,19 @@ def predicciones_disponibles(request):
     hoy = date.today()
 
     if fecha == hoy:
-        max_predicciones = 5
+        max_predicciones = max_predicciones_hoy
     elif hoy < fecha <= hoy + timedelta(days=5):
-        max_predicciones = 2
+        max_predicciones = max_predicciones_fut
     else:
         max_predicciones = 0  # Fuera del rango permitido
 
     # Calcular las predicciones disponibles
     predicciones_disponibles = max_predicciones - predicciones_realizadas
-
-    return JsonResponse({
+    data = {
         "fecha": fecha_str,
         "predicciones_disponibles": max(0, predicciones_disponibles),  # Evitar valores negativos
         "predicciones_realizadas": predicciones_realizadas,
         "max_predicciones": max_predicciones,
-    })
+    }
+    
+    return ApiResponse.success(data=data, status_code=200)
