@@ -7,8 +7,8 @@ function SplashScreen() {
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-gradient-to-r from-[#317EF4] to-[#8E2BFF]">
       <FlipText
-        duration="0.9"
-        delayMultiple="0.4"
+        duration="0.6"
+        delayMultiple="0.2"
         className="text-6xl font-bold -tracking-widest text-white md:text-7xl md:leading-[5rem]"
         word="WAKI"
       />
@@ -26,7 +26,7 @@ export function SplashScreenWrapper({ children }) {
       const timer = setTimeout(() => {
         setShowSplash(false);
         navigate("/auth");
-      }, 3000);
+      }, 1500);
 
       return () => clearTimeout(timer);
     } else {

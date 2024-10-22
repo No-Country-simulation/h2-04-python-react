@@ -18,7 +18,7 @@ export function usePredictionLimits() {
     // Simulamos la respuesta de la API
     const simulateAPIResponse = () => {
       return {
-        usedToday: 3, // simulamos que hemos usando 3 predicciones hoy
+        usedToday: 1, // simulamos que hemos usando 3 predicciones hoy
         usedConsecutiveDays: 1, // Simulamos que hemos usado 1 predicicon de dia consecutivos
       };
     };
