@@ -12,6 +12,6 @@ class MatchSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Match
-        fields = ['id_fixture','league','date','home_team','home_team_logo','away_team','away_team_logo','home_team_goals','away_team_goals','match_status','home_odds','draw_odds','away_odds']
+        fields = ['id_fixture','league','date','home_team','home_team_logo','away_team','away_team_logo','home_team_goals','away_team_goals','match_status','home_odds','draw_odds','away_odds', 'winner']
 
 

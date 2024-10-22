@@ -191,6 +191,7 @@ def fetch_match(request):
             away_goals = fixture['goals']['away']  # Puede ser None, verificar
             away = fixture['teams']['away']['name']
             away_logo = fixture['teams']['away']['logo']
+            
             match_status = fixture['fixture']['status']
 
             try:
@@ -212,6 +213,16 @@ def fetch_match(request):
         away_goals = away_goals if away_goals is not None else None
 
 
+        if home_goals is not None and away_goals is not None:
+            if home_goals > away_goals:
+                winner = 'home'
+            elif home_goals < away_goals:
+                winner = 'away'
+            else:
+                winner = 'draw'
+        else:
+            winner = None
+
         # Verificar si el id_league ya existe en la base de datos
         if not Match.objects.filter(id_fixture=id_fixture).exists():
             Match.objects.create(
@@ -225,6 +236,7 @@ def fetch_match(request):
                 home_team_goals = home_goals,
                 away_team_goals = away_goals,
                 match_status = match_status,
+                winner = winner,
                 home_odds=0,
                 draw_odds=0,  
                 away_odds=0
@@ -280,9 +292,11 @@ def update_match(request):
             home = fixture['teams']['home']['name']
             home_logo = fixture['teams']['home']['logo']
             home_goals = fixture['goals']['home']  # Puede ser None, verificar
+            home_winner = fixture['teams']['home']['winner']
             away_goals = fixture['goals']['away']  # Puede ser None, verificar
             away = fixture['teams']['away']['name']
             away_logo = fixture['teams']['away']['logo']
+            away_winner = fixture['teams']['away']['winner']
             match_status = fixture['fixture']['status']
 
             try:
@@ -300,8 +314,18 @@ def update_match(request):
             )
         
         # Si no hay goles, establecerlos en 0
-        home_goals = home_goals if home_goals is not None else 0
-        away_goals = away_goals if away_goals is not None else 0
+        home_goals = home_goals if home_goals is not None else None
+        away_goals = away_goals if away_goals is not None else None
+
+        if home_goals is not None and away_goals is not None:
+            if home_goals > away_goals:
+                winner = 'home'
+            elif home_goals < away_goals:
+                winner = 'away'
+            else:
+                winner = 'draw'
+        else:
+            winner = None
 
 
         # Verificar si el id_league ya existe en la base de datos
@@ -314,6 +338,7 @@ def update_match(request):
                 match.home_team_goals != home_goals or 
                 match.away_team_goals != away_goals or 
                 match.match_status != match_status):
+
                 
                 # Actualizar los datos del partido
                 match.date = date
@@ -324,12 +349,13 @@ def update_match(request):
                 match.home_team_goals = home_goals
                 match.away_team_goals = away_goals
                 match.match_status = match_status
+                match.winner = winner
                 match.league = league_instance
                 match.save()
                 contador = contador+1
 
     return ApiResponse.success(data={
-                    f'message': 'Fixture fetched and saved successfully. register update {contador}'
+                    f'message': f'Fixture fetched and saved successfully. register update {contador}'
                 }, status_code=status.HTTP_201_CREATED)
 
 @extend_schema(
