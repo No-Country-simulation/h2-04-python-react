@@ -49,7 +49,7 @@ urlpatterns = [
     path('search-match/', search_match, name='search-match'),
     path('update-match-odds/', update_match_odds, name='update-match-odds'),
 
-    path('createsuper/', createsuper, name='createsuper'),
+    #path('createsuper/', createsuper, name='createsuper'),
 
     #predicciones
     path('predictions/', PredictionListView.as_view(), name='predictions-list'),
