@@ -82,7 +82,7 @@ const MatchCard = ({
                 <Button
                   className="bg-white hover:bg-gray-200 text-black font-normal text-xs px-5 py-1 leading-[18px]"
                   onClick={() =>
-                    handleOddsClick(homeTeam.name, displayData.value.home)
+                    handleOddsClick("home", displayData.value.home)
                   }
                 >
                   {displayData.value.home}
@@ -90,7 +90,7 @@ const MatchCard = ({
                 <Button
                   className="bg-white hover:bg-gray-200 text-black font-normal text-xs px-5 py-1 leading-[18px]"
                   onClick={() =>
-                    handleOddsClick("Empate", displayData.value.draw)
+                    handleOddsClick("draw", displayData.value.draw)
                   }
                 >
                   {displayData.value.draw}
@@ -98,7 +98,7 @@ const MatchCard = ({
                 <Button
                   className="bg-white hover:bg-gray-200 text-black font-normal text-xs px-5 py-1 leading-[18px]"
                   onClick={() =>
-                    handleOddsClick(awayTeam.name, displayData.value.away)
+                    handleOddsClick("away", displayData.value.away)
                   }
                 >
                   {displayData.value.away}

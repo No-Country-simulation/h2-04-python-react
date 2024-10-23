@@ -97,6 +97,8 @@ const BetCoupon = ({ selections, setSelections, removeSelection }) => {
       status: "pendiente",
     };
 
+    console.log("Data a enviar:", dataToSend);
+
     try {
       const response = await fetchData(
         "predictions/create/",
@@ -145,8 +147,7 @@ const BetCoupon = ({ selections, setSelections, removeSelection }) => {
               />
             </div>
             <p className="text-xs text-[#555]">
-              {selection.selectedTeam} - {selection.odds} -{" "}
-              {selection.matchDate}
+              {selection.selectedTeam === "home" ? selection.homeTeam : selection.selectedTeam === "draw" ? "Empate" : selection.awayTeam } - {selection.odds}
             </p>
           </div>
           <Button
