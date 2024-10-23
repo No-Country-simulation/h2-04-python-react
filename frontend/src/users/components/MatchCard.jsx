@@ -17,6 +17,7 @@ const MatchCard = ({
   matchId,
 }) => {
   const date = new Date(fixtureDate);
+  const matchDate = format(date, "yyyy-MM-dd");
   const formattedTime = format(date, "HH:mm");
   const formattedDate = format(date, "dd MMM");
   const isFinished = status.short === "FT";
@@ -31,6 +32,7 @@ const MatchCard = ({
       awayTeamLogo: awayTeam.logo,
       selectedTeam,
       odds,
+      matchDate,
     });
   };
 

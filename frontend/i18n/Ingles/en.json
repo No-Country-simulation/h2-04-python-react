@@ -58,7 +58,10 @@
   },
   "infoMsg": {
     "infoMatch": "No matches are available for this league on this date.",
-    "loadMatch": "Fetching matches..."
+    "loadMatch": "Fetching matches...",
+    "error500": "Internal Server Error. Please try again later.",
+    "refreshError": "Session expired. Please log in again.",
+    "requestError": "An error occurred in the request"
   },
   "Rewards": "Rewards",
   "MonthlyPrizes": "Monthly prizes",
@@ -83,11 +86,13 @@
     "finalResult": "Final result",
     "yourPredictions": "Your predictions",
     "availablePredictions": "Predictions available today",
+    "errorNoAvailablePredictions": "The prediction limit for the selected date has been reached.",
     "betEmpty": "No selections in the betslip",
     "predictionSummary": "Prediction summary",
     "totalPoints": "Total points:",
     "predict": "Predict",
-    "predictionUsed": "Predictions used today:",
+    "predictionUsed": "Predictions used:",
+    "today": "Today",
     "outPredictions": "Are you out of predictions?",
     "buyPrediction": "Get more predictions",
     "errorLimitReached": "Daily prediction limit reached.",
