@@ -25,17 +25,17 @@ class Match(models.Model):
     id_fixture = models.IntegerField(primary_key=True) 
     league = models.ForeignKey(League, on_delete=models.CASCADE)
     date = models.DateTimeField()
-    home_team = models.CharField(max_length=100)
+    home_team = models.CharField(max_length=120)
     home_team_logo = models.URLField()  # O FileField
-    away_team = models.CharField(max_length=100)
+    away_team = models.CharField(max_length=120)
     away_team_logo = models.URLField()  # O FileField
     home_team_goals = models.IntegerField(null=True)
     away_team_goals = models.IntegerField(null=True)
-    winner = models.CharField(max_length=100, null=True)
-    match_status = models.CharField(max_length=50)
-    home_odds = models.DecimalField(max_digits=10, decimal_places=2,null=True, blank=True,default=None)
-    draw_odds = models.DecimalField(max_digits=10, decimal_places=2,null=True, blank=True,default=None)
-    away_odds = models.DecimalField(max_digits=10, decimal_places=2,null=True, blank=True,default=None)
+    winner = models.CharField(max_length=120, null=True)
+    match_status = models.CharField(max_length=100)
+    home_odds = models.DecimalField(max_digits=15, decimal_places=2,null=True, blank=True,default=None)
+    draw_odds = models.DecimalField(max_digits=15, decimal_places=2,null=True, blank=True,default=None)
+    away_odds = models.DecimalField(max_digits=15, decimal_places=2,null=True, blank=True,default=None)
 
     def __str__(self):
         return f"{self.home_team} vs {self.away_team}"
