@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
   Tabs,
@@ -8,15 +8,18 @@ import {
 import { MoveLeft } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/common/components/ui/button";
-import { usePredictionLimits } from "@/api/services/predictions";
 import PredictionsHistory from "../components/PredictionsHistory";
+import { format } from "date-fns";
+import { useLimiteDiario } from "@/api/services/predictions";
 
 const MyPredictions = () => {
   const [activeTab, setActiveTab] = useState("All");
   const { t } = useTranslation();
-  const { limits } = usePredictionLimits();
+  const today = useMemo(() => format(new Date(), 'yyyy-MM-dd'), []);
+  const { predictionData } = useLimiteDiario([today]);
 
-  const availablePredictions = limits.dailyLimit - limits.usedToday;
+  const availablePredictions = predictionData?.[today]?.predicciones_disponibles || 0;
+  
   return (
     <section className="pb-4 items-center">
       <div className="header waki-gradient">

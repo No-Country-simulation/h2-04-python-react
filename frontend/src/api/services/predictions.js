@@ -1,53 +1,52 @@
-import { useState, useEffect } from "react";
-import useUserDataStore from "@/api/store/userStore";
 import useAuthStore from "@/api/store/authStore";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { fetchData } from "./fetchData";
 
-export function usePredictionLimits() {
-  const { user } = useUserDataStore();
-  const accessToken = useAuthStore((state) => state.accessToken);
-  const [limits, setLimits] = useState({
-    dailyLimit: 5,
-    consecutiveDaysLimit: 2,
-    usedToday: 0,
-    usedConsecutiveDays: 0,
-  });
+export const useLimiteDiario = (matchDates) => {
+  const { accessToken, logout } = useAuthStore()
+  const queryClient = useQueryClient()
 
-  useEffect(() => {
-    // Simulamos la respuesta de la API
-    const simulateAPIResponse = () => {
-      return {
-        usedToday: 1, // simulamos que hemos usando 3 predicciones hoy
-        usedConsecutiveDays: 1, // Simulamos que hemos usado 1 predicicon de dia consecutivos
-      };
-    };
+  const predictionAvailability = useQuery({
+    queryKey: ["predictionAvailability", matchDates],
+    queryFn: async () => {
+      const promises = matchDates.map(date => 
+        fetchData(`predictions/available/?fecha=${date}`, "GET", null, accessToken)
+      )
+      const responses = await Promise.all(promises)
+      return responses.reduce((acc, response) => {
+        if (response.status_code !== 200) {
+          throw new Error('Failed to fetch prediction availability')
+        }
+        acc[response.data.fecha] = response.data
+        return acc
+      }, {})
+    },
+    onError: (error) => {
+      console.error("Error fetching predictions limits:", error)
+      if (error.message === "Sesión expirada. Por favor inicia sesión nuevamente.") {
+        logout()
+        throw new Error("Tu sesión ha expirado. Por favor, inicia sesión nuevamente.")
+      } else {
+        throw new Error("Hubo un problema al cargar las predicciones. Por favor, intenta de nuevo.")
+      }
+    },
+    enabled: !!accessToken && matchDates.length > 0,
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
+    staleTime: Infinity,
+  })
 
-    const apiResponse = simulateAPIResponse();
-    setLimits({
-      dailyLimit: user.type_user === "Premium" ? 10 : 5,
-      consecutiveDaysLimit: 2,
-      usedToday: apiResponse.usedToday,
-      usedConsecutiveDays: apiResponse.usedConsecutiveDays,
-    });
-  }, [user, accessToken]);
+  const refreshPredictionAvailability = () => {
+    queryClient.invalidateQueries(['predictionAvailability'])
+  }
 
-  const canMakePrediction = () => {
-    return (
-      limits.usedToday < limits.dailyLimit &&
-      limits.usedConsecutiveDays < limits.consecutiveDaysLimit
-    );
-  };
-
-  const incrementUsage = () => {
-    setLimits((prev) => ({
-      ...prev,
-      usedToday: prev.usedToday + 1,
-      usedConsecutiveDays: prev.usedConsecutiveDays + 1,
-    }));
-  };
-
-  return { limits, canMakePrediction, incrementUsage };
+  return { 
+    predictionData: predictionAvailability.data,
+    isLoading: predictionAvailability.isLoading,
+    isError: predictionAvailability.isError,
+    error: predictionAvailability.error,
+    refreshPredictionAvailability 
+  }
 }
 
 export const usePredictions = (status) => {
