@@ -218,16 +218,16 @@ const BetCoupon = ({ selections, setSelections, removeSelection }) => {
             >
               {t("prediction.predict")}
             </Button>
-            {selections.length > 0 && (
-               <PredictionUsageIndicator predictionData={predictionData || 0} />
-              )}
-            {isLoading ? (
-              <Skeleton className="h-4 w-full" />
-            ) : isError ? (
-              <p>Error: {error.message}</p>
-            ) : (
-              null
-            )}
+            {selections.length > 0 &&
+              (isLoading ? (
+                <Skeleton className="h-4 w-full" />
+              ) : isError ? (
+                <p>Error: {error.message}</p>
+              ) : (
+                <PredictionUsageIndicator
+                  predictionData={predictionData || 0}
+                />
+              ))}
           </CardFooter>
         </Card>
       </SheetContent>

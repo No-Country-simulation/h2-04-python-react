@@ -58,7 +58,8 @@
   },
   "infoMsg": {
     "infoMatch": "No hay partidos disponibles para esta liga en esta fecha.",
-    "loadMatch": "Cargando partidos..."
+    "loadMatch": "Cargando partidos...",
+     "error500": "Error del servidor. Por favor, intenta más tarde."
   },
   "Rewards": "Recompenzas",
   "MonthlyPrizes": "Premios del mes",

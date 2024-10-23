@@ -1,3 +1,4 @@
+import { t } from 'i18next';
 import useAuthStore from '../store/authStore';
 import { refreshToken } from './refreshToken';
 
@@ -25,11 +26,13 @@ export const fetchData = async (endpoint, method = 'GET', body = null, accessTok
 
     if (!response.ok) {
       if (response.status === 401) {
-        throw new Error('Unauthorized');
+          throw new Error('Unauthorized');
+      } else if (response.status === 500) {
+          throw new Error(t("infoMsg.error500"));
       }
       const errorData = await response.json();
       throw new Error(errorData.detail || 'Ocurrió un error en la solicitud');
-    }
+  }
 
     return await response.json();
   };
