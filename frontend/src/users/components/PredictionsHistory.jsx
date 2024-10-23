@@ -114,20 +114,22 @@ export default function PredictionsHistory() {
               <div className="flex flex-row items-center justify-between">
                 <div className="text-sm text-medium flex flex-row items-center mb-1 gap-x-2">
                     <p className="text-xs">{t("prediction.finalResult")}:</p>
-                    {detail.prediction_text === "Empate" ? (
-                    <p>{t(`prediction.${detail.prediction_text}`)}</p>
+                    {detail.prediction_text === "draw" ? (
+                    <p>{t(`prediction.draw`)}</p>
                   ) : (
                     <p className="text-sm text-medium">
-                      {detail.prediction_text}
+                      {detail.prediction_text === "home" ? detail.match.home_team 
+                      : detail.prediction_text === "away" ?  detail.match.away_team
+                    : "Empate"  }
                     </p>
                   )}
-                  {detail.prediction_text === detail.match.home_team ? (
+                  {detail.prediction_text === "home" ? (
                     <img
                       src={detail.match.home_team_logo}
                       alt={`${detail.match.home_team} Logo`}
                       className="mr-2 size-5"
                     />
-                  ) : detail.prediction_text === detail.match.away_team ? (
+                  ) : detail.prediction_text === "away" ? (
                     <img
                       src={detail.match.away_team_logo}
                       alt={`${detail.match.away_team} Logo`}
