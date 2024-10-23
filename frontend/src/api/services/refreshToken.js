@@ -3,8 +3,9 @@ const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 export const refreshToken = async () => {
   const refreshToken = useAuthStore.getState().refreshToken;
+
   if (!refreshToken) {
-    throw new Error("No hay refresh token disponible");
+    throw new Error("No refresh token available");
   }
 
   try {
@@ -17,14 +18,15 @@ export const refreshToken = async () => {
     });
 
     if (!response.ok) {
-      throw new Error("Error al refrescar el token");
+      const data = await response.json();
+      throw new Error(`Error refreshing token: ${data.detail || response.statusText}`);
     }
 
     const data = await response.json();
     useAuthStore.getState().login(data.access, refreshToken);
     return data.access;
   } catch (error) {
-    console.error("Error al refrescar el token:", error);
+    console.error("Error refreshing token:", error);
     throw error;
   }
 };
