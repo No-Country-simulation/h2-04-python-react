@@ -59,7 +59,9 @@
   "infoMsg": {
     "infoMatch": "No hay partidos disponibles para esta liga en esta fecha.",
     "loadMatch": "Cargando partidos...",
-     "error500": "Error del servidor. Por favor, intenta más tarde."
+    "error500": "Error del servidor. Por favor, intenta más tarde.",
+    "refreshError": "Sesión expirada. Por favor inicia sesión nuevamente.",
+    "requestError": "Ocurrió un error en la solicitud"
   },
   "Rewards": "Recompenzas",
   "MonthlyPrizes": "Premios del mes",

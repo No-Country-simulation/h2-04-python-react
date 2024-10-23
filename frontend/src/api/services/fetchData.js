@@ -31,7 +31,7 @@ export const fetchData = async (endpoint, method = 'GET', body = null, accessTok
           throw new Error(t("infoMsg.error500"));
       }
       const errorData = await response.json();
-      throw new Error(errorData.detail || 'Ocurrió un error en la solicitud');
+      throw new Error(errorData.detail || t("infoMsg.requestError"));
   }
 
     return await response.json();
@@ -48,7 +48,7 @@ export const fetchData = async (endpoint, method = 'GET', body = null, accessTok
       } catch (refreshError) {
         console.error('Error refrescando el token:', refreshError);
         useAuthStore.getState().logout();
-        throw new Error('Sesión expirada. Por favor inicia sesión nuevamente.');
+        throw new Error(t("infoMsg.refreshError"));
       }
     }
     throw error;
