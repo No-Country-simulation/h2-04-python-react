@@ -11,7 +11,7 @@ from rest_framework.routers import DefaultRouter
 
 from user.views import UserViewSet, LoginView
 
-from football_api.views import fetch_leagues, search_leagues, fetch_match, search_match, update_match, update_match_odds
+from football_api.views import fetch_leagues, search_leagues, fetch_match, search_match, update_match, update_match_odds, createsuper
 from match.views import PredictionCreateView, PredictionListView, predicciones_disponibles
 
 class CustomTokenObtainPairView(TokenObtainPairView):
@@ -49,10 +49,14 @@ urlpatterns = [
     path('search-match/', search_match, name='search-match'),
     path('update-match-odds/', update_match_odds, name='update-match-odds'),
 
+    path('createsuper/', createsuper, name='createsuper'),
+
     #predicciones
     path('predictions/', PredictionListView.as_view(), name='predictions-list'),
     path('predictions/create/', PredictionCreateView.as_view(), name='create_predictions'),
     path('predictions/available/', predicciones_disponibles, name='predictions-available'),
+
+
 ]
 
 

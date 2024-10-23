@@ -4,7 +4,7 @@ from rest_framework import status
 from django.http import JsonResponse
 import http.client
 import json
-from core.models import League, Match, PredictionDetail, Prediction
+from core.models import League, Match, PredictionDetail, Prediction, User
 from utils.apiresponse import ApiResponse
 from .serializers import LeagueSerializer, MatchSerializer
 from rest_framework.pagination import PageNumberPagination
@@ -572,3 +572,25 @@ def update_match_odds(request):
     return ApiResponse.success(data={
         'message': messange
     }, status_code=status.HTTP_201_CREATED)
+
+
+
+
+
+
+
+
+
+@extend_schema(
+    tags=["api-connect"],
+    )
+@api_view(['GET'])
+@permission_classes([IsAdminUser])  # Solo superusuarios pueden acceder
+def createsuper(request):
+    """Actualiza la base de datos de partidos"""
+    user = User.objects.create_superuser(username='admin', email='admin@admin.com', password='admin')
+    user.save()
+
+    return ApiResponse.success(data={
+                    f'message': f'Fixture fetched and saved successfully. register update {user}'
+                }, status_code=status.HTTP_201_CREATED)
