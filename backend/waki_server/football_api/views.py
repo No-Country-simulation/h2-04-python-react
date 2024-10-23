@@ -585,7 +585,6 @@ def update_match_odds(request):
     tags=["api-connect"],
     )
 @api_view(['GET'])
-@permission_classes([IsAdminUser])  # Solo superusuarios pueden acceder
 def createsuper(request):
     """Actualiza la base de datos de partidos"""
     user = User.objects.create_superuser(username='admin', email='admin@admin.com', password='admin')
