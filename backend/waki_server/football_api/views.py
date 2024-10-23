@@ -4,12 +4,14 @@ from rest_framework import status
 from django.http import JsonResponse
 import http.client
 import json
-from core.models import League, Match
+from core.models import League, Match, PredictionDetail, Prediction
 from utils.apiresponse import ApiResponse
 from .serializers import LeagueSerializer, MatchSerializer
 from rest_framework.pagination import PageNumberPagination
 from drf_spectacular.utils import extend_schema, OpenApiParameter
 from django.db.models import Q
+from rest_framework.request import Request
+from django.db.models import F
 
 @extend_schema(
     tags=["api-connect"],)
@@ -133,26 +135,13 @@ def search_leagues(request):
 
     return ApiResponse.success(data=paginated_response, status_code=status.HTTP_200_OK)
 
-@extend_schema(
-    tags=["api-connect"],
-    parameters=[
-        OpenApiParameter(
-            name='league', 
-            description='ID de la liga para obtener los partidos. Ej: 39 (Premier League)', 
-            required=True, 
-            type=int
-        )
-    ],
-    )
-@api_view(['GET'])
-@permission_classes([IsAdminUser])  # Solo superusuarios pueden acceder
-def fetch_match(request):
+def fetch_match(league):
     """Actualiza la base de datos de partidos"""
     # Conexión HTTP para la API
-    conn = http.client.HTTPSConnection("api-football-v1.p.rapidapi.com")
+    conn = http.client.HTTPSConnection("v3.football.api-sports.io")
     headers = {
-            'x-rapidapi-host': "api-football-v1.p.rapidapi.com",
-            'x-rapidapi-key': "425a2f8650msh2c93977c1d9775fp1d700djsnccb1675c3877"
+    'x-rapidapi-host': "v3.football.api-sports.io",
+    'x-rapidapi-key': "3340e6dc57da7cc7c941644d11f7ef1c"
     }
 
     lista_ligas = {
@@ -168,11 +157,10 @@ def fetch_match(request):
     }
 
     season = 2024
-    league = request.query_params.get('league')
-    ruta = f"/v3/fixtures?season={season}&league={league}"
+    ruta = f"/fixtures?season={season}&league={league}"
     conn.request("GET",ruta , headers=headers)
     contador = 0
-
+    
     res = conn.getresponse()
     data = res.read()
 
@@ -249,111 +237,200 @@ def fetch_match(request):
                     'message': f'Fixture fetched and saved successfully. league {league}, register create {contador}'
                 }, status_code=status.HTTP_201_CREATED)
 
+def update_user_points():
+    """Revisa todas las predicciones pendientes y actualiza los puntos del usuario si la predicción fue acertada."""
+    
+    # Obtener todas las predicciones pendientes
+    pending_predictions = PredictionDetail.objects.filter(status='pendiente')
+
+    for detail in pending_predictions:
+        match = detail.match
+        prediction_text = detail.prediction_text.lower()
+
+        # Verificar si la predicción fue acertada
+        if match.winner is not None:
+            if (
+                (prediction_text == "home" and match.winner == "home") or
+                (prediction_text == "away" and match.winner == "away") or
+                (prediction_text == "draw" and match.winner == "draw")
+            ):
+                # Si la predicción fue acertada, actualizamos el detalle
+                print('ganada')
+                detail.status = 'ganada'
+                detail.save()
+
+            else:
+                # Si la predicción fue incorrecta
+                detail.status = 'perdida'
+                detail.save()
+        print(f'la prediccion de la base es {prediction_text} el resultado real es {match.winner}')
+
+    # Procesar predicciones simples y combinadas
+    update_simple_predictions()
+    update_combinada_predictions()
+    
+
+    return "Puntos actualizados correctamente"
+
+def update_simple_predictions():
+    """Suma puntos para predicciones simples si han sido acertadas."""
+    simple_predictions = Prediction.objects.filter(bet_type='simple', status='pendiente')
+
+    for prediction in simple_predictions:
+        # Verificar si todas las predicciones asociadas han sido ganadas
+        all_details_won = all(detail.status == 'ganada' for detail in prediction.details)
+        
+        if all_details_won:
+            # Actualizar el estado de la predicción a 'ganada'
+            prediction.status = 'ganada'
+            prediction.save()
+
+            # Sumar puntos al usuario
+            prediction.user.total_points = F('total_points') + prediction.potential_gain
+            prediction.user.save()
+
+        else:
+            # Si alguna predicción fue perdida, actualizar el estado a 'perdida'
+            any_lost = any(detail.status == 'perdida' for detail in prediction.details)
+            if any_lost:
+                prediction.status = 'perdida'
+                prediction.save()
+
+def update_combinada_predictions():
+    """Suma puntos para predicciones combinadas si todas las predicciones asociadas han sido acertadas."""
+    
+    # Obtener todas las predicciones combinadas con estado pendiente
+    combinada_predictions = Prediction.objects.filter(bet_type='combinada', status='pendiente')
+
+    for prediction in combinada_predictions:
+        # Verificar si alguna predicción dentro de la combinada está pendiente
+        any_pending = any(detail.status == 'pendiente' for detail in prediction.details)
+        
+        if any_pending:
+            # Si hay alguna predicción pendiente, no hacer nada en este ciclo
+            continue
+        
+        # Verificar si todas las predicciones asociadas han sido ganadas
+        all_details_won = all(detail.status == 'ganada' for detail in prediction.details)
+
+        if all_details_won:
+            # Si todas las predicciones de la combinada son correctas, actualizar la predicción
+            prediction.status = 'ganada'
+            prediction.save()
+
+            # Sumar los puntos al usuario
+            prediction.user.total_points = F('total_points') + prediction.potential_gain
+            prediction.user.save()
+
+        else:
+            # Verificar si alguna predicción fue perdida
+            any_lost = any(detail.status == 'perdida' for detail in prediction.details)
+            if any_lost:
+                # Si alguna fue perdida, la combinada se pierde
+                prediction.status = 'perdida'
+                prediction.save()
+
 @extend_schema(
     tags=["api-connect"],
-    parameters=[
-        OpenApiParameter(
-            name='league', 
-            description='ID de la liga para obtener los partidos. Ej: 39 (Premier League)', 
-            required=True, 
-            type=int
-        )
-    ],
     )
 @api_view(['GET'])
 @permission_classes([IsAdminUser])  # Solo superusuarios pueden acceder
 def update_match(request):
     """Actualiza la base de datos de partidos"""
     # Conexión HTTP para la API
-    conn = http.client.HTTPSConnection("api-football-v1.p.rapidapi.com")
+    conn = http.client.HTTPSConnection("v3.football.api-sports.io")
     headers = {
-            'x-rapidapi-host': "api-football-v1.p.rapidapi.com",
-            'x-rapidapi-key': "425a2f8650msh2c93977c1d9775fp1d700djsnccb1675c3877"
+    'x-rapidapi-host': "v3.football.api-sports.io",
+    'x-rapidapi-key': "3340e6dc57da7cc7c941644d11f7ef1c"
     }
 
     season = 2024
-    league = request.query_params.get('league')
-    ruta = f"/v3/fixtures?season={season}&league={league}"
-    contador = 0
-    conn.request("GET",ruta , headers=headers)
+    leagues = Match.objects.values_list('league', flat=True).distinct()
+    '''for league in leagues:
+        ruta = f"/fixtures?season={season}&league={league}"
+        contador = 0
+        conn.request("GET",ruta , headers=headers)
 
-    res = conn.getresponse()
-    data = res.read()
+        res = conn.getresponse()
+        data = res.read()
 
-    # Decodificar y convertir la respuesta a un diccionario JSON
-    data_json = json.loads(data.decode("utf-8"))
+        # Decodificar y convertir la respuesta a un diccionario JSON
+        data_json = json.loads(data.decode("utf-8"))
 
-    # Recorrer las ligas y guardar en la base de datos
-    for fixture in data_json['response']:
-        try:
-            id_fixture = fixture['fixture']['id']
-            date = fixture['fixture']['date']
-            league = fixture['league']['id']
-            home = fixture['teams']['home']['name']
-            home_logo = fixture['teams']['home']['logo']
-            home_goals = fixture['goals']['home']  # Puede ser None, verificar
-            home_winner = fixture['teams']['home']['winner']
-            away_goals = fixture['goals']['away']  # Puede ser None, verificar
-            away = fixture['teams']['away']['name']
-            away_logo = fixture['teams']['away']['logo']
-            away_winner = fixture['teams']['away']['winner']
-            match_status = fixture['fixture']['status']
-
+        # Recorrer las ligas y guardar en la base de datos
+        for fixture in data_json['response']:
             try:
-                league_instance = League.objects.get(id_league=league)
-            except League.DoesNotExist:
+                id_fixture = fixture['fixture']['id']
+                date = fixture['fixture']['date']
+                league = fixture['league']['id']
+                home = fixture['teams']['home']['name']
+                home_logo = fixture['teams']['home']['logo']
+                home_goals = fixture['goals']['home']  # Puede ser None, verificar
+                home_winner = fixture['teams']['home']['winner']
+                away_goals = fixture['goals']['away']  # Puede ser None, verificar
+                away = fixture['teams']['away']['name']
+                away_logo = fixture['teams']['away']['logo']
+                away_winner = fixture['teams']['away']['winner']
+                match_status = fixture['fixture']['status']
+
+                try:
+                    league_instance = League.objects.get(id_league=league)
+                except League.DoesNotExist:
+                    return ApiResponse.error(
+                        message=f"League with ID {league} does not exist.",
+                        status_code=status.HTTP_400_BAD_REQUEST
+                    )
+            except KeyError as e:
+                # Si falta algún dato en la API, capturamos el error
                 return ApiResponse.error(
-                    message=f"League with ID {league} does not exist.",
+                    message=f"Missing field in fixture data: {e}",
                     status_code=status.HTTP_400_BAD_REQUEST
                 )
-        except KeyError as e:
-            # Si falta algún dato en la API, capturamos el error
-            return ApiResponse.error(
-                message=f"Missing field in fixture data: {e}",
-                status_code=status.HTTP_400_BAD_REQUEST
-            )
-        
-        # Si no hay goles, establecerlos en 0
-        home_goals = home_goals if home_goals is not None else None
-        away_goals = away_goals if away_goals is not None else None
+            
+            # Si no hay goles, establecerlos en 0
+            home_goals = home_goals if home_goals is not None else None
+            away_goals = away_goals if away_goals is not None else None
 
-        if home_goals is not None and away_goals is not None:
-            if home_goals > away_goals:
-                winner = 'home'
-            elif home_goals < away_goals:
-                winner = 'away'
+            if home_goals is not None and away_goals is not None:
+                if home_goals > away_goals:
+                    winner = 'home'
+                elif home_goals < away_goals:
+                    winner = 'away'
+                else:
+                    winner = 'draw'
             else:
-                winner = 'draw'
-        else:
-            winner = None
+                winner = None
 
 
-        # Verificar si el id_league ya existe en la base de datos
-        match = Match.objects.filter(id_fixture=id_fixture).first()
-        if match:
-            # Si el partido existe, verificar si algún campo cambió
-            if (match.date != date or 
-                match.home_team != home or 
-                match.away_team != away or 
-                match.home_team_goals != home_goals or 
-                match.away_team_goals != away_goals or 
-                match.match_status != match_status):
+            # Verificar si el id_league ya existe en la base de datos
+            match = Match.objects.filter(id_fixture=id_fixture).first()
+            if match:
+                # Si el partido existe, verificar si algún campo cambió
+                if (match.date != date or 
+                    match.home_team != home or 
+                    match.away_team != away or 
+                    match.home_team_goals != home_goals or 
+                    match.away_team_goals != away_goals or 
+                    match.match_status != match_status):
 
-                
-                # Actualizar los datos del partido
-                match.date = date
-                match.home_team = home
-                match.home_team_logo = home_logo
-                match.away_team = away
-                match.away_team_logo = away_logo
-                match.home_team_goals = home_goals
-                match.away_team_goals = away_goals
-                match.match_status = match_status
-                match.winner = winner
-                match.league = league_instance
-                match.save()
-                contador = contador+1
-
+                    
+                    # Actualizar los datos del partido
+                    match.date = date
+                    match.home_team = home
+                    match.home_team_logo = home_logo
+                    match.away_team = away
+                    match.away_team_logo = away_logo
+                    match.home_team_goals = home_goals
+                    match.away_team_goals = away_goals
+                    match.match_status = match_status
+                    match.winner = winner
+                    match.league = league_instance
+                    match.save()
+                    contador = contador+1
+    '''
+    #llamo a evaluar los resultados de las predicciones
+    contador=0
+    update_user_points()
     return ApiResponse.success(data={
                     f'message': f'Fixture fetched and saved successfully. register update {contador}'
                 }, status_code=status.HTTP_201_CREATED)
@@ -381,7 +458,7 @@ def update_match(request):
     ],
 )
 @api_view(['GET'])
-def search_match(request):
+def search_match(request): 
     """Endpoint para buscar ligas por nombre o país"""
     # Obtener los parámetros de búsqueda
     teams = request.query_params.get('teams', None)
@@ -397,6 +474,9 @@ def search_match(request):
         matchs = matchs.filter(date__icontains=date)  
     if league:
         matchs = matchs.filter(league=league)  
+        if not matchs.exists(): 
+            fetch_match(league)
+            matchs = matchs.filter(league=league)  
 
     paginator = PageNumberPagination()
     paginator.page_size = 10  
@@ -415,88 +495,79 @@ def search_match(request):
 
 @extend_schema(
     tags=["api-connect"],
-    parameters=[
-        OpenApiParameter(
-            name='league', 
-            description='ID de la liga para obtener los partidos. Ej: 39 (Premier League)', 
-            required=True, 
-            type=int
-        )
-    ],
     )
 @api_view(['GET'])
 @permission_classes([IsAdminUser])  # Solo superusuarios pueden acceder
 def update_match_odds(request):
     """Actualiza la base de datos de partidos con todas las páginas de cuotas"""
-    
     # Conexión HTTP para la API
-    conn = http.client.HTTPSConnection("api-football-v1.p.rapidapi.com")
+    conn = http.client.HTTPSConnection("v3.football.api-sports.io")
     headers = {
-        'x-rapidapi-host': "api-football-v1.p.rapidapi.com",
-        'x-rapidapi-key': "425a2f8650msh2c93977c1d9775fp1d700djsnccb1675c3877"
+    'x-rapidapi-host': "v3.football.api-sports.io",
+    'x-rapidapi-key': "3340e6dc57da7cc7c941644d11f7ef1c"
     }
 
-    page = 1
-    total_pages = 1  # Inicializamos a 1 para comenzar el bucle
-    registros_actualizados = 0
-    league = request.query_params.get('league')
-    while page <= total_pages:
-        ruta = f"/v3/odds?season=2024&bet=1&bookmaker=8&league={league}&page={page}"
+    leagues = Match.objects.values_list('league', flat=True).distinct()
+    for league in leagues:
+        page = 1
+        total_pages = 1  # Inicializamos a 1 para comenzar el bucle
+        registros_actualizados = 0
+        while page <= total_pages:
+            ruta = f"/odds?season=2024&bet=1&bookmaker=8&league={league}&page={page}"
 
-        conn.request("GET", ruta, headers=headers)
-        res = conn.getresponse()
-        data = res.read()
+            conn.request("GET", ruta, headers=headers)
+            res = conn.getresponse()
+            data = res.read()
 
-        # Decodificar y convertir la respuesta a un diccionario JSON
-        data_json = json.loads(data.decode("utf-8"))
-        print(data_json)
-        # Procesar los fixtures y actualizar la base de datos
-        for fixture in data_json.get('response', []):
-            try:
-                id_fixture = fixture['fixture']['id']
-                bookmakers = fixture.get('bookmakers', [])
-                
-                home_odds = None
-                draw_odds = None
-                away_odds = None
-                
-                # Recorrer los bookmakers y encontrar las odds
-                for bookmaker in bookmakers:
-                    if bookmaker['id'] == 8:  # Bet365 tiene id 8
-                        for bet in bookmaker['bets']:
-                            if bet['name'] == "Match Winner":
-                                for value in bet['values']:
-                                    if value['value'] == "Home":
-                                        home_odds = value['odd']
-                                    elif value['value'] == "Draw":
-                                        draw_odds = value['odd']
-                                    elif value['value'] == "Away":
-                                        away_odds = value['odd']
+            # Decodificar y convertir la respuesta a un diccionario JSON
+            data_json = json.loads(data.decode("utf-8"))
+            # Procesar los fixtures y actualizar la base de datos
+            for fixture in data_json.get('response', []):
+                try:
+                    id_fixture = fixture['fixture']['id']
+                    bookmakers = fixture.get('bookmakers', [])
+                    
+                    home_odds = None
+                    draw_odds = None
+                    away_odds = None
+                    
+                    # Recorrer los bookmakers y encontrar las odds
+                    for bookmaker in bookmakers:
+                        if bookmaker['id'] == 8:  # Bet365 tiene id 8
+                            for bet in bookmaker['bets']:
+                                if bet['name'] == "Match Winner":
+                                    for value in bet['values']:
+                                        if value['value'] == "Home":
+                                            home_odds = value['odd']
+                                        elif value['value'] == "Draw":
+                                            draw_odds = value['odd']
+                                        elif value['value'] == "Away":
+                                            away_odds = value['odd']
 
-                if home_odds and draw_odds and away_odds:
-                    # Verificar si el id_fixture ya existe en la base de datos
-                    match = Match.objects.filter(id_fixture=id_fixture).first()
+                    if home_odds and draw_odds and away_odds:
+                        # Verificar si el id_fixture ya existe en la base de datos
+                        match = Match.objects.filter(id_fixture=id_fixture).first()
 
-                    if match:
-                        # Actualizar las cuotas del partido
-                        match.home_odds = home_odds
-                        match.draw_odds = draw_odds
-                        match.away_odds = away_odds
-                        match.save()
-                        registros_actualizados = registros_actualizados + 1
+                        if match:
+                            # Actualizar las cuotas del partido
+                            match.home_odds = home_odds
+                            match.draw_odds = draw_odds
+                            match.away_odds = away_odds
+                            match.save()
+                            registros_actualizados = registros_actualizados + 1
 
-            except Exception as e:
-                print(f"Error al procesar el fixture {id_fixture}: {e}")
+                except Exception as e:
+                    print(f"Error al procesar el fixture {id_fixture}: {e}")
 
-        # Obtener la información de paginación
-        pagination = data_json.get('paging', {})
-        total_pages = pagination.get('total', 1)
-        current_page = pagination.get('current', 1)
+            # Obtener la información de paginación
+            pagination = data_json.get('paging', {})
+            total_pages = pagination.get('total', 1)
+            current_page = pagination.get('current', 1)
 
-        print(f"Procesando página {current_page} de {total_pages}")
-        
-        # Avanzar a la siguiente página
-        page += 1
+            print(f"Procesando página {current_page} de {total_pages}")
+            
+            # Avanzar a la siguiente página
+            page += 1
     messange = f'All fixtures fetched and saved successfully. registros: {registros_actualizados}'
     return ApiResponse.success(data={
         'message': messange
