@@ -1,3 +1,4 @@
 
 backend/waki_server/db.sqlite3
 backend/waki_server/db.sqlite3
+backend/waki_server/.env
