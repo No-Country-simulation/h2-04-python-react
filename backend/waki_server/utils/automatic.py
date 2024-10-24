@@ -13,8 +13,6 @@ login_data = {
 # Hacer login y obtener el token
 response = requests.post(login_url, json=login_data)
 
-print(response.json())
-
 if response.status_code == 200:
     # Suponiendo que el token viene en el campo 'token'
     token = response.json().get('access')

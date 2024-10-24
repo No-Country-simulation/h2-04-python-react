@@ -13,6 +13,7 @@ from user.views import UserViewSet, LoginView
 
 from football_api.views import fetch_leagues, search_leagues, fetch_match, search_match, update_match, update_match_odds, fetch_teams, fetch_players
 from match.views import PredictionCreateView, PredictionListView, predicciones_disponibles
+from players.views import PlayersListView
 
 class CustomTokenObtainPairView(TokenObtainPairView):
     permission_classes = (AllowAny,)
@@ -59,6 +60,8 @@ urlpatterns = [
     path('predictions/create/', PredictionCreateView.as_view(), name='create_predictions'),
     path('predictions/available/', predicciones_disponibles, name='predictions-available'),
 
+
+    path('players/', PlayersListView.as_view(), name='players-list'),
 
 ]
 

@@ -1,0 +1,38 @@
+from rest_framework import generics, filters, status
+from rest_framework.response import Response
+from core.models import Players
+from .serializers import PlayersSerializer  # Asegúrate de que este serializer esté definido
+from drf_spectacular.utils import extend_schema, OpenApiParameter
+from utils.apiresponse import ApiResponse
+
+@extend_schema(
+    parameters=[
+        OpenApiParameter('team', str, description='Nombre del equipo para filtrar jugadores', required=False),
+        OpenApiParameter('search', str, description='Nombre del jugador para buscar', required=False),
+    ],
+    responses={200: PlayersSerializer(many=True)},
+)
+class PlayersListView(generics.ListAPIView):
+    queryset = Players.objects.all()
+    serializer_class = PlayersSerializer
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['name']
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        team_name = self.request.query_params.get('team', None)
+        
+        if team_name:
+            queryset = queryset.filter(teams__name__icontains=team_name)  # Filtrar por nombre del equipo
+        
+        return queryset
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        page = self.paginate_queryset(queryset)  # Paginación de la consulta
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)  # Respuesta paginada
+
+        serializer = self.get_serializer(queryset, many=True)
+        return ApiResponse.success(data=serializer.data, status_code=status.HTTP_200_OK)
