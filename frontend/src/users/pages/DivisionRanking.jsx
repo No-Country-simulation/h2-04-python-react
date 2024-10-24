@@ -35,8 +35,8 @@ const DivisionRanking = () => {
         throw new Error('Invalid data format received from API');
       }
       return response.data
-        .filter(user => user && typeof user.total_points === 'number' && user.total_points > 0)
-        .sort((a, b) => b.total_points - a.total_points);
+      .filter(user => user && user.total_points && parseFloat(user.total_points) > 0)
+      .sort((a, b) => parseFloat(b.total_points) - parseFloat(a.total_points));
     },
     staleTime: 1000 * 60 * 30, 
   });
@@ -121,7 +121,7 @@ const DivisionRanking = () => {
                     <span>{user.id === currentUser.id ? currentLanguage === "en" ? "You" : "Tu" : user.full_name || user.email}</span>
                   </div>
                 </TableCell>
-                <TableCell className="text-center">{user.total_points}</TableCell>
+                <TableCell className="text-center">{parseFloat(user.total_points).toFixed(2)}</TableCell>
               </TableRow>
             ))}
           </TableBody>
