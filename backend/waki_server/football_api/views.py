@@ -4,7 +4,7 @@ from rest_framework import status
 from django.http import JsonResponse
 import http.client
 import json
-from core.models import League, Match, PredictionDetail, Prediction, User
+from core.models import League, Match, PredictionDetail, Prediction, User, Teams, Players
 from utils.apiresponse import ApiResponse
 from .serializers import LeagueSerializer, MatchSerializer
 from rest_framework.pagination import PageNumberPagination
@@ -12,6 +12,7 @@ from drf_spectacular.utils import extend_schema, OpenApiParameter
 from django.db.models import Q
 from rest_framework.request import Request
 from django.db.models import F
+from urllib.parse import quote
 
 @extend_schema(
     tags=["api-connect"],)
@@ -346,7 +347,7 @@ def update_match(request):
 
     season = 2024
     leagues = Match.objects.values_list('league', flat=True).distinct()
-    '''for league in leagues:
+    for league in leagues:
         ruta = f"/fixtures?season={season}&league={league}"
         contador = 0
         conn.request("GET",ruta , headers=headers)
@@ -427,9 +428,9 @@ def update_match(request):
                     match.league = league_instance
                     match.save()
                     contador = contador+1
-    '''
+    
     #llamo a evaluar los resultados de las predicciones
-    contador=0
+
     update_user_points()
     return ApiResponse.success(data={
                     f'message': f'Fixture fetched and saved successfully. register update {contador}'
@@ -573,14 +574,6 @@ def update_match_odds(request):
         'message': messange
     }, status_code=status.HTTP_201_CREATED)
 
-
-
-
-
-
-
-
-
 @extend_schema(
     tags=["api-connect"],
     )
@@ -593,3 +586,123 @@ def createsuper(request):
     return ApiResponse.success(data={
                     f'message': f'Fixture fetched and saved successfully. register update {user}'
                 }, status_code=status.HTTP_201_CREATED)
+
+
+
+
+@extend_schema(
+    tags=["api-connect"],)
+@api_view(['GET'])
+@permission_classes([IsAdminUser])  # Solo superusuarios pueden acceder
+def fetch_teams(request):
+    """Actualiza la base de datos de equipos de la seleccion"""
+    # Conexión HTTP para la API
+    conn = http.client.HTTPSConnection("v3.football.api-sports.io")
+    headers = {
+            'x-rapidapi-host': "v3.football.api-sports.io",
+            'x-rapidapi-key': "33e976d6787480b32a1208914e80d636"
+    }
+
+    conn.request("GET", "/teams?league=1&season=2022", headers=headers)
+
+    res = conn.getresponse()
+    data = res.read()
+
+    # Decodificar y convertir la respuesta a un diccionario JSON
+    data_json = json.loads(data.decode("utf-8"))
+
+    # Recorrer las ligas y guardar en la base de datos
+    for teams in data_json['response']:
+        id = teams['team']['id']
+        name = teams['team']['name']
+        country = teams['team']['country']
+        founded = teams['team']['founded']
+        national = teams['team']['national']
+        logo = teams['team']['logo']
+
+        # Verificar si el id_league ya existe en la base de datos
+        if not Teams.objects.filter(id=id).exists():
+            Teams.objects.create(id=id,
+                                name=name, 
+                                logo=logo,
+                                country=country,
+                                founded=founded,
+                                national=national
+                                )
+
+    return ApiResponse.success(data={
+                    'message': 'teams fetched and saved successfully.'
+                }, status_code=status.HTTP_201_CREATED)
+
+
+
+
+@extend_schema(
+    tags=["api-connect"],
+)
+@api_view(['GET'])
+@permission_classes([IsAdminUser])  # Solo superusuarios pueden acceder
+def fetch_players(request):
+    """Actualiza la base de datos de jugadores de seleccion"""
+    # Conexión HTTP para la API
+    conn = http.client.HTTPSConnection("v3.football.api-sports.io")
+    headers = {
+        'x-rapidapi-host': "v3.football.api-sports.io",
+        'x-rapidapi-key': "33e976d6787480b32a1208914e80d636"
+    }
+
+    teams = Teams.objects.all()
+    contador = 0
+    for team in teams:
+
+        # Codificar el nombre del equipo para la URL
+        encoded_team_name = team.id  # Suponiendo que el modelo `Teams` tiene un campo `name`
+        ruta = f'/players/squads?team={encoded_team_name}'
+        
+        conn.request("GET", ruta, headers=headers)
+        res = conn.getresponse()
+        data = res.read()
+
+
+        # Decodificar y convertir la respuesta a un diccionario JSON
+        data_json = json.loads(data.decode("utf-8"))
+
+        # Verificar si hay datos en la respuesta
+        if 'response' in data_json:
+            for team_data in data_json['response']:
+                team_id = team_data['team']['id']
+                team_obj = Teams.objects.filter(id=team_id).first()
+
+                # Verificar si se encontró el equipo
+                if not team_obj:
+                    continue
+
+                # Recorrer los jugadores
+                for player_data in team_data['players']:
+                    player_id = player_data['id']
+                    name = player_data['name']
+                    age = player_data['age']
+                    number = player_data['number']
+                    position = player_data['position']
+                    photo = player_data['photo']
+
+                    # Verificar si el jugador ya existe en la base de datos
+                    player_obj, created = Players.objects.get_or_create(
+                        id=player_id,
+                        defaults={
+                            'name': name,
+                            'age': age,
+                            'number': number,
+                            'position': position,
+                            'photo': photo,
+                        }
+                    )
+
+                    # Añadir el jugador al equipo (relación)
+                    player_obj.teams.add(team_obj)  # Usar el método add() para la relación
+
+                    contador += 1  # Incrementar el contador de jugadores procesados
+
+    return ApiResponse.success(data={
+        'message': f'Players fetched and saved successfully. Total: {contador}'
+    }, status_code=status.HTTP_201_CREATED)

@@ -1,0 +1,207 @@
+{
+    "get": "players/squads",
+    "parameters": {
+        "team": "1"
+    },
+    "errors": [],
+    "results": 1,
+    "paging": {
+        "current": 1,
+        "total": 1
+    },
+    "response": [
+        {
+            "team": {
+                "id": 1,
+                "name": "Belgium",
+                "logo": "https://media.api-sports.io/football/teams/1.png"
+            },
+            "players": [
+                {
+                    "id": 2918,
+                    "name": "K. Casteels",
+                    "age": 31,
+                    "number": null,
+                    "position": "Goalkeeper",
+                    "photo": "https://media.api-sports.io/football/players/2918.png"
+                },
+                {
+                    "id": 8741,
+                    "name": "O. De Wolf",
+                    "age": 26,
+                    "number": null,
+                    "position": "Goalkeeper",
+                    "photo": "https://media.api-sports.io/football/players/8741.png"
+                },
+                {
+                    "id": 1924,
+                    "name": "M. Vandevoordt",
+                    "age": 21,
+                    "number": null,
+                    "position": "Goalkeeper",
+                    "photo": "https://media.api-sports.io/football/players/1924.png"
+                },
+                {
+                    "id": 1408,
+                    "name": "S. Bornauw",
+                    "age": 24,
+                    "number": null,
+                    "position": "Defender",
+                    "photo": "https://media.api-sports.io/football/players/1408.png"
+                },
+                {
+                    "id": 2920,
+                    "name": "T. Castagne",
+                    "age": 28,
+                    "number": null,
+                    "position": "Defender",
+                    "photo": "https://media.api-sports.io/football/players/2920.png"
+                },
+                {
+                    "id": 162007,
+                    "name": "M. De Cuyper",
+                    "age": 23,
+                    "number": null,
+                    "position": "Defender",
+                    "photo": "https://media.api-sports.io/football/players/162007.png"
+                },
+                {
+                    "id": 162141,
+                    "name": "K. De Winter",
+                    "age": 21,
+                    "number": null,
+                    "position": "Defender",
+                    "photo": "https://media.api-sports.io/football/players/162141.png"
+                },
+                {
+                    "id": 304228,
+                    "name": "Z. Debast",
+                    "age": 20,
+                    "number": null,
+                    "position": "Defender",
+                    "photo": "https://media.api-sports.io/football/players/304228.png"
+                },
+                {
+                    "id": 8694,
+                    "name": "W. Faes",
+                    "age": 25,
+                    "number": null,
+                    "position": "Defender",
+                    "photo": "https://media.api-sports.io/football/players/8694.png"
+                },
+                {
+                    "id": 377009,
+                    "name": "M. Smets",
+                    "age": 19,
+                    "number": null,
+                    "position": "Defender",
+                    "photo": "https://media.api-sports.io/football/players/377009.png"
+                },
+                {
+                    "id": 204043,
+                    "name": "A. Theate",
+                    "age": 23,
+                    "number": null,
+                    "position": "Defender",
+                    "photo": "https://media.api-sports.io/football/players/204043.png"
+                },
+                {
+                    "id": 162210,
+                    "name": "A. Engels",
+                    "age": 20,
+                    "number": null,
+                    "position": "Midfielder",
+                    "photo": "https://media.api-sports.io/football/players/162210.png"
+                },
+                {
+                    "id": 24882,
+                    "name": "O. Mangala",
+                    "age": 25,
+                    "number": null,
+                    "position": "Midfielder",
+                    "photo": "https://media.api-sports.io/football/players/24882.png"
+                },
+                {
+                    "id": 2926,
+                    "name": "Y. Tielemans",
+                    "age": 26,
+                    "number": null,
+                    "position": "Midfielder",
+                    "photo": "https://media.api-sports.io/football/players/2926.png"
+                },
+                {
+                    "id": 127413,
+                    "name": "A. Vranckx",
+                    "age": 21,
+                    "number": null,
+                    "position": "Midfielder",
+                    "photo": "https://media.api-sports.io/football/players/127413.png"
+                },
+                {
+                    "id": 290549,
+                    "name": "J. Bakayoko",
+                    "age": 20,
+                    "number": null,
+                    "position": "Attacker",
+                    "photo": "https://media.api-sports.io/football/players/290549.png"
+                },
+                {
+                    "id": 147859,
+                    "name": "C. De Ketelaere",
+                    "age": 22,
+                    "number": null,
+                    "position": "Attacker",
+                    "photo": "https://media.api-sports.io/football/players/147859.png"
+                },
+                {
+                    "id": 1422,
+                    "name": "J. Doku",
+                    "age": 21,
+                    "number": null,
+                    "position": "Attacker",
+                    "photo": "https://media.api-sports.io/football/players/1422.png"
+                },
+                {
+                    "id": 361348,
+                    "name": "M. Fofana",
+                    "age": 18,
+                    "number": null,
+                    "position": "Attacker",
+                    "photo": "https://media.api-sports.io/football/players/361348.png"
+                },
+                {
+                    "id": 25458,
+                    "name": "D. Lukebakio",
+                    "age": 26,
+                    "number": null,
+                    "position": "Attacker",
+                    "photo": "https://media.api-sports.io/football/players/25458.png"
+                },
+                {
+                    "id": 85,
+                    "name": "C. Ngonge",
+                    "age": 23,
+                    "number": null,
+                    "position": "Attacker",
+                    "photo": "https://media.api-sports.io/football/players/85.png"
+                },
+                {
+                    "id": 86,
+                    "name": "L. Openda",
+                    "age": 23,
+                    "number": null,
+                    "position": "Attacker",
+                    "photo": "https://media.api-sports.io/football/players/86.png"
+                },
+                {
+                    "id": 1946,
+                    "name": "L. Trossard",
+                    "age": 29,
+                    "number": null,
+                    "position": "Attacker",
+                    "photo": "https://media.api-sports.io/football/players/1946.png"
+                }
+            ]
+        }
+    ]
+}

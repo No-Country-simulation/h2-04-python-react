@@ -1,12 +1,13 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.contrib import admin
 
 class User(AbstractUser):
     profile_image = models.ImageField(upload_to='profile_images/', blank=True, null=True)
     phone = models.CharField(max_length=15, blank=True, null=True)
     full_name = models.CharField(max_length=150, blank=True, null=False)
     type_user = models.CharField(max_length=10,blank=False, default='Basic')
-    total_points = models.IntegerField(null=False, default=0)
+    total_points = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
 
     def __str__(self):
         return self.username
@@ -85,3 +86,31 @@ class ConfigModel(models.Model):
 
     def __str__(self):
         return self.clave
+    
+
+class Teams(models.Model):
+    id = models.IntegerField(primary_key=True)  # ID del equipo (proporcionado por la API)
+    name = models.CharField(max_length=100)  # Nombre del equipo
+    country = models.CharField(max_length=100)  # País del equipo
+    founded = models.IntegerField(null=True, blank=True)  # Año de fundación (opcional)
+    national = models.BooleanField(default=False)  # Indica si es selección nacional
+    logo = models.URLField(max_length=255, null=True, blank=True)  # URL del logo del equipo
+
+    def __str__(self):
+        return self.name
+    
+class Players(models.Model):
+    id = models.AutoField(primary_key=True)  # ID del jugador
+    name = models.CharField(max_length=255)
+    age = models.IntegerField(null=True, blank=True) 
+    number = models.IntegerField(null=True, blank=True)  # Número puede ser nulo
+    position = models.CharField(max_length=50)
+    photo = models.URLField(max_length=200)  # URL para la foto del jugador
+    teams = models.ManyToManyField(Teams, related_name='players')  # Relación con Teams
+
+    def __str__(self):
+        return self.name
+
+
+
+
