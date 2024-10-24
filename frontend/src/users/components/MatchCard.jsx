@@ -20,7 +20,7 @@ const MatchCard = ({
   const matchDate = format(date, "yyyy-MM-dd");
   const formattedTime = format(date, "HH:mm");
   const formattedDate = format(date, "dd MMM");
-  const isFinished = status.short === "FT";
+  const isFinishedOrInProgress = status.short === "FT" || status.short === "HT" || status.short === "2H";
   const { currentLanguage } = useLanguageStore();
 
   const handleOddsClick = (selectedTeam, odds) => {
@@ -49,9 +49,13 @@ const MatchCard = ({
             <span className="font-normal text-center">{homeTeam.name}</span>
           </div>
           <div className="flex flex-col items-center justify-center flex-1">
-            {isFinished ? (
+            {isFinishedOrInProgress ? (
               <div className="flex flex-col items-center justify-center space-y-4">
-                <span className="text-sm font-normal">{currentLanguage === "en" ? "Match Finished" : "Finalizado"}</span>
+                <span className="text-sm font-normal">
+                  {status.short === "FT" 
+                    ? (currentLanguage === "en" ? "Match Finished" : "Finalizado")
+                    : status.short}
+                </span>
                 <div className="score space-x-2 flex flex-row items-center">
                   <span className="font-semibold text-black text-2xl">
                     {displayData.homeTeamGoals}
@@ -75,7 +79,7 @@ const MatchCard = ({
           </div>
         </div>
         <div className="flex justify-around text-sm">
-          {!isFinished &&
+          {!isFinishedOrInProgress &&
             (displayData.type === "odds" && displayData.value ? (
               displayData.oddsAvailable ? (
               <>
