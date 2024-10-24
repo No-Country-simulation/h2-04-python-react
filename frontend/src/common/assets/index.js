@@ -17,8 +17,10 @@ import whistle from "./icons/whistle.svg";
 import soccerField from "./icons/soccerField.svg";
 import subtract from "./icons/Subtract.svg";
 import pendingSpin from "./icons/pendingSpin.svg";
+import logro from "./icons/logro.svg";
 
 export {
+    logro,
     whistle,
     pendingSpin,
     subtract,

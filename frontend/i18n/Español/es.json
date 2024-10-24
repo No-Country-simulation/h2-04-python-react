@@ -26,7 +26,9 @@
     "forgotPasswordDescription": "Ingrese su correo electrónico para recibir un enlace de recuperación de contraseña",
     "resetPassword": "Enviar",
     "emailError": "Ingrese un correo electrónico válido",
-    "fieldRequired": "Este campo es requerido"
+    "fieldRequired": "Este campo es requerido",
+    "loginSuccess": "Bienvenido!",
+    "registerSuccess": "Registro exitoso! Por favor, inicia sesión."
   },
   "navigation": {
     "scoutPlayers": "Jugadores",

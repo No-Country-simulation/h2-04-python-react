@@ -8,6 +8,7 @@ import {
 import RewardsView from "../components/RewardsView";
 import DivisionRanking from "./DivisionRanking";
 import { useTranslation } from "react-i18next";
+import Quest from "../components/Quest";
 
 const Divisions = () => {
   const [activeTab, setActiveTab] = useState("Rewards");
@@ -37,7 +38,7 @@ const Divisions = () => {
           <TabsTrigger
             value="Quests"
             className="data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-blue-500 data-[state=active]:rounded-none"
-            disabled
+            
           >
             {t('tabs.quests')}
           </TabsTrigger>
@@ -49,7 +50,9 @@ const Divisions = () => {
         <TabsContent value="Rewards">
           <RewardsView />
         </TabsContent>
-        <TabsContent value="Quests">quest</TabsContent>
+        <TabsContent value="Quests">
+          <Quest />
+        </TabsContent>
       </Tabs>
     </section>
   );
