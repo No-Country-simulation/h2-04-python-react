@@ -65,11 +65,15 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt.token_blacklist',
     'drf_spectacular',
     'corsheaders',
+    'admin_interface',
+    'colorfield',
+
     #aplicaciones propias
     'core',
     'user',
     'football_api', 
     'match',
+
 ]
 
 MIDDLEWARE = [
