@@ -95,6 +95,7 @@ class Teams(models.Model):
     founded = models.IntegerField(null=True, blank=True)  # Año de fundación (opcional)
     national = models.BooleanField(default=False)  # Indica si es selección nacional
     logo = models.URLField(max_length=255, null=True, blank=True)  # URL del logo del equipo
+    export = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name

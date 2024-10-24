@@ -651,7 +651,7 @@ def fetch_players(request):
         'x-rapidapi-key': "33e976d6787480b32a1208914e80d636"
     }
 
-    teams = Teams.objects.all()
+    teams = Teams.objects.filter(export=False)
     contador = 0
     for team in teams:
 
@@ -702,6 +702,8 @@ def fetch_players(request):
                     player_obj.teams.add(team_obj)  # Usar el método add() para la relación
 
                     contador += 1  # Incrementar el contador de jugadores procesados
+            team.export = True
+            team.save()
 
     return ApiResponse.success(data={
         'message': f'Players fetched and saved successfully. Total: {contador}'
