@@ -48,19 +48,27 @@ const FutPlayerRanking = () => {
 
   return (
     <div className="p-4">
-      <h2 className="text-lg font-medium leading-5 text-[#181818]">{t('titles.playerRanking')}</h2>
+      <h2 className="text-lg font-medium leading-5 text-[#181818]">
+        {t("titles.playerRanking")}
+      </h2>
       <div className="relative my-4">
         <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
         <Input
           type="text"
           name="search"
-          placeholder={currentLanguage === "en" ? "Find a player" : "Busca un jugador"}
+          placeholder={
+            currentLanguage === "en" ? "Find a player" : "Busca un jugador"
+          }
           className="pl-12"
           disabled
         />
       </div>
       <div className="mb-4 w-full justify-between">
-        <Select value={selectedFilter} onValueChange={setSelectedFilter} disabled>
+        <Select
+          value={selectedFilter}
+          onValueChange={setSelectedFilter}
+          disabled
+        >
           <SelectTrigger className="w-64 max-w-sm border-none shadow-none">
             <div className="flex items-center">
               <ArrowUpDown className="mr-2 h-4 w-4 text-purple-500" />
@@ -89,10 +97,14 @@ const FutPlayerRanking = () => {
           <TableHeader>
             <TableRow>
               <TableHead className="w-12 text-center">#</TableHead>
-              <TableHead>{t('table.player')}</TableHead>
+              <TableHead>{t("table.player")}</TableHead>
               <TableHead className="w-16">Div.</TableHead>
-              <TableHead className="w-20 text-center">{t('table.released')}</TableHead>
-              <TableHead className="w-20 text-center">{t('table.price')}</TableHead>
+              <TableHead className="w-20 text-center">
+                {t("table.released")}
+              </TableHead>
+              <TableHead className="w-20 text-center">
+                {t("table.price")}
+              </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -103,7 +115,14 @@ const FutPlayerRanking = () => {
                 >
                   {player.id}
                 </TableCell>
-                <TableCell>{player.name}</TableCell>
+                <TableCell>
+                  <Link
+                    to={`/players/${player.id}`}
+                    className="hover:underline"
+                  >
+                    {player.name}
+                  </Link>
+                </TableCell>
                 <TableCell>
                   <div
                     className={`w-6 h-6 rounded-full flex items-center justify-center text-white text-xs`}

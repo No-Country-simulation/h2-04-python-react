@@ -85,7 +85,7 @@
     "simple": "Simple",
     "combinada": "Combined",
     "draw": "Draw",
-    "finalResult": "Final result",
+    "finalResult": "Your prediction",
     "yourPredictions": "Your predictions",
     "availablePredictions": "Predictions available today",
     "errorNoAvailablePredictions": "The prediction limit for the selected date has been reached.",

@@ -1,6 +1,11 @@
 import { useEffect, useState } from "react";
 import { DatePicker } from "../components/DatePicker";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/common/components/ui/tabs";
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@/common/components/ui/tabs";
 import LeagueAccordion from "../components/LeagueAccordion";
 import { format, addDays, isSameDay, isAfter } from "date-fns";
 import { Search } from "lucide-react";
@@ -8,28 +13,22 @@ import { Input } from "@/common/components/ui/input";
 import useAuthStore from "@/api/store/authStore";
 import { useTranslation } from "react-i18next";
 import useLanguageStore from "@/api/store/language-store";
-import { Link } from "react-router-dom";
 import BetCoupon from "../components/BetCoupon";
-import useUserDataStore from "@/api/store/userStore";
-import ProfileImage from "../components/ProfileImage";
 import { useLeagues } from "@/api/services/matches";
 
 const Matches = () => {
   const { t } = useTranslation();
-  const { user } = useUserDataStore();
-  const profilePhoto = user.profile_image;
-  const username = user.full_name;
   const { currentLanguage } = useLanguageStore();
   const [selectedDate, setSelectedDate] = useState(new Date());
   const accessToken = useAuthStore((state) => state.accessToken);
-  
+
   const [selections, setSelections] = useState(() => {
-    const savedSelections = localStorage.getItem('betSelections');
+    const savedSelections = localStorage.getItem("betSelections");
     return savedSelections ? JSON.parse(savedSelections) : [];
   });
 
   useEffect(() => {
-    localStorage.setItem('betSelections', JSON.stringify(selections));
+    localStorage.setItem("betSelections", JSON.stringify(selections));
   }, [selections]);
 
   const { data: leagues, isLoading } = useLeagues(accessToken);
@@ -52,7 +51,10 @@ const Matches = () => {
 
   const getActiveTabValue = () => {
     const today = new Date();
-    if (isSameDay(selectedDate, today) || isSameDay(selectedDate, previousDate)) {
+    if (
+      isSameDay(selectedDate, today) ||
+      isSameDay(selectedDate, previousDate)
+    ) {
       return selectedDate.toISOString();
     } else if (isAfter(selectedDate, nextDate)) {
       return nextDate.toISOString();
@@ -63,7 +65,9 @@ const Matches = () => {
 
   const handleOddsSelect = (selection) => {
     setSelections((prevSelections) => {
-      const existingIndex = prevSelections.findIndex((s) => s.matchId === selection.matchId);
+      const existingIndex = prevSelections.findIndex(
+        (s) => s.matchId === selection.matchId
+      );
       if (existingIndex !== -1) {
         const updatedSelections = [...prevSelections];
         updatedSelections[existingIndex] = selection;
@@ -75,25 +79,19 @@ const Matches = () => {
   };
 
   const removeSelection = (index) => {
-    setSelections((prevSelections) => prevSelections.filter((_, i) => i !== index));
+    setSelections((prevSelections) =>
+      prevSelections.filter((_, i) => i !== index)
+    );
   };
 
   return (
     <section className="p-2 py-4 mb-28">
       <div className="flex justify-between items-center mb-4">
-        <Link to={"/profile"}>
-          <div className="flex-1 size-10 rounded-full ml-3">
-            <ProfileImage
-              profilePhoto={profilePhoto}
-              username={username}
-              size="size-10"
-            />
-          </div>
-        </Link>
-        <h1 className="text-2xl font-bold text-blueWaki flex-1 text-center">
+        <div className="flex-1" />
+        <h1 className="text-2xl font-bold text-blueWaki  text-center">
           {t("navigation.matches")}
         </h1>
-        <div className=" flex justify-end mr-7">
+        <div className="flex-1 flex justify-end mr-7">
           <DatePicker date={selectedDate} onDateChange={handleDateChange} />
         </div>
       </div>
@@ -125,7 +123,9 @@ const Matches = () => {
           <Input
             type="text"
             name="search"
-            placeholder={currentLanguage === "en" ? "Find a match" : "Busca un partido"}
+            placeholder={
+              currentLanguage === "en" ? "Find a match" : "Busca un partido"
+            }
             className="pl-12"
             disabled
           />
@@ -133,7 +133,9 @@ const Matches = () => {
 
         <TabsContent value={previousDate.toISOString()}>
           {isLoading ? (
-            <div className="p-4 text-center text-gray-500">{t("infoMsg.loadMatch")}</div>
+            <div className="p-4 text-center text-gray-500">
+              {t("infoMsg.loadMatch")}
+            </div>
           ) : (
             leagues.map((league) => (
               <LeagueAccordion
@@ -146,9 +148,14 @@ const Matches = () => {
             ))
           )}
         </TabsContent>
-        <TabsContent value={selectedDate.toISOString()} className="waki-shadow rounded-[9px]">
+        <TabsContent
+          value={selectedDate.toISOString()}
+          className="waki-shadow rounded-[9px]"
+        >
           {isLoading ? (
-            <div className="p-4 text-center text-gray-500">{t("infoMsg.loadMatch")}</div>
+            <div className="p-4 text-center text-gray-500">
+              {t("infoMsg.loadMatch")}
+            </div>
           ) : (
             leagues.map((league) => (
               <LeagueAccordion
@@ -163,7 +170,9 @@ const Matches = () => {
         </TabsContent>
         <TabsContent value={nextDate.toISOString()}>
           {isLoading ? (
-            <div className="p-4 text-center text-gray-500">{t("infoMsg.loadMatch")}</div>
+            <div className="p-4 text-center text-gray-500">
+              {t("infoMsg.loadMatch")}
+            </div>
           ) : (
             leagues.map((league) => (
               <LeagueAccordion

@@ -5,7 +5,7 @@ import { AuthPage } from "./public/pages/AuthPage";
 import { ProtectedRoute } from "./common/components/ProtectedRoute";
 import { ErrorPage } from "./public/pages/ErrorPage";
 import { SplashScreenWrapper } from "./public/components/SplashScreen";
-import {Players, Matches, Divisions, Profile, DivisionRewards, MyPredictions} from "@/users/pages/index";
+import {Players, Matches, Divisions, Profile, DivisionRewards, MyPredictions, PlayerDetails} from "@/users/pages/index";
 
 const App = () => {  
   return (
@@ -26,11 +26,12 @@ const App = () => {
         <Route element={<UserLayout />}>
           <Route element={<ProtectedRoute />}>
             <Route path="/players" element={<Players />} />
+            <Route path="/players/:id" element={<PlayerDetails />} />
             <Route path="/matches" element={<Matches />} />
             <Route path="/divisions" element={<Divisions />} />
             <Route path="/divisions/:leagueType" element={<DivisionRewards />} />
             <Route path="/profile" element={<Profile />} />
-            <Route path="/predictions" element={<MyPredictions/>} />
+            <Route path="/profile/my-predictions" element={<MyPredictions/>} />
           </Route>
         </Route>
 

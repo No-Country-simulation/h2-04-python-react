@@ -269,7 +269,7 @@ export default function PredictionsHistory() {
                             : "Selecciona una fecha"}
                         </span>
                       )}
-                      {!date && <CalendarIcon className="size-5" />}
+                      {!date && <CalendarIcon className="size-5 text-blueWaki" />}
                     </Button>
                   </PopoverTrigger>
                   <PopoverContent className="w-auto p-0" align="start">
