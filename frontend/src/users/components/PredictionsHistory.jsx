@@ -5,7 +5,7 @@ import { pendingSpin } from "@/common/assets";
 import { Card } from "@/common/components/ui/card";
 import { Separator } from "@/common/components/ui/separator";
 import { TabsContent } from "@/common/components/ui/tabs";
-import { CheckCircle2, XCircle } from "lucide-react";
+import { CheckCircle2, X, XCircle } from "lucide-react";
 import { Button } from "@/common/components/ui/button";
 import { Calendar } from "@/common/components/ui/calendar";
 import {
@@ -24,7 +24,7 @@ import { Skeleton } from "@/common/components/ui/skeleton";
 export default function PredictionsHistory() {
   const { t } = useTranslation();
   const { currentLanguage } = useLanguageStore();
-  const [date, setDate] = useState(Date);
+  const [date, setDate] = useState(null);
 
   const { data: pendingPredictions, isLoading: isPendingLoading } =
     usePredictions("pendiente");
@@ -78,10 +78,10 @@ export default function PredictionsHistory() {
     [sortedLostPredictions, date]
   );
 
-  const hasPendingPredictions = filteredPendingPredictions.length > 0;
+  const hasPendingPredictions = sortedPendingPredictions.length > 0;
 
-  const renderPredictions = (filteredPredictions) => {
-    if (filteredPredictions.length === 0) {
+  const renderPredictions = (predictions) => {
+    if (predictions.length === 0) {
       return (
         <div className="flex flex-col items-center justify-center space-y-4 p-8">
           <p className="text-lg text-gray-600">
@@ -96,7 +96,7 @@ export default function PredictionsHistory() {
       );
     }
 
-    return filteredPredictions.map((prediction) => (
+    return predictions.map((prediction) => (
       <Card
         key={prediction.prediction_id}
         className="waki-shadow rounded-[9px] px-4 py-2 h-fit overflow-hidden"
@@ -113,40 +113,49 @@ export default function PredictionsHistory() {
             >
               <div className="flex flex-row items-center justify-between">
                 <div className="text-sm text-medium flex flex-row items-center mb-1 gap-x-2">
-                    <p className="text-xs">{t("prediction.finalResult")}:</p>
-                    {detail.prediction_text === "Empate" ? (
-                    <p>{t(`prediction.${detail.prediction_text}`)}</p>
+                  <p className="text-xs">{t("prediction.finalResult")}:</p>
+                  {detail.prediction_text === "draw" ? (
+                    <p>{t(`prediction.draw`)}</p>
                   ) : (
                     <p className="text-sm text-medium">
-                      {detail.prediction_text}
+                      {detail.prediction_text === "home"
+                        ? detail.match.home_team
+                        : detail.prediction_text === "away"
+                        ? detail.match.away_team
+                        : "Empate"}
                     </p>
                   )}
-                  {detail.prediction_text === detail.match.home_team ? (
+                  {detail.prediction_text === "home" ? (
                     <img
                       src={detail.match.home_team_logo}
                       alt={`${detail.match.home_team} Logo`}
                       className="mr-2 size-5"
                     />
-                  ) : detail.prediction_text === detail.match.away_team ? (
+                  ) : detail.prediction_text === "away" ? (
                     <img
                       src={detail.match.away_team_logo}
                       alt={`${detail.match.away_team} Logo`}
                       className="mr-2 size-5"
                     />
                   ) : null}
-
-                  
                 </div>
                 <p className="text-sm text-medium">{detail.selected_odds}</p>
               </div>
               <p className="text-medium text-xs">
-                {detail.match.home_team} vs {detail.match.away_team}
+              {detail.match.home_team} vs {detail.match.away_team}
+              {(detail.match.home_team_goals || detail.match.away_team_goals) ? (
+                <span className="ml-1">
+                  - {detail.match.home_team_goals}:{detail.match.away_team_goals}
+                </span>
+              ) : null}
+            </p>
+              <p className="text-medium text-xs">
+                {format(detail.match.date, "dd MMM")}
               </p>
             </div>
           ))}
           <div className="flex flex-row items-center justify-between w-full">
             <p className="flex text-sm">{t("prediction.points")}:</p>
-
             <p
               className={`flex text-lg font-medium ${
                 prediction.status === "perdida"
@@ -159,7 +168,12 @@ export default function PredictionsHistory() {
           </div>
           <p className="text-xs text-[#555] mt-2">
             {currentLanguage === "en" ? "Date:" : "Fecha:"}{" "}
-            {new Date(prediction.created_at).toLocaleString()}
+            {format(
+              new Date(prediction.created_at),
+              currentLanguage === "en"
+                ? "MM/dd/yyyy HH:mm aaa"
+                : "dd/MM/yyyy HH:mm aaa"
+            )}{" "}
           </p>
           <Separator className="my-2" />
           <div className="flex items-center ">
@@ -211,6 +225,14 @@ export default function PredictionsHistory() {
     ));
   };
 
+  const handleDateSelect = (selectedDate) => {
+    setDate(selectedDate);
+  };
+
+  const handleClearDate = () => {
+    setDate(null);
+  };
+
   return (
     <>
       <TabsContent value="All">
@@ -222,7 +244,7 @@ export default function PredictionsHistory() {
             </div>
           ) : (
             <>
-              <div className="mb-4 flex justify-end">
+              <div className="mb-4 flex justify-end items-center">
                 <Popover>
                   <PopoverTrigger asChild>
                     <Button
@@ -233,7 +255,6 @@ export default function PredictionsHistory() {
                       )}
                     >
                       <p>{t("prediction.filterDate")}</p>
-
                       {date ? (
                         format(
                           date,
@@ -248,18 +269,27 @@ export default function PredictionsHistory() {
                             : "Selecciona una fecha"}
                         </span>
                       )}
-                      <CalendarIcon className="size-5" />
+                      {!date && <CalendarIcon className="size-5 text-blueWaki" />}
                     </Button>
                   </PopoverTrigger>
                   <PopoverContent className="w-auto p-0" align="start">
                     <Calendar
                       mode="single"
                       selected={date}
-                      onSelect={setDate}
+                      onSelect={handleDateSelect}
                       initialFocus
                     />
                   </PopoverContent>
                 </Popover>
+                {date && (
+                  <Button
+                    variant="ghost"
+                    onClick={handleClearDate}
+                    className="px-0"
+                  >
+                    <X className="size-4 text-purpleWaki" />
+                  </Button>
+                )}
               </div>
               {hasPendingPredictions && (
                 <div className="mb-6">
@@ -267,7 +297,11 @@ export default function PredictionsHistory() {
                     {t("prediction.active")}
                   </p>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-                    {renderPredictions(filteredPendingPredictions)}
+                    {renderPredictions(
+                      date
+                        ? filteredPendingPredictions
+                        : sortedPendingPredictions
+                    )}
                   </div>
                 </div>
               )}
@@ -276,10 +310,11 @@ export default function PredictionsHistory() {
                   {t("prediction.past")}
                 </p>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-                  {renderPredictions([
-                    ...filteredWonPredictions,
-                    ...filteredLostPredictions,
-                  ])}
+                  {renderPredictions(
+                    date
+                      ? [...filteredWonPredictions, ...filteredLostPredictions]
+                      : [...sortedWonPredictions, ...sortedLostPredictions]
+                  )}
                 </div>
               </div>
             </>
@@ -295,7 +330,7 @@ export default function PredictionsHistory() {
             </div>
           ) : (
             <>
-              <div className="mb-4 flex justify-end">
+              <div className="mb-4 flex justify-end items-center">
                 <Popover>
                   <PopoverTrigger asChild>
                     <Button
@@ -306,7 +341,6 @@ export default function PredictionsHistory() {
                       )}
                     >
                       <p>{t("prediction.filterDate")}</p>
-
                       {date ? (
                         format(
                           date,
@@ -328,14 +362,25 @@ export default function PredictionsHistory() {
                     <Calendar
                       mode="single"
                       selected={date}
-                      onSelect={setDate}
+                      onSelect={handleDateSelect}
                       initialFocus
                     />
                   </PopoverContent>
                 </Popover>
+                {date && (
+                  <Button
+                    variant="ghost"
+                    onClick={handleClearDate}
+                    className="ml-2"
+                  >
+                    {t("prediction.clearFilter")}
+                  </Button>
+                )}
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-                {renderPredictions(filteredWonPredictions)}
+                {renderPredictions(
+                  date ? filteredWonPredictions : sortedWonPredictions
+                )}
               </div>
             </>
           )}
@@ -350,7 +395,7 @@ export default function PredictionsHistory() {
             </div>
           ) : (
             <>
-              <div className="mb-4 flex justify-end">
+              <div className="mb-4 flex justify-end items-center">
                 <Popover>
                   <PopoverTrigger asChild>
                     <Button
@@ -361,7 +406,6 @@ export default function PredictionsHistory() {
                       )}
                     >
                       <p>{t("prediction.filterDate")}</p>
-
                       {date ? (
                         format(
                           date,
@@ -383,14 +427,25 @@ export default function PredictionsHistory() {
                     <Calendar
                       mode="single"
                       selected={date}
-                      onSelect={setDate}
+                      onSelect={handleDateSelect}
                       initialFocus
                     />
                   </PopoverContent>
                 </Popover>
+                {date && (
+                  <Button
+                    variant="ghost"
+                    onClick={handleClearDate}
+                    className="ml-2"
+                  >
+                    {t("prediction.clearFilter")}
+                  </Button>
+                )}
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2  lg:grid-cols-3 gap-5">
-                {renderPredictions(filteredLostPredictions)}
+                {renderPredictions(
+                  date ? filteredLostPredictions : sortedLostPredictions
+                )}
               </div>
             </>
           )}

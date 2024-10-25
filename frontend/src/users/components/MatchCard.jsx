@@ -17,9 +17,10 @@ const MatchCard = ({
   matchId,
 }) => {
   const date = new Date(fixtureDate);
+  const matchDate = format(date, "yyyy-MM-dd");
   const formattedTime = format(date, "HH:mm");
   const formattedDate = format(date, "dd MMM");
-  const isFinished = status.short === "FT";
+  const isFinishedOrInProgress = status.short === "FT" || status.short === "HT" || status.short === "2H";
   const { currentLanguage } = useLanguageStore();
 
   const handleOddsClick = (selectedTeam, odds) => {
@@ -31,6 +32,7 @@ const MatchCard = ({
       awayTeamLogo: awayTeam.logo,
       selectedTeam,
       odds,
+      matchDate,
     });
   };
 
@@ -47,9 +49,13 @@ const MatchCard = ({
             <span className="font-normal text-center">{homeTeam.name}</span>
           </div>
           <div className="flex flex-col items-center justify-center flex-1">
-            {isFinished ? (
+            {isFinishedOrInProgress ? (
               <div className="flex flex-col items-center justify-center space-y-4">
-                <span className="text-sm font-normal">{currentLanguage === "en" ? "Match Finished" : "Finalizado"}</span>
+                <span className="text-sm font-normal">
+                  {status.short === "FT" 
+                    ? (currentLanguage === "en" ? "Match Finished" : "Finalizado")
+                    : status.short}
+                </span>
                 <div className="score space-x-2 flex flex-row items-center">
                   <span className="font-semibold text-black text-2xl">
                     {displayData.homeTeamGoals}
@@ -73,14 +79,14 @@ const MatchCard = ({
           </div>
         </div>
         <div className="flex justify-around text-sm">
-          {!isFinished &&
+          {!isFinishedOrInProgress &&
             (displayData.type === "odds" && displayData.value ? (
               displayData.oddsAvailable ? (
               <>
                 <Button
                   className="bg-white hover:bg-gray-200 text-black font-normal text-xs px-5 py-1 leading-[18px]"
                   onClick={() =>
-                    handleOddsClick(homeTeam.name, displayData.value.home)
+                    handleOddsClick("home", displayData.value.home)
                   }
                 >
                   {displayData.value.home}
@@ -88,7 +94,7 @@ const MatchCard = ({
                 <Button
                   className="bg-white hover:bg-gray-200 text-black font-normal text-xs px-5 py-1 leading-[18px]"
                   onClick={() =>
-                    handleOddsClick("Empate", displayData.value.draw)
+                    handleOddsClick("draw", displayData.value.draw)
                   }
                 >
                   {displayData.value.draw}
@@ -96,7 +102,7 @@ const MatchCard = ({
                 <Button
                   className="bg-white hover:bg-gray-200 text-black font-normal text-xs px-5 py-1 leading-[18px]"
                   onClick={() =>
-                    handleOddsClick(awayTeam.name, displayData.value.away)
+                    handleOddsClick("away", displayData.value.away)
                   }
                 >
                   {displayData.value.away}

@@ -102,7 +102,7 @@ const Profile = () => {
       </div>
       <section className="p-2 pt-6">
         <Card className="w-full max-w-md mx-auto bg-white rounded-lg shadow-none waki-shadow border-none overflow-hidden">
-          <Link to={"/predictions"}>
+          <Link to={"/profile/my-predictions"}>
             <div className="flex flex-row items-center justify-between p-4 border-b">
               <div className="flex flex-row items-center justify-between space-x-4">
                 <Star strokeWidth={1.5} className="text-purpleWaki size-6" />

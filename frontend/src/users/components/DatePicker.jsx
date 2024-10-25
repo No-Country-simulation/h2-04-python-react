@@ -18,7 +18,7 @@ export function DatePicker({ selectedDate, onDateChange }) {
             !selectedDate && "text-muted-foreground border-none border-0"
           )}
         >
-          <CalendarIcon className="size-5" />
+          <CalendarIcon className="size-5 text-blueWaki" />
         </button>
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0">

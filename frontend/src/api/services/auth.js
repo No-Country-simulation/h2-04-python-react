@@ -4,6 +4,7 @@ import { fetchData } from "./fetchData";
 import useAuthStore from "../store/authStore";
 import useUserDataStore from "../store/userStore";
 import { toast } from "sonner";
+import { t } from 'i18next';
 
 export const useLogin = () => {
   const queryClient = useQueryClient();
@@ -31,7 +32,7 @@ export const useLogin = () => {
       login(data.tokens.access, data.tokens.refresh);
       setUserData(data.userData);
       queryClient.setQueryData(["user"], data.userData);
-      toast.success("Bienvenido!", { duration: 1500 });
+      toast.success(t("auth.loginSuccess"), { duration: 1500 });
       navigate("/matches");
     },
     onError: (error) => {
@@ -64,7 +65,7 @@ export const useRegister = (onSwitchToLogin) => {
     onSuccess: (responseData) => {
       login(responseData);
       onSwitchToLogin();
-      toast.success("Registro exitoso! Por favor, inicia sesión.");
+      toast.success(t("auth.registerSuccess"));
     },
     onError: (error) => {
       toast.error("Error de registro: " + error.message);

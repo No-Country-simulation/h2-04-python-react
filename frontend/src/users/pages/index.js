@@ -4,6 +4,7 @@ import Players from "./Players";
 import Profile from "./Profile";
 import DivisionRewards from "./DivisionRewards";
 import MyPredictions from "./MyPredictions";
+import PlayerDetails from "./PlayerDetails";
 
 export {
     Divisions,
@@ -11,5 +12,6 @@ export {
     Players,
     Profile,
     DivisionRewards,
-    MyPredictions
+    MyPredictions,
+    PlayerDetails
 }

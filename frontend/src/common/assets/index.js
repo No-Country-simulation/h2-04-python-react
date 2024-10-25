@@ -17,8 +17,16 @@ import whistle from "./icons/whistle.svg";
 import soccerField from "./icons/soccerField.svg";
 import subtract from "./icons/Subtract.svg";
 import pendingSpin from "./icons/pendingSpin.svg";
+import logro from "./icons/logro.svg";
+import yellowCard from "./icons/yellowCard.svg";
+import redCard from "./icons/redCard.svg";
+import flagAR from "./icons/flag-argentina.svg";
 
 export {
+    flagAR,
+    yellowCard,
+    redCard,
+    logro,
     whistle,
     pendingSpin,
     subtract,

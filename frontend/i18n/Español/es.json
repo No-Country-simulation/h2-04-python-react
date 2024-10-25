@@ -26,7 +26,9 @@
     "forgotPasswordDescription": "Ingrese su correo electrónico para recibir un enlace de recuperación de contraseña",
     "resetPassword": "Enviar",
     "emailError": "Ingrese un correo electrónico válido",
-    "fieldRequired": "Este campo es requerido"
+    "fieldRequired": "Este campo es requerido",
+    "loginSuccess": "Bienvenido!",
+    "registerSuccess": "Registro exitoso! Por favor, inicia sesión."
   },
   "navigation": {
     "scoutPlayers": "Jugadores",
@@ -58,7 +60,10 @@
   },
   "infoMsg": {
     "infoMatch": "No hay partidos disponibles para esta liga en esta fecha.",
-    "loadMatch": "Cargando partidos..."
+    "loadMatch": "Cargando partidos...",
+    "error500": "Error del servidor. Por favor, intenta más tarde.",
+    "refreshError": "Sesión expirada. Por favor inicia sesión nuevamente.",
+    "requestError": "Ocurrió un error en la solicitud"
   },
   "Rewards": "Recompenzas",
   "MonthlyPrizes": "Premios del mes",
@@ -79,15 +84,17 @@
     "points": "Puntos",
     "simple": "Simple",
     "combinada": "Combinada",
-    "Empate": "Empate",
-    "finalResult": "Resultado final",
+    "draw": "Empate",
+    "finalResult": "Tu predicción",
     "yourPredictions": "Tus predicciones",
     "availablePredictions": "Predicciones disponibles hoy",
+    "errorNoAvailablePredictions": "No tienes más predicciones disponibles para la fecha seleccionada.",
     "betEmpty": "Sin selecciones en el boleto de predicción",
     "predictionSummary": "Resumen de Predicciones",
     "totalPoints": "Puntos totales:",
     "predict": "Predicir",
-    "predictionUsed": "Predicciones utilizadas de hoy:",
+    "predictionUsed": "Predicciones utilizadas:",
+    "today": "Hoy",
     "outPredictions": "¿Te quedaste sin predicciones?",
     "buyPrediction": "Comprar predicciones",
     "errorLimitReached": "Limite de predicciones diarias alcanzado",

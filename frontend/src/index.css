@@ -27,6 +27,8 @@
     --chart-3: 197 37% 24%;
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
+    --chart-6: 268, 100%, 58%;
+    --chart-7: 216, 90%, 57%;
     --radius: 0.5rem;
   }
   .dark {
@@ -111,9 +113,6 @@ input[type="tel"] {
   @apply rounded-full !important;
 }
 
-.lucide-calendar{
-  @apply text-blueWaki
-}
 
 .matchCard, .content-visibility{
   content-visibility: auto;

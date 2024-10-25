@@ -27,22 +27,34 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { useTranslation } from "react-i18next";
 import PredictionUsageIndicator from "./PredictionUsageIndicator";
-import { usePredictionLimits } from "@/api/services/predictions";
+import { useLimiteDiario } from "@/api/services/predictions";
+import { Skeleton } from "@/common/components/ui/skeleton";
 
-const BetCoupon = ({
-  selections,
-  setSelections,
-  removeSelection,
-}) => {
+const BetCoupon = ({ selections, setSelections, removeSelection }) => {
   const { t } = useTranslation();
   const accessToken = useAuthStore((state) => state.accessToken);
   const { user } = useUserDataStore();
   const [totalOdds, setTotalOdds] = useState(1);
   const [potentialEarning, setPotentialEarning] = useState(0);
   const isDesktop = useIsDesktop();
+  const [isOpen, setIsOpen] = useState(false);
 
-  //predicciones usadas por el usuario
-  const { limits, canMakePrediction, incrementUsage } = usePredictionLimits();
+  const matchDates = [
+    ...new Set(selections.map((selection) => selection.matchDate)),
+  ];
+  const {
+    predictionData,
+    isLoading,
+    isError,
+    error,
+    refreshPredictionAvailability,
+  } = useLimiteDiario(matchDates);
+
+  useEffect(() => {
+    if (isOpen) {
+      refreshPredictionAvailability();
+    }
+  }, [isOpen, refreshPredictionAvailability]);
 
   useEffect(() => {
     const newTotalOdds = selections.reduce(
@@ -59,9 +71,14 @@ const BetCoupon = ({
       return;
     }
 
-    if (!canMakePrediction()) {
-      toast.error(t("prediction.errorLimitReached"), { duration: 1500 });
-      return;
+    for (const selection of selections) {
+      const dateData = predictionData?.[selection.matchDate];
+      if (!dateData || dateData.predicciones_disponibles <= 0) {
+        toast.error(t("prediction.errorNoAvailablePredictions"), {
+          duration: 1500,
+        });
+        return;
+      }
     }
 
     const dataToSend = {
@@ -80,7 +97,7 @@ const BetCoupon = ({
       status: "pendiente",
     };
 
-    console.log("Data being sent:", JSON.stringify(dataToSend, null, 2));
+    console.log("Data a enviar:", dataToSend);
 
     try {
       const response = await fetchData(
@@ -96,10 +113,9 @@ const BetCoupon = ({
         );
       }
 
-      // console.log("Predicción enviada con éxito:", response.data);
       toast.success(t("prediction.successMessage"), { duration: 1500 });
       setSelections([]);
-      incrementUsage();
+      refreshPredictionAvailability();
     } catch (error) {
       console.error("Error enviando predicción:", error);
       toast.error(`${t("error.successMessage")}: ${error.message}`, {
@@ -131,7 +147,7 @@ const BetCoupon = ({
               />
             </div>
             <p className="text-xs text-[#555]">
-              {selection.selectedTeam} - {selection.odds}
+              {selection.selectedTeam === "home" ? selection.homeTeam : selection.selectedTeam === "draw" ? "Empate" : selection.awayTeam } - {selection.odds}
             </p>
           </div>
           <Button
@@ -203,10 +219,18 @@ const BetCoupon = ({
             >
               {t("prediction.predict")}
             </Button>
-            <PredictionUsageIndicator
-              total={limits.dailyLimit}
-              used={limits.usedToday}
-            />
+            <div className="w-full flex flex-col justify-between">
+              {selections.length > 0 &&
+                (isLoading ? (
+                  <Skeleton className="h-4 w-full" />
+                ) : isError ? (
+                  <p>Error: {error.message}</p>
+                ) : (
+                  <PredictionUsageIndicator
+                    predictionData={predictionData || 0}
+                  />
+                ))}
+            </div>
           </CardFooter>
         </Card>
       </SheetContent>
