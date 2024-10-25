@@ -71,7 +71,7 @@ const RegisterForm = ({ onSwitchToLogin }) => {
     <Card className="border-none border-0 shadow-none">
       <CardHeader>
         <CardTitle className="flex flex-col gap-y-2">
-          <span className="text-[22px] text-blueWaki font-semibold">
+          <span className="text-[22px] text-blueWakiFix font-semibold">
             {t("auth.registerTitle")}
           </span>
           <span className="text-zinc-500 text-sm font-normal">

@@ -90,9 +90,9 @@ const Matches = () => {
     <section className="p-2 py-4 mb-28">
       <div className="flex justify-between items-center mb-4">
         <div className="flex-1" />
-        <h1 className="text-2xl font-bold text-blueWaki  text-center">
+        <h2 className="text-2xl font-bold text-blueWaki  text-center">
           {t("navigation.matches")}
-        </h1>
+        </h2>
         <div className="flex-1 flex justify-end mr-7">
           <DatePicker date={selectedDate} onDateChange={handleDateChange} />
         </div>

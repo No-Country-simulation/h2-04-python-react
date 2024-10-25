@@ -33,7 +33,7 @@ const BottomNav = () => {
           </svg>
           <span
             className={`text-sm ${
-              isActive("/players") ? "text-white" : "text-white/30"
+              isActive("/players") ? "text-white" : "text-[#5886CD]"
             }`}
           >
             {t('navigation.scoutPlayers')}
@@ -57,7 +57,7 @@ const BottomNav = () => {
 
           <span
             className={`text-sm ${
-              isActive("/matches") ? "text-white" : "text-white/30"
+              isActive("/matches") ? "text-white" : "text-[#5886CD]"
             }`}
           >
             {t('navigation.matches')}
@@ -80,7 +80,7 @@ const BottomNav = () => {
           </svg>
           <span
             className={`text-sm ${
-              isActive("/divisions") ? "text-white" : "text-white/30"
+              isActive("/divisions") ? "text-white" : "text-[#5886CD]"
             }`}
           >
             {t('navigation.divisions')}
@@ -96,7 +96,7 @@ const BottomNav = () => {
           />
           <span
             className={`text-sm ${
-              isActive("/profile") ? "text-white" : "text-white/30"
+              isActive("/profile") ? "text-white" : "text-[#5886CD]"
             }`}
           >
             {t('navigation.profile')}
