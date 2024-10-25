@@ -14,6 +14,7 @@ from user.views import UserViewSet, LoginView
 from football_api.views import fetch_leagues, search_leagues, fetch_match, search_match, update_match, update_match_odds, fetch_teams, fetch_players
 from match.views import PredictionCreateView, PredictionListView, predicciones_disponibles
 from players.views import PlayersListView
+from tokens.views import PlayerTokenBurnAPIView
 
 class CustomTokenObtainPairView(TokenObtainPairView):
     permission_classes = (AllowAny,)
@@ -62,6 +63,7 @@ urlpatterns = [
 
 
     path('players/', PlayersListView.as_view(), name='players-list'),
+    path('players/<int:player_id>/token-burn/', PlayerTokenBurnAPIView.as_view(), name='player-token-burn'),
 
 ]
 

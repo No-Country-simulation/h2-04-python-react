@@ -96,6 +96,8 @@ class Teams(models.Model):
     national = models.BooleanField(default=False)  # Indica si es selección nacional
     logo = models.URLField(max_length=255, null=True, blank=True)  # URL del logo del equipo
     export = models.BooleanField(default=False)
+    ranking = models.IntegerField(default=0)  # Ranking del club a nivel global
+    confederation = models.CharField(max_length=50, null=True)
 
     def __str__(self):
         return self.name
@@ -108,6 +110,14 @@ class Players(models.Model):
     position = models.CharField(max_length=50)
     photo = models.URLField(max_length=200)  # URL para la foto del jugador
     teams = models.ManyToManyField(Teams, related_name='players')  # Relación con Teams
+    matches_played = models.IntegerField(default=0)
+    total_club_matches = models.IntegerField(default=0)
+    rating = models.FloatField(default=0)  # Calificación del jugador
+    goals = models.IntegerField(default=0)  # Goles marcados
+    assists = models.IntegerField(default=0)  # Asistencias
+    national_team_matches = models.IntegerField(default=0)  # Partidos con la selección
+    national_team_ranking = models.IntegerField(default=0)  # Ranking FIFA de la selección
+    trophies = models.TextField(default=0)  # Trofeos ganados (puedes adaptarlo)
 
     def __str__(self):
         return self.name
