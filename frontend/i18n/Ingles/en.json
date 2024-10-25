@@ -61,6 +61,7 @@
   "infoMsg": {
     "infoMatch": "No matches are available for this league on this date.",
     "loadMatch": "Fetching matches...",
+    "loadLeagues": "Fetching leagues...",
     "error500": "Internal Server Error. Please try again later.",
     "refreshError": "Session expired. Please log in again.",
     "requestError": "An error occurred in the request"
@@ -124,5 +125,18 @@
     "news": "News",
     "previous": "Previous",
     "empty": "You have no unread notifications."
+  },
+  "countries": {
+    "Argentina": "Argentina",
+    "Brazil": "Brazil",
+    "England": "England",
+    "France": "France",
+    "Germany": "Germany",
+    "Italy": "Italy",
+    "Spain": "Spain",
+    "Mexico": "Mexico",
+    "World": "World",
+    "Uruguay": "Uruguay",
+    "USA": "United States"
   }
 }

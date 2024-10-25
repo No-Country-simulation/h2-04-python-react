@@ -37,14 +37,25 @@ export const useMatches = (league, date) => {
 };
 
 const LEAGUES = [
-  { country: "Spain", name: "La Liga" },
   { country: "Argentina", name: "Liga Profesional Argentina" },
+  { country: "Argentina", name: "Primera Nacional" }, 
+  { country: "Argentina", name: "Torneo Federal A" }, 
+  { country: "Argentina", name: "Primera B" }, 
+  { country: "Argentina", name: "Primera C" }, 
+  { country: "Brazil", name: "Serie A" }, 
+  { country: "Brazil", name: "Serie B" }, 
   { country: "England", name: "Premier League" },
-  { country: "World", name: "UEFA Champions League" },
+  { country: "France", name: "Ligue 1" },
   { country: "Germany", name: "Bundesliga" },
   { country: "Italy", name: "Serie A" },
-  { country: "France", name: "Ligue 1" },
+  { country: "Spain", name: "La Liga" },
+  { country: "Mexico", name: "Liga MX" },
+  { country: "World", name: "UEFA Champions League" },
   { country: "World", name: "UEFA Europa League" },
+  { country: "Uruguay", name: "Primera División - Clausura" },
+  { country: "Uruguay", name: "Segunda División" },
+  { country: "Uruguay", name: "Copa Uruguay" },
+  { country: "USA", name: "Major League Soccer" },
 ];
 
 export const useLeagues = (accessToken) => {

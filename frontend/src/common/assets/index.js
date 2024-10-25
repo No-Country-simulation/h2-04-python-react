@@ -21,8 +21,10 @@ import logro from "./icons/logro.svg";
 import yellowCard from "./icons/yellowCard.svg";
 import redCard from "./icons/redCard.svg";
 import flagAR from "./icons/flag-argentina.svg";
+import balon from "./icons/balon.svg";
 
 export {
+    balon,
     flagAR,
     yellowCard,
     redCard,

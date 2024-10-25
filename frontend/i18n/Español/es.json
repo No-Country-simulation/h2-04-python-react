@@ -61,6 +61,7 @@
   "infoMsg": {
     "infoMatch": "No hay partidos disponibles para esta liga en esta fecha.",
     "loadMatch": "Cargando partidos...",
+    "loadLeagues": "Cargando ligas...",
     "error500": "Error del servidor. Por favor, intenta más tarde.",
     "refreshError": "Sesión expirada. Por favor inicia sesión nuevamente.",
     "requestError": "Ocurrió un error en la solicitud"
@@ -124,5 +125,18 @@
     "news": "Nuevas",
     "previous": "Anteriores",
     "empty": "No tienes notificaciones sin leer."
+  },
+  "countries": {
+    "Argentina": "Argentina",
+    "Brazil": "Brasil",
+    "England": "Inglaterra",
+    "France": "Francia",
+    "Germany": "Alemania",
+    "Italy": "Italia",
+    "Spain": "España",
+    "Mexico": "México",
+    "World": "Mundial",
+    "Uruguay": "Uruguay",
+    "USA": "Estados Unidos"
   }
 }

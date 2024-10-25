@@ -35,7 +35,7 @@ useEffect(() => {
             <img src={league.logo} alt={league.name} className="size-7 object-contain mx-2" />
             <div className="flex flex-row space-x-2 items-center">
               <span className="text-[#181818] font-semibold">
-                {league.country}
+              {t(`countries.${league.country}`)}
               </span>
               <span className="text-[#555] text-sm">{league.name}</span>
             </div>

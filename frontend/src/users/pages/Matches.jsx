@@ -15,6 +15,8 @@ import { useTranslation } from "react-i18next";
 import useLanguageStore from "@/api/store/language-store";
 import BetCoupon from "../components/BetCoupon";
 import { useLeagues } from "@/api/services/matches";
+import { Skeleton } from "@/common/components/ui/skeleton";
+import { balon } from "@/common/assets";
 
 const Matches = () => {
   const { t } = useTranslation();
@@ -153,8 +155,15 @@ const Matches = () => {
           className="waki-shadow rounded-[9px]"
         >
           {isLoading ? (
-            <div className="p-4 text-center text-gray-500">
-              {t("infoMsg.loadMatch")}
+            <div className="p-4 w-full mx-auto">
+              <Skeleton className="h-96 w-full flex flex-col items-center justify-center">
+                <img
+                  src={balon}
+                  alt="Futball"
+                  className="size-8 animate-bounce"
+                />
+                {t("infoMsg.loadLeagues")}
+              </Skeleton>
             </div>
           ) : (
             leagues.map((league) => (
