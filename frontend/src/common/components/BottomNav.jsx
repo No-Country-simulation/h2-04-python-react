@@ -1,6 +1,7 @@
 // import { UserRound } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { UserRound } from "lucide-react";
 
 const BottomNav = () => {
   const { t } = useTranslation();
@@ -86,11 +87,11 @@ const BottomNav = () => {
           </span>
         </div>
       </Link>
-      {/* <Link to="/profile">
+      <Link to="/profile">
         <div className="flex flex-col items-center justify-center space-y-1">
           <UserRound
             className={`size-7 ${
-              isActive("/profile") ? "opacity-100" : "opacity-30"
+              isActive("/profile") ? "text-white" : "text-[#5886CD]"
             }`}
           />
           <span
@@ -101,7 +102,7 @@ const BottomNav = () => {
             {t('navigation.profile')}
           </span>
         </div>
-      </Link> */}
+      </Link>
     </div>
   );
 };

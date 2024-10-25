@@ -53,7 +53,7 @@ useEffect(() => {
               {t('infoMsg.infoMatch')}
             </div>
           ) : (
-            <div className="p-4">
+            <div className="p-1 grid md:grid-cols-2 md:gap-1 justify-items-center">
               {matches.map((match) => (
                 <MatchCardWrapper key={match.id_fixture} match={match} onOddsSelect={onOddsSelect} />
               ))}

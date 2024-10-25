@@ -11,14 +11,14 @@ import { logro } from "@/common/assets";
 const missions = [
   {
     id: 1,
-    description: "Ganá 1 apuestas simples",
+    description: "Ganá 1 apuesta simple",
     requiredWins: 1,
     type: "simple",
     points: 10,
   },
   {
     id: 2,
-    description: "Ganá 1 apuestas combinadas",
+    description: "Ganá 1 apuesta combinada",
     requiredWins: 1,
     type: "combinada",
     points: 25,
@@ -114,10 +114,10 @@ const Quest = () => {
                   <div className="relative">
                     <Progress
                       value={(completedPredictions / mission.requiredWins) * 100}
-                      className="h-3.5"
+                      className="h-4"
                     />
                     <div className="absolute left-1/2 top-0 h-full flex items-center">
-                      <div className="flex flex-row items-center space-x-2 pl-2">
+                      <div className="flex flex-row items-center space-x-2">
                         <span className="text-white text-xs text-center font-medium">
                           {completedPredictions}/{mission.requiredWins}
                         </span>
