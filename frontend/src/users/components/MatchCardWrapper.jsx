@@ -33,7 +33,9 @@ const MatchCardWrapper = ({ match, onOddsSelect }) => {
     displayData = {
       type: "odds",
       value: odds,
-      oddsAvailable: odds.home !== null && odds.draw !== null && odds.away !== null
+      oddsAvailable: odds.home !== null && odds.home > 0.00 &&
+               odds.draw !== null && odds.draw > 0.00 &&
+               odds.away !== null && odds.away > 0.00
     };
   }
 

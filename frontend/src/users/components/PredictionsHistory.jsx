@@ -139,7 +139,17 @@ export default function PredictionsHistory() {
                     />
                   ) : null}
                 </div>
-                <p className="text-sm text-medium">{detail.selected_odds}</p>
+                <p
+                  className={`text-sm text-medium ${
+                    detail.status === "ganada"
+                      ? "text-green-600 font-medium"
+                      : detail.status === "perdida"
+                      ? "line-through text-[#555]"
+                      : ""
+                  }`}
+                >
+                  {(parseFloat(detail.selected_odds) * 10).toFixed(2)}
+                </p>
               </div>
               <p className="text-medium text-xs">
                 {detail.match.home_team} vs {detail.match.away_team}

@@ -84,6 +84,7 @@ const LoginForm = () => {
               htmlFor="loginPassword"
               label={t("auth.password")}
               id="loginPassword"
+              autocomplete="current-password"
             />
 
             <div className="flex items-center justify-center">

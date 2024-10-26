@@ -45,7 +45,7 @@ const MatchCard = ({
       <div className="p-4 mt-2">
         <div className="flex items-center justify-between mb-4">
           <div className="flex flex-col items-center space-y-2 flex-1">
-            <img src={homeTeam.logo} alt={homeTeam.name} className="size-10" />
+            <img src={homeTeam.logo} alt={homeTeam.name} className="w-auto h-10" />
             <span className="font-normal text-center">{homeTeam.name}</span>
           </div>
           <div className="flex flex-col items-center justify-center flex-1">
@@ -74,7 +74,7 @@ const MatchCard = ({
             )}
           </div>
           <div className="flex flex-col items-center space-y-2 flex-1">
-            <img src={awayTeam.logo} alt={awayTeam.name} className="size-10" />
+            <img src={awayTeam.logo} alt={awayTeam.name} className="w-auto h-10" />
             <span className="font-normal text-center">{awayTeam.name}</span>
           </div>
         </div>
@@ -89,7 +89,7 @@ const MatchCard = ({
                     handleOddsClick("home", displayData.value.home)
                   }
                 >
-                  {displayData.value.home}
+                  {(parseFloat(displayData.value.home) * 10).toFixed(2)}
                 </Button>
                 <Button
                   className="bg-white hover:bg-gray-200 text-black font-normal text-xs px-5 py-1 leading-[18px]"
@@ -97,7 +97,7 @@ const MatchCard = ({
                     handleOddsClick("draw", displayData.value.draw)
                   }
                 >
-                  {displayData.value.draw}
+                  {(parseFloat(displayData.value.draw) * 10).toFixed(2)}
                 </Button>
                 <Button
                   className="bg-white hover:bg-gray-200 text-black font-normal text-xs px-5 py-1 leading-[18px]"
@@ -105,7 +105,7 @@ const MatchCard = ({
                     handleOddsClick("away", displayData.value.away)
                   }
                 >
-                  {displayData.value.away}
+                  {(parseFloat(displayData.value.away) * 10).toFixed(2)}
                 </Button>
               </>
             ) : (
