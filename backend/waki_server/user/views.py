@@ -247,35 +247,35 @@ class UserRewards(APIView):
         # Calcular puntos según las reglas establecidas para apuestas simples
         if apuestas_simples_ganadas >= 10:
             puntos += 130
-            logro_10simple = 'completado'
+            logro_10simple = '10/10'
         else:
             logro_10simple = f"{apuestas_simples_ganadas}/10"
         if apuestas_simples_ganadas >= 3:
             puntos += 45
-            logro_3simple = 'completado'
+            logro_3simple = '3/3'
         else:
             logro_3simple = f"{apuestas_simples_ganadas}/3"
         if apuestas_simples_ganadas >= 1:
             puntos += 10
-            logro_1simple = 'completado'
+            logro_1simple = '1/1'
         else:
             logro_1simple = f"{apuestas_simples_ganadas}/1"
         
         # Calcular puntos según las reglas establecidas para apuestas combinadas
         if apuestas_combinadas_ganadas >= 10:
             puntos += 90
-            logro_10combi = 'completado'
+            logro_10combi = '10/10'
         else: 
             logro_10combi = f"{apuestas_combinadas_ganadas}/10"
         
         if apuestas_combinadas_ganadas >= 3:
             puntos += 90
-            logro_3combi = 'completado'
+            logro_3combi = '3/3'
         else:
             logro_3combi = f"{apuestas_combinadas_ganadas}/3"
         if apuestas_combinadas_ganadas >= 1:
             puntos += 25
-            logro_1combi = 'completado'
+            logro_1combi = '1/1'
         else:
             logro_1combi = f"{apuestas_combinadas_ganadas}/1"
 
