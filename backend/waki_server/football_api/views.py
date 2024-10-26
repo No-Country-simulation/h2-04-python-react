@@ -604,8 +604,8 @@ def fetch_teams(request):
     # Conexión HTTP para la API
     conn = http.client.HTTPSConnection("v3.football.api-sports.io")
     headers = {
-            'x-rapidapi-host': "v3.football.api-sports.io",
-            'x-rapidapi-key': "33e976d6787480b32a1208914e80d636"
+        'x-rapidapi-host': "v3.football.api-sports.io",
+        'x-rapidapi-key': "3340e6dc57da7cc7c941644d11f7ef1c"
     }
     league = request.query_params.get('league', None)
     ruta = f"/teams?league={league}&season=2024"
@@ -616,7 +616,7 @@ def fetch_teams(request):
     teams_saves = 0
     # Decodificar y convertir la respuesta a un diccionario JSON
     data_json = json.loads(data.decode("utf-8"))
-
+    
     # Recorrer las ligas y guardar en la base de datos
     for teams in data_json['response']:
         id = teams['team']['id']
