@@ -1,7 +1,8 @@
 {
-    "get": "players/squads",
+    "get": "standings",
     "parameters": {
-        "team": "1"
+        "league": "1",
+        "season": "2022"
     },
     "errors": [],
     "results": 1,
@@ -11,197 +12,1472 @@
     },
     "response": [
         {
-            "team": {
+            "league": {
                 "id": 1,
-                "name": "Belgium",
-                "logo": "https://media.api-sports.io/football/teams/1.png"
-            },
-            "players": [
-                {
-                    "id": 2918,
-                    "name": "K. Casteels",
-                    "age": 31,
-                    "number": null,
-                    "position": "Goalkeeper",
-                    "photo": "https://media.api-sports.io/football/players/2918.png"
-                },
-                {
-                    "id": 8741,
-                    "name": "O. De Wolf",
-                    "age": 26,
-                    "number": null,
-                    "position": "Goalkeeper",
-                    "photo": "https://media.api-sports.io/football/players/8741.png"
-                },
-                {
-                    "id": 1924,
-                    "name": "M. Vandevoordt",
-                    "age": 21,
-                    "number": null,
-                    "position": "Goalkeeper",
-                    "photo": "https://media.api-sports.io/football/players/1924.png"
-                },
-                {
-                    "id": 1408,
-                    "name": "S. Bornauw",
-                    "age": 24,
-                    "number": null,
-                    "position": "Defender",
-                    "photo": "https://media.api-sports.io/football/players/1408.png"
-                },
-                {
-                    "id": 2920,
-                    "name": "T. Castagne",
-                    "age": 28,
-                    "number": null,
-                    "position": "Defender",
-                    "photo": "https://media.api-sports.io/football/players/2920.png"
-                },
-                {
-                    "id": 162007,
-                    "name": "M. De Cuyper",
-                    "age": 23,
-                    "number": null,
-                    "position": "Defender",
-                    "photo": "https://media.api-sports.io/football/players/162007.png"
-                },
-                {
-                    "id": 162141,
-                    "name": "K. De Winter",
-                    "age": 21,
-                    "number": null,
-                    "position": "Defender",
-                    "photo": "https://media.api-sports.io/football/players/162141.png"
-                },
-                {
-                    "id": 304228,
-                    "name": "Z. Debast",
-                    "age": 20,
-                    "number": null,
-                    "position": "Defender",
-                    "photo": "https://media.api-sports.io/football/players/304228.png"
-                },
-                {
-                    "id": 8694,
-                    "name": "W. Faes",
-                    "age": 25,
-                    "number": null,
-                    "position": "Defender",
-                    "photo": "https://media.api-sports.io/football/players/8694.png"
-                },
-                {
-                    "id": 377009,
-                    "name": "M. Smets",
-                    "age": 19,
-                    "number": null,
-                    "position": "Defender",
-                    "photo": "https://media.api-sports.io/football/players/377009.png"
-                },
-                {
-                    "id": 204043,
-                    "name": "A. Theate",
-                    "age": 23,
-                    "number": null,
-                    "position": "Defender",
-                    "photo": "https://media.api-sports.io/football/players/204043.png"
-                },
-                {
-                    "id": 162210,
-                    "name": "A. Engels",
-                    "age": 20,
-                    "number": null,
-                    "position": "Midfielder",
-                    "photo": "https://media.api-sports.io/football/players/162210.png"
-                },
-                {
-                    "id": 24882,
-                    "name": "O. Mangala",
-                    "age": 25,
-                    "number": null,
-                    "position": "Midfielder",
-                    "photo": "https://media.api-sports.io/football/players/24882.png"
-                },
-                {
-                    "id": 2926,
-                    "name": "Y. Tielemans",
-                    "age": 26,
-                    "number": null,
-                    "position": "Midfielder",
-                    "photo": "https://media.api-sports.io/football/players/2926.png"
-                },
-                {
-                    "id": 127413,
-                    "name": "A. Vranckx",
-                    "age": 21,
-                    "number": null,
-                    "position": "Midfielder",
-                    "photo": "https://media.api-sports.io/football/players/127413.png"
-                },
-                {
-                    "id": 290549,
-                    "name": "J. Bakayoko",
-                    "age": 20,
-                    "number": null,
-                    "position": "Attacker",
-                    "photo": "https://media.api-sports.io/football/players/290549.png"
-                },
-                {
-                    "id": 147859,
-                    "name": "C. De Ketelaere",
-                    "age": 22,
-                    "number": null,
-                    "position": "Attacker",
-                    "photo": "https://media.api-sports.io/football/players/147859.png"
-                },
-                {
-                    "id": 1422,
-                    "name": "J. Doku",
-                    "age": 21,
-                    "number": null,
-                    "position": "Attacker",
-                    "photo": "https://media.api-sports.io/football/players/1422.png"
-                },
-                {
-                    "id": 361348,
-                    "name": "M. Fofana",
-                    "age": 18,
-                    "number": null,
-                    "position": "Attacker",
-                    "photo": "https://media.api-sports.io/football/players/361348.png"
-                },
-                {
-                    "id": 25458,
-                    "name": "D. Lukebakio",
-                    "age": 26,
-                    "number": null,
-                    "position": "Attacker",
-                    "photo": "https://media.api-sports.io/football/players/25458.png"
-                },
-                {
-                    "id": 85,
-                    "name": "C. Ngonge",
-                    "age": 23,
-                    "number": null,
-                    "position": "Attacker",
-                    "photo": "https://media.api-sports.io/football/players/85.png"
-                },
-                {
-                    "id": 86,
-                    "name": "L. Openda",
-                    "age": 23,
-                    "number": null,
-                    "position": "Attacker",
-                    "photo": "https://media.api-sports.io/football/players/86.png"
-                },
-                {
-                    "id": 1946,
-                    "name": "L. Trossard",
-                    "age": 29,
-                    "number": null,
-                    "position": "Attacker",
-                    "photo": "https://media.api-sports.io/football/players/1946.png"
-                }
-            ]
+                "name": "World Cup",
+                "country": "World",
+                "logo": "https://media.api-sports.io/football/leagues/1.png",
+                "flag": null,
+                "season": 2022,
+                "standings": [
+                    [
+                        {
+                            "rank": 1,
+                            "team": {
+                                "id": 1118,
+                                "name": "Netherlands",
+                                "logo": "https://media.api-sports.io/football/teams/1118.png"
+                            },
+                            "points": 7,
+                            "goalsDiff": 4,
+                            "group": "Group A",
+                            "form": "WDW",
+                            "status": "same",
+                            "description": "Promotion - World Cup (Play Offs)",
+                            "all": {
+                                "played": 3,
+                                "win": 2,
+                                "draw": 1,
+                                "lose": 0,
+                                "goals": {
+                                    "for": 5,
+                                    "against": 1
+                                }
+                            },
+                            "home": {
+                                "played": null,
+                                "win": null,
+                                "draw": null,
+                                "lose": null,
+                                "goals": {
+                                    "for": null,
+                                    "against": null
+                                }
+                            },
+                            "away": {
+                                "played": null,
+                                "win": null,
+                                "draw": null,
+                                "lose": null,
+                                "goals": {
+                                    "for": null,
+                                    "against": null
+                                }
+                            },
+                            "update": "2022-12-12T00:00:00+00:00"
+                        },
+                        {
+                            "rank": 2,
+                            "team": {
+                                "id": 13,
+                                "name": "Senegal",
+                                "logo": "https://media.api-sports.io/football/teams/13.png"
+                            },
+                            "points": 6,
+                            "goalsDiff": 1,
+                            "group": "Group A",
+                            "form": "WWL",
+                            "status": "same",
+                            "description": "Promotion - World Cup (Play Offs)",
+                            "all": {
+                                "played": 3,
+                                "win": 2,
+                                "draw": 0,
+                                "lose": 1,
+                                "goals": {
+                                    "for": 5,
+                                    "against": 4
+                                }
+                            },
+                            "home": {
+                                "played": null,
+                                "win": null,
+                                "draw": null,
+                                "lose": null,
+                                "goals": {
+                                    "for": null,
+                                    "against": null
+                                }
+                            },
+                            "away": {
+                                "played": null,
+                                "win": null,
+                                "draw": null,
+                                "lose": null,
+                                "goals": {
+                                    "for": null,
+                                    "against": null
+                                }
+                            },
+                            "update": "2022-12-12T00:00:00+00:00"
+                        },
+                        {
+                            "rank": 3,
+                            "team": {
+                                "id": 2382,
+                                "name": "Ecuador",
+                                "logo": "https://media.api-sports.io/football/teams/2382.png"
+                            },
+                            "points": 4,
+                            "goalsDiff": 1,
+                            "group": "Group A",
+                            "form": "LDW",
+                            "status": "same",
+                            "description": null,
+                            "all": {
+                                "played": 3,
+                                "win": 1,
+                                "draw": 1,
+                                "lose": 1,
+                                "goals": {
+                                    "for": 4,
+                                    "against": 3
+                                }
+                            },
+                            "home": {
+                                "played": null,
+                                "win": null,
+                                "draw": null,
+                                "lose": null,
+                                "goals": {
+                                    "for": null,
+                                    "against": null
+                                }
+                            },
+                            "away": {
+                                "played": null,
+                                "win": null,
+                                "draw": null,
+                                "lose": null,
+                                "goals": {
+                                    "for": null,
+                                    "against": null
+                                }
+                            },
+                            "update": "2022-12-12T00:00:00+00:00"
+                        },
+                        {
+                            "rank": 4,
+                            "team": {
+                                "id": 1569,
+                                "name": "Qatar",
+                                "logo": "https://media.api-sports.io/football/teams/1569.png"
+                            },
+                            "points": 0,
+                            "goalsDiff": -6,
+                            "group": "Group A",
+                            "form": "LLL",
+                            "status": "same",
+                            "description": null,
+                            "all": {
+                                "played": 3,
+                                "win": 0,
+                                "draw": 0,
+                                "lose": 3,
+                                "goals": {
+                                    "for": 1,
+                                    "against": 7
+                                }
+                            },
+                            "home": {
+                                "played": null,
+                                "win": null,
+                                "draw": null,
+                                "lose": null,
+                                "goals": {
+                                    "for": null,
+                                    "against": null
+                                }
+                            },
+                            "away": {
+                                "played": null,
+                                "win": null,
+                                "draw": null,
+                                "lose": null,
+                                "goals": {
+                                    "for": null,
+                                    "against": null
+                                }
+                            },
+                            "update": "2022-12-12T00:00:00+00:00"
+                        }
+                    ],
+                    [
+                        {
+                            "rank": 1,
+                            "team": {
+                                "id": 10,
+                                "name": "England",
+                                "logo": "https://media.api-sports.io/football/teams/10.png"
+                            },
+                            "points": 7,
+                            "goalsDiff": 7,
+                            "group": "Group B",
+                            "form": "WDW",
+                            "status": "same",
+                            "description": "Promotion - World Cup (Play Offs)",
+                            "all": {
+                                "played": 3,
+                                "win": 2,
+                                "draw": 1,
+                                "lose": 0,
+                                "goals": {
+                                    "for": 9,
+                                    "against": 2
+                                }
+                            },
+                            "home": {
+                                "played": null,
+                                "win": null,
+                                "draw": null,
+                                "lose": null,
+                                "goals": {
+                                    "for": null,
+                                    "against": null
+                                }
+                            },
+                            "away": {
+                                "played": null,
+                                "win": null,
+                                "draw": null,
+                                "lose": null,
+                                "goals": {
+                                    "for": null,
+                                    "against": null
+                                }
+                            },
+                            "update": "2022-12-12T00:00:00+00:00"
+                        },
+                        {
+                            "rank": 2,
+                            "team": {
+                                "id": 2384,
+                                "name": "USA",
+                                "logo": "https://media.api-sports.io/football/teams/2384.png"
+                            },
+                            "points": 5,
+                            "goalsDiff": 1,
+                            "group": "Group B",
+                            "form": "WDD",
+                            "status": "same",
+                            "description": "Promotion - World Cup (Play Offs)",
+                            "all": {
+                                "played": 3,
+                                "win": 1,
+                                "draw": 2,
+                                "lose": 0,
+                                "goals": {
+                                    "for": 2,
+                                    "against": 1
+                                }
+                            },
+                            "home": {
+                                "played": null,
+                                "win": null,
+                                "draw": null,
+                                "lose": null,
+                                "goals": {
+                                    "for": null,
+                                    "against": null
+                                }
+                            },
+                            "away": {
+                                "played": null,
+                                "win": null,
+                                "draw": null,
+                                "lose": null,
+                                "goals": {
+                                    "for": null,
+                                    "against": null
+                                }
+                            },
+                            "update": "2022-12-12T00:00:00+00:00"
+                        },
+                        {
+                            "rank": 3,
+                            "team": {
+                                "id": 22,
+                                "name": "Iran",
+                                "logo": "https://media.api-sports.io/football/teams/22.png"
+                            },
+                            "points": 3,
+                            "goalsDiff": -3,
+                            "group": "Group B",
+                            "form": "LWL",
+                            "status": "same",
+                            "description": null,
+                            "all": {
+                                "played": 3,
+                                "win": 1,
+                                "draw": 0,
+                                "lose": 2,
+                                "goals": {
+                                    "for": 4,
+                                    "against": 7
+                                }
+                            },
+                            "home": {
+                                "played": null,
+                                "win": null,
+                                "draw": null,
+                                "lose": null,
+                                "goals": {
+                                    "for": null,
+                                    "against": null
+                                }
+                            },
+                            "away": {
+                                "played": null,
+                                "win": null,
+                                "draw": null,
+                                "lose": null,
+                                "goals": {
+                                    "for": null,
+                                    "against": null
+                                }
+                            },
+                            "update": "2022-12-12T00:00:00+00:00"
+                        },
+                        {
+                            "rank": 4,
+                            "team": {
+                                "id": 767,
+                                "name": "Wales",
+                                "logo": "https://media.api-sports.io/football/teams/767.png"
+                            },
+                            "points": 1,
+                            "goalsDiff": -5,
+                            "group": "Group B",
+                            "form": "LLD",
+                            "status": "same",
+                            "description": null,
+                            "all": {
+                                "played": 3,
+                                "win": 0,
+                                "draw": 1,
+                                "lose": 2,
+                                "goals": {
+                                    "for": 1,
+                                    "against": 6
+                                }
+                            },
+                            "home": {
+                                "played": null,
+                                "win": null,
+                                "draw": null,
+                                "lose": null,
+                                "goals": {
+                                    "for": null,
+                                    "against": null
+                                }
+                            },
+                            "away": {
+                                "played": null,
+                                "win": null,
+                                "draw": null,
+                                "lose": null,
+                                "goals": {
+                                    "for": null,
+                                    "against": null
+                                }
+                            },
+                            "update": "2022-12-12T00:00:00+00:00"
+                        }
+                    ],
+                    [
+                        {
+                            "rank": 1,
+                            "team": {
+                                "id": 26,
+                                "name": "Argentina",
+                                "logo": "https://media.api-sports.io/football/teams/26.png"
+                            },
+                            "points": 6,
+                            "goalsDiff": 3,
+                            "group": "Group C",
+                            "form": "WWL",
+                            "status": "same",
+                            "description": "Promotion - World Cup (Play Offs)",
+                            "all": {
+                                "played": 3,
+                                "win": 2,
+                                "draw": 0,
+                                "lose": 1,
+                                "goals": {
+                                    "for": 5,
+                                    "against": 2
+                                }
+                            },
+                            "home": {
+                                "played": null,
+                                "win": null,
+                                "draw": null,
+                                "lose": null,
+                                "goals": {
+                                    "for": null,
+                                    "against": null
+                                }
+                            },
+                            "away": {
+                                "played": null,
+                                "win": null,
+                                "draw": null,
+                                "lose": null,
+                                "goals": {
+                                    "for": null,
+                                    "against": null
+                                }
+                            },
+                            "update": "2022-12-12T00:00:00+00:00"
+                        },
+                        {
+                            "rank": 2,
+                            "team": {
+                                "id": 24,
+                                "name": "Poland",
+                                "logo": "https://media.api-sports.io/football/teams/24.png"
+                            },
+                            "points": 4,
+                            "goalsDiff": 0,
+                            "group": "Group C",
+                            "form": "LWD",
+                            "status": "same",
+                            "description": "Promotion - World Cup (Play Offs)",
+                            "all": {
+                                "played": 3,
+                                "win": 1,
+                                "draw": 1,
+                                "lose": 1,
+                                "goals": {
+                                    "for": 2,
+                                    "against": 2
+                                }
+                            },
+                            "home": {
+                                "played": null,
+                                "win": null,
+                                "draw": null,
+                                "lose": null,
+                                "goals": {
+                                    "for": null,
+                                    "against": null
+                                }
+                            },
+                            "away": {
+                                "played": null,
+                                "win": null,
+                                "draw": null,
+                                "lose": null,
+                                "goals": {
+                                    "for": null,
+                                    "against": null
+                                }
+                            },
+                            "update": "2022-12-12T00:00:00+00:00"
+                        },
+                        {
+                            "rank": 3,
+                            "team": {
+                                "id": 16,
+                                "name": "Mexico",
+                                "logo": "https://media.api-sports.io/football/teams/16.png"
+                            },
+                            "points": 4,
+                            "goalsDiff": -1,
+                            "group": "Group C",
+                            "form": "WLD",
+                            "status": "same",
+                            "description": null,
+                            "all": {
+                                "played": 3,
+                                "win": 1,
+                                "draw": 1,
+                                "lose": 1,
+                                "goals": {
+                                    "for": 2,
+                                    "against": 3
+                                }
+                            },
+                            "home": {
+                                "played": null,
+                                "win": null,
+                                "draw": null,
+                                "lose": null,
+                                "goals": {
+                                    "for": null,
+                                    "against": null
+                                }
+                            },
+                            "away": {
+                                "played": null,
+                                "win": null,
+                                "draw": null,
+                                "lose": null,
+                                "goals": {
+                                    "for": null,
+                                    "against": null
+                                }
+                            },
+                            "update": "2022-12-12T00:00:00+00:00"
+                        },
+                        {
+                            "rank": 4,
+                            "team": {
+                                "id": 23,
+                                "name": "Saudi Arabia",
+                                "logo": "https://media.api-sports.io/football/teams/23.png"
+                            },
+                            "points": 3,
+                            "goalsDiff": -2,
+                            "group": "Group C",
+                            "form": "LLW",
+                            "status": "same",
+                            "description": null,
+                            "all": {
+                                "played": 3,
+                                "win": 1,
+                                "draw": 0,
+                                "lose": 2,
+                                "goals": {
+                                    "for": 3,
+                                    "against": 5
+                                }
+                            },
+                            "home": {
+                                "played": null,
+                                "win": null,
+                                "draw": null,
+                                "lose": null,
+                                "goals": {
+                                    "for": null,
+                                    "against": null
+                                }
+                            },
+                            "away": {
+                                "played": null,
+                                "win": null,
+                                "draw": null,
+                                "lose": null,
+                                "goals": {
+                                    "for": null,
+                                    "against": null
+                                }
+                            },
+                            "update": "2022-12-12T00:00:00+00:00"
+                        }
+                    ],
+                    [
+                        {
+                            "rank": 1,
+                            "team": {
+                                "id": 2,
+                                "name": "France",
+                                "logo": "https://media.api-sports.io/football/teams/2.png"
+                            },
+                            "points": 6,
+                            "goalsDiff": 3,
+                            "group": "Group D",
+                            "form": "LWW",
+                            "status": "same",
+                            "description": "Promotion - World Cup (Play Offs)",
+                            "all": {
+                                "played": 3,
+                                "win": 2,
+                                "draw": 0,
+                                "lose": 1,
+                                "goals": {
+                                    "for": 6,
+                                    "against": 3
+                                }
+                            },
+                            "home": {
+                                "played": null,
+                                "win": null,
+                                "draw": null,
+                                "lose": null,
+                                "goals": {
+                                    "for": null,
+                                    "against": null
+                                }
+                            },
+                            "away": {
+                                "played": null,
+                                "win": null,
+                                "draw": null,
+                                "lose": null,
+                                "goals": {
+                                    "for": null,
+                                    "against": null
+                                }
+                            },
+                            "update": "2022-12-12T00:00:00+00:00"
+                        },
+                        {
+                            "rank": 2,
+                            "team": {
+                                "id": 20,
+                                "name": "Australia",
+                                "logo": "https://media.api-sports.io/football/teams/20.png"
+                            },
+                            "points": 6,
+                            "goalsDiff": -1,
+                            "group": "Group D",
+                            "form": "WWL",
+                            "status": "same",
+                            "description": "Promotion - World Cup (Play Offs)",
+                            "all": {
+                                "played": 3,
+                                "win": 2,
+                                "draw": 0,
+                                "lose": 1,
+                                "goals": {
+                                    "for": 3,
+                                    "against": 4
+                                }
+                            },
+                            "home": {
+                                "played": null,
+                                "win": null,
+                                "draw": null,
+                                "lose": null,
+                                "goals": {
+                                    "for": null,
+                                    "against": null
+                                }
+                            },
+                            "away": {
+                                "played": null,
+                                "win": null,
+                                "draw": null,
+                                "lose": null,
+                                "goals": {
+                                    "for": null,
+                                    "against": null
+                                }
+                            },
+                            "update": "2022-12-12T00:00:00+00:00"
+                        },
+                        {
+                            "rank": 3,
+                            "team": {
+                                "id": 28,
+                                "name": "Tunisia",
+                                "logo": "https://media.api-sports.io/football/teams/28.png"
+                            },
+                            "points": 4,
+                            "goalsDiff": 0,
+                            "group": "Group D",
+                            "form": "WLD",
+                            "status": "same",
+                            "description": null,
+                            "all": {
+                                "played": 3,
+                                "win": 1,
+                                "draw": 1,
+                                "lose": 1,
+                                "goals": {
+                                    "for": 1,
+                                    "against": 1
+                                }
+                            },
+                            "home": {
+                                "played": null,
+                                "win": null,
+                                "draw": null,
+                                "lose": null,
+                                "goals": {
+                                    "for": null,
+                                    "against": null
+                                }
+                            },
+                            "away": {
+                                "played": null,
+                                "win": null,
+                                "draw": null,
+                                "lose": null,
+                                "goals": {
+                                    "for": null,
+                                    "against": null
+                                }
+                            },
+                            "update": "2022-12-12T00:00:00+00:00"
+                        },
+                        {
+                            "rank": 4,
+                            "team": {
+                                "id": 21,
+                                "name": "Denmark",
+                                "logo": "https://media.api-sports.io/football/teams/21.png"
+                            },
+                            "points": 1,
+                            "goalsDiff": -2,
+                            "group": "Group D",
+                            "form": "LLD",
+                            "status": "same",
+                            "description": null,
+                            "all": {
+                                "played": 3,
+                                "win": 0,
+                                "draw": 1,
+                                "lose": 2,
+                                "goals": {
+                                    "for": 1,
+                                    "against": 3
+                                }
+                            },
+                            "home": {
+                                "played": null,
+                                "win": null,
+                                "draw": null,
+                                "lose": null,
+                                "goals": {
+                                    "for": null,
+                                    "against": null
+                                }
+                            },
+                            "away": {
+                                "played": null,
+                                "win": null,
+                                "draw": null,
+                                "lose": null,
+                                "goals": {
+                                    "for": null,
+                                    "against": null
+                                }
+                            },
+                            "update": "2022-12-12T00:00:00+00:00"
+                        }
+                    ],
+                    [
+                        {
+                            "rank": 1,
+                            "team": {
+                                "id": 12,
+                                "name": "Japan",
+                                "logo": "https://media.api-sports.io/football/teams/12.png"
+                            },
+                            "points": 6,
+                            "goalsDiff": 1,
+                            "group": "Group E",
+                            "form": "WLW",
+                            "status": "same",
+                            "description": "Promotion - World Cup (Play Offs)",
+                            "all": {
+                                "played": 3,
+                                "win": 2,
+                                "draw": 0,
+                                "lose": 1,
+                                "goals": {
+                                    "for": 4,
+                                    "against": 3
+                                }
+                            },
+                            "home": {
+                                "played": null,
+                                "win": null,
+                                "draw": null,
+                                "lose": null,
+                                "goals": {
+                                    "for": null,
+                                    "against": null
+                                }
+                            },
+                            "away": {
+                                "played": null,
+                                "win": null,
+                                "draw": null,
+                                "lose": null,
+                                "goals": {
+                                    "for": null,
+                                    "against": null
+                                }
+                            },
+                            "update": "2022-12-12T00:00:00+00:00"
+                        },
+                        {
+                            "rank": 2,
+                            "team": {
+                                "id": 9,
+                                "name": "Spain",
+                                "logo": "https://media.api-sports.io/football/teams/9.png"
+                            },
+                            "points": 4,
+                            "goalsDiff": 6,
+                            "group": "Group E",
+                            "form": "LDW",
+                            "status": "same",
+                            "description": "Promotion - World Cup (Play Offs)",
+                            "all": {
+                                "played": 3,
+                                "win": 1,
+                                "draw": 1,
+                                "lose": 1,
+                                "goals": {
+                                    "for": 9,
+                                    "against": 3
+                                }
+                            },
+                            "home": {
+                                "played": null,
+                                "win": null,
+                                "draw": null,
+                                "lose": null,
+                                "goals": {
+                                    "for": null,
+                                    "against": null
+                                }
+                            },
+                            "away": {
+                                "played": null,
+                                "win": null,
+                                "draw": null,
+                                "lose": null,
+                                "goals": {
+                                    "for": null,
+                                    "against": null
+                                }
+                            },
+                            "update": "2022-12-12T00:00:00+00:00"
+                        },
+                        {
+                            "rank": 3,
+                            "team": {
+                                "id": 25,
+                                "name": "Germany",
+                                "logo": "https://media.api-sports.io/football/teams/25.png"
+                            },
+                            "points": 4,
+                            "goalsDiff": 1,
+                            "group": "Group E",
+                            "form": "WDL",
+                            "status": "same",
+                            "description": null,
+                            "all": {
+                                "played": 3,
+                                "win": 1,
+                                "draw": 1,
+                                "lose": 1,
+                                "goals": {
+                                    "for": 6,
+                                    "against": 5
+                                }
+                            },
+                            "home": {
+                                "played": null,
+                                "win": null,
+                                "draw": null,
+                                "lose": null,
+                                "goals": {
+                                    "for": null,
+                                    "against": null
+                                }
+                            },
+                            "away": {
+                                "played": null,
+                                "win": null,
+                                "draw": null,
+                                "lose": null,
+                                "goals": {
+                                    "for": null,
+                                    "against": null
+                                }
+                            },
+                            "update": "2022-12-12T00:00:00+00:00"
+                        },
+                        {
+                            "rank": 4,
+                            "team": {
+                                "id": 29,
+                                "name": "Costa Rica",
+                                "logo": "https://media.api-sports.io/football/teams/29.png"
+                            },
+                            "points": 3,
+                            "goalsDiff": -8,
+                            "group": "Group E",
+                            "form": "LWL",
+                            "status": "same",
+                            "description": null,
+                            "all": {
+                                "played": 3,
+                                "win": 1,
+                                "draw": 0,
+                                "lose": 2,
+                                "goals": {
+                                    "for": 3,
+                                    "against": 11
+                                }
+                            },
+                            "home": {
+                                "played": null,
+                                "win": null,
+                                "draw": null,
+                                "lose": null,
+                                "goals": {
+                                    "for": null,
+                                    "against": null
+                                }
+                            },
+                            "away": {
+                                "played": null,
+                                "win": null,
+                                "draw": null,
+                                "lose": null,
+                                "goals": {
+                                    "for": null,
+                                    "against": null
+                                }
+                            },
+                            "update": "2022-12-12T00:00:00+00:00"
+                        }
+                    ],
+                    [
+                        {
+                            "rank": 1,
+                            "team": {
+                                "id": 31,
+                                "name": "Morocco",
+                                "logo": "https://media.api-sports.io/football/teams/31.png"
+                            },
+                            "points": 7,
+                            "goalsDiff": 3,
+                            "group": "Group F",
+                            "form": "WWD",
+                            "status": "same",
+                            "description": "Promotion - World Cup (Play Offs)",
+                            "all": {
+                                "played": 3,
+                                "win": 2,
+                                "draw": 1,
+                                "lose": 0,
+                                "goals": {
+                                    "for": 4,
+                                    "against": 1
+                                }
+                            },
+                            "home": {
+                                "played": null,
+                                "win": null,
+                                "draw": null,
+                                "lose": null,
+                                "goals": {
+                                    "for": null,
+                                    "against": null
+                                }
+                            },
+                            "away": {
+                                "played": null,
+                                "win": null,
+                                "draw": null,
+                                "lose": null,
+                                "goals": {
+                                    "for": null,
+                                    "against": null
+                                }
+                            },
+                            "update": "2022-12-12T00:00:00+00:00"
+                        },
+                        {
+                            "rank": 2,
+                            "team": {
+                                "id": 3,
+                                "name": "Croatia",
+                                "logo": "https://media.api-sports.io/football/teams/3.png"
+                            },
+                            "points": 5,
+                            "goalsDiff": 3,
+                            "group": "Group F",
+                            "form": "DWD",
+                            "status": "same",
+                            "description": "Promotion - World Cup (Play Offs)",
+                            "all": {
+                                "played": 3,
+                                "win": 1,
+                                "draw": 2,
+                                "lose": 0,
+                                "goals": {
+                                    "for": 4,
+                                    "against": 1
+                                }
+                            },
+                            "home": {
+                                "played": null,
+                                "win": null,
+                                "draw": null,
+                                "lose": null,
+                                "goals": {
+                                    "for": null,
+                                    "against": null
+                                }
+                            },
+                            "away": {
+                                "played": null,
+                                "win": null,
+                                "draw": null,
+                                "lose": null,
+                                "goals": {
+                                    "for": null,
+                                    "against": null
+                                }
+                            },
+                            "update": "2022-12-12T00:00:00+00:00"
+                        },
+                        {
+                            "rank": 3,
+                            "team": {
+                                "id": 1,
+                                "name": "Belgium",
+                                "logo": "https://media.api-sports.io/football/teams/1.png"
+                            },
+                            "points": 4,
+                            "goalsDiff": -1,
+                            "group": "Group F",
+                            "form": "DLW",
+                            "status": "same",
+                            "description": null,
+                            "all": {
+                                "played": 3,
+                                "win": 1,
+                                "draw": 1,
+                                "lose": 1,
+                                "goals": {
+                                    "for": 1,
+                                    "against": 2
+                                }
+                            },
+                            "home": {
+                                "played": null,
+                                "win": null,
+                                "draw": null,
+                                "lose": null,
+                                "goals": {
+                                    "for": null,
+                                    "against": null
+                                }
+                            },
+                            "away": {
+                                "played": null,
+                                "win": null,
+                                "draw": null,
+                                "lose": null,
+                                "goals": {
+                                    "for": null,
+                                    "against": null
+                                }
+                            },
+                            "update": "2022-12-12T00:00:00+00:00"
+                        },
+                        {
+                            "rank": 4,
+                            "team": {
+                                "id": 5529,
+                                "name": "Canada",
+                                "logo": "https://media.api-sports.io/football/teams/5529.png"
+                            },
+                            "points": 0,
+                            "goalsDiff": -5,
+                            "group": "Group F",
+                            "form": "LLL",
+                            "status": "same",
+                            "description": null,
+                            "all": {
+                                "played": 3,
+                                "win": 0,
+                                "draw": 0,
+                                "lose": 3,
+                                "goals": {
+                                    "for": 2,
+                                    "against": 7
+                                }
+                            },
+                            "home": {
+                                "played": null,
+                                "win": null,
+                                "draw": null,
+                                "lose": null,
+                                "goals": {
+                                    "for": null,
+                                    "against": null
+                                }
+                            },
+                            "away": {
+                                "played": null,
+                                "win": null,
+                                "draw": null,
+                                "lose": null,
+                                "goals": {
+                                    "for": null,
+                                    "against": null
+                                }
+                            },
+                            "update": "2022-12-12T00:00:00+00:00"
+                        }
+                    ],
+                    [
+                        {
+                            "rank": 1,
+                            "team": {
+                                "id": 6,
+                                "name": "Brazil",
+                                "logo": "https://media.api-sports.io/football/teams/6.png"
+                            },
+                            "points": 6,
+                            "goalsDiff": 2,
+                            "group": "Group G",
+                            "form": "LWW",
+                            "status": "same",
+                            "description": "Promotion - World Cup (Play Offs)",
+                            "all": {
+                                "played": 3,
+                                "win": 2,
+                                "draw": 0,
+                                "lose": 1,
+                                "goals": {
+                                    "for": 3,
+                                    "against": 1
+                                }
+                            },
+                            "home": {
+                                "played": null,
+                                "win": null,
+                                "draw": null,
+                                "lose": null,
+                                "goals": {
+                                    "for": null,
+                                    "against": null
+                                }
+                            },
+                            "away": {
+                                "played": null,
+                                "win": null,
+                                "draw": null,
+                                "lose": null,
+                                "goals": {
+                                    "for": null,
+                                    "against": null
+                                }
+                            },
+                            "update": "2022-12-12T00:00:00+00:00"
+                        },
+                        {
+                            "rank": 2,
+                            "team": {
+                                "id": 15,
+                                "name": "Switzerland",
+                                "logo": "https://media.api-sports.io/football/teams/15.png"
+                            },
+                            "points": 6,
+                            "goalsDiff": 1,
+                            "group": "Group G",
+                            "form": "WLW",
+                            "status": "same",
+                            "description": "Promotion - World Cup (Play Offs)",
+                            "all": {
+                                "played": 3,
+                                "win": 2,
+                                "draw": 0,
+                                "lose": 1,
+                                "goals": {
+                                    "for": 4,
+                                    "against": 3
+                                }
+                            },
+                            "home": {
+                                "played": null,
+                                "win": null,
+                                "draw": null,
+                                "lose": null,
+                                "goals": {
+                                    "for": null,
+                                    "against": null
+                                }
+                            },
+                            "away": {
+                                "played": null,
+                                "win": null,
+                                "draw": null,
+                                "lose": null,
+                                "goals": {
+                                    "for": null,
+                                    "against": null
+                                }
+                            },
+                            "update": "2022-12-12T00:00:00+00:00"
+                        },
+                        {
+                            "rank": 3,
+                            "team": {
+                                "id": 1530,
+                                "name": "Cameroon",
+                                "logo": "https://media.api-sports.io/football/teams/1530.png"
+                            },
+                            "points": 4,
+                            "goalsDiff": 0,
+                            "group": "Group G",
+                            "form": "WDL",
+                            "status": "same",
+                            "description": null,
+                            "all": {
+                                "played": 3,
+                                "win": 1,
+                                "draw": 1,
+                                "lose": 1,
+                                "goals": {
+                                    "for": 4,
+                                    "against": 4
+                                }
+                            },
+                            "home": {
+                                "played": null,
+                                "win": null,
+                                "draw": null,
+                                "lose": null,
+                                "goals": {
+                                    "for": null,
+                                    "against": null
+                                }
+                            },
+                            "away": {
+                                "played": null,
+                                "win": null,
+                                "draw": null,
+                                "lose": null,
+                                "goals": {
+                                    "for": null,
+                                    "against": null
+                                }
+                            },
+                            "update": "2022-12-12T00:00:00+00:00"
+                        },
+                        {
+                            "rank": 4,
+                            "team": {
+                                "id": 14,
+                                "name": "Serbia",
+                                "logo": "https://media.api-sports.io/football/teams/14.png"
+                            },
+                            "points": 1,
+                            "goalsDiff": -3,
+                            "group": "Group G",
+                            "form": "LDL",
+                            "status": "same",
+                            "description": null,
+                            "all": {
+                                "played": 3,
+                                "win": 0,
+                                "draw": 1,
+                                "lose": 2,
+                                "goals": {
+                                    "for": 5,
+                                    "against": 8
+                                }
+                            },
+                            "home": {
+                                "played": null,
+                                "win": null,
+                                "draw": null,
+                                "lose": null,
+                                "goals": {
+                                    "for": null,
+                                    "against": null
+                                }
+                            },
+                            "away": {
+                                "played": null,
+                                "win": null,
+                                "draw": null,
+                                "lose": null,
+                                "goals": {
+                                    "for": null,
+                                    "against": null
+                                }
+                            },
+                            "update": "2022-12-12T00:00:00+00:00"
+                        }
+                    ],
+                    [
+                        {
+                            "rank": 1,
+                            "team": {
+                                "id": 27,
+                                "name": "Portugal",
+                                "logo": "https://media.api-sports.io/football/teams/27.png"
+                            },
+                            "points": 6,
+                            "goalsDiff": 2,
+                            "group": "Group H",
+                            "form": "LWW",
+                            "status": "same",
+                            "description": "Promotion - World Cup (Play Offs)",
+                            "all": {
+                                "played": 3,
+                                "win": 2,
+                                "draw": 0,
+                                "lose": 1,
+                                "goals": {
+                                    "for": 6,
+                                    "against": 4
+                                }
+                            },
+                            "home": {
+                                "played": null,
+                                "win": null,
+                                "draw": null,
+                                "lose": null,
+                                "goals": {
+                                    "for": null,
+                                    "against": null
+                                }
+                            },
+                            "away": {
+                                "played": null,
+                                "win": null,
+                                "draw": null,
+                                "lose": null,
+                                "goals": {
+                                    "for": null,
+                                    "against": null
+                                }
+                            },
+                            "update": "2022-12-12T00:00:00+00:00"
+                        },
+                        {
+                            "rank": 2,
+                            "team": {
+                                "id": 17,
+                                "name": "South Korea",
+                                "logo": "https://media.api-sports.io/football/teams/17.png"
+                            },
+                            "points": 4,
+                            "goalsDiff": 0,
+                            "group": "Group H",
+                            "form": "WLD",
+                            "status": "same",
+                            "description": "Promotion - World Cup (Play Offs)",
+                            "all": {
+                                "played": 3,
+                                "win": 1,
+                                "draw": 1,
+                                "lose": 1,
+                                "goals": {
+                                    "for": 4,
+                                    "against": 4
+                                }
+                            },
+                            "home": {
+                                "played": null,
+                                "win": null,
+                                "draw": null,
+                                "lose": null,
+                                "goals": {
+                                    "for": null,
+                                    "against": null
+                                }
+                            },
+                            "away": {
+                                "played": null,
+                                "win": null,
+                                "draw": null,
+                                "lose": null,
+                                "goals": {
+                                    "for": null,
+                                    "against": null
+                                }
+                            },
+                            "update": "2022-12-12T00:00:00+00:00"
+                        },
+                        {
+                            "rank": 3,
+                            "team": {
+                                "id": 7,
+                                "name": "Uruguay",
+                                "logo": "https://media.api-sports.io/football/teams/7.png"
+                            },
+                            "points": 4,
+                            "goalsDiff": 0,
+                            "group": "Group H",
+                            "form": "WLD",
+                            "status": "same",
+                            "description": null,
+                            "all": {
+                                "played": 3,
+                                "win": 1,
+                                "draw": 1,
+                                "lose": 1,
+                                "goals": {
+                                    "for": 2,
+                                    "against": 2
+                                }
+                            },
+                            "home": {
+                                "played": null,
+                                "win": null,
+                                "draw": null,
+                                "lose": null,
+                                "goals": {
+                                    "for": null,
+                                    "against": null
+                                }
+                            },
+                            "away": {
+                                "played": null,
+                                "win": null,
+                                "draw": null,
+                                "lose": null,
+                                "goals": {
+                                    "for": null,
+                                    "against": null
+                                }
+                            },
+                            "update": "2022-12-12T00:00:00+00:00"
+                        },
+                        {
+                            "rank": 4,
+                            "team": {
+                                "id": 1504,
+                                "name": "Ghana",
+                                "logo": "https://media.api-sports.io/football/teams/1504.png"
+                            },
+                            "points": 3,
+                            "goalsDiff": -2,
+                            "group": "Group H",
+                            "form": "LWL",
+                            "status": "same",
+                            "description": null,
+                            "all": {
+                                "played": 3,
+                                "win": 1,
+                                "draw": 0,
+                                "lose": 2,
+                                "goals": {
+                                    "for": 5,
+                                    "against": 7
+                                }
+                            },
+                            "home": {
+                                "played": null,
+                                "win": null,
+                                "draw": null,
+                                "lose": null,
+                                "goals": {
+                                    "for": null,
+                                    "against": null
+                                }
+                            },
+                            "away": {
+                                "played": null,
+                                "win": null,
+                                "draw": null,
+                                "lose": null,
+                                "goals": {
+                                    "for": null,
+                                    "against": null
+                                }
+                            },
+                            "update": "2022-12-12T00:00:00+00:00"
+                        }
+                    ]
+                ]
+            }
         }
     ]
 }

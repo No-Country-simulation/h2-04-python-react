@@ -256,7 +256,6 @@ def update_user_points():
                 (prediction_text == "draw" and match.winner == "draw")
             ):
                 # Si la predicción fue acertada, actualizamos el detalle
-                print('ganada')
                 detail.status = 'ganada'
                 detail.save()
 
@@ -264,7 +263,7 @@ def update_user_points():
                 # Si la predicción fue incorrecta
                 detail.status = 'perdida'
                 detail.save()
-        print(f'la prediccion de la base es {prediction_text} el resultado real es {match.winner}')
+
 
     # Procesar predicciones simples y combinadas
     update_simple_predictions()
@@ -565,7 +564,7 @@ def update_match_odds(request):
             total_pages = pagination.get('total', 1)
             current_page = pagination.get('current', 1)
 
-            print(f"Procesando página {current_page} de {total_pages}")
+            
             
             # Avanzar a la siguiente página
             page += 1
@@ -704,6 +703,106 @@ def fetch_players(request):
                     contador += 1  # Incrementar el contador de jugadores procesados
             team.export = True
             team.save()
+
+    return ApiResponse.success(data={
+        'message': f'Players fetched and saved successfully. Total: {contador}'
+    }, status_code=status.HTTP_201_CREATED)
+
+
+
+
+@extend_schema(
+    tags=["api-connect"],
+)
+@api_view(['GET'])
+@permission_classes([IsAdminUser])  # Solo superusuarios pueden acceder
+def fetch_players_statistics(request):
+    """Actualiza la base de datos de jugadores de seleccion con sus stadisticas"""
+    # Conexión HTTP para la API
+    conn = http.client.HTTPSConnection("v3.football.api-sports.io")
+    headers = {
+        'x-rapidapi-host': "v3.football.api-sports.io",
+        'x-rapidapi-key': "3340e6dc57da7cc7c941644d11f7ef1c"
+    }
+
+    players = Players.objects.filter(tokenizable=True)
+    seasson = 2024
+    contador = 0
+    for player in players:
+        
+
+        ruta = f'/players?id={player.id}&season={seasson}'
+        
+        conn.request("GET", ruta, headers=headers)
+        res = conn.getresponse()
+        data = res.read()
+
+ 
+        # Decodificar y convertir la respuesta a un diccionario JSON
+        data_json = json.loads(data.decode("utf-8"))
+
+        
+        player_data = data_json["response"][0]["player"]
+        statistics_data = data_json["response"][0]["statistics"]
+
+        # Actualizar la información del jugador
+        player.name = player_data["firstname"]
+        player.lastname = player_data["lastname"]
+        player.age = player_data["age"]
+        #number ya lo tengo
+        player.photo = player_data["photo"]
+        player.height = player_data["height"]
+        player.weight = player_data["weight"]
+
+        #comienzo con las estadisticas
+        
+        player.rating = float(statistics_data[0]["games"]["rating"]) if statistics_data[0]["games"]["rating"] else 0
+
+        # Datos adicionales de las estadísticas
+        player.matches_played = sum(stat["games"]["appearences"] for stat in statistics_data)
+
+
+
+
+        player.total_club_matches = sum(stat["games"]["minutes"] for stat in statistics_data if stat["team"]["id"] == 9568)
+        player.goals = sum(stat["goals"]["total"] for stat in statistics_data)
+        player.assists = sum(stat.get("goals", {}).get("assists", 0) or 0 for stat in statistics_data)
+        player.minutes = sum(stat["games"]["minutes"] for stat in statistics_data)
+        player.cards_yellow = sum(stat["cards"]["yellow"] for stat in statistics_data)
+        player.cards_red = sum(stat["cards"]["red"] for stat in statistics_data)
+        partidos_nacionales = 0
+
+        for stat in statistics_data:
+            team_data = stat["team"]
+            team_id = team_data["id"]
+            team_name = team_data["name"]
+            team_logo = team_data["logo"]
+            league_stat = stat["league"]
+            league_id = league_stat["id"]
+            if stat["league"]["country"] == "World":
+                partidos_nacionales += stat["games"]["appearences"]
+
+            league_obj = League.objects.filter(id_league=league_id).first()
+            # Verifica si el equipo ya existe
+            team, created = Teams.objects.get_or_create(
+                id=team_id, 
+                defaults={"logo": team_logo, "name": team_name, "league": league_obj}
+            )
+
+            if not created:  # Si el equipo ya existía, actualiza sus datos
+                team.logo = team_logo
+                team.name = team_name
+                team.league = league_obj  # Actualiza la liga si es necesario
+                team.save()  # Guarda los cambios en el equipo
+            player.national_team_matches = partidos_nacionales
+            # Aquí puedes gestionar la relación en tre el jugador y el equipo
+            player.teams.add(team)
+                # Guardar cambios
+            player.save()
+
+
+        contador += 1  # Incrementar el contador de jugadores procesados
+
 
     return ApiResponse.success(data={
         'message': f'Players fetched and saved successfully. Total: {contador}'

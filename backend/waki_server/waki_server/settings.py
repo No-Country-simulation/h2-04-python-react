@@ -73,6 +73,7 @@ INSTALLED_APPS = [
     'user',
     'football_api', 
     'match',
+    'tokens',
 
 ]
 

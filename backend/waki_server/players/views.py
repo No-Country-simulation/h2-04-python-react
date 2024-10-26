@@ -15,15 +15,20 @@ from utils.apiresponse import ApiResponse
 class PlayersListView(generics.ListAPIView):
     queryset = Players.objects.all()
     serializer_class = PlayersSerializer
-    filter_backends = [filters.SearchFilter]
-    search_fields = ['name']
+
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        team_name = self.request.query_params.get('team', None)
         
+        # Filtro por equipo
+        team_name = self.request.query_params.get('team', None)
         if team_name:
-            queryset = queryset.filter(teams__name__icontains=team_name)  # Filtrar por nombre del equipo
+            queryset = queryset.filter(teams__name__icontains=team_name)
+        
+        # Filtro por nombre del jugador
+        player_name = self.request.query_params.get('search', None)
+        if player_name:
+            queryset = queryset.filter(lastname__icontains=player_name)
         
         return queryset
 

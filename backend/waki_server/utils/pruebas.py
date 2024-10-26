@@ -7,7 +7,7 @@ headers = {
     'x-rapidapi-key': "3340e6dc57da7cc7c941644d11f7ef1c"
     }
 
-conn.request("GET", "/players/squads?team=1", headers=headers)
+conn.request("GET", "/standings?league=1&season=2022", headers=headers)
 
 
 # Obtener la respuesta
@@ -21,7 +21,7 @@ decoded_data = data.decode("utf-8")
 json_data = json.loads(decoded_data)
 
 # Guardar los datos en un archivo JSON
-with open("player_profile.json", "w") as json_file:
-    json.dump(json_data, json_file, indent=4)
+with open("player_profile.json", "w", encoding="utf-8") as json_file:
+    json.dump(json_data, json_file, indent=4, ensure_ascii=False)
 
 print("Datos guardados en player_profile.json")

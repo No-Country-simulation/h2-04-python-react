@@ -11,9 +11,10 @@ from rest_framework.routers import DefaultRouter
 
 from user.views import UserViewSet, LoginView
 
-from football_api.views import fetch_leagues, search_leagues, fetch_match, search_match, update_match, update_match_odds, fetch_teams, fetch_players
+from football_api.views import fetch_leagues, search_leagues, fetch_match, search_match, update_match, update_match_odds, fetch_teams, fetch_players, fetch_players_statistics
 from match.views import PredictionCreateView, PredictionListView, predicciones_disponibles
 from players.views import PlayersListView
+from tokens.views import PlayerTokenBurnAPIView
 
 class CustomTokenObtainPairView(TokenObtainPairView):
     permission_classes = (AllowAny,)
@@ -49,6 +50,7 @@ urlpatterns = [
     path('update-match/', update_match, name='update-match'),
     path('search-match/', search_match, name='search-match'),
     path('update-match-odds/', update_match_odds, name='update-match-odds'),
+    path('fetch_players_statistics/', fetch_players_statistics, name='fetch-players-statistics'),
 
     path('fetch-teams/', fetch_teams, name='fetch-match'),
     path('fetch-players/', fetch_players, name='fetch-players'),
@@ -62,6 +64,9 @@ urlpatterns = [
 
 
     path('players/', PlayersListView.as_view(), name='players-list'),
+    path('players/<int:player_id>/token-burn/', PlayerTokenBurnAPIView.as_view(), name='player-token-burn'),
+
+
 
 ]
 

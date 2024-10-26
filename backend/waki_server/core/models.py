@@ -17,6 +17,7 @@ class League(models.Model):
     name = models.CharField(max_length=255)
     logo = models.URLField(max_length=500, blank=True, null=True) 
     country = models.CharField(max_length=255)
+    confederacion = models.CharField(max_length=55)
 
     def __str__(self):
         return self.name
@@ -96,19 +97,35 @@ class Teams(models.Model):
     national = models.BooleanField(default=False)  # Indica si es selección nacional
     logo = models.URLField(max_length=255, null=True, blank=True)  # URL del logo del equipo
     export = models.BooleanField(default=False)
+    ranking = models.IntegerField(default=0)  # Ranking del club a nivel global
+    league = models.ForeignKey(League, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return self.name
     
 class Players(models.Model):
     id = models.AutoField(primary_key=True)  # ID del jugador
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, blank=True)
+    lastname = models.CharField(null=True, max_length=255)
     age = models.IntegerField(null=True, blank=True) 
     number = models.IntegerField(null=True, blank=True)  # Número puede ser nulo
     position = models.CharField(max_length=50)
     photo = models.URLField(max_length=200)  # URL para la foto del jugador
     teams = models.ManyToManyField(Teams, related_name='players')  # Relación con Teams
-
+    height = models.CharField(max_length=25, blank=True)
+    weight =  models.CharField(max_length=25, blank=True)
+    matches_played = models.IntegerField(default=0)
+    total_club_matches = models.IntegerField(default=0)
+    rating = models.FloatField(default=0)  # Calificación del jugador
+    goals = models.IntegerField(default=0)  # Goles marcados
+    assists = models.IntegerField(default=0)  # Asistencias
+    national_team_matches = models.IntegerField(default=0)  # Partidos con la selección
+    national_team_ranking = models.IntegerField(default=0)  # Ranking FIFA de la selección
+    trophies = models.TextField(default=0)  
+    minutes = models.IntegerField(default=0)
+    cards_yellow = models.IntegerField(default=0)
+    cards_red = models.IntegerField(default=0)
+    tokenizable = models.BooleanField(default=False)
     def __str__(self):
         return self.name
 
