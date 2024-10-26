@@ -1,8 +1,11 @@
 def calculate_club_token_burn(player):
     total_burn = 0
-    for club in player.teams.all():
+    for club in player.teams.all():  # Asegúrate de obtener todos los clubes
+        # Asumiendo que cada club tiene una relación con una liga
+        league = club.league  # Accede a la liga del club
+        confederation_factor = get_confederation_factor(league.confederacion)  # Obtén el factor de confederación
+        
         club_ranking = club.ranking
-        confederation_factor = get_confederation_factor(club.confederation)
         
         ranking_percentages = {
             1: 10, 2: 9.67, 3: 9.33, 4: 9, 5: 8.67, 6: 8.33, 7: 8,
@@ -41,7 +44,7 @@ def calculate_rating_token_burn(player):
         total_rating_burn += player.rating * G * (1 + A)
     return total_rating_burn
 
-def get_league_factor(club):
+def get_league_factor(club): #YA TENGO LAS LIGAS
     league_factors = {
         'Premier League': 0.20,
         'La Liga': 0.18,
@@ -81,15 +84,24 @@ def calculate_trophy_token_burn(player):
     return 15  # Aquí se puede añadir lógica adicional para los trofeos
 
 def calculate_total_token_burn(player):
-    club_burn = calculate_club_token_burn(player)
+    club_burn = calculate_club_token_burn(player) 
+    print(f"club_burn {club_burn}")
     match_burn = calculate_match_token_burn(player)
+    print(f"match_burn {match_burn}")
     rating_burn = calculate_rating_token_burn(player)
+    print(f"rating_burn {rating_burn}")
     goals_burn = calculate_goals_token_burn(player)
+    print(f"goals_burn {goals_burn}")
     assists_burn = calculate_assists_token_burn(player)
+    print(f"assists_burn {assists_burn}")
     national_team_burn = calculate_national_team_token_burn(player)
+    print(f"national_team_burn {national_team_burn}")
     trophy_burn = calculate_trophy_token_burn(player)
+    print(f"trophy_burn {trophy_burn}")
 
     total_burn = (club_burn + match_burn + rating_burn +
                 goals_burn + assists_burn + national_team_burn +
                 trophy_burn)
+    print("_______________")
+    print(f"total {total_burn}")
     return total_burn

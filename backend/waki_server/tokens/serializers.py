@@ -7,7 +7,7 @@ class PlayerSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Players
-        fields = ['name', 'teams', 'matches_played', 'goals', 'assists', 'total_burn']
+        fields = '__all__'
 
     def get_total_burn(self, obj):
         return calculate_total_token_burn(obj)
