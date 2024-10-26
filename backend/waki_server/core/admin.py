@@ -10,9 +10,11 @@ class PlayersAdmin(admin.ModelAdmin):
 class TeamsAdmin(admin.ModelAdmin):
     search_fields = ['name']
 
+class LeagueAdmin(admin.ModelAdmin):
+    search_fields = ['name']
 
 admin.site.register(User)
-admin.site.register(League)
+admin.site.register(League, LeagueAdmin)
 admin.site.register(Match)
 admin.site.register(Prediction)
 admin.site.register(PredictionDetail)
