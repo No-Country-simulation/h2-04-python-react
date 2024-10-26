@@ -142,13 +142,15 @@ export default function PredictionsHistory() {
                 <p className="text-sm text-medium">{detail.selected_odds}</p>
               </div>
               <p className="text-medium text-xs">
-              {detail.match.home_team} vs {detail.match.away_team}
-              {(detail.match.home_team_goals || detail.match.away_team_goals) ? (
-                <span className="ml-1">
-                  - {detail.match.home_team_goals}:{detail.match.away_team_goals}
-                </span>
-              ) : null}
-            </p>
+                {detail.match.home_team} vs {detail.match.away_team}
+                {detail.match.home_team_goals ||
+                detail.match.away_team_goals ? (
+                  <span className="ml-1">
+                    - {detail.match.home_team_goals}:
+                    {detail.match.away_team_goals}
+                  </span>
+                ) : null}
+              </p>
               <p className="text-medium text-xs">
                 {format(detail.match.date, "dd MMM")}
               </p>
@@ -269,7 +271,9 @@ export default function PredictionsHistory() {
                             : "Selecciona una fecha"}
                         </span>
                       )}
-                      {!date && <CalendarIcon className="size-5 text-blueWaki" />}
+                      {!date && (
+                        <CalendarIcon className="size-5 text-blueWaki" />
+                      )}
                     </Button>
                   </PopoverTrigger>
                   <PopoverContent className="w-auto p-0" align="start">
@@ -371,9 +375,9 @@ export default function PredictionsHistory() {
                   <Button
                     variant="ghost"
                     onClick={handleClearDate}
-                    className="ml-2"
+                    className="px-0"
                   >
-                    {t("prediction.clearFilter")}
+                    <X className="size-4 text-purpleWaki" />
                   </Button>
                 )}
               </div>
@@ -436,9 +440,9 @@ export default function PredictionsHistory() {
                   <Button
                     variant="ghost"
                     onClick={handleClearDate}
-                    className="ml-2"
+                    className="px-0"
                   >
-                    {t("prediction.clearFilter")}
+                    <X className="size-4 text-purpleWaki" />
                   </Button>
                 )}
               </div>

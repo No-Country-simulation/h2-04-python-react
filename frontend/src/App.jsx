@@ -9,7 +9,7 @@ import {Players, Matches, Divisions, Profile, DivisionRewards, MyPredictions, Pl
 
 const App = () => {  
   return (
-    <div className="font-poppins bg-[#fcfcfc]">
+    <div className="font-poppins">
       <Routes>
         {/* Rutas públicas */}
         <Route
