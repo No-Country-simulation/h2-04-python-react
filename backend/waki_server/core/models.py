@@ -7,7 +7,8 @@ class User(AbstractUser):
     phone = models.CharField(max_length=15, blank=True, null=True)
     full_name = models.CharField(max_length=150, blank=True, null=False)
     type_user = models.CharField(max_length=10,blank=False, default='Basic')
-    total_points = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+    total_points = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)#ver para cambiar
+    rewards_points = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
 
     def __str__(self):
         return self.username

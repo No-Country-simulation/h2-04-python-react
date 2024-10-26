@@ -6,7 +6,7 @@ from utils.apiresponse import ApiResponse
 from rest_framework.views import APIView
 from .serializers import UserSerializer, UserUpdateSerializer, LoginSerializer
 from rest_framework.permissions import IsAuthenticated, AllowAny
-from core.models import User
+from core.models import User, Prediction
 from rest_framework_simplejwt.tokens import RefreshToken
 
 class LoginView(generics.GenericAPIView):
@@ -210,3 +210,95 @@ class UserViewSet(viewsets.ModelViewSet):
         return Response({
             "detail": "Method 'POST' not allowed on this endpoint."
         }, status=status.HTTP_405_METHOD_NOT_ALLOWED)
+
+
+class UserRewards(APIView):
+    """
+    Vista para obtener las recompensas del usuario autenticado (perfil).
+    
+    Requiere autenticación (`IsAuthenticated`) y devuelve los detalles del usuario 
+    que realiza la solicitud.
+    """
+    
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        """
+        Maneja las solicitudes GET para devolver los detalles del usuario actual.
+        
+        Utiliza el serializer `UserSerializer` para serializar los datos del usuario.
+        """
+        serializer = UserSerializer(request.user)
+        user = request.user  # Obtener el ID del usuario
+        
+        
+        # Filtrar las apuestas ganadas
+        predictions = Prediction.objects.filter(user=user, status='ganada')
+
+        # Contar apuestas simples y combinadas ganadas
+        apuestas_simples_ganadas = predictions.filter(bet_type='simple').count()
+        apuestas_combinadas_ganadas = predictions.filter(bet_type='combinada').count()
+
+        # Inicializar puntos y logros
+        puntos = 0
+        #logro_1simple = logro_3simple = logro_10simple = "pendiente"
+        logro_1combi = logro_3combi = logro_10combi = "pendiente"
+
+        # Calcular puntos según las reglas establecidas para apuestas simples
+        if apuestas_simples_ganadas >= 10:
+            puntos += 130
+            logro_10simple = 'completado'
+        else:
+            logro_10simple = f"{apuestas_simples_ganadas}/10"
+        if apuestas_simples_ganadas >= 3:
+            puntos += 45
+            logro_3simple = 'completado'
+        else:
+            logro_3simple = f"{apuestas_simples_ganadas}/3"
+        if apuestas_simples_ganadas >= 1:
+            puntos += 10
+            logro_1simple = 'completado'
+        else:
+            logro_1simple = f"{apuestas_simples_ganadas}/1"
+        
+        # Calcular puntos según las reglas establecidas para apuestas combinadas
+        if apuestas_combinadas_ganadas >= 10:
+            puntos += 90
+            logro_10combi = 'completado'
+        else: 
+            logro_10combi = f"{apuestas_combinadas_ganadas}/10"
+        
+        if apuestas_combinadas_ganadas >= 3:
+            puntos += 90
+            logro_3combi = 'completado'
+        else:
+            logro_3combi = f"{apuestas_combinadas_ganadas}/3"
+        if apuestas_combinadas_ganadas >= 1:
+            puntos += 25
+            logro_1combi = 'completado'
+        else:
+            logro_1combi = f"{apuestas_combinadas_ganadas}/1"
+
+        puntos_totales = user.total_points
+        user_obj = User.objects.get(id=user.id)
+        # Estructurar la respuesta de recompensas
+        user_obj.rewards_points = puntos
+        user_obj.save()
+        data_resp = {
+            "rewards_single_one": logro_1simple,
+            "rewards_single_three": logro_3simple,
+            "rewards_single_ten": logro_10simple,
+            "rewards_combined_one": logro_1combi,
+            "rewards_combined_three": logro_3combi,
+            "rewards_combined_ten": logro_10combi,
+            "total_points_awarded": puntos,
+            "total_points": puntos_totales + puntos
+        }
+
+
+        return Response({
+            "status_code": 200,
+            "data": data_resp,
+            "errors": []
+        })
+    

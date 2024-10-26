@@ -1,6 +1,6 @@
 from django.urls import path, include
 from rest_framework_simplejwt.views import TokenObtainPairView,TokenRefreshView
-from user.views import RegisterView, UserMeView, UpdateUserView
+from user.views import RegisterView, UserMeView, UserRewards
 from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
 from rest_framework.permissions import AllowAny
 from django.contrib import admin
@@ -31,6 +31,8 @@ urlpatterns = [
     path('user/register/', RegisterView.as_view(), name='register'),
     path('user/me/',UserMeView.as_view(), name='me'),
     path('', include(router.urls)),
+    path('user/me/rewards/', UserRewards.as_view(), name='rewards'),
+    
 
     # Obtener tokens (login)
     path('api/token/', LoginView.as_view(), name='token_obtain_pair'),
