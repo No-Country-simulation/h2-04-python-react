@@ -590,7 +590,13 @@ def createsuper(request):
 
 
 @extend_schema(
-    tags=["api-connect"],)
+    tags=["api-connect"],
+    parameters=[
+        OpenApiParameter(
+            name="league", description="Filtrar los partidos por id de liga", required=False, type=str
+        ),
+    ],
+    )
 @api_view(['GET'])
 @permission_classes([IsAdminUser])  # Solo superusuarios pueden acceder
 def fetch_teams(request):
@@ -601,8 +607,9 @@ def fetch_teams(request):
             'x-rapidapi-host': "v3.football.api-sports.io",
             'x-rapidapi-key': "33e976d6787480b32a1208914e80d636"
     }
-
-    conn.request("GET", "/teams?league=1&season=2022", headers=headers)
+    league = request.query_params.get('league', None)
+    ruta = f"/teams?league={league}&season=2024"
+    conn.request("GET", ruta, headers=headers)
 
     res = conn.getresponse()
     data = res.read()
