@@ -613,7 +613,7 @@ def fetch_teams(request):
 
     res = conn.getresponse()
     data = res.read()
-
+    teams_saves = 0
     # Decodificar y convertir la respuesta a un diccionario JSON
     data_json = json.loads(data.decode("utf-8"))
 
@@ -635,9 +635,10 @@ def fetch_teams(request):
                                 founded=founded,
                                 national=national
                                 )
-
+            teams_saves += 1
+    message = f'teams fetched and saved successfully. {teams_saves}'
     return ApiResponse.success(data={
-                    'message': 'teams fetched and saved successfully.'
+                    'message': message
                 }, status_code=status.HTTP_201_CREATED)
 
 
