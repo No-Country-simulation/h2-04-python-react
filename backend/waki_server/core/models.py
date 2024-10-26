@@ -128,7 +128,7 @@ class Players(models.Model):
     cards_red = models.IntegerField(default=0)
     tokenizable = models.BooleanField(default=False)
     def __str__(self):
-        return self.name
+        return self.name + " " + self.lastname
 
 
 

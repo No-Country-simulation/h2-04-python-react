@@ -5,7 +5,7 @@ from .models import User, League, Match, Prediction, PredictionDetail, ConfigMod
 
 
 class PlayersAdmin(admin.ModelAdmin):
-    search_fields = ['name']  # Campos que quieres que sean buscables
+    search_fields = ['name', 'lastname', 'teams__name'] 
 
 class TeamsAdmin(admin.ModelAdmin):
     search_fields = ['name']
