@@ -17,7 +17,7 @@ import {
   Clock,
   Star,
 } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { futPlayers } from "../data/footballPlayers";
 import { Input } from "@/common/components/ui/input";
 import { useState } from "react";
@@ -45,6 +45,12 @@ const FutPlayerRanking = () => {
   const selectedLabel =
     filterOptions.find((option) => option.value === selectedFilter)?.label ||
     "Valor";
+
+    const navigate = useNavigate()
+
+  const handleRowClick = (playerId) => {
+    navigate(`/players/${playerId}`)
+  }
 
   return (
     <div className="p-4">
@@ -97,8 +103,8 @@ const FutPlayerRanking = () => {
           <TableHeader>
             <TableRow>
               <TableHead className="w-12 text-center">#</TableHead>
-              <TableHead>{t("table.player")}</TableHead>
-              <TableHead className="w-16">Div.</TableHead>
+              <TableHead className="w-36">{t("table.player")}</TableHead>
+              <TableHead className="w-12 text-center">Div.</TableHead>
               <TableHead className="w-20 text-center">
                 {t("table.released")}
               </TableHead>
@@ -108,19 +114,21 @@ const FutPlayerRanking = () => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {futPlayers.map((player) => (
-              <TableRow key={player.id}>
+            {futPlayers.map((player, index) => (
+              <TableRow key={player.id} 
+              className="group cursor-pointer hover:bg-gray-100"
+              onClick={() => handleRowClick(player.id)}>
                 <TableCell
                   className={`font-semibold text-blue-500 text-center`}
                 >
-                  {player.id}
+                  {index + 1}
                 </TableCell>
                 <TableCell>
                   <Link
                     to={`/players/${player.id}`}
                     className="hover:underline"
                   >
-                    {player.name}
+                    {player.name} {player.lastName} 
                   </Link>
                 </TableCell>
                 <TableCell>
@@ -136,6 +144,8 @@ const FutPlayerRanking = () => {
                           : liga3
                       }
                       alt={`Liga ${player.division}`}
+                      width={24}
+                      height={24}
                       className="size-6"
                     />
                   </div>

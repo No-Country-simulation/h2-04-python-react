@@ -20,12 +20,24 @@ import pendingSpin from "./icons/pendingSpin.svg";
 import logro from "./icons/logro.svg";
 import yellowCard from "./icons/yellowCard.svg";
 import redCard from "./icons/redCard.svg";
-import flagAR from "./icons/flag-argentina.svg";
 import balon from "./icons/balon.svg";
+import signal from "./icons/signal.svg";
+import argentinaFlag from "./icons/Argentina.svg"
+import brazilFlag from "./icons/Brazil.svg"
+import spainFlag from "./icons/España.svg"
+import franceFlag from "./icons/Francia.svg"
+import englandFlag from "./icons/Inglaterra.svg"
+import norwayFlag from "./icons/Noruega.svg"
 
 export {
+    argentinaFlag,
+    brazilFlag,
+    spainFlag,
+    franceFlag,
+    englandFlag,
+    norwayFlag,
+    signal,
     balon,
-    flagAR,
     yellowCard,
     redCard,
     logro,

@@ -61,6 +61,7 @@
 @layer base {
   * {
     @apply border-border;
+    @apply font-poppins
   }
   body {
     @apply bg-background text-foreground;
