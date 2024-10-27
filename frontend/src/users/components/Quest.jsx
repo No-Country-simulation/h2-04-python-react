@@ -9,11 +9,13 @@ import QuestPointsProgressBar from "./QuestPointsProgressBar";
 import { logro } from "@/common/assets";
 import { Skeleton } from "@/common/components/ui/skeleton";
 import { useUser } from "@/api/services/useUser";
+import useLanguageStore from "@/api/store/language-store";
+import { useTranslation } from "react-i18next";
 
 const missions = [
   {
     id: 1,
-    description: "Ganá 1 apuesta simple",
+    description: "quest.missions.1.description" ,
     requiredWins: 1,
     type: "simple",
     points: 10,
@@ -21,7 +23,7 @@ const missions = [
   },
   {
     id: 2,
-    description: "Ganá 1 apuesta combinada",
+    description: "quest.missions.2.description",
     requiredWins: 1,
     type: "combinada",
     points: 25,
@@ -29,7 +31,7 @@ const missions = [
   },
   {
     id: 3,
-    description: "Ganá 3 apuestas simples",
+    description: "quest.missions.3.description",
     requiredWins: 3,
     type: "simple",
     points: 45,
@@ -37,7 +39,7 @@ const missions = [
   },
   {
     id: 4,
-    description: "Ganá 3 apuestas combinadas",
+    description: "quest.missions.4.description",
     requiredWins: 3,
     type: "combinada",
     points: 90,
@@ -45,7 +47,7 @@ const missions = [
   },
   {
     id: 5,
-    description: "Ganá 10 apuestas simples",
+    description: "quest.missions.5.description",
     requiredWins: 10,
     type: "simple",
     points: 130,
@@ -53,7 +55,7 @@ const missions = [
   },
   {
     id: 6,
-    description: "Ganá 10 apuestas combinadas",
+    description: "quest.missions.6.description",
     requiredWins: 10,
     type: "combinada",
     points: 300,
@@ -62,6 +64,8 @@ const missions = [
 ];
 
 const Quest = () => {
+  const { t } = useTranslation();
+  const { currentLanguage } = useLanguageStore();
   const accessToken = useAuthStore((state) => state.accessToken);
   const {
     data: userData,
@@ -113,7 +117,7 @@ const Quest = () => {
     <div className="container mx-auto">
       <QuestPointsProgressBar currentPoints={userData?.total_points || 0} />
       
-      <h2 className="text-lg font-medium leading-6 mb-4">Logros</h2>
+      <h2 className="text-lg font-medium leading-6 mb-4">{t("quest.achievements")}</h2>
       <div className="w-full mx-auto bg-white rounded-lg waki-shadow overflow-hidden">
         {missions.map((mission) => {
           const [completed, total] = (rewardsData?.[mission.rewardKey] ?? "0/0")
@@ -135,10 +139,10 @@ const Quest = () => {
                 <div className="flex flex-col w-full space-y-1">
                   <div className="flex flex-row justify-between items-center gap-x-1">
                     <h3 className="font-normal text-sm leading-4">
-                      {mission.description}
+                    {t(mission.description)}
                     </h3>
                     <p className="text-xs text-[#555]">
-                      {mission.points} puntos
+                      {mission.points} {currentLanguage === "en" ? "points" : "puntos"} 
                     </p>
                   </div>
 

@@ -64,7 +64,8 @@
     "loadLeagues": "Fetching leagues...",
     "error500": "Internal Server Error. Please try again later.",
     "refreshError": "Session expired. Please log in again.",
-    "requestError": "An error occurred in the request"
+    "requestError": "An error occurred in the request",
+    "fetchPlayersError": "Error fetching players"
   },
   "Rewards": "Rewards",
   "MonthlyPrizes": "Monthly prizes",
@@ -139,5 +140,36 @@
     "Uruguay": "Uruguay",
     "USA": "United States",
     "Norway": "Norway"
+  },
+  "filter": {
+    "orderBy": "Order by",
+    "value": "Value",
+    "age": "Age",
+    "assists": "Assists",
+    "minutes": "Minutes played",
+    "league": "League"
+  },
+  "quest": {
+    "achievements": "Achievements",
+    "missions": {
+      "1": {
+        "description": "Win 1 single bet"
+      },
+      "2": {
+        "description": "Win 1 combined bet"
+      },
+      "3": {
+        "description": "Win 3 single bets"
+      },
+      "4": {
+        "description": "Win 3 combined bets"
+      },
+      "5": {
+        "description": "Win 10 single bets"
+      },
+      "6": {
+        "description": "Win 10 combined bets"
+      }
+    }
   }
 }
