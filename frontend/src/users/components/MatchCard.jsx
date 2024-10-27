@@ -4,6 +4,7 @@ import { Button } from "@/common/components/ui/button";
 import { format } from "date-fns";
 import { Lock, Minus } from "lucide-react";
 import useLanguageStore from "@/api/store/language-store";
+import { signal } from "@/common/assets";
 
 const MatchCard = ({
   leagueName,
@@ -16,12 +17,20 @@ const MatchCard = ({
   onOddsSelect,
   matchId,
 }) => {
+  const { currentLanguage } = useLanguageStore();
   const date = new Date(fixtureDate);
   const matchDate = format(date, "yyyy-MM-dd");
   const formattedTime = format(date, "HH:mm");
   const formattedDate = format(date, "dd MMM");
-  const isFinishedOrInProgress = status.short === "FT" || status.short === "HT" || status.short === "2H";
-  const { currentLanguage } = useLanguageStore();
+  // const isFinishedOrInProgress =
+  //   status.short === "FT" ||
+  //   status.short === "1H" ||
+  //   status.short === "HT" ||
+  //   status.short === "2H";
+  // const isPostponed = status.short === "PST";
+  const isLive = ["1H", "HT", "2H"].includes(status.short);
+  const isFinishedOrInProgress = status.short === "FT" || isLive;
+  const isPostponed = status.short === "PST";
 
   const handleOddsClick = (selectedTeam, odds) => {
     onOddsSelect({
@@ -36,6 +45,19 @@ const MatchCard = ({
     });
   };
 
+  const getStatusText = () => {
+    switch (status.short) {
+      case "HT":
+        return currentLanguage === "en" ? "Half-time" : "Entre tiempo";
+      case "1H":
+        return currentLanguage === "en" ? "First Half" : "Primer Tiempo";
+      case "2H":
+        return currentLanguage === "en" ? "Second Half" : "Segundo Tiempo";
+      default:
+        return status.short;
+    }
+  };
+
   return (
     <Card className="matchCard w-full max-w-sm overflow-hidden rounded-xl bg-[#F3F4F5] shadow-lg my-2">
       <div className="bg-white p-2 flex items-center space-x-2 pl-4">
@@ -45,26 +67,52 @@ const MatchCard = ({
       <div className="p-4 mt-2">
         <div className="flex items-center justify-between mb-4">
           <div className="flex flex-col items-center space-y-2 flex-1">
-            <img src={homeTeam.logo} alt={homeTeam.name} className="size-10" />
+            <img
+              src={homeTeam.logo}
+              alt={homeTeam.name}
+              className="w-auto h-10"
+            />
             <span className="font-normal text-center">{homeTeam.name}</span>
           </div>
           <div className="flex flex-col items-center justify-center flex-1">
             {isFinishedOrInProgress ? (
               <div className="flex flex-col items-center justify-center space-y-4">
-                <span className="text-sm font-normal">
-                  {status.short === "FT" 
-                    ? (currentLanguage === "en" ? "Match Finished" : "Finalizado")
-                    : status.short}
-                </span>
+                {isLive && (
+                  <div className="flex flex-col justify-center items-center space-y-2">
+                    <img
+                      src={signal}
+                      alt="Signal icon"
+                      width={19}
+                      height={21}
+                      className="object-cover"
+                    />
+                    <span className="text-sm font-medium">
+                      {getStatusText()}
+                    </span>
+                  </div>
+                )}
+                {!isLive && status.short === "FT" && (
+                  <span className="text-sm font-normal">
+                    {currentLanguage === "en" ? "Match Finished" : "Finalizado"}
+                  </span>
+                )}
                 <div className="score space-x-2 flex flex-row items-center">
                   <span className="font-semibold text-black text-2xl">
                     {displayData.homeTeamGoals}
                   </span>
-                  <Minus className="size-4" />
+                  {!isLive && status.short === "FT" && (
+                    <Minus className="size-4" />
+                  )}
                   <span className="font-semibold text-black text-2xl">
                     {displayData.awayTeamGoals}
                   </span>
                 </div>
+              </div>
+            ) : isPostponed ? (
+              <div className="flex flex-col items-center justify-center space-y-4">
+                <span className="text-sm font-normal text-red-600">
+                  {currentLanguage === "en" ? "Postponed" : "Pospuesto"}
+                </span>
               </div>
             ) : (
               <div className="flex flex-col items-center justify-around space-y-2">
@@ -74,63 +122,68 @@ const MatchCard = ({
             )}
           </div>
           <div className="flex flex-col items-center space-y-2 flex-1">
-            <img src={awayTeam.logo} alt={awayTeam.name} className="size-10" />
+            <img
+              src={awayTeam.logo}
+              alt={awayTeam.name}
+              className="w-auto h-10"
+            />
             <span className="font-normal text-center">{awayTeam.name}</span>
           </div>
         </div>
         <div className="flex justify-around text-sm">
           {!isFinishedOrInProgress &&
+            !isPostponed &&
             (displayData.type === "odds" && displayData.value ? (
               displayData.oddsAvailable ? (
-              <>
-                <Button
-                  className="bg-white hover:bg-gray-200 text-black font-normal text-xs px-5 py-1 leading-[18px]"
-                  onClick={() =>
-                    handleOddsClick("home", displayData.value.home)
-                  }
-                >
-                  {displayData.value.home}
-                </Button>
-                <Button
-                  className="bg-white hover:bg-gray-200 text-black font-normal text-xs px-5 py-1 leading-[18px]"
-                  onClick={() =>
-                    handleOddsClick("draw", displayData.value.draw)
-                  }
-                >
-                  {displayData.value.draw}
-                </Button>
-                <Button
-                  className="bg-white hover:bg-gray-200 text-black font-normal text-xs px-5 py-1 leading-[18px]"
-                  onClick={() =>
-                    handleOddsClick("away", displayData.value.away)
-                  }
-                >
-                  {displayData.value.away}
-                </Button>
-              </>
-            ) : (
-              <>
-                <Button
-                  className="bg-white hover:bg-gray-200 text-black font-normal text-xs w-20 px-5 py-1 leading-[18px]"
-                  disabled
-                >
-                  <Lock className="size-4" />
-                </Button>
-                <Button
-                  className="bg-white hover:bg-gray-200 text-black font-normal text-xs w-20 px-5 py-1 leading-[18px]"
-                  disabled
-                >
-                  <Lock className="size-4" />
-                </Button>
-                <Button
-                  className="bg-white hover:bg-gray-200 text-black font-normal text-xs w-20 px-5 py-1 leading-[18px]"
-                  disabled
-                >
-                  <Lock className="size-4" />
-                </Button>
-              </>
-            )
-          ) : null)}
+                <>
+                  <Button
+                    className="bg-white hover:bg-gray-200 text-black font-normal text-xs px-5 py-1 leading-[18px]"
+                    onClick={() =>
+                      handleOddsClick("home", displayData.value.home)
+                    }
+                  >
+                    {(parseFloat(displayData.value.home) * 10).toFixed(2)}
+                  </Button>
+                  <Button
+                    className="bg-white hover:bg-gray-200 text-black font-normal text-xs px-5 py-1 leading-[18px]"
+                    onClick={() =>
+                      handleOddsClick("draw", displayData.value.draw)
+                    }
+                  >
+                    {(parseFloat(displayData.value.draw) * 10).toFixed(2)}
+                  </Button>
+                  <Button
+                    className="bg-white hover:bg-gray-200 text-black font-normal text-xs px-5 py-1 leading-[18px]"
+                    onClick={() =>
+                      handleOddsClick("away", displayData.value.away)
+                    }
+                  >
+                    {(parseFloat(displayData.value.away) * 10).toFixed(2)}
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Button
+                    className="bg-white hover:bg-gray-200 text-black font-normal text-xs w-20 px-5 py-1 leading-[18px]"
+                    disabled
+                  >
+                    <Lock className="size-4" />
+                  </Button>
+                  <Button
+                    className="bg-white hover:bg-gray-200 text-black font-normal text-xs w-20 px-5 py-1 leading-[18px]"
+                    disabled
+                  >
+                    <Lock className="size-4" />
+                  </Button>
+                  <Button
+                    className="bg-white hover:bg-gray-200 text-black font-normal text-xs w-20 px-5 py-1 leading-[18px]"
+                    disabled
+                  >
+                    <Lock className="size-4" />
+                  </Button>
+                </>
+              )
+            ) : null)}
         </div>
       </div>
     </Card>

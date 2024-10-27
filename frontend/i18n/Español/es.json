@@ -61,9 +61,11 @@
   "infoMsg": {
     "infoMatch": "No hay partidos disponibles para esta liga en esta fecha.",
     "loadMatch": "Cargando partidos...",
+    "loadLeagues": "Cargando ligas...",
     "error500": "Error del servidor. Por favor, intenta más tarde.",
     "refreshError": "Sesión expirada. Por favor inicia sesión nuevamente.",
-    "requestError": "Ocurrió un error en la solicitud"
+    "requestError": "Ocurrió un error en la solicitud",
+    "fetchPlayersError": "Error encontrando los jugadores"
   },
   "Rewards": "Recompenzas",
   "MonthlyPrizes": "Premios del mes",
@@ -124,5 +126,50 @@
     "news": "Nuevas",
     "previous": "Anteriores",
     "empty": "No tienes notificaciones sin leer."
+  },
+  "countries": {
+    "Argentina": "Argentina",
+    "Brazil": "Brasil",
+    "England": "Inglaterra",
+    "France": "Francia",
+    "Germany": "Alemania",
+    "Italy": "Italia",
+    "Spain": "España",
+    "Mexico": "México",
+    "World": "Mundial",
+    "Uruguay": "Uruguay",
+    "USA": "Estados Unidos",
+    "Norway": "Noruega"
+  },
+  "filter": {
+    "orderBy": "Ordenar por",
+    "Value": "Valor",
+    "Age": "Edad",
+    "Assists": "Asistencias",
+    "Minutes": "Minutos jugados",
+    "league": "Liga"
+  },
+  "quest": {
+    "achievements": "Logros",
+    "missions": {
+      "1": {
+        "description": "Ganá 1 apuesta simple"
+      },
+      "2": {
+        "description": "Ganá 1 apuesta combinada"
+      },
+      "3": {
+        "description": "Ganá 3 apuestas simples"
+      },
+      "4": {
+        "description": "Ganá 3 apuestas combinadas"
+      },
+      "5": {
+        "description": "Ganá 10 apuestas simples"
+      },
+      "6": {
+        "description": "Ganá 10 apuestas combinadas"
+      }
+    }
   }
 }

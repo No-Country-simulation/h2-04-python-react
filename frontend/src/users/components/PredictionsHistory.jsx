@@ -81,20 +81,20 @@ export default function PredictionsHistory() {
   const hasPendingPredictions = sortedPendingPredictions.length > 0;
 
   const renderPredictions = (predictions) => {
-    if (predictions.length === 0) {
-      return (
-        <div className="flex flex-col items-center justify-center space-y-4 p-8">
-          <p className="text-lg text-gray-600">
-            {t("prediction.noPredictions")}
-          </p>
-          <Link to="/matches">
-            <Button className="bg-purpleWaki hover:bg-purple-700">
-              {t("prediction.makePrediction")}
-            </Button>
-          </Link>
-        </div>
-      );
-    }
+    // if (predictions.length === 0) {
+    //   return (
+    //     <div className="flex flex-col items-center justify-center space-y-4 p-8">
+    //       <p className="text-lg text-gray-600">
+    //         {t("prediction.noPredictions")}
+    //       </p>
+    //       <Link to="/matches">
+    //         <Button className="bg-purpleWaki hover:bg-purple-700">
+    //           {t("prediction.makePrediction")}
+    //         </Button>
+    //       </Link>
+    //     </div>
+    //   );
+    // }
 
     return predictions.map((prediction) => (
       <Card
@@ -139,17 +139,32 @@ export default function PredictionsHistory() {
                     />
                   ) : null}
                 </div>
-                <p className="text-sm text-medium">{detail.selected_odds}</p>
+                <p
+                  className={`text-sm text-medium ${
+                    detail.status === "ganada"
+                      ? "text-green-600 font-medium"
+                      : detail.status === "perdida"
+                      ? "line-through text-[#555]"
+                      : ""
+                  }`}
+                >
+                  {(parseFloat(detail.selected_odds) * 10).toFixed(2)}
+                </p>
               </div>
               <p className="text-medium text-xs">
-              {detail.match.home_team} vs {detail.match.away_team}
-              {(detail.match.home_team_goals || detail.match.away_team_goals) ? (
-                <span className="ml-1">
-                  - {detail.match.home_team_goals}:{detail.match.away_team_goals}
-                </span>
-              ) : null}
-            </p>
+                {detail.match.home_team} vs {detail.match.away_team}
+                {detail.match.home_team_goals ||
+                detail.match.away_team_goals ? (
+                  <span className="ml-1">
+                    - {detail.match.home_team_goals}:
+                    {detail.match.away_team_goals}
+                  </span>
+                ) : null}
+              </p>
               <p className="text-medium text-xs">
+                {currentLanguage === "en"
+                  ? "Match date:"
+                  : "Fecha del partido:"}{" "}
                 {format(detail.match.date, "dd MMM")}
               </p>
             </div>
@@ -167,7 +182,9 @@ export default function PredictionsHistory() {
             </p>
           </div>
           <p className="text-xs text-[#555] mt-2">
-            {currentLanguage === "en" ? "Date:" : "Fecha:"}{" "}
+            {currentLanguage === "en"
+              ? "Prediction created at:"
+              : "Predicción creada el:"}{" "}
             {format(
               new Date(prediction.created_at),
               currentLanguage === "en"
@@ -269,7 +286,9 @@ export default function PredictionsHistory() {
                             : "Selecciona una fecha"}
                         </span>
                       )}
-                      {!date && <CalendarIcon className="size-5 text-blueWaki" />}
+                      {!date && (
+                        <CalendarIcon className="size-5 text-blueWaki" />
+                      )}
                     </Button>
                   </PopoverTrigger>
                   <PopoverContent className="w-auto p-0" align="start">
@@ -291,6 +310,15 @@ export default function PredictionsHistory() {
                   </Button>
                 )}
               </div>
+
+              <div className="flex flex-col items-end justify-end">
+                <Link to="/matches">
+                  <Button className="bg-purpleWaki hover:bg-purple-700">
+                    {t("prediction.makePrediction")}
+                  </Button>
+                </Link>
+              </div>
+
               {hasPendingPredictions && (
                 <div className="mb-6">
                   <p className="capitalize text-lg text-blueWaki font-medium mb-4">
@@ -371,11 +399,18 @@ export default function PredictionsHistory() {
                   <Button
                     variant="ghost"
                     onClick={handleClearDate}
-                    className="ml-2"
+                    className="px-0"
                   >
-                    {t("prediction.clearFilter")}
+                    <X className="size-4 text-purpleWaki" />
                   </Button>
                 )}
+              </div>
+              <div className="flex flex-col items-end justify-end pb-4">
+                <Link to="/matches">
+                  <Button className="bg-purpleWaki hover:bg-purple-700">
+                    {t("prediction.makePrediction")}
+                  </Button>
+                </Link>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                 {renderPredictions(
@@ -436,11 +471,18 @@ export default function PredictionsHistory() {
                   <Button
                     variant="ghost"
                     onClick={handleClearDate}
-                    className="ml-2"
+                    className="px-0"
                   >
-                    {t("prediction.clearFilter")}
+                    <X className="size-4 text-purpleWaki" />
                   </Button>
                 )}
+              </div>
+              <div className="flex flex-col items-end justify-end pb-4">
+                <Link to="/matches">
+                  <Button className="bg-purpleWaki hover:bg-purple-700">
+                    {t("prediction.makePrediction")}
+                  </Button>
+                </Link>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2  lg:grid-cols-3 gap-5">
                 {renderPredictions(

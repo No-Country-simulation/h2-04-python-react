@@ -14,13 +14,19 @@ import useAuthStore from "@/api/store/authStore";
 import { useTranslation } from "react-i18next";
 import useLanguageStore from "@/api/store/language-store";
 import BetCoupon from "../components/BetCoupon";
-import { useLeagues } from "@/api/services/matches";
+import { useLeagues, useSearchMatches } from "@/api/services/matches";
+import { Skeleton } from "@/common/components/ui/skeleton";
+import { balon } from "@/common/assets";
+import MatchCardWrapper from "../components/MatchCardWrapper";
 
 const Matches = () => {
   const { t } = useTranslation();
   const { currentLanguage } = useLanguageStore();
   const [selectedDate, setSelectedDate] = useState(new Date());
   const accessToken = useAuthStore((state) => state.accessToken);
+  const [searchTerm, setSearchTerm] = useState("");
+  const { data: searchResults, isLoading: isSearching } =
+    useSearchMatches(searchTerm);
 
   const [selections, setSelections] = useState(() => {
     const savedSelections = localStorage.getItem("betSelections");
@@ -84,13 +90,25 @@ const Matches = () => {
     );
   };
 
+  const handleSearch = (term) => {
+    setSearchTerm(term);
+  };
+
+  const getErrorMessage = (term) => {
+    if (currentLanguage === "en") {
+      return `No matches found for '${term}'. Please try searching using the full team name (e.g., Real Madrid)`;
+    } else {
+      return `No se encontraron partidos para '${term}'. Por favor, intenta buscar por el nombre completo del equipo (ej. Real Madrid)`;
+    }
+  };
+
   return (
     <section className="p-2 py-4 mb-28">
       <div className="flex justify-between items-center mb-4">
         <div className="flex-1" />
-        <h1 className="text-2xl font-bold text-blueWaki  text-center">
+        <h2 className="text-2xl font-bold text-blueWaki  text-center">
           {t("navigation.matches")}
-        </h1>
+        </h2>
         <div className="flex-1 flex justify-end mr-7">
           <DatePicker date={selectedDate} onDateChange={handleDateChange} />
         </div>
@@ -124,12 +142,39 @@ const Matches = () => {
             type="text"
             name="search"
             placeholder={
-              currentLanguage === "en" ? "Find a match" : "Busca un partido"
+              currentLanguage === "en"
+                ? "Search match e.g., Real Madrid, Rivel plate..."
+                : "Buscar partido ej: Real Madrid, River Plate..."
             }
             className="pl-12"
-            disabled
+            value={searchTerm}
+            onChange={(e) => handleSearch(e.target.value)}
           />
         </div>
+
+        {isSearching && (
+          <div className="p-4 text-center text-gray-500">
+            {currentLanguage === "en" ? "Searching..." : "Buscando..."}
+          </div>
+        )}
+
+        {!isSearching && searchTerm.length >= 3 && (
+          <>
+            {searchResults && searchResults.length > 0 ? (
+              searchResults.map((match) => (
+                <MatchCardWrapper
+                  key={match.id_fixture}
+                  match={match}
+                  onOddsSelect={handleOddsSelect}
+                />
+              ))
+            ) : (
+              <div className="p-4 text-sm text-center text-gray-500">
+                {getErrorMessage(searchTerm)}
+              </div>
+            )}
+          </>
+        )}
 
         <TabsContent value={previousDate.toISOString()}>
           {isLoading ? (
@@ -153,8 +198,15 @@ const Matches = () => {
           className="waki-shadow rounded-[9px]"
         >
           {isLoading ? (
-            <div className="p-4 text-center text-gray-500">
-              {t("infoMsg.loadMatch")}
+            <div className="p-4 w-full mx-auto">
+              <Skeleton className="h-96 w-full flex flex-col items-center justify-center">
+                <img
+                  src={balon}
+                  alt="Futball"
+                  className="size-8 animate-bounce"
+                />
+                {t("infoMsg.loadLeagues")}
+              </Skeleton>
             </div>
           ) : (
             leagues.map((league) => (

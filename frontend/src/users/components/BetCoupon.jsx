@@ -147,7 +147,7 @@ const BetCoupon = ({ selections, setSelections, removeSelection }) => {
               />
             </div>
             <p className="text-xs text-[#555]">
-              {selection.selectedTeam === "home" ? selection.homeTeam : selection.selectedTeam === "draw" ? "Empate" : selection.awayTeam } - {selection.odds}
+              {selection.selectedTeam === "home" ? selection.homeTeam : selection.selectedTeam === "draw" ? "Empate" : selection.awayTeam } 
             </p>
           </div>
           <Button

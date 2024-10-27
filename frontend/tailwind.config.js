@@ -11,6 +11,7 @@ export default {
       },
       colors: {
         blueWaki: "#317EF4",
+        blueWakiFix: "#094DB6",
         purpleWaki: "#8E2BFF",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",

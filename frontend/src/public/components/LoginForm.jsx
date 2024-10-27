@@ -48,7 +48,7 @@ const LoginForm = () => {
     <Card className="border-none border-0 shadow-none">
       <CardHeader>
         <CardTitle className="flex flex-col gap-y-2">
-          <span className="text-[22px] text-blueWaki font-semibold">
+          <span className="text-[22px] text-blueWakiFix font-semibold">
             {t("auth.loginTitle")}
           </span>
           <span className="text-zinc-500 text-sm font-normal">
@@ -84,6 +84,7 @@ const LoginForm = () => {
               htmlFor="loginPassword"
               label={t("auth.password")}
               id="loginPassword"
+              autocomplete="current-password"
             />
 
             <div className="flex items-center justify-center">

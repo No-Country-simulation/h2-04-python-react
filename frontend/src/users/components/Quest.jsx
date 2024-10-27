@@ -7,61 +7,81 @@ import useUserDataStore from "@/api/store/userStore";
 import useAuthStore from "@/api/store/authStore";
 import QuestPointsProgressBar from "./QuestPointsProgressBar";
 import { logro } from "@/common/assets";
+import { Skeleton } from "@/common/components/ui/skeleton";
+import { useUser } from "@/api/services/useUser";
+import useLanguageStore from "@/api/store/language-store";
+import { useTranslation } from "react-i18next";
 
 const missions = [
   {
     id: 1,
-    description: "Ganá 1 apuesta simple",
+    description: "quest.missions.1.description" ,
     requiredWins: 1,
     type: "simple",
     points: 10,
+    rewardKey: "rewards_single_one",
   },
   {
     id: 2,
-    description: "Ganá 1 apuesta combinada",
+    description: "quest.missions.2.description",
     requiredWins: 1,
     type: "combinada",
     points: 25,
+    rewardKey: "rewards_combined_one",
   },
   {
     id: 3,
-    description: "Ganá 3 apuestas simples",
+    description: "quest.missions.3.description",
     requiredWins: 3,
     type: "simple",
     points: 45,
+    rewardKey: "rewards_single_three",
   },
   {
     id: 4,
-    description: "Ganá 3 apuestas combinadas",
+    description: "quest.missions.4.description",
     requiredWins: 3,
     type: "combinada",
     points: 90,
+    rewardKey: "rewards_combined_three",
   },
   {
     id: 5,
-    description: "Ganá 10 apuestas simples",
+    description: "quest.missions.5.description",
     requiredWins: 10,
     type: "simple",
     points: 130,
+    rewardKey: "rewards_single_ten",
   },
   {
     id: 6,
-    description: "Ganá 10 apuestas combinadas",
+    description: "quest.missions.6.description",
     requiredWins: 10,
     type: "combinada",
     points: 300,
+    rewardKey: "rewards_combined_ten",
   },
 ];
 
 const Quest = () => {
-  const { user } = useUserDataStore();
+  const { t } = useTranslation();
+  const { currentLanguage } = useLanguageStore();
   const accessToken = useAuthStore((state) => state.accessToken);
+  const {
+    data: userData,
+    isLoading: isUserLoading,
+    error: userError,
+  } = useUser();
 
-  const { data: predictions } = useQuery({
-    queryKey: ["predictions"],
+  const {
+    data: rewardsData,
+    isLoading: isRewardsLoading,
+    error: rewardsError,
+  } = useQuery({
+    queryKey: ["rewards"],
     queryFn: async () => {
       const response = await fetchData(
-        "predictions/",
+        "user/me/rewards/",
         "GET",
         null,
         accessToken
@@ -70,28 +90,41 @@ const Quest = () => {
     },
   });
 
+  if (isUserLoading || isRewardsLoading) {
+    return (
+      <div>
+        <Skeleton className="h-52" />
+        <div className="flex flex-col gap-1">
+          <Skeleton className="h-16" />
+          <Skeleton className="h-16" />
+          <Skeleton className="h-16" />
+          <Skeleton className="h-16" />
+        </div>
+      </div>
+    );
+  }
 
-  const missionProgress = useMemo(() => {
-    if (!predictions) return {};
-
-    return missions.reduce((acc, mission) => {
-      const completedPredictions = predictions.filter(
-        (p) => p.status === "ganada" && p.bet_type === mission.type
-      ).length;
-      acc[mission.id] = Math.min(completedPredictions, mission.requiredWins);
-      return acc;
-    }, {});
-  }, [predictions]);
-
-
+  if (userError || rewardsError) {
+    return (
+      <div className="text-red-500">
+        {userError?.message ||
+          rewardsError?.message ||
+          "An error occurred. Please try again."}
+      </div>
+    );
+  }
   return (
     <div className="container mx-auto">
-      <QuestPointsProgressBar currentPoints={user?.total_points ?? 0} />
-
-      <h2 className="text-lg font-medium leading-6 mb-4">Logros</h2>
+      <QuestPointsProgressBar currentPoints={userData?.total_points || 0} />
+      
+      <h2 className="text-lg font-medium leading-6 mb-4">{t("quest.achievements")}</h2>
       <div className="w-full mx-auto bg-white rounded-lg waki-shadow overflow-hidden">
         {missions.map((mission) => {
-          const completedPredictions = missionProgress[mission.id] || 0;
+          const [completed, total] = (rewardsData?.[mission.rewardKey] ?? "0/0")
+            .split("/")
+            .map(Number);
+          const progressPercentage = (completed / total) * 100;
+
           return (
             <div
               key={mission.id}
@@ -106,20 +139,19 @@ const Quest = () => {
                 <div className="flex flex-col w-full space-y-1">
                   <div className="flex flex-row justify-between items-center gap-x-1">
                     <h3 className="font-normal text-sm leading-4">
-                      {mission.description}
+                    {t(mission.description)}
                     </h3>
-                    <p className="text-xs text-[#555]">{mission.points} puntos</p>
+                    <p className="text-xs text-[#555]">
+                      {mission.points} {currentLanguage === "en" ? "points" : "puntos"} 
+                    </p>
                   </div>
 
                   <div className="relative">
-                    <Progress
-                      value={(completedPredictions / mission.requiredWins) * 100}
-                      className="h-4"
-                    />
+                    <Progress value={progressPercentage} className="h-4" />
                     <div className="absolute left-1/2 top-0 h-full flex items-center">
                       <div className="flex flex-row items-center space-x-2">
                         <span className="text-white text-xs text-center font-medium">
-                          {completedPredictions}/{mission.requiredWins}
+                          {completed}/{total}
                         </span>
                       </div>
                     </div>

@@ -17,10 +17,10 @@ import {
   Clock,
   Star,
 } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { futPlayers } from "../data/footballPlayers";
 import { Input } from "@/common/components/ui/input";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import {
   Select,
   SelectContent,
@@ -33,18 +33,56 @@ import useLanguageStore from "@/api/store/language-store";
 const FutPlayerRanking = () => {
   const { t } = useTranslation();
   const { currentLanguage } = useLanguageStore();
+  const valor = currentLanguage === "en" ? "Value" : "Valor"
+  const [filterBy, setFilterBy] = useState(valor);
+
   const filterOptions = [
-    { value: "valor", label: "Valor", icon: BadgeDollarSign },
-    { value: "liga", label: "Liga", icon: BarChart2 },
-    { value: "minutos", label: "Minutos jugados", icon: Clock },
-    { value: "asistencia", label: "Asistencia", icon: Star },
-    { value: "edad", label: "Edad", icon: ChevronFirst },
+    {
+      value: t("filter.value"),
+      labelEn: "Value",
+      labelEs: "Valor",
+      icon: BadgeDollarSign,
+    },
+    { value: t("filter.league"), labelEn: "League", labelEs: "Liga", icon: BarChart2 },
+    {
+      value: t("filter.Minutes"),
+      labelEn: "Minutes played",
+      labelEs: "Minutos jugados",
+      icon: Clock,
+    },
+    {
+      value: t("filter.Assists"),
+      labelEn: "Assists",
+      labelEs: "Asistencia",
+      icon: Star,
+    },
+    { value: t("filter.age"), labelEn: "Age", labelEs: "Edad", icon: ChevronFirst },
   ];
 
-  const [selectedFilter, setSelectedFilter] = useState(filterOptions[0].value);
-  const selectedLabel =
-    filterOptions.find((option) => option.value === selectedFilter)?.label ||
-    "Valor";
+  const sortedPlayers = useMemo(() => {
+    return [...futPlayers].sort((a, b) => {
+      switch (filterBy) {
+        case "valor":
+          return b.price - a.price;
+        case "liga":
+          return a.division - b.division;
+        case "minutos":
+          return b.minutesPlayed - a.minutesPlayed;
+        case "asistencia":
+          return b.assists - a.assists;
+        case "edad":
+          return a.age - b.age;
+        default:
+          return 0;
+      }
+    });
+  }, [filterBy]);
+
+  const navigate = useNavigate();
+
+  const handleRowClick = (playerId) => {
+    navigate(`/players/${playerId}`);
+  };
 
   return (
     <div className="p-4">
@@ -64,16 +102,12 @@ const FutPlayerRanking = () => {
         />
       </div>
       <div className="mb-4 w-full justify-between">
-        <Select
-          value={selectedFilter}
-          onValueChange={setSelectedFilter}
-          disabled
-        >
+        <Select value={filterBy} onValueChange={setFilterBy}>
           <SelectTrigger className="w-64 max-w-sm border-none shadow-none">
             <div className="flex items-center">
               <ArrowUpDown className="mr-2 h-4 w-4 text-purple-500" />
-              <span className="mr-2 text-sm">Ordenar por:</span>
-              <span className="text-sm text-[#B1B1B1]">{selectedLabel}</span>
+              <span className="mr-2 text-sm">{t("filter.orderBy")}:</span>
+              <span className="text-sm text-[#B1B1B1]">{filterBy}</span>
             </div>
           </SelectTrigger>
           <SelectContent position="popper" sideOffset={5}>
@@ -85,7 +119,9 @@ const FutPlayerRanking = () => {
               >
                 <div className="flex flex-row items-center space-x-1">
                   <option.icon className="mr-2 h-4 w-4" />
-                  <span>{option.label}</span>
+                  <span>
+                    {currentLanguage === "en" ? option.labelEn : option.labelEs}
+                  </span>
                 </div>
               </SelectItem>
             ))}
@@ -97,8 +133,8 @@ const FutPlayerRanking = () => {
           <TableHeader>
             <TableRow>
               <TableHead className="w-12 text-center">#</TableHead>
-              <TableHead>{t("table.player")}</TableHead>
-              <TableHead className="w-16">Div.</TableHead>
+              <TableHead className="w-36">{t("table.player")}</TableHead>
+              <TableHead className="w-12 text-center">Div.</TableHead>
               <TableHead className="w-20 text-center">
                 {t("table.released")}
               </TableHead>
@@ -108,25 +144,25 @@ const FutPlayerRanking = () => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {futPlayers.map((player) => (
-              <TableRow key={player.id}>
-                <TableCell
-                  className={`font-semibold text-blue-500 text-center`}
-                >
-                  {player.id}
+            {sortedPlayers.map((player, index) => (
+              <TableRow
+                key={player.id}
+                className="group cursor-pointer hover:bg-gray-100"
+                onClick={() => handleRowClick(player.id)}
+              >
+                <TableCell className="font-semibold text-blue-500 text-center">
+                  {index + 1}
                 </TableCell>
                 <TableCell>
                   <Link
                     to={`/players/${player.id}`}
                     className="hover:underline"
                   >
-                    {player.name}
+                    {player.name} {player.lastName}
                   </Link>
                 </TableCell>
                 <TableCell>
-                  <div
-                    className={`w-6 h-6 rounded-full flex items-center justify-center text-white text-xs`}
-                  >
+                  <div className="w-6 h-6 rounded-full flex items-center justify-center text-white text-xs">
                     <img
                       src={
                         player.division === 1
@@ -136,6 +172,8 @@ const FutPlayerRanking = () => {
                           : liga3
                       }
                       alt={`Liga ${player.division}`}
+                      width={24}
+                      height={24}
                       className="size-6"
                     />
                   </div>
@@ -143,9 +181,7 @@ const FutPlayerRanking = () => {
                 <TableCell className="text-center">{player.released}</TableCell>
                 <TableCell className="text-right">
                   <span className="mr-2">{player.price}</span>
-                  <Link to="#">
-                    <ChevronRight className="inline size-5 text-blue-500" />
-                  </Link>
+                  <ChevronRight className="inline size-5 text-blue-500" />
                 </TableCell>
               </TableRow>
             ))}

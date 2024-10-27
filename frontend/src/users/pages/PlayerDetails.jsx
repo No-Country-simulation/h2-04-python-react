@@ -9,10 +9,15 @@ import {
 } from "@/common/components/ui/tabs";
 import { Calendar, MoveLeft } from "lucide-react";
 import { Card } from "@/common/components/ui/card";
-import { flagAR, redCard, soccerField, yellowCard } from "@/common/assets";
+import { redCard, soccerField, yellowCard } from "@/common/assets";
 import { futPlayers } from "../data/footballPlayers";
 import { Button } from "@/common/components/ui/button";
-import { TokenChart, TokenDistributionChart, YearTokenChart } from "../components/TokenChart";
+import {
+  TokenChart,
+  TokenDistributionChart,
+  YearTokenChart,
+} from "../components/TokenChart";
+import PlayerNationality from "../components/PlayerNationality";
 
 const PlayerDetails = () => {
   const [activeTab, setActiveTab] = useState("details");
@@ -56,16 +61,30 @@ const PlayerDetails = () => {
         </Link>
         {activeTab === "details" ? (
           <div className="flex flex-col justify-center items-center gap-2.5 px-12 pb-3">
-            <div className="size-32 rounded-full bg-green-400"></div>
+            <img
+              src={player.image}
+              alt={`${player.name} Photo`}
+              width={128}
+              height={128}
+              className="object-cover size-32 rounded-full aspect-square"
+            />
+
             <h1 className="font-semibold text-xl text-[#181818] leading-8">
-              {player.name}
+              {player.name} {player.lastName}
             </h1>
           </div>
         ) : (
           <div className="flex flex-col justify-center items-center gap-2.5 px-12 pb-3">
-            <div className="size-20 p-1 rounded-full bg-red-400"></div>
-            <h1 className="font-semibold text-xl text-[#181818] leading-8">
-              MESSI/USDT
+            <img
+              src={player.image}
+              alt={`${player.name} Photo`}
+              width={80}
+              height={80}
+              className="object-cover size-20 rounded-full aspect-square"
+            />
+
+            <h1 className="font-semibold text-xl text-[#181818] uppercase leading-8">
+              {player.lastName}/USDT
             </h1>
             <Button
               type="submit"
@@ -100,23 +119,7 @@ const PlayerDetails = () => {
               Datos del jugador
             </h2>
             <Card className="w-full max-w-md mx-auto bg-white rounded-lg shadow-none waki-shadow border-none overflow-hidden">
-              <div className="flex flex-row items-center justify-between px-5 py-2.5 border-b last:border-b-0">
-                <div className="flex flex-row items-center justify-between space-x-4">
-                  <img
-                    src={flagAR}
-                    alt="Argentina flag icon"
-                    className="size-6 object-cover"
-                  />
-                  <div className="flex flex-col ">
-                    <p className="text-sm text-normal text-[#8d8d8d] ">
-                      Nacionalidad
-                    </p>
-                    <p className="text-sm text-normal text-[#181818]  ">
-                      {player.nationality}
-                    </p>
-                  </div>
-                </div>
-              </div>
+              <PlayerNationality nationality={player.nationality} />
 
               <div className="flex flex-row items-center justify-between px-5 py-2.5 border-b last:border-b-0">
                 <div className="flex flex-row items-center justify-between space-x-4">
@@ -282,19 +285,19 @@ const PlayerDetails = () => {
               <h2 className="font-medium text-base text-[#181818] leading-6 mb-2.5">
                 Liberación Acumulada del Token Anual
               </h2>
-              <TokenChart />
+              <TokenChart lastName={player.lastName} />
             </div>
 
             <div className="">
               <h2 className="font-medium text-base text-[#181818] leading-6 mb-2.5">
                 Liberación de Tokens Anual
               </h2>
-              <YearTokenChart />
+              <YearTokenChart lastName={player.lastName} />
             </div>
 
             <div className="">
               <h2 className="font-medium text-base text-[#181818] leading-6 mb-2.5">
-              Tokens Liberados vs. Quemados
+                Tokens Liberados vs. Quemados
               </h2>
               <TokenDistributionChart />
             </div>

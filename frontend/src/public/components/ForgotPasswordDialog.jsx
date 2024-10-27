@@ -52,7 +52,7 @@ const ForgotPasswordDialog = () => {
       <DialogTrigger asChild>
         <Button
           variant="link"
-          className="text-blueWaki leading-5 hover:underline"
+          className="text-blueWakiFix leading-5 hover:underline"
         >
           {t("auth.forgotPassword")}
         </Button>

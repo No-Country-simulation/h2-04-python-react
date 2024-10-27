@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import {
   Line,
   LineChart,
@@ -83,12 +84,12 @@ const tokenBurn = [
   { year: 2023, "Token liberados": 500, "Token quemados": 9500 },
 ];
 
-export const TokenChart = () => {
+export const TokenChart = ({lastName}) => {
   return (
     <Card className="w-full max-w-xl mx-auto border-none shadow-none">
       <CardHeader className="hidden">
         <CardTitle>Liberación Acumulada del Token Anual</CardTitle>
-        <CardDescription>MESSI/USDT Token Release (2004-2023)</CardDescription>
+        <CardDescription>{lastName}/USDT Token Release (2004-2023)</CardDescription>
       </CardHeader>
       <CardContent className="p-0">
         <ChartContainer
@@ -158,12 +159,12 @@ export const TokenChart = () => {
   );
 };
 
-export const YearTokenChart = () => {
+export const YearTokenChart = ({lastName}) => {
   return (
     <Card className="w-full max-w-xl mx-auto border-none shadow-none">
       <CardHeader className="hidden">
         <CardTitle>Liberación de Tokens Anual</CardTitle>
-        <CardDescription>MESSI/USDT Token Release (2004-2022)</CardDescription>
+        <CardDescription>{lastName}/USDT Token Release (2004-2022)</CardDescription>
       </CardHeader>
       <CardContent className="p-0">
         <ChartContainer
