@@ -9,6 +9,7 @@ from utils.apiresponse import ApiResponse
     parameters=[
         OpenApiParameter('team', str, description='Nombre del equipo para filtrar jugadores', required=False),
         OpenApiParameter('search', str, description='Nombre del jugador para buscar', required=False),
+        OpenApiParameter('tokenizable', bool, description='Es un jugador tokenizable', required=False),
     ],
     responses={200: PlayersSerializer(many=True)},
 )
@@ -29,6 +30,13 @@ class PlayersListView(generics.ListAPIView):
         player_name = self.request.query_params.get('search', None)
         if player_name:
             queryset = queryset.filter(lastname__icontains=player_name)
+
+        # Filtro por tokenizable
+        tokenizable_param = self.request.query_params.get('tokenizable', None)
+        if tokenizable_param is not None:
+            # Convierte el valor a un booleano
+            player_tokenizable = tokenizable_param.lower() == 'true'
+            queryset = queryset.filter(tokenizable=player_tokenizable)
         
         return queryset
 
