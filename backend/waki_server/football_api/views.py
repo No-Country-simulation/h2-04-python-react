@@ -767,17 +767,13 @@ def fetch_players_statistics(request):
         player.rating = float(statistics_data[0]["games"]["rating"]) if statistics_data[0]["games"]["rating"] else 0
 
         # Datos adicionales de las estadísticas
-        player.matches_played = sum(stat["games"]["appearences"] for stat in statistics_data)
-
-
-
-
-        player.total_club_matches = sum(stat["games"]["minutes"] for stat in statistics_data if stat["team"]["id"] == 9568)
-        player.goals = sum(stat["goals"]["total"] for stat in statistics_data)
+        player.matches_played = sum(stat["games"]["appearences"] or 0 for stat in statistics_data)
+        player.total_club_matches = sum(stat["games"]["minutes"] for stat in statistics_data if stat["games"]["minutes"] is not None)
+        player.goals = sum(stat["goals"]["total"] or 0 for stat in statistics_data)
         player.assists = sum(stat.get("goals", {}).get("assists", 0) or 0 for stat in statistics_data)
-        player.minutes = sum(stat["games"]["minutes"] for stat in statistics_data)
-        player.cards_yellow = sum(stat["cards"]["yellow"] for stat in statistics_data)
-        player.cards_red = sum(stat["cards"]["red"] for stat in statistics_data)
+        player.minutes = sum(stat["games"]["minutes"] or 0 for stat in statistics_data)
+        player.cards_yellow = sum(stat["cards"]["yellow"] or 0 for stat in statistics_data)
+        player.cards_red = sum(stat["cards"]["red"] or 0 for stat in statistics_data)
         partidos_nacionales = 0
 
         for stat in statistics_data:
@@ -791,7 +787,10 @@ def fetch_players_statistics(request):
                 partidos_nacionales += stat["games"]["appearences"]
 
             league_obj = League.objects.filter(id_league=league_id).first()
-            # Verifica si el equipo ya existe
+            # Verifica si el equipo ya existe`
+            if team_id is None:
+                continue
+            team_name = team_name or ""
             team, created = Teams.objects.get_or_create(
                 id=team_id, 
                 defaults={"logo": team_logo, "name": team_name, "league": league_obj}
