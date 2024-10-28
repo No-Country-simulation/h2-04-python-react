@@ -33,44 +33,28 @@ import useLanguageStore from "@/api/store/language-store";
 const FutPlayerRanking = () => {
   const { t } = useTranslation();
   const { currentLanguage } = useLanguageStore();
-  const valor = currentLanguage === "en" ? "Value" : "Valor"
-  const [filterBy, setFilterBy] = useState(valor);
+  const [filterBy, setFilterBy] = useState("value");
 
   const filterOptions = [
-    {
-      value: t("filter.value"),
-      labelEn: "Value",
-      labelEs: "Valor",
-      icon: BadgeDollarSign,
-    },
-    { value: t("filter.league"), labelEn: "League", labelEs: "Liga", icon: BarChart2 },
-    {
-      value: t("filter.Minutes"),
-      labelEn: "Minutes played",
-      labelEs: "Minutos jugados",
-      icon: Clock,
-    },
-    {
-      value: t("filter.Assists"),
-      labelEn: "Assists",
-      labelEs: "Asistencia",
-      icon: Star,
-    },
-    { value: t("filter.age"), labelEn: "Age", labelEs: "Edad", icon: ChevronFirst },
+    { value: "value", labelEn: "Value", labelEs: "Valor", icon: BadgeDollarSign },
+    { value: "league", labelEn: "League", labelEs: "Liga", icon: BarChart2 },
+    { value: "minutes", labelEn: "Minutes played", labelEs: "Minutos jugados", icon: Clock },
+    { value: "assists", labelEn: "Assists", labelEs: "Asistencia", icon: Star },
+    { value: "age", labelEn: "Age", labelEs: "Edad", icon: ChevronFirst },
   ];
 
   const sortedPlayers = useMemo(() => {
     return [...futPlayers].sort((a, b) => {
       switch (filterBy) {
-        case "valor":
+        case "value":
           return b.price - a.price;
-        case "liga":
+        case "league":
           return a.division - b.division;
-        case "minutos":
+        case "minutes":
           return b.minutesPlayed - a.minutesPlayed;
-        case "asistencia":
+        case "assists":
           return b.assists - a.assists;
-        case "edad":
+        case "age":
           return a.age - b.age;
         default:
           return 0;
@@ -107,7 +91,7 @@ const FutPlayerRanking = () => {
             <div className="flex items-center">
               <ArrowUpDown className="mr-2 h-4 w-4 text-purple-500" />
               <span className="mr-2 text-sm">{t("filter.orderBy")}:</span>
-              <span className="text-sm text-[#B1B1B1]">{filterBy}</span>
+              <span className="text-sm text-[#B1B1B1]">{t(`filter.${filterBy}`)}</span>
             </div>
           </SelectTrigger>
           <SelectContent position="popper" sideOffset={5}>
@@ -118,7 +102,7 @@ const FutPlayerRanking = () => {
                 className="flex items-center"
               >
                 <div className="flex flex-row items-center space-x-1">
-                  <option.icon className="mr-2 h-4 w-4" />
+                  <option.icon className="mr-2 h-4 w-4 text-purpleWaki" />
                   <span>
                     {currentLanguage === "en" ? option.labelEn : option.labelEs}
                   </span>

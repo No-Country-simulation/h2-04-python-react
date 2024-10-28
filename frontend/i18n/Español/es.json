@@ -143,10 +143,10 @@
   },
   "filter": {
     "orderBy": "Ordenar por",
-    "Value": "Valor",
-    "Age": "Edad",
-    "Assists": "Asistencias",
-    "Minutes": "Minutos jugados",
+    "value": "Valor",
+    "age": "Edad",
+    "assists": "Asistencias",
+    "minutes": "Minutos jugados",
     "league": "Liga"
   },
   "quest": {
