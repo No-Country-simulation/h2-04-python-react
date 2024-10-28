@@ -25,7 +25,7 @@ const MonthlyRaffleCarousel = ({ slidesPerView, images, className }) => {
             alt={`Imagen del sorteo ${index + 1}`}
             width={335}
             height={188}
-            className="w-full h-full object-cover rounded-lg content-visibility"
+            className="w-full h-full object-cover rounded-lg"
           />
         </SwiperSlide>
       ))}
