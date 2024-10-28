@@ -1,13 +1,15 @@
 import { useParams, Link } from "react-router-dom";
 import { Card } from "@/common/components/ui/card";
 import {
-  banderin,
   coin,
+  goldEN,
+  goldES,
   goldPrice,
-  jersey,
   liga1,
   liga2,
   price1,
+  silverEN,
+  silverES,
   silverPrice,
 } from "@/common/assets";
 import { MoveLeft } from "lucide-react";
@@ -21,106 +23,124 @@ import TableTokensGold from "../components/TableTokensGold";
 import TableTokensSilver from "../components/TableTokensSilver";
 import { useTranslation } from "react-i18next";
 import useLanguageStore from "@/api/store/language-store";
-
-const divisionData = {
-  "division-gold": {
-    title: "gold",
-    icon: liga1,
-    rewards: [
-      {
-        icon: price1,
-        text: "El usuario en el primer puesto de esta división ganará el premio del mes.",
-      },
-      {
-        icon: goldPrice,
-        text: "Participar en el sorteo mensual por el premio de la división Oro.",
-      },
-      {
-        icon: silverPrice,
-        text: "Participar en el sorteo mensual por el premio de la división Plata.",
-      },
-      {
-        icon: coin,
-        text: "Acceso a los tokens de los jugadores de la división Oro y Plata",
-      },
-    ],
-    monthlyPrize: [
-      {
-        image: jersey,
-        title: "Sorteo división Oro",
-        icon: goldPrice,
-        description:
-          "Camiseta oficial argentina firmada por tu jugador favorito",
-      },
-      {
-        image: jersey,
-        title: "Sorteo división Plata",
-        icon: silverPrice,
-        description: "Entradas al partido Argentina vs Venezuela",
-      },
-    ],
-    tokens: [
-      {
-        table: <TableTokensGold />
-      },
-      {
-        table: <TableTokensSilver />
-      }
-    ],
-  },
-  "division-silver": {
-    title: "silver",
-    icon: liga2,
-    rewards: [
-      {
-        icon: silverPrice,
-        text: "Participar en el sorteo mensual por el premio de la división Plata.",
-      },
-      {
-        icon: coin,
-        text: "Acceso a los tokens de los jugadores de la división Plata",
-      },
-    ],
-    monthlyPrize: [
-      {
-        image: jersey,
-        title: "Sorteo división Plata",
-        icon: silverPrice,
-        description: "Entradas al partido Argentina vs Venezuela",
-      },
-    ],
-    tokens: [
-      {
-        table: <TableTokensSilver />
-      }
-    ],
-  },
-};
+import { useMonthlyRaffle } from "@/common/hooks/useMonthlyRaffle";
+import { Skeleton } from "@/common/components/ui/skeleton";
+import MonthlyRaffleCarousel from "../components/MonthlyRaffleCarousel";
 
 const DivisionRewards = () => {
+  const divisionData = {
+    "division-gold": {
+      title: "gold",
+      icon: liga1,
+      rewards: [
+        {
+          icon: price1,
+          textKey: "divRewards.gold.one",
+        },
+        {
+          icon: goldPrice,
+          textKey: "divRewards.gold.two",
+        },
+        {
+          icon: silverPrice,
+          textKey: "divRewards.gold.three",
+        },
+        {
+          icon: coin,
+          textKey: "divRewards.gold.four",
+        },
+      ],
+      monthlyPrize: [
+        {
+          imageES: goldES,
+          imageEN: goldEN,
+        },
+        {
+          imageES: silverES,
+          imageEN: silverEN,
+        },
+      ],
+      tokens: [
+        {
+          table: <TableTokensGold />,
+        },
+        {
+          table: <TableTokensSilver />,
+        },
+      ],
+    },
+    "division-silver": {
+      title: "silver",
+      icon: liga2,
+      rewards: [
+        {
+          icon: silverPrice,
+          textKey: "divRewards.silver.one",
+        },
+        {
+          icon: coin,
+          textKey: "divRewards.silver.two",
+        },
+      ],
+      monthlyPrize: [
+        {
+          imageES: silverES,
+          imageEN: silverEN,
+        },
+      ],
+      tokens: [
+        {
+          table: <TableTokensSilver />,
+        },
+      ],
+    },
+  };
+
   const { leagueType } = useParams();
   const division = divisionData[leagueType];
   const { t } = useTranslation();
   const { currentLanguage } = useLanguageStore();
+  const leagueMapping = {
+    "division-gold": "oro",
+    "division-silver": "plata",
+  };
+
+  const { data: goldImage, isLoading: isLoadingGold } = useMonthlyRaffle({
+    language: currentLanguage.toUpperCase(),
+    league: leagueMapping[leagueType],
+  });
+
+  const { data: silverImage, isLoading: isLoadingSilver } = useMonthlyRaffle({
+    language: currentLanguage.toUpperCase(),
+    league: "plata",
+  });
+
+  const images =
+    leagueType === "division-gold"
+      ? [goldImage, silverImage].filter(Boolean)
+      : [silverImage].filter(Boolean);
+  const slidesPerView = images.length > 1 ? 1.1 : 1;
 
   return (
     <>
       <div className="p-4 max-w-md mx-auto">
-        <Link to="/divisions" className="flex flex-row items-center gap-x-2 text-blue-500 mb-4">
-        <MoveLeft /> {t('tabs.rewards')}
+        <Link
+          to="/divisions"
+          className="flex flex-row items-center gap-x-2 text-blue-500 mb-4"
+        >
+          <MoveLeft /> {t("tabs.rewards")}
         </Link>
 
         <div className="flex flex-col items-center justify-center gap-4">
-          
           {currentLanguage === "en" ? (
-          <h1 className="text-[22px] font-semibold text-blueWaki">
-            {t(division.title)} Division
-          </h1>
-        ) : (
-          <h1 className="text-[22px] font-semibold text-blueWaki">
-            Division {t(division.title)}
-          </h1>
-        )}
+            <h1 className="text-[22px] font-semibold text-blueWaki">
+              {t(division.title)} Division
+            </h1>
+          ) : (
+            <h1 className="text-[22px] font-semibold text-blueWaki">
+              Division {t(division.title)}
+            </h1>
+          )}
           <img
             src={division.icon}
             alt={division.title}
@@ -130,7 +150,9 @@ const DivisionRewards = () => {
       </div>
 
       <Card className="w-full bg-[#F7F7F7] border-none rounded-[9px] shadow-divisionCard mt-7 p-5 mb-20">
-        <h2 className="text-lg text-[#181818] font-medium mb-4">{t('Rewards')}</h2>
+        <h2 className="text-lg text-[#181818] font-medium mb-4">
+          {t("Rewards")}
+        </h2>
         <div className="w-full max-w-md mx-auto bg-white rounded-lg shadow-md overflow-hidden">
           {division.rewards.map((reward, index) => (
             <div
@@ -145,62 +167,28 @@ const DivisionRewards = () => {
                     className="size-6 object-cover"
                   />
                 </div>
-                <p className="text-xs ">{reward.text}</p>
+                <p className="text-xs">{t(reward.textKey)}</p>
               </div>
             </div>
           ))}
         </div>
 
         <h2 className="text-lg text-[#181818] font-medium my-4">
-        {t('MonthlyPrizes')}
+          {t("MonthlyPrizes")}
         </h2>
 
-        <Carousel
-          className="w-full"
-          plugins={[
-            Autoplay({
-              delay: 4000,
-              loop: true,
-            }),
-          ]}
-        >
-          <CarouselContent className="-ml-4">
-            {division.monthlyPrize.map((prize, index) => (
-              <CarouselItem
-                key={index}
-                className={`pl-4 ${
-                  prize.length > 1 ? "basis-4/5" : "basis-full"
-                }`}
-              >
-                <Card className="relative bg-gradient-to-r from-blue-500 to-purple-500 text-white h-52">
-                  <div className="absolute flex items-center justify-center px-3 pt-4">
-                    <img
-                      src={prize.image}
-                      alt={prize.title}
-                      className="w-auto object-cover rounded-lg"
-                    />
-                    <div>
-                      <h3 className="text-lg font-semibold">{prize.title}</h3>
-                      <p className="text-sm text-[#181818]">
-                        {prize.description}
-                      </p>
-                    </div>
-                    <div className="absolute -top-[2px] right-6">
-                      <div className="relative">
-                        <img src={banderin} alt="Banderín" />
-                        <img
-                          src={prize.icon}
-                          alt="Prize"
-                          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 size-6"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </Card>
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-        </Carousel>
+        <div className="max-w-md">
+          {isLoadingGold || isLoadingSilver ? (
+            <div className="">
+              <Skeleton className="w-80 h-44 rounded-lg" />
+            </div>
+          ) : (
+            <MonthlyRaffleCarousel
+              images={images}
+              slidesPerView={slidesPerView}
+            />
+          )}
+        </div>
 
         <Carousel
           className="w-full mb-10"
@@ -213,17 +201,12 @@ const DivisionRewards = () => {
         >
           <CarouselContent className="p-2 -ml-2">
             {division.tokens.map((token, index) => (
-              <CarouselItem
-                key={index}
-                className="p-2"
-              >
+              <CarouselItem key={index} className="p-2">
                 {token.table}
               </CarouselItem>
             ))}
           </CarouselContent>
         </Carousel>
-        
-        
       </Card>
     </>
   );
