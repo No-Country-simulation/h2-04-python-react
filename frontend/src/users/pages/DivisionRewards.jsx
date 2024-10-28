@@ -2,14 +2,10 @@ import { useParams, Link } from "react-router-dom";
 import { Card } from "@/common/components/ui/card";
 import {
   coin,
-  goldEN,
-  goldES,
   goldPrice,
   liga1,
   liga2,
   price1,
-  silverEN,
-  silverES,
   silverPrice,
 } from "@/common/assets";
 import { MoveLeft } from "lucide-react";
@@ -50,16 +46,6 @@ const DivisionRewards = () => {
           textKey: "divRewards.gold.four",
         },
       ],
-      monthlyPrize: [
-        {
-          imageES: goldES,
-          imageEN: goldEN,
-        },
-        {
-          imageES: silverES,
-          imageEN: silverEN,
-        },
-      ],
       tokens: [
         {
           table: <TableTokensGold />,
@@ -80,12 +66,6 @@ const DivisionRewards = () => {
         {
           icon: coin,
           textKey: "divRewards.silver.two",
-        },
-      ],
-      monthlyPrize: [
-        {
-          imageES: silverES,
-          imageEN: silverEN,
         },
       ],
       tokens: [
