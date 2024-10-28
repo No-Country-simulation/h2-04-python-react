@@ -15,6 +15,7 @@ from football_api.views import fetch_leagues, search_leagues, fetch_match, searc
 from match.views import PredictionCreateView, PredictionListView, predicciones_disponibles
 from players.views import PlayersListView
 from tokens.views import PlayerTokenBurnAPIView
+from raffle.views import RaffleListView
 
 class CustomTokenObtainPairView(TokenObtainPairView):
     permission_classes = (AllowAny,)
@@ -67,6 +68,9 @@ urlpatterns = [
 
     path('players/', PlayersListView.as_view(), name='players-list'),
     path('players/<int:player_id>/token-burn/', PlayerTokenBurnAPIView.as_view(), name='player-token-burn'),
+
+
+    path('monthly-raffle/', RaffleListView.as_view(), name='monthly-raffle'),
 
 
 

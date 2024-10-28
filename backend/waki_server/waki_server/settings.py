@@ -74,6 +74,7 @@ INSTALLED_APPS = [
     'football_api', 
     'match',
     'tokens',
+    'raffle',
 
 ]
 
