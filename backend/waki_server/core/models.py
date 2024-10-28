@@ -132,5 +132,26 @@ class Players(models.Model):
         return f"{self.name or ''} {self.lastname or ''}"
 
 
+class MonthlyRaffle(models.Model):
+    LANGUAGE_CHOICES = [
+        ('ES', 'Español'),
+        ('EN', 'English'),
+    ]
+
+    LIGUE_CHOICES = [
+        ('oro', 'Oro'),
+        ('plata', 'Plata'),
+        ('bronce', 'Bronce'),
+        ]
+
+    title = models.CharField(max_length=255)
+    language = models.CharField(max_length=2, choices=LANGUAGE_CHOICES, default='ES', verbose_name="Idioma")
+    is_active = models.BooleanField(default=True, verbose_name="Activo")
+    raffle_date = models.DateField(verbose_name="Fecha del Sorteo")
+    image = models.ImageField(upload_to='raffles/', verbose_name="Imagen del Premio")
+    ligue = models.CharField(max_length=15, choices=LIGUE_CHOICES)
+
+    def __str__(self):
+        return f"{self.title} - {self.raffle_date}"
 
 
