@@ -1,7 +1,6 @@
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAdminUser
 from rest_framework import status
-from django.http import JsonResponse
 import http.client
 import json
 from core.models import League, Match, PredictionDetail, Prediction, User, Teams, Players
@@ -10,9 +9,10 @@ from .serializers import LeagueSerializer, MatchSerializer
 from rest_framework.pagination import PageNumberPagination
 from drf_spectacular.utils import extend_schema, OpenApiParameter
 from django.db.models import Q
-from rest_framework.request import Request
 from django.db.models import F
-from urllib.parse import quote
+
+from datetime import datetime, timedelta
+import pytz
 
 @extend_schema(
     tags=["api-connect"],)
@@ -202,15 +202,22 @@ def fetch_match(league):
         away_goals = away_goals if away_goals is not None else None
 
 
-        if home_goals is not None and away_goals is not None:
-            if home_goals > away_goals:
-                winner = 'home'
-            elif home_goals < away_goals:
-                winner = 'away'
+        if match_status.get('long') == 'Match Finished':
+            # Si no hay goles, establecerlos en None
+            home_goals = home_goals if home_goals is not None else None
+            away_goals = away_goals if away_goals is not None else None
+
+            if home_goals is not None and away_goals is not None:
+                if home_goals > away_goals:
+                    winner = 'home'
+                elif home_goals < away_goals:
+                    winner = 'away'
+                else:
+                    winner = 'draw'
             else:
-                winner = 'draw'
+                winner = None
         else:
-            winner = None
+            winner = None  # No calcular el ganador si el partido no ha terminado
 
         # Verificar si el id_league ya existe en la base de datos
         if not Match.objects.filter(id_fixture=id_fixture).exists():
@@ -460,18 +467,31 @@ def update_match(request):
 @api_view(['GET'])
 def search_match(request): 
     """Endpoint para buscar ligas por nombre o país"""
-    # Obtener los parámetros de búsqueda
     teams = request.query_params.get('teams', None)
     date = request.query_params.get('date', None)
     league = request.query_params.get('league', None)
 
-    # Filtrar las ligas en base a los parámetros recibidos
     matchs = Match.objects.all()
     
     if teams:
         matchs = matchs.filter(Q(home_team__icontains=teams) | Q(away_team__icontains=teams))
     if date:
-        matchs = matchs.filter(date__icontains=date)  
+        try:
+            # Convertir la fecha en Argentina (America/Argentina/Buenos_Aires) a un rango en UTC
+            local_tz = pytz.timezone('America/Argentina/Buenos_Aires')
+            date_arg = local_tz.localize(datetime.strptime(date, "%Y-%m-%d"))
+
+            # Rango de 24 horas en UTC para la fecha solicitada en Argentina
+            start_utc = date_arg.astimezone(pytz.UTC)
+            end_utc = (date_arg + timedelta(days=1)).astimezone(pytz.UTC)
+
+            matchs = matchs.filter(date__gte=start_utc, date__lt=end_utc)  
+        except ValueError:
+            return ApiResponse.error(
+                message="Invalid date format. Use YYYY-MM-DD.",
+                status_code=status.HTTP_400_BAD_REQUEST
+            )
+
     if league:
         matchs = matchs.filter(league=league)  
         if not matchs.exists(): 
@@ -761,6 +781,7 @@ def fetch_players_statistics(request):
         player.photo = player_data["photo"]
         player.height = player_data["height"]
         player.weight = player_data["weight"]
+        player.nationality = player_data["nationality"]
 
         #comienzo con las estadisticas
         

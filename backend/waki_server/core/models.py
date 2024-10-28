@@ -120,6 +120,7 @@ class Players(models.Model):
     rating = models.FloatField(default=0)  # Calificación del jugador
     goals = models.IntegerField(default=0)  # Goles marcados
     assists = models.IntegerField(default=0)  # Asistencias
+    nationality = models.CharField(null=True, max_length=50)
     national_team_matches = models.IntegerField(default=0)  # Partidos con la selección
     national_team_ranking = models.IntegerField(default=0)  # Ranking FIFA de la selección
     trophies = models.TextField(default=0)  
