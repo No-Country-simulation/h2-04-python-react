@@ -56,7 +56,9 @@
     "released": "Released",
     "price": "Price",
     "username": "Username",
-    "points": "Points"
+    "points": "Points",
+    "showing": "Showing",
+    "of": "of"
   },
   "infoMsg": {
     "infoMatch": "No matches are available for this league on this date.",
@@ -79,6 +81,18 @@
   "divBronze": "Bronze Division",
   "divBronzeDescription": "No prizes in this division. Level up to Silver to win awesome loot!",
   "unlockDiv": "Unlock division",
+  "divRewards": {
+    "gold": {
+      "one": "The user in the first place of this division will win the monthly prize.",
+      "two": "Participate in the monthly raffle for the Gold division prize.",
+      "three": "Participate in the monthly raffle for the Silver division prize.",
+      "four": "Access to tokens of the Gold and Silver division player"
+    },
+    "silver": {
+      "one": "Enter the monthly raffle for the Silver division prize.",
+      "two": "Access to Silver division players' tokens."
+    }
+  },
   "prediction": {
     "all": "All",
     "win": "Won",

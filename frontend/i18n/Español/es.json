@@ -56,7 +56,9 @@
     "released": "Liberado",
     "price": "Precio",
     "username": "Nombre de usuario",
-    "points": "Puntos"
+    "points": "Puntos",
+     "showing": "Mostrando",
+    "of": "de"
   },
   "infoMsg": {
     "infoMatch": "No hay partidos disponibles para esta liga en esta fecha.",
@@ -79,6 +81,18 @@
   "divBronze": "División Bronze",
   "divBronzeDescription": "Esta división no ofrece recompensas. Sube a la división plata para participar por premios.",
   "unlockDiv": "Desbloquear división",
+  "divRewards": {
+    "gold": {
+      "one": "El usuario en el primer puesto de esta división ganará el premio del mes.",
+      "two": "Participar en el sorteo mensual por el premio de la división Oro.",
+      "three": "Participar en el sorteo mensual por el premio de la división Plata.",
+      "four": "Acceso a los tokens de los jugadores de la división Oro y Plata."
+    },
+    "silver": {
+      "one": "Participar en el sorteo mensual por el premio de la división Plata.",
+      "two": "Acceso a los tokens de los jugadores de la división Plata."
+    }
+  },
   "prediction": {
     "all": "Todas",
     "win": "Ganadas",
