@@ -46,7 +46,8 @@
     "ranking": "Ranking",
     "market": "Market",
     "rewards": "Rewards",
-    "quests": "Quests"
+    "quests": "Quests",
+    "details": "Details"
   },
   "titles": {
     "playerRanking": "Player ranking"
@@ -124,7 +125,10 @@
     "predictionLoss": "Loss",
     "filterDate": "Filter by date:",
     "active": "Active",
-    "past": "Past"
+    "past": "Past",
+    "zeroPrediction": "Your predictions list is looking a little bare! Give it a try and see if you can nail your first prediction.",
+    "zeroWinPrediction": "No winning predictions to celebrate yet! Make a prediction and start your winning streak.",
+    "zeroLossPrediction": "Undefeated so far! How long can you keep it up?"
   },
   "profile": {
     "myPredictions": "My predictions",
@@ -161,7 +165,10 @@
     "age": "Age",
     "assists": "Assists",
     "minutes": "Minutes played",
-    "league": "League"
+    "league": "League",
+    "leagues": "Leagues",
+    "trending": "Trending",
+    "schedule": "Schedule"
   },
   "quest": {
     "achievements": "Achievements",

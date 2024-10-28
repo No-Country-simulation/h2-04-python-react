@@ -18,10 +18,12 @@ import {
   YearTokenChart,
 } from "../components/TokenChart";
 import PlayerNationality from "../components/PlayerNationality";
+import useLanguageStore from "@/api/store/language-store";
 
 const PlayerDetails = () => {
   const [activeTab, setActiveTab] = useState("details");
   const { t } = useTranslation();
+  const { currentLanguage } = useLanguageStore();
   const { id } = useParams();
   const [player, setPlayer] = useState(null);
   const [error, setError] = useState(null);
@@ -91,7 +93,7 @@ const PlayerDetails = () => {
               className="w-full max-w-40 bg-purpleWaki hover:bg-purple-700"
               disabled
             >
-              Ver todos los tokens
+              {currentLanguage === "en" ? "See all tokens" : "Ver todos los tokens"}
             </Button>
           </div>
         )}
@@ -103,7 +105,7 @@ const PlayerDetails = () => {
             value="details"
             className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-blueWaki data-[state=active]:rounded-none data-[state=inactive]:text-[#616161] data-[state=inactive]:font-normal data-[state=active]:font-medium data-[state=active]:text-blueWaki"
           >
-            Detalles
+            {t('tabs.details')}
           </TabsTrigger>
           <TabsTrigger
             value="token"
@@ -116,7 +118,7 @@ const PlayerDetails = () => {
         <TabsContent value="details">
           <div className="p-5">
             <h2 className="font-medium text-base text-[#181818] leading-6 mb-2.5">
-              Datos del jugador
+              {currentLanguage === "en" ? "Player profile" : "Datos del jugador"}
             </h2>
             <Card className="w-full max-w-md mx-auto bg-white rounded-lg shadow-none waki-shadow border-none overflow-hidden">
               <PlayerNationality nationality={player.nationality} />
@@ -129,7 +131,7 @@ const PlayerDetails = () => {
                   />
 
                   <div className="flex flex-col ">
-                    <p className="text-sm text-normal text-[#8d8d8d] ">Edad</p>
+                    <p className="text-sm text-normal text-[#8d8d8d] ">{currentLanguage === "en" ? "Age" : "Edad"}</p>
                     <p className="text-sm text-normal text-[#181818]">
                       {player.age}
                     </p>
@@ -146,7 +148,7 @@ const PlayerDetails = () => {
                   />
                   <div className="flex flex-col ">
                     <p className="text-sm text-normal text-[#8d8d8d]">
-                      Posicion
+                    {currentLanguage === "en" ? "Position" : "Posición"}
                     </p>
                     <p className="text-sm text-normal text-[#181818]  ">
                       {player.position}
@@ -159,13 +161,13 @@ const PlayerDetails = () => {
 
           <div className="px-5 flex flex-col gap-y-4">
             <h2 className="font-medium text-base text-[#181818] leading-6">
-              Estadísticas
+            {currentLanguage === "en" ? "Performance" : "Estadísticas"}
             </h2>
 
             <div className="grid grid-cols-4 items-center justify-items-center gap-x-1.5">
               <Card className="w-[82px] h-[74px] flex items-center justify-center bg-white rounded-[9px] waki-shadow border-none overflow-hidden">
                 <div className="flex flex-col items-center justify-center">
-                  <p className="text-sm text-normal text-[#8d8d8d]">Goles</p>
+                  <p className="text-sm text-normal text-[#8d8d8d]">{currentLanguage === "en" ? "Goals" : "Goles"}</p>
                   <p className="text-lg text-medium text-[#181818]">
                     {player.totalGoals}
                   </p>
@@ -174,7 +176,7 @@ const PlayerDetails = () => {
 
               <Card className="w-[82px] h-[74px] flex items-center justify-center bg-white rounded-[9px] waki-shadow border-none overflow-hidden">
                 <div className="flex flex-col items-center justify-center">
-                  <p className="text-sm text-normal text-[#8d8d8d]">Partidos</p>
+                  <p className="text-sm text-normal text-[#8d8d8d]">{currentLanguage === "en" ? "Matches" : "Partidos"}</p>
                   <p className="text-lg text-medium text-[#181818]">
                     {player.matchesPlayed}
                   </p>
@@ -183,7 +185,7 @@ const PlayerDetails = () => {
 
               <Card className="w-[82px] h-[74px] flex items-center justify-center bg-white rounded-[9px] waki-shadow border-none overflow-hidden">
                 <div className="flex flex-col items-center justify-center">
-                  <p className="text-sm text-normal text-[#8d8d8d]">Minutos</p>
+                  <p className="text-sm text-normal text-[#8d8d8d]">{currentLanguage === "en" ? "Minutes" : "Minutos"}</p>
                   <p className="text-lg text-medium text-[#181818]">
                     {player.minutesPlayed}
                   </p>
@@ -193,7 +195,7 @@ const PlayerDetails = () => {
               <Card className="w-[82px] h-[74px] flex items-center justify-center bg-white rounded-[9px] waki-shadow border-none overflow-hidden">
                 <div className="flex flex-col items-center justify-center">
                   <p className="text-sm text-normal text-[#8d8d8d]">
-                    Asistencia
+                  {currentLanguage === "en" ? "Assists" : "Asistencia"}
                   </p>
                   <p className="text-lg text-medium text-[#181818]">
                     {player.assists}
@@ -212,7 +214,7 @@ const PlayerDetails = () => {
                       className="w-auto h-[19px] object-cover"
                     />
                     <p className="text-sm text-normal text-[#181818]">
-                      Tarjetas amarillas
+                    {currentLanguage === "en" ? "Yellow cards" : "Tarjetas amarillas"}
                     </p>
                   </div>
                   <p className="text-sm text-normal text-[#181818]">
@@ -230,7 +232,7 @@ const PlayerDetails = () => {
                       className="w-auto h-[19px] object-cover"
                     />
                     <p className="text-sm text-normal text-[#181818]">
-                      Tarjetas rojas
+                    {currentLanguage === "en" ? "Red cards" : "Tarjetas rojas"}
                     </p>
                   </div>
                   <p className="text-sm text-normal text-[#181818]">
@@ -243,7 +245,7 @@ const PlayerDetails = () => {
 
           <div className="px-5 pt-5 flex flex-col gap-y-4">
             <h2 className="font-medium text-base text-[#181818] leading-6">
-              Logros
+               {currentLanguage === "en" ? "Achievements" : "Logros"}
             </h2>
 
             <Card className="w-full max-w-md mx-auto bg-white rounded-lg shadow-none waki-shadow border-none overflow-hidden">
@@ -269,35 +271,37 @@ const PlayerDetails = () => {
             <Button
               type="submit"
               className="w-full max-w-40 bg-purpleWaki hover:bg-purple-700"
+              disabled
             >
-              Compra
+              {currentLanguage === "en" ? "Purchase" : "Compra"}
             </Button>
             <Button
               type="submit"
               className="w-full max-w-40 border-2 border-purpleWaki bg-transparent hover:bg-purpleWaki text-purpleWaki hover:text-white"
+              disabled
             >
-              Venta
+              {currentLanguage === "en" ? "Sale" : "Venta"}
             </Button>
           </div>
 
           <div className="py-5 px-3 flex flex-col gap-4">
             <div className="">
               <h2 className="font-medium text-base text-[#181818] leading-6 mb-2.5">
-                Liberación Acumulada del Token Anual
+                {currentLanguage === "en" ? "Annual Cumulative Token Release" : "Liberación Acumulada del Token Anual"}
               </h2>
               <TokenChart lastName={player.lastName} />
             </div>
 
             <div className="">
               <h2 className="font-medium text-base text-[#181818] leading-6 mb-2.5">
-                Liberación de Tokens Anual
+                {currentLanguage === "en" ? "Annual Token Release" : "Liberación de Tokens Anual"}
               </h2>
               <YearTokenChart lastName={player.lastName} />
             </div>
 
             <div className="">
               <h2 className="font-medium text-base text-[#181818] leading-6 mb-2.5">
-                Tokens Liberados vs. Quemados
+                {currentLanguage === "en" ? "Tokens Released vs. Burned" : "Tokens Liberados vs. Quemados"}
               </h2>
               <TokenDistributionChart />
             </div>

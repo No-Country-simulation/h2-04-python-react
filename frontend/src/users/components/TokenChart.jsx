@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import {
   Line,
@@ -16,6 +17,7 @@ import {
   CardTitle,
 } from "@/common/components/ui/card";
 import { ChartContainer, ChartTooltip } from "@/common/components/ui/chart";
+import useLanguageStore from "@/api/store/language-store";
 
 const data = [
   { year: 2004, tokens: 10000 },
@@ -61,30 +63,9 @@ const tokenYear = [
   { year: 2022, tokens: 2000 },
 ];
 
-const tokenBurn = [
-  { year: 2004, "Token liberados": 10000, "Token quemados": 0 },
-  { year: 2005, "Token liberados": 9500, "Token quemados": 500 },
-  { year: 2006, "Token liberados": 9000, "Token quemados": 1000 },
-  { year: 2007, "Token liberados": 8500, "Token quemados": 1500 },
-  { year: 2008, "Token liberados": 8000, "Token quemados": 2000 },
-  { year: 2009, "Token liberados": 7500, "Token quemados": 2500 },
-  { year: 2010, "Token liberados": 7000, "Token quemados": 3000 },
-  { year: 2011, "Token liberados": 6500, "Token quemados": 3500 },
-  { year: 2012, "Token liberados": 6000, "Token quemados": 4000 },
-  { year: 2013, "Token liberados": 5500, "Token quemados": 4500 },
-  { year: 2014, "Token liberados": 5000, "Token quemados": 5000 },
-  { year: 2015, "Token liberados": 4500, "Token quemados": 5500 },
-  { year: 2016, "Token liberados": 4000, "Token quemados": 6000 },
-  { year: 2017, "Token liberados": 3500, "Token quemados": 6500 },
-  { year: 2018, "Token liberados": 3000, "Token quemados": 7000 },
-  { year: 2019, "Token liberados": 2500, "Token quemados": 7500 },
-  { year: 2020, "Token liberados": 2000, "Token quemados": 8000 },
-  { year: 2021, "Token liberados": 1500, "Token quemados": 8500 },
-  { year: 2022, "Token liberados": 1000, "Token quemados": 9000 },
-  { year: 2023, "Token liberados": 500, "Token quemados": 9500 },
-];
 
 export const TokenChart = ({lastName}) => {
+  const { currentLanguage } = useLanguageStore();
   return (
     <Card className="w-full max-w-xl mx-auto border-none shadow-none">
       <CardHeader className="hidden">
@@ -130,7 +111,7 @@ export const TokenChart = ({lastName}) => {
               tickMargin={10}
               tickFormatter={(value) => `${value.toLocaleString()}`}
               label={{
-                value: "Token liberados acumulados",
+                value: currentLanguage === "en" ? "Cumulative Released Tokens" : "Token liberados acumulados",
                 angle: -90,
                 position: "insideLeft",
                 offset: 0,
@@ -160,6 +141,7 @@ export const TokenChart = ({lastName}) => {
 };
 
 export const YearTokenChart = ({lastName}) => {
+  const { currentLanguage } = useLanguageStore();
   return (
     <Card className="w-full max-w-xl mx-auto border-none shadow-none">
       <CardHeader className="hidden">
@@ -205,7 +187,7 @@ export const YearTokenChart = ({lastName}) => {
               tickMargin={10}
               tickFormatter={(value) => `${value.toLocaleString()}`}
               label={{
-                value: "Token liberados",
+                value: currentLanguage === "en" ? "Released Tokens" : "Token liberados",
                 angle: -90,
                 position: "insideLeft",
                 offset: 0,
@@ -235,6 +217,33 @@ export const YearTokenChart = ({lastName}) => {
 };
 
 export const TokenDistributionChart = () => {
+  const { currentLanguage } = useLanguageStore();
+  const Burned = currentLanguage === "en" ? "Burned Tokens" : "Token quemados";
+  const Released = currentLanguage === "en" ? "Released Tokens" : "Token liberados"
+
+const tokenBurn = [
+  { year: 2004, "Released": 10000, "Burned": 0 },
+  { year: 2005, "Released": 9500, "Burned": 500 },
+  { year: 2006, "Released": 9000, "Burned": 1000 },
+  { year: 2007, "Released": 8500, "Burned": 1500 },
+  { year: 2008, "Released": 8000, "Burned": 2000 },
+  { year: 2009, "Released": 7500, "Burned": 2500 },
+  { year: 2010, "Released": 7000, "Burned": 3000 },
+  { year: 2011, "Released": 6500, "Burned": 3500 },
+  { year: 2012, "Released": 6000, "Burned": 4000 },
+  { year: 2013, "Released": 5500, "Burned": 4500 },
+  { year: 2014, "Released": 5000, "Burned": 5000 },
+  { year: 2015, "Released": 4500, "Burned": 5500 },
+  { year: 2016, "Released": 4000, "Burned": 6000 },
+  { year: 2017, "Released": 3500, "Burned": 6500 },
+  { year: 2018, "Released": 3000, "Burned": 7000 },
+  { year: 2019, "Released": 2500, "Burned": 7500 },
+  { year: 2020, "Released": 2000, "Burned": 8000 },
+  { year: 2021, "Released": 1500, "Burned": 8500 },
+  { year: 2022, "Released": 1000, "Burned": 9000 },
+  { year: 2023, "Released": 500, "Burned": 9500 },
+];
+
   return (
     <Card className="w-full max-w-xl mx-auto border-none shadow-none">
       <CardContent className="p-0">
@@ -242,24 +251,24 @@ export const TokenDistributionChart = () => {
           <div className="flex flex-row items-center gap-2">
             <div className="size-3 bg-purpleWaki" />
             <span className="text-xs font-normal text-[#555]">
-              Token liberados
+              {currentLanguage === "en" ? "Released Tokens" : "Token liberados"}
             </span>
           </div>
           <div className="flex flex-row items-center gap-2">
             <div className="size-3 bg-blueWaki" />
             <span className="text-xs font-normal text-[#555]">
-              Token quemados
+              {currentLanguage === "en" ? "Burned Tokens" : "Token quemados"}
             </span>
           </div>
         </div>
         <ChartContainer
           config={{
             released: {
-              label: "Token liberados",
+              label: currentLanguage === "en" ? "Released Tokens" : "Token liberados",
               color: "hsl(var(--foreground))",
             },
             burned: {
-              label: "Token quemados",
+              label: currentLanguage === "en" ? "Burned Tokens" : "Token quemados",
               color: "hsl(var(--foreground))",
             },
           }}
@@ -293,7 +302,7 @@ export const TokenDistributionChart = () => {
               tickMargin={10}
               tickFormatter={(value) => `${value.toLocaleString()}`}
               label={{
-                value: "Token liberados",
+                value: currentLanguage === "en" ? "Released Tokens" : "Token liberados",
                 angle: -90,
                 position: "insideLeft",
                 style: { textAnchor: "middle" },
@@ -302,12 +311,12 @@ export const TokenDistributionChart = () => {
             <ChartTooltip />
 
             <Bar
-              dataKey="Token liberados"
+              dataKey="Released"
               stackId="a"
               fill="hsl(var(--chart-6))"
             />
             <Bar
-              dataKey="Token quemados"
+              dataKey="Burned"
               stackId="a"
               fill="hsl(var(--chart-7))"
               color="black"

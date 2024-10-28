@@ -46,7 +46,8 @@
     "ranking": "Clasificación",
     "market": "Mercado",
     "rewards": "Premios",
-    "quests": "Misiones"
+    "quests": "Misiones",
+     "details": "Detalles"
   },
   "titles": {
     "playerRanking": "Clasificación de jugadores"
@@ -124,7 +125,10 @@
     "predictionLoss": "Perdida",
     "filterDate": "Filtrar por fecha:",
     "active": "Activas",
-    "past": "Pasadas"
+    "past": "Pasadas",
+    "zeroPrediction": "¡Tu lista de predicciones está vacía! ¡Anímate a hacer tu primera predicción y descubre si tienes buen ojo!",
+    "zeroWinPrediction": "Aún no tienes ninguna predicción ganadora para celebrar! ¡Haz una predicción y empieza a construir tu racha ganadora!",
+    "zeroLossPrediction": "¡Invicto hasta ahora! ¿Cuánto tiempo podrás mantenerla?"
   },
   "profile": {
     "myPredictions": "Mis predicciones",
@@ -161,7 +165,10 @@
     "age": "Edad",
     "assists": "Asistencias",
     "minutes": "Minutos jugados",
-    "league": "Liga"
+    "league": "Liga",
+    "leagues": "Ligas",
+    "trending": "Tendencia",
+    "schedule": "Horario"
   },
   "quest": {
     "achievements": "Logros",
