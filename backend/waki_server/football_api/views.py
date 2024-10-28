@@ -201,7 +201,7 @@ def fetch_match(league):
         home_goals = home_goals if home_goals is not None else None
         away_goals = away_goals if away_goals is not None else None
 
-
+        print(match_status.get('long'))
         if match_status.get('long') == 'Match Finished':
             # Si no hay goles, establecerlos en None
             home_goals = home_goals if home_goals is not None else None
@@ -398,15 +398,23 @@ def update_match(request):
             home_goals = home_goals if home_goals is not None else None
             away_goals = away_goals if away_goals is not None else None
 
-            if home_goals is not None and away_goals is not None:
-                if home_goals > away_goals:
-                    winner = 'home'
-                elif home_goals < away_goals:
-                    winner = 'away'
+
+            if match_status.get('long') == 'Match Finished':
+                # Si no hay goles, establecerlos en None
+                home_goals = home_goals if home_goals is not None else None
+                away_goals = away_goals if away_goals is not None else None
+
+                if home_goals is not None and away_goals is not None:
+                    if home_goals > away_goals:
+                        winner = 'home'
+                    elif home_goals < away_goals:
+                        winner = 'away'
+                    else:
+                        winner = 'draw'
                 else:
-                    winner = 'draw'
+                    winner = None
             else:
-                winner = None
+                winner = None  # No calcular el ganador si el partido no ha terminado
 
 
             # Verificar si el id_league ya existe en la base de datos
