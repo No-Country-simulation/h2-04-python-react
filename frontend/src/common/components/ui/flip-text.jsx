@@ -17,7 +17,7 @@ export default function SlightFlip({
 }) {
   return (
     (<div className="flex justify-center space-x-2">
-      <AnimatePresence mode="wait">
+      <AnimatePresence mode="pop">
         {word.split("").map((char, i) => (
           <motion.span
             key={i}
