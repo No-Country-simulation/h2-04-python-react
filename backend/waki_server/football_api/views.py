@@ -10,7 +10,7 @@ from rest_framework.pagination import PageNumberPagination
 from drf_spectacular.utils import extend_schema, OpenApiParameter
 from django.db.models import Q
 from django.db.models import F
-
+from distutils.util import strtobool
 from datetime import datetime, timedelta
 import pytz
 
@@ -67,6 +67,9 @@ def fetch_leagues(request):
         OpenApiParameter(
             name="page", description="Número de página a devolver en la paginación", required=False, type=int
         ),
+                OpenApiParameter(
+            name="is_active", description="Solo muestro las activas", required=False, type=bool
+        ),
     ],
     responses={
         200: {
@@ -112,6 +115,7 @@ def search_leagues(request):
     # Obtener los parámetros de búsqueda
     name = request.query_params.get('name', None)
     country = request.query_params.get('country', None)
+    is_active_param = request.query_params.get('is_active', None)
 
     # Filtrar las ligas en base a los parámetros recibidos
     leagues = League.objects.all()
@@ -120,6 +124,14 @@ def search_leagues(request):
         leagues = leagues.filter(name__icontains=name)  
     if country:
         leagues = leagues.filter(country__icontains=country)  
+
+    if is_active_param is not None:
+        try:
+            is_active = bool(strtobool(is_active_param))
+            leagues = leagues.filter(is_active=is_active)
+        except ValueError:
+            return ApiResponse.error(message="El valor de 'is_active' debe ser 'true' o 'false'", status_code=status.HTTP_400_BAD_REQUEST)
+
 
     paginator = PageNumberPagination()
     paginator.page_size = 10  

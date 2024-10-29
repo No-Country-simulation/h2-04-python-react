@@ -19,6 +19,7 @@ class League(models.Model):
     logo = models.URLField(max_length=500, blank=True, null=True) 
     country = models.CharField(max_length=255)
     confederacion = models.CharField(max_length=55)
+    is_active = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name
