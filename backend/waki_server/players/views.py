@@ -4,6 +4,7 @@ from core.models import Players
 from .serializers import PlayersSerializer  # Asegúrate de que este serializer esté definido
 from drf_spectacular.utils import extend_schema, OpenApiParameter
 from utils.apiresponse import ApiResponse
+from rest_framework.views import APIView
 
 @extend_schema(
     parameters=[
@@ -49,3 +50,4 @@ class PlayersListView(generics.ListAPIView):
 
         serializer = self.get_serializer(queryset, many=True)
         return ApiResponse.success(data=serializer.data, status_code=status.HTTP_200_OK)
+    

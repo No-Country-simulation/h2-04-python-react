@@ -8,6 +8,7 @@ from .serializers import UserSerializer, UserUpdateSerializer, LoginSerializer
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from core.models import User, Prediction
 from rest_framework_simplejwt.tokens import RefreshToken
+from django.db.models import F 
 
 class LoginView(generics.GenericAPIView):
     permission_classes = [AllowAny]
@@ -302,3 +303,68 @@ class UserRewards(APIView):
             "errors": []
         })
     
+
+
+
+class DivisionThresholdsView(APIView):
+    def get(self, request, *args, **kwargs):
+        thresholds = User.calculate_points_thresholds()
+        
+        # Inicializar contadores
+        total_user_bronze = 0
+        total_user_silver = 0
+        total_user_gold = 0
+        highest_score = 0
+        user_active = 0
+
+        usuarios = User.objects.annotate(
+            total_user_points=F('total_points') + F('rewards_points')
+        ).filter(total_user_points__gt=0)
+
+        for usuario in usuarios:
+            total_point = usuario.total_user_points
+            user_active += 1  # Contar cada usuario activo
+            
+            # Asignar usuarios a las categorías
+            if thresholds['gold_min'] <= total_point <= thresholds['gold_max']:
+                total_user_gold += 1
+                highest_score = max(highest_score, total_point)
+            elif thresholds['silver_min'] <= total_point <= thresholds['silver_max']:
+                total_user_silver += 1
+            elif thresholds['bronze_min'] <= total_point <= thresholds['bronze_max']:
+                total_user_bronze += 1
+
+        division_thresholds = [
+            {
+                "name": "bronze",
+                "threshold": thresholds['bronze_min'],
+                "maxPoints": thresholds['bronze_max'],
+                "totalUsers": total_user_bronze,
+                "percentageUsers": (total_user_bronze / user_active * 100) if user_active > 0 else 0
+            },
+            {
+                "name": "silver",
+                "threshold": thresholds['silver_min'],
+                "maxPoints": thresholds['silver_max'],
+                "totalUsers": total_user_silver,
+                "percentageUsers": (total_user_silver / user_active * 100) if user_active > 0 else 0
+            },
+            {
+                "name": "gold",
+                "threshold": thresholds['gold_min'],
+                "maxPoints": thresholds['gold_max'],
+                "totalUsers": total_user_gold,
+                "percentageUsers": (total_user_gold / user_active * 100) if user_active > 0 else 0
+            }
+        ]
+
+        # Datos adicionales
+        total_active_users = usuarios.count()  # Contar usuarios activos
+
+        response_data = {
+            "divisionThresholds": division_thresholds,
+            "highestScore": highest_score,
+            "totalActiveUsers": total_active_users
+        }
+
+        return Response(response_data, status=status.HTTP_200_OK)

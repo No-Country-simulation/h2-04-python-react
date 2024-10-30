@@ -1,6 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.contrib import admin
+from django.db.models import F, Sum, F, DecimalField, ExpressionWrapper
+from decimal import Decimal
+from django.db.models.functions import Coalesce
 
 class User(AbstractUser):
     profile_image = models.ImageField(upload_to='profile_images/', blank=True, null=True)
@@ -12,6 +15,52 @@ class User(AbstractUser):
 
     def __str__(self):
         return self.username
+    
+    @classmethod
+    def calculate_points_thresholds(cls):
+        # Filtrar usuarios con al menos 1 punto
+        users_with_points = cls.objects.annotate(
+            total_user_points=F('total_points') + F('rewards_points')
+        ).filter(total_user_points__gt=0)
+
+        user_count = users_with_points.count()
+
+        if user_count == 0:
+            return {
+                "bronze_min": 0,
+                "bronze_max": 0,
+                "silver_min": 0,
+                "silver_max": 0,
+                "gold_min": 0,
+                "gold_max": 0
+            }
+        
+        # Obtener todos los puntos y ordenarlos
+        points_list = sorted([usuario.total_user_points for usuario in users_with_points])
+
+        # Calcular el índice para los umbrales
+        one_third_index = user_count // 3
+        two_third_index = one_third_index * 2
+
+        # Definir umbrales
+        bronze_min = points_list[0]
+        bronze_max = points_list[one_third_index - 1] if one_third_index > 0 else points_list[0]
+
+        silver_min = points_list[one_third_index]
+        silver_max = points_list[two_third_index - 1] if two_third_index > one_third_index else points_list[one_third_index]
+
+        gold_min = points_list[two_third_index]
+        gold_max = points_list[-1]
+
+        return {
+            "bronze_min": bronze_min,
+            "bronze_max": bronze_max,
+            "silver_min": silver_min,
+            "silver_max": silver_max,
+            "gold_min": gold_min,
+            "gold_max": gold_max
+        }
+
 
 class League(models.Model):
     id_league = models.IntegerField(primary_key=True)  
