@@ -161,7 +161,7 @@ const Matches = () => {
         </div>
       </div>
       <Tabs value={getActiveTabValue()} className="w-auto">
-        <TabsList className="grid w-full grid-cols-3 bg-white">
+        <TabsList className="grid w-full grid-cols-3 bg-white text-medium">
           <TabsTrigger
             value={previousDate.toISOString()}
             onClick={() => handleDateChange(previousDate)}
@@ -171,7 +171,7 @@ const Matches = () => {
           <TabsTrigger
             value={selectedDate.toISOString()}
             onClick={() => handleDateChange(selectedDate)}
-            className="data-[state=active]:shadow-none border-b-2 border-blue-500 rounded-none"
+            className="data-[state=active]:text-blueWaki data-[state=active]:shadow-none border-b-2 border-blue-500 rounded-none"
           >
             {formatDate(selectedDate)}
           </TabsTrigger>
@@ -223,7 +223,7 @@ const Matches = () => {
           </>
         )}
 
-        <div className="flex flex-row items-end justify-end pb-3">
+        <div className="flex flex-row items-end justify-between pb-3">
           <Select value={filterBy} onValueChange={setFilterBy}>
             <SelectTrigger className="w-64 max-w-sm border-none shadow-none">
               <div className="flex items-center">

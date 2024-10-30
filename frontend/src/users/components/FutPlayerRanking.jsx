@@ -13,10 +13,10 @@ import {
   Search,
   ArrowUpDown,
   BadgeDollarSign,
-  BarChart2,
   Clock,
   Star,
   ChevronFirst,
+  Shield,
 } from "lucide-react";
 import { Input } from "@/common/components/ui/input";
 import {
@@ -60,7 +60,7 @@ export default function FootballPlayersTable() {
       labelEs: "Valor",
       icon: BadgeDollarSign,
     },
-    { value: "league", labelEn: "League", labelEs: "Liga", icon: BarChart2 },
+    { value: "league", labelEn: "Division", labelEs: "División", icon: Shield },
     {
       value: "minutes",
       labelEn: "Minutes played",

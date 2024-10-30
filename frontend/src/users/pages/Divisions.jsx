@@ -25,19 +25,19 @@ const Divisions = () => {
         <TabsList className="grid w-full grid-cols-3 bg-transparent">
           <TabsTrigger
             value="Ranking"
-            className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-blue-500 data-[state=active]:rounded-none"
+            className="data-[state=active]:text-blueWaki data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-blue-500 data-[state=active]:rounded-none"
           >
             {t('tabs.ranking')}
           </TabsTrigger>
           <TabsTrigger
             value="Rewards"
-            className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-blue-500 data-[state=active]:rounded-none"
+            className="data-[state=active]:text-blueWaki data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-blue-500 data-[state=active]:rounded-none"
           >
             {t('tabs.rewards')}
           </TabsTrigger>
           <TabsTrigger
             value="Quests"
-            className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-blue-500 data-[state=active]:rounded-none"
+            className="data-[state=active]:text-blueWaki data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-blue-500 data-[state=active]:rounded-none"
             
           >
             {t('tabs.quests')}

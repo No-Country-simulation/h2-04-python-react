@@ -55,7 +55,7 @@
   "table": {
     "player": "Player",
     "released": "Released",
-    "price": "Price",
+    "price": "Value",
     "username": "Username",
     "points": "Points",
     "showing": "Showing",
