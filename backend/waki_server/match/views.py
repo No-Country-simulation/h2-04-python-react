@@ -202,7 +202,7 @@ def predicciones_disponibles(request):
     ).count()
 
     # Definir las reglas de predicciones según la fecha
-    hoy = date.today()
+    hoy = datetime.now(argentina_tz).date()
     print(f"fecha inicio utc {fecha_utc_inicio.date()}")
     print(f"fecha fin utc {fecha_utc_fin.date()}")
     print(f"fecha de hoy {hoy}")
