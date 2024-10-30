@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import User, League, Match, Prediction, PredictionDetail, ConfigModel, Teams, Players, MonthlyRaffle
+from .models import User, League, Match, Prediction, PredictionDetail, ConfigModel, Teams, Players, MonthlyRaffle, Achievements
 
 
 # Register your models here.
@@ -37,3 +37,4 @@ admin.site.register(ConfigModel)
 admin.site.register(Players, PlayersAdmin)
 admin.site.register(Teams, TeamsAdmin)
 admin.site.register(MonthlyRaffle)
+admin.site.register(Achievements)

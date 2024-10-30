@@ -70,6 +70,16 @@ def fetch_leagues(request):
                 OpenApiParameter(
             name="is_active", description="Solo muestro las activas", required=False, type=bool
         ),
+        OpenApiParameter(
+            name="ordering",
+            description=(
+                "Campo(s) para ordenar los resultados. Usa `name` para ordenar por nombre y `country` para ordenar por país. "
+                "Para orden descendente, antepón `-`, como en `-name` o `-country`. "
+                "Puedes ordenar por múltiples campos separados por comas, por ejemplo: `ordering=name,-country`."
+            ),
+            required=False,
+            type=str
+        ),
     ],
     responses={
         200: {
@@ -116,7 +126,7 @@ def search_leagues(request):
     name = request.query_params.get('name', None)
     country = request.query_params.get('country', None)
     is_active_param = request.query_params.get('is_active', None)
-
+    ordering = request.query_params.get('ordering', None)
     # Filtrar las ligas en base a los parámetros recibidos
     leagues = League.objects.all()
     
@@ -124,6 +134,18 @@ def search_leagues(request):
         leagues = leagues.filter(name__icontains=name)  
     if country:
         leagues = leagues.filter(country__icontains=country)  
+
+    if ordering:
+        valid_ordering_fields = ['name', 'country']
+        ordering_fields = ordering.split(',')
+        validated_ordering = []
+        for field in ordering_fields:
+            if field.lstrip('-') in valid_ordering_fields:
+                validated_ordering.append(field)
+            else:
+                return ApiResponse.error(message="Campo de ordenación no válido", status_code=status.HTTP_400_BAD_REQUEST)
+        leagues = leagues.order_by(*validated_ordering)
+
 
     if is_active_param is not None:
         try:

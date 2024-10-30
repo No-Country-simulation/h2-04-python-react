@@ -155,4 +155,10 @@ class MonthlyRaffle(models.Model):
     def __str__(self):
         return f"{self.title} - {self.raffle_date}"
 
+class Achievements(models.Model):
+    player = models.ForeignKey(Players, on_delete=models.CASCADE)
+    description = models.CharField(max_length=155) 
+    year = models.PositiveSmallIntegerField(default=1900)
 
+    def __str__(self):
+        return f"{self.description} - {self.year}"
