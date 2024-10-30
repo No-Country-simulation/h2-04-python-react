@@ -203,8 +203,9 @@ def predicciones_disponibles(request):
 
     # Definir las reglas de predicciones según la fecha
     hoy = date.today()
-    print(f"fecha inicio utc {fecha_utc_inicio}")
-    print(f"fecha fin utc {fecha_utc_fin}")
+    print(f"fecha inicio utc {fecha_utc_inicio.date()}")
+    print(f"fecha fin utc {fecha_utc_fin.date()}")
+    print(f"fecha de hoy {hoy}")
     if fecha_utc_inicio.date() == hoy:
         max_predicciones = max_predicciones_hoy
     elif hoy < fecha_utc_inicio.date() <= hoy + timedelta(days=5):
