@@ -213,3 +213,18 @@ class Achievements(models.Model):
 
     def __str__(self):
         return f"{self.description} - {self.year}"
+    
+
+class Token(models.Model):
+    user = models.ForeignKey(User, null=True, blank=True, on_delete=models.SET_NULL)  # Usuario que posee el token
+    player = models.ForeignKey(Players, on_delete=models.PROTECT)
+    year = models.CharField(max_length=100, null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)  # Fecha de creación del token
+    is_burned = models.BooleanField(default=False)  # Estado del token (si ha sido quemado o no)
+
+    class Meta:
+        verbose_name = "Token"
+        verbose_name_plural = "Tokens"
+
+    def __str__(self):
+        return f"Token {self.id} - {self.player.name} {'Burned' if self.is_burned else 'Available'}"

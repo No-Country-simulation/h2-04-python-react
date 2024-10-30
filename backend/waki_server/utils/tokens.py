@@ -33,7 +33,11 @@ def get_confederation_factor(confederation):
     return confederation_factors.get(confederation, 0)
 
 def calculate_match_token_burn(player):
-    G = player.matches_played / player.total_club_matches
+    try:
+        G = player.matches_played / player.total_club_matches
+    except ZeroDivisionError:
+        raise ZeroDivisionError(f"Error en player {player.name}: total_club_matches es cero.")
+    
     club_burn = calculate_club_token_burn(player)
     return G * club_burn
 
@@ -85,24 +89,34 @@ def calculate_trophy_token_burn(player):
     return 15  # Aquí se puede añadir lógica adicional para los trofeos
 
 def calculate_total_token_burn(player):
-    club_burn = calculate_club_token_burn(player) 
-    print(f"club_burn {club_burn}")
-    match_burn = calculate_match_token_burn(player)
-    print(f"match_burn {match_burn}")
-    rating_burn = calculate_rating_token_burn(player)
-    print(f"rating_burn {rating_burn}")
-    goals_burn = calculate_goals_token_burn(player)
-    print(f"goals_burn {goals_burn}")
-    assists_burn = calculate_assists_token_burn(player)
-    print(f"assists_burn {assists_burn}")
-    national_team_burn = calculate_national_team_token_burn(player)
-    print(f"national_team_burn {national_team_burn}")
-    trophy_burn = calculate_trophy_token_burn(player)
-    print(f"trophy_burn {trophy_burn}")
+    try:
+        club_burn = calculate_club_token_burn(player)
+        print(f"club_burn {club_burn}")
+        
+        match_burn = calculate_match_token_burn(player)
+        print(f"match_burn {match_burn}")
+        
+        rating_burn = calculate_rating_token_burn(player)
+        print(f"rating_burn {rating_burn}")
+        
+        goals_burn = calculate_goals_token_burn(player)
+        print(f"goals_burn {goals_burn}")
+        
+        assists_burn = calculate_assists_token_burn(player)
+        print(f"assists_burn {assists_burn}")
+        
+        national_team_burn = calculate_national_team_token_burn(player)
+        print(f"national_team_burn {national_team_burn}")
+        
+        trophy_burn = calculate_trophy_token_burn(player)
+        print(f"trophy_burn {trophy_burn}")
 
-    total_burn = (club_burn + match_burn + rating_burn +
-                goals_burn + assists_burn + national_team_burn +
-                trophy_burn)
-    print("_______________")
-    print(f"total {total_burn}")
-    return total_burn
+        total_burn = (club_burn + match_burn + rating_burn +
+                      goals_burn + assists_burn + national_team_burn +
+                      trophy_burn)
+        print("_______________")
+        print(f"total {total_burn}")
+        return total_burn
+    
+    except ZeroDivisionError as e:
+        raise ZeroDivisionError(f"Error en total de tokens para {player.name}: {str(e)}")

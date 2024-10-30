@@ -9,5 +9,8 @@ class PlayerSerializer(serializers.ModelSerializer):
         model = Players
         fields = '__all__'
 
-    def get_total_burn(self, obj):
-        return calculate_total_token_burn(obj)
+class PlayerStatisticsSerializer(serializers.Serializer):
+    player_id = serializers.IntegerField()
+    player_name = serializers.CharField() 
+    total_tokens = serializers.IntegerField()
+    burned_tokens = serializers.IntegerField()
