@@ -67,6 +67,7 @@ INSTALLED_APPS = [
     'drf_spectacular',
     'corsheaders',
     'colorfield',
+    'import_export',
 
     #aplicaciones propias
     'core',

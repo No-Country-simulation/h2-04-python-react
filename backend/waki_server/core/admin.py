@@ -2,7 +2,8 @@ from django.contrib import admin
 
 from .models import User, League, Match, Prediction, PredictionDetail, ConfigModel, Teams, Players, MonthlyRaffle, Achievements
 
-
+from .resources import AchievementsResource
+from import_export.admin import ImportExportModelAdmin
 # Register your models here.
 
 @admin.action(description="Poner en cero los puntos de los usuarios")
@@ -12,6 +13,11 @@ def reset_user_points(modeladmin, request, queryset):
 
     # Mensaje de éxito
     modeladmin.message_user(request, f"Puntos de {updated_count} usuarios han sido puestos en cero.")
+
+@admin.register(Achievements)
+class AchievementsAdmin(ImportExportModelAdmin):
+    resource_class = AchievementsResource
+    list_display = ('player', 'description', 'year', 'teams')  # Campos a mostrar en la lista
 
 
 class UserAdmin(admin.ModelAdmin):
@@ -37,4 +43,4 @@ admin.site.register(ConfigModel)
 admin.site.register(Players, PlayersAdmin)
 admin.site.register(Teams, TeamsAdmin)
 admin.site.register(MonthlyRaffle)
-admin.site.register(Achievements)
+#admin.site.register(Achievements)
