@@ -9,7 +9,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import api_view, permission_classes
 from datetime import timedelta, date
 from django.http import JsonResponse
-
+import pytz
+from datetime import datetime, timedelta, date
 def get_config_value(clave):
     """ Helper para obtener el valor de ConfigModel por clave. """
     try:
@@ -106,7 +107,7 @@ class PredictionListView(APIView):
     parameters=[
         OpenApiParameter(
             name='fecha',
-            description="Fecha del partido en formato 'YYYY-MM-DD'",
+            description="Fecha de la prediccion 'YYYY-MM-DD'",
             required=True,
             type=str,
             location=OpenApiParameter.QUERY
@@ -151,7 +152,8 @@ def predicciones_disponibles(request):
     """
     # Obtener la fecha pasada como parámetro
     fecha_str = request.query_params.get('fecha')
-    
+    argentina_tz = pytz.timezone("America/Argentina/Buenos_Aires")
+
     if not fecha_str:
         return ApiResponse.error(
             message="El parámetro 'fecha' es requerido.",
@@ -161,8 +163,11 @@ def predicciones_disponibles(request):
         )
 
     try:
-        # Convertir el string de la fecha en objeto datetime.date
-        fecha = date.fromisoformat(fecha_str)
+        # Convertir el string de la fecha en datetime en la zona horaria de Argentina
+        fecha_argentina = argentina_tz.localize(datetime.strptime(fecha_str, '%Y-%m-%d'))
+        # Convertir la fecha de Argentina a UTC
+        fecha_utc_inicio = fecha_argentina.astimezone(pytz.UTC)
+        fecha_utc_fin = (fecha_argentina + timedelta(days=1)).astimezone(pytz.UTC)
     except ValueError:
         return ApiResponse.error(
             message="Formato de fecha inválido.",
@@ -194,15 +199,15 @@ def predicciones_disponibles(request):
     # Filtrar los PredictionDetail para la fecha del partido
     predicciones_realizadas = PredictionDetail.objects.filter(
         prediction__user=user,
-        match__date__date=fecha  # Filtrar por la fecha del partido en la tabla Match
+        match__date__range=(fecha_utc_inicio, fecha_utc_fin)  # Filtrar por el rango UTC de la fecha
     ).count()
 
     # Definir las reglas de predicciones según la fecha
     hoy = date.today()
 
-    if fecha == hoy:
+    if fecha_utc_inicio.date() == hoy:
         max_predicciones = max_predicciones_hoy
-    elif hoy < fecha <= hoy + timedelta(days=5):
+    elif hoy < fecha_utc_inicio.date() <= hoy + timedelta(days=5):
         max_predicciones = max_predicciones_fut
     else:
         max_predicciones = 0  # Fuera del rango permitido
