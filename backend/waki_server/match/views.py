@@ -216,6 +216,7 @@ def predicciones_disponibles(request):
     # Calcular las predicciones disponibles
     predicciones_disponibles = max_predicciones - predicciones_realizadas
     data = {
+        "hoy_server":hoy,
         "fecha": fecha_str,
         "predicciones_disponibles": max(0, predicciones_disponibles),  # Evitar valores negativos
         "predicciones_realizadas": predicciones_realizadas,
