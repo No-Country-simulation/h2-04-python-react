@@ -64,9 +64,6 @@ def fetch_leagues(request):
         OpenApiParameter(
             name="country", description="Filtrar ligas cuyo país contiene este valor", required=False, type=str
         ),
-        OpenApiParameter(
-            name="page", description="Número de página a devolver en la paginación", required=False, type=int
-        ),
                 OpenApiParameter(
             name="is_active", description="Solo muestro las activas", required=False, type=bool
         ),
@@ -89,8 +86,6 @@ def fetch_leagues(request):
                     "success": True,
                     "data": {
                         "count": 25,
-                        "next": "http://api.example.com/api/leagues/search/?page=2",
-                        "previous": "null",
                         "results": [
                             {
                                 "id_league": 39,
@@ -155,16 +150,9 @@ def search_leagues(request):
             return ApiResponse.error(message="El valor de 'is_active' debe ser 'true' o 'false'", status_code=status.HTTP_400_BAD_REQUEST)
 
 
-    paginator = PageNumberPagination()
-    paginator.page_size = 10  
-    result_page = paginator.paginate_queryset(leagues, request)
-
-    serializer = LeagueSerializer(result_page, many=True)
+    serializer = LeagueSerializer(leagues, many=True)
 
     paginated_response = {
-        'count': paginator.page.paginator.count,  
-        'next': paginator.get_next_link(),        
-        'previous': paginator.get_previous_link(),
         'results': serializer.data                  
     }
 

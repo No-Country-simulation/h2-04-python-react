@@ -27,7 +27,8 @@ def get_confederation_factor(confederation):
         'CONCACAF': 0.15,
         'AFC': 0.15,
         'CAF': 0.10,
-        'OFC': 0.0,
+        'CBF': 0.0,
+        'FFF': 0.0,
     }
     return confederation_factors.get(confederation, 0)
 
