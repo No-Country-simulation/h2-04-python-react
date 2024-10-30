@@ -19,11 +19,11 @@ import {
   FormLabel,
   FormMessage,
 } from "@/common/components/ui/form";
-import "react-phone-number-input/style.css";
-import PhoneInput from "react-phone-number-input";
+
 import PasswordInput from "./PasswordInput";
 import { useTranslation } from "react-i18next";
 import { useRegister } from "@/api/services/auth";
+import { PhoneInput } from "@/common/components/ui/phone-input";
 
 const registerSchema = z
   .object({
@@ -98,6 +98,7 @@ const RegisterForm = ({ onSwitchToLogin }) => {
                     <Input
                       id="username"
                       {...field}
+                      placeholder={t("auth.placeholderUsername")}
                       autoComplete="username"
                       type="text"
                     />
@@ -120,6 +121,7 @@ const RegisterForm = ({ onSwitchToLogin }) => {
                     <Input
                       type="email"
                       id="email"
+                      placeholder={t("auth.placeholderEmail")}
                       {...field}
                       autoComplete="email"
                     />
@@ -133,16 +135,17 @@ const RegisterForm = ({ onSwitchToLogin }) => {
               control={form.control}
               name="phone"
               render={({ field }) => (
-                <FormItem>
+                <FormItem className="flex flex-col items-start">
                   <FormLabel>{t("auth.phone")}</FormLabel>
-                  <FormControl rules={{ required: false }}>
+                  <FormControl className="w-full">
                     <PhoneInput
+                      placeholder="9 11 2345-6789"
+                      {...field}
                       defaultCountry="AR"
                       international
                       withCountryCallingCode
                       value={field.value}
                       onChange={field.onChange}
-                      className="phone-input"
                     />
                   </FormControl>
                   <FormMessage />
