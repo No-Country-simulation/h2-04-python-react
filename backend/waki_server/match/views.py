@@ -186,7 +186,6 @@ def predicciones_disponibles(request):
     else:  # Caso para usuarios 'Basic'
         max_predicciones_hoy = get_config_value('MAX_PREDICIONES_HOY')
         max_predicciones_fut = get_config_value('MAX_PREDICIONES_FUT')
-
     # Verificar si los valores de configuración existen
     if max_predicciones_hoy is None or max_predicciones_fut is None:
         return ApiResponse.error(
@@ -204,7 +203,8 @@ def predicciones_disponibles(request):
 
     # Definir las reglas de predicciones según la fecha
     hoy = date.today()
-
+    print(f"fecha inicio utc {fecha_utc_inicio}")
+    print(f"fecha fin utc {fecha_utc_fin}")
     if fecha_utc_inicio.date() == hoy:
         max_predicciones = max_predicciones_hoy
     elif hoy < fecha_utc_inicio.date() <= hoy + timedelta(days=5):

@@ -636,9 +636,6 @@ def createsuper(request):
                     f'message': f'Fixture fetched and saved successfully. register update {user}'
                 }, status_code=status.HTTP_201_CREATED)
 
-
-
-
 @extend_schema(
     tags=["api-connect"],
     parameters=[
@@ -690,9 +687,6 @@ def fetch_teams(request):
     return ApiResponse.success(data={
                     'message': message
                 }, status_code=status.HTTP_201_CREATED)
-
-
-
 
 @extend_schema(
     tags=["api-connect"],
@@ -765,9 +759,6 @@ def fetch_players(request):
     return ApiResponse.success(data={
         'message': f'Players fetched and saved successfully. Total: {contador}'
     }, status_code=status.HTTP_201_CREATED)
-
-
-
 
 @extend_schema(
     tags=["api-connect"],
