@@ -50,7 +50,7 @@ const QuestPointsProgressBar = ({ currentPoints }) => {
                 className="h-6"
               />
               <span className="text-black text-base font-medium">
-                {t(currentDivision)}
+                {currentDivision === "none" ? "" : t(currentDivision)}
               </span>
             </div>
           </div>
