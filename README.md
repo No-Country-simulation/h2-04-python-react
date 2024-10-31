@@ -27,6 +27,7 @@ Waki te permite convertirte en un verdadero fanático del fútbol y obtener reco
    <img src='https://img.shields.io/badge/Tailwind%20CSS-06B6D4.svg?style=for-the-badge&logo=Tailwind-CSS&logoColor=white' />
   <a href='https://waki-hackathon.vercel.app/' target='_blank'>
  <img src='https://img.shields.io/badge/Vercel-000000.svg?style=for-the-badge&logo=Vercel&logoColor=white' />
+     <img src='https://img.shields.io/badge/i18next-26A69A.svg?style=for-the-badge&logo=i18next&logoColor=white' />
 </a>
   
 </p>
