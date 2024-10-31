@@ -148,6 +148,8 @@
     "empty": "No tienes notificaciones sin leer."
   },
   "countries": {
+    "search": "Buscar país...",
+    "noResult": "País no encontrado.",
     "Argentina": "Argentina",
     "Brazil": "Brasil",
     "England": "Inglaterra",
@@ -194,5 +196,6 @@
         "description": "Ganá 10 apuestas combinadas"
       }
     }
-  }
+  },
+  "Attacker": "Delantero"
 }

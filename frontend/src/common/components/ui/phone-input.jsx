@@ -19,9 +19,11 @@ import {
 } from '@/common/components/ui/popover'
 import { cn } from '@/lib/utils'
 import { ScrollArea } from './scroll-area'
+import { useTranslation } from 'react-i18next'
 
 const PhoneInput = React.forwardRef((props, ref) => {
   const { className, onChange, ...otherProps } = props
+  
 
   return (
     <RPNInput.default
@@ -59,6 +61,7 @@ const CountrySelect = ({ disabled, value, onChange, options }) => {
     [onChange]
   )
 
+  const { t } = useTranslation();
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -81,8 +84,8 @@ const CountrySelect = ({ disabled, value, onChange, options }) => {
         <Command>
           <CommandList>
             <ScrollArea className="h-72">
-              <CommandInput placeholder="Search country..." />
-              <CommandEmpty>No country found.</CommandEmpty>
+              <CommandInput placeholder={t("countries.search")} />
+              <CommandEmpty>{t("countries.noResult")}</CommandEmpty>
               <CommandGroup>
                 {options
                   .filter((x) => x.value)

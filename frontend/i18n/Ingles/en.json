@@ -148,6 +148,8 @@
     "empty": "You have no unread notifications."
   },
   "countries": {
+    "search": "Search country...",
+    "noResult": "No country found.",
     "Argentina": "Argentina",
     "Brazil": "Brazil",
     "England": "England",
@@ -194,5 +196,6 @@
         "description": "Win 10 combined bets"
       }
     }
-  }
+  },
+  "Attacker": "Attacker"
 }
