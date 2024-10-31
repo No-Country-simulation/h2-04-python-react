@@ -11,9 +11,43 @@ import MatchCardWrapper from "./MatchCardWrapper";
 import { useTranslation } from "react-i18next";
 import { useMatches } from '@/api/services/matches';
 import { toast } from 'sonner';
+import countries from 'i18n-iso-countries';
+
+import en from 'i18n-iso-countries/langs/en.json';
+import es from 'i18n-iso-countries/langs/es.json';
+
+countries.registerLocale(en);
+countries.registerLocale(es);
+
+const countryNameToCode = {
+  'England': 'GB-ENG',
+  'Spain': 'ESP',
+  'Brazil': 'BRA',
+  'Belgium': 'BEL',
+  'France': 'FRA',
+  'Germany': 'DEU',
+  'Italy': 'ITA',
+  'USA': 'USA',
+  'World': 'WORLD',
+};
+
+const specialTranslations = {
+  'England': {
+    'es': 'Inglaterra',
+    'en': 'England'
+  },
+  'World': {
+    'es': 'Mundial',
+    'en': 'World'
+  },
+  'USA': {
+    'es': 'Estados Unidos',
+    'en': 'USA'
+  }
+};
 
 const LeagueAccordion = ({ league, date, onOddsSelect }) => {
-  const { t } = useTranslation(); 
+  const { t, i18n } = useTranslation();
 
   const { data: matches, isLoading, error } = useMatches(league, date);
 
@@ -22,6 +56,15 @@ useEffect(() => {
     toast.error(error.message);
   }
 }, [error]);
+
+const getCountryName = (country) => {
+  if (specialTranslations[country] && specialTranslations[country][i18n.language]) {
+    return specialTranslations[country][i18n.language];
+  }
+
+  const code = countryNameToCode[country] || country;
+  return countries.getName(code, i18n.language) || country;
+};
 
   return (
     <Accordion
@@ -35,7 +78,7 @@ useEffect(() => {
             <img src={league.logo} alt={league.name} className="size-7 object-contain mx-2" />
             <div className="flex flex-row space-x-2 items-center">
               <span className="text-[#181818] font-semibold">
-              {t(`countries.${league.country}`)}
+              {getCountryName(league.country)}
               </span>
               <span className="text-[#555] text-sm">{league.name}</span>
             </div>

@@ -22,12 +22,6 @@ const MatchCard = ({
   const matchDate = format(date, "yyyy-MM-dd");
   const formattedTime = format(date, "HH:mm");
   const formattedDate = format(date, "dd MMM");
-  // const isFinishedOrInProgress =
-  //   status.short === "FT" ||
-  //   status.short === "1H" ||
-  //   status.short === "HT" ||
-  //   status.short === "2H";
-  // const isPostponed = status.short === "PST";
   const isLive = ["1H", "HT", "2H"].includes(status.short);
   const isFinishedOrInProgress = status.short === "FT" || isLive;
   const isPostponed = status.short === "PST";
@@ -76,17 +70,20 @@ const MatchCard = ({
           </div>
           <div className="flex flex-col items-center justify-center flex-1">
             {isFinishedOrInProgress ? (
-              <div className="flex flex-col items-center justify-center space-y-4">
+              <div className="flex flex-col items-center justify-center space-y-2">
                 {isLive && (
-                  <div className="flex flex-col justify-center items-center space-y-2">
+                  <div className="flex flex-col justify-center items-center space-y-1">
+                    <div className="flex flex-row items-baseline gap-x-1">
+                      <div className="size-2 bg-purpleWaki rounded-full animate-pulse" />
                     <img
                       src={signal}
                       alt="Signal icon"
                       width={19}
                       height={21}
-                      className="object-cover"
+                      className="object-cover animate-pulse"
                     />
-                    <span className="text-sm font-medium">
+                    </div>
+                    <span className="text-xs font-medium text-green-600">
                       {getStatusText()}
                     </span>
                   </div>
@@ -97,13 +94,11 @@ const MatchCard = ({
                   </span>
                 )}
                 <div className="score space-x-2 flex flex-row items-center">
-                  <span className="font-semibold text-black text-2xl">
+                  <span className="font-semibold text-black text-lg">
                     {displayData.homeTeamGoals}
                   </span>
-                  {!isLive && status.short === "FT" && (
-                    <Minus className="size-4" />
-                  )}
-                  <span className="font-semibold text-black text-2xl">
+                  <Minus className="size-4" />
+                  <span className="font-semibold text-black text-lg">
                     {displayData.awayTeamGoals}
                   </span>
                 </div>

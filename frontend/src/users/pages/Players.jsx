@@ -23,13 +23,13 @@ const Players = () => {
         <TabsList className="grid w-full grid-cols-2 bg-white">
           <TabsTrigger
             value="Ranking"
-            className="data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-blue-500 data-[state=active]:rounded-none"
+            className="data-[state=active]:text-blueWaki data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-blue-500 data-[state=active]:rounded-none"
           >
             {t('tabs.ranking')}
           </TabsTrigger>
           <TabsTrigger
             value="Market"
-            className="data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-blue-500 data-[state=active]:rounded-none"
+            className="data-[state=active]:text-blueWaki data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-blue-500 data-[state=active]:rounded-none"
             disabled
           >
             {t('tabs.market')}

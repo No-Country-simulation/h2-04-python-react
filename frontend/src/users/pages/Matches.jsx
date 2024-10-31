@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { DatePicker } from "../components/DatePicker";
 import {
   Tabs,
@@ -8,7 +8,7 @@ import {
 } from "@/common/components/ui/tabs";
 import LeagueAccordion from "../components/LeagueAccordion";
 import { format, addDays, isSameDay, isAfter } from "date-fns";
-import { Search } from "lucide-react";
+import { ArrowUpDown, Clock, ListFilter, Search, Star } from "lucide-react";
 import { Input } from "@/common/components/ui/input";
 import useAuthStore from "@/api/store/authStore";
 import { useTranslation } from "react-i18next";
@@ -18,6 +18,14 @@ import { useLeagues, useSearchMatches } from "@/api/services/matches";
 import { Skeleton } from "@/common/components/ui/skeleton";
 import { balon } from "@/common/assets";
 import MatchCardWrapper from "../components/MatchCardWrapper";
+import { Link } from "react-router-dom";
+import { Button } from "@/common/components/ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+} from "@/common/components/ui/select";
 
 const Matches = () => {
   const { t } = useTranslation();
@@ -25,8 +33,30 @@ const Matches = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const accessToken = useAuthStore((state) => state.accessToken);
   const [searchTerm, setSearchTerm] = useState("");
+  const [filterBy, setFilterBy] = useState("leagues");
   const { data: searchResults, isLoading: isSearching } =
     useSearchMatches(searchTerm);
+
+  const filterOptions = [
+    {
+      value: "leagues",
+      labelEn: "Leagues",
+      labelEs: "Ligas",
+      icon: ListFilter,
+    },
+    {
+      value: "trending",
+      labelEn: "Trending",
+      labelEs: "Tendencia",
+      icon: Star,
+    },
+    {
+      value: "schedule",
+      labelEn: "Schedule",
+      labelEs: "Horario",
+      icon: Clock,
+    },
+  ];
 
   const [selections, setSelections] = useState(() => {
     const savedSelections = localStorage.getItem("betSelections");
@@ -38,6 +68,23 @@ const Matches = () => {
   }, [selections]);
 
   const { data: leagues, isLoading } = useLeagues(accessToken);
+
+  const sortedLeagues = useMemo(() => {
+    if (!leagues) return [];
+
+    switch (filterBy) {
+      case "schedule":
+        // Por ahora, mantenemos el orden original cuando se selecciona "schedule"
+        console.warn("Sorting by schedule is not available yet.");
+        return leagues;
+      case "trending":
+        // Por ahora, mantenemos el orden original cuando se selecciona "trending"
+        console.warn("Sorting by trending is not available yet.");
+        return leagues;
+      default:
+        return leagues;
+    }
+  }, [leagues, filterBy]);
 
   const handleDateChange = (newDate) => {
     setSelectedDate(newDate);
@@ -114,7 +161,7 @@ const Matches = () => {
         </div>
       </div>
       <Tabs value={getActiveTabValue()} className="w-auto">
-        <TabsList className="grid w-full grid-cols-3 bg-white">
+        <TabsList className="grid w-full grid-cols-3 bg-white text-medium">
           <TabsTrigger
             value={previousDate.toISOString()}
             onClick={() => handleDateChange(previousDate)}
@@ -124,7 +171,7 @@ const Matches = () => {
           <TabsTrigger
             value={selectedDate.toISOString()}
             onClick={() => handleDateChange(selectedDate)}
-            className="data-[state=active]:shadow-none border-b-2 border-blue-500 rounded-none"
+            className="data-[state=active]:text-blueWaki data-[state=active]:shadow-none border-b-2 border-blue-500 rounded-none"
           >
             {formatDate(selectedDate)}
           </TabsTrigger>
@@ -176,6 +223,45 @@ const Matches = () => {
           </>
         )}
 
+        <div className="flex flex-row items-end justify-between pb-3">
+          <Select value={filterBy} onValueChange={setFilterBy}>
+            <SelectTrigger className="w-64 max-w-sm border-none shadow-none">
+              <div className="flex items-center">
+                <ArrowUpDown className="mr-2 h-4 w-4 text-purple-500" />
+                <span className="mr-2 text-sm">{t("filter.orderBy")}:</span>
+                <span className="text-sm text-[#B1B1B1]">
+                  {t(`filter.${filterBy}`)}
+                </span>
+              </div>
+            </SelectTrigger>
+            <SelectContent position="popper" sideOffset={5}>
+              {filterOptions.map((option) => (
+                <SelectItem
+                  key={option.value}
+                  value={option.value}
+                  className="flex items-center"
+                  disabled={option.value !== "leagues"} // Deshabilitamos la opción de tendencia y horario pq no estan disponible por ahora
+                >
+                  <div className="flex flex-row items-center space-x-1">
+                    <option.icon className="mr-2 h-4 w-4 text-purpleWaki" />
+                    <span>
+                      {currentLanguage === "en"
+                        ? option.labelEn
+                        : option.labelEs}
+                    </span>
+                  </div>
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+
+          <Link to="/profile/my-predictions">
+            <Button className="bg-purpleWaki hover:bg-purple-700 text-white leading-10">
+              {t("profile.myPredictions")}
+            </Button>
+          </Link>
+        </div>
+
         <TabsContent value={previousDate.toISOString()}>
           {isLoading ? (
             <div className="p-4 text-center text-gray-500">
@@ -209,7 +295,7 @@ const Matches = () => {
               </Skeleton>
             </div>
           ) : (
-            leagues.map((league) => (
+            sortedLeagues.map((league) => (
               <LeagueAccordion
                 key={league.id_league}
                 league={league}

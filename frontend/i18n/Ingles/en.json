@@ -11,7 +11,9 @@
     "registerDescription": "Please create your account by completing the form",
     "loginButton": "Log In",
     "username": "Username",
+    "placeholderUsername": "user123",
     "emailOrPhone": "Enter your email or phone number",
+    "placeholderEmail": "email@example.com",
     "forgotPassword": "Forgot your password?",
     "email": "Enter your email",
     "phone": "Phone number",
@@ -46,7 +48,8 @@
     "ranking": "Ranking",
     "market": "Market",
     "rewards": "Rewards",
-    "quests": "Quests"
+    "quests": "Quests",
+    "details": "Details"
   },
   "titles": {
     "playerRanking": "Player ranking"
@@ -54,9 +57,11 @@
   "table": {
     "player": "Player",
     "released": "Released",
-    "price": "Price",
+    "price": "Value",
     "username": "Username",
-    "points": "Points"
+    "points": "Points",
+    "showing": "Showing",
+    "of": "of"
   },
   "infoMsg": {
     "infoMatch": "No matches are available for this league on this date.",
@@ -79,6 +84,18 @@
   "divBronze": "Bronze Division",
   "divBronzeDescription": "No prizes in this division. Level up to Silver to win awesome loot!",
   "unlockDiv": "Unlock division",
+  "divRewards": {
+    "gold": {
+      "one": "The user in the first place of this division will win the monthly prize.",
+      "two": "Participate in the monthly raffle for the Gold division prize.",
+      "three": "Participate in the monthly raffle for the Silver division prize.",
+      "four": "Access to tokens of the Gold and Silver division player"
+    },
+    "silver": {
+      "one": "Enter the monthly raffle for the Silver division prize.",
+      "two": "Access to Silver division players' tokens."
+    }
+  },
   "prediction": {
     "all": "All",
     "win": "Won",
@@ -110,7 +127,10 @@
     "predictionLoss": "Loss",
     "filterDate": "Filter by date:",
     "active": "Active",
-    "past": "Past"
+    "past": "Past",
+    "zeroPrediction": "Your predictions list is looking a little bare! Give it a try and see if you can nail your first prediction.",
+    "zeroWinPrediction": "No winning predictions to celebrate yet! Make a prediction and start your winning streak.",
+    "zeroLossPrediction": "Undefeated so far! How long can you keep it up?"
   },
   "profile": {
     "myPredictions": "My predictions",
@@ -127,19 +147,14 @@
     "previous": "Previous",
     "empty": "You have no unread notifications."
   },
+  "common": {
+    "nationality": "Nationality"
+  },
   "countries": {
-    "Argentina": "Argentina",
-    "Brazil": "Brazil",
+    "search": "Search country...",
+    "noResult": "No country found.",
     "England": "England",
-    "France": "France",
-    "Germany": "Germany",
-    "Italy": "Italy",
-    "Spain": "Spain",
-    "Mexico": "Mexico",
-    "World": "World",
-    "Uruguay": "Uruguay",
-    "USA": "United States",
-    "Norway": "Norway"
+    "World": "World"
   },
   "filter": {
     "orderBy": "Order by",
@@ -147,7 +162,10 @@
     "age": "Age",
     "assists": "Assists",
     "minutes": "Minutes played",
-    "league": "League"
+    "league": "League",
+    "leagues": "Leagues",
+    "trending": "Trending",
+    "schedule": "Schedule"
   },
   "quest": {
     "achievements": "Achievements",
@@ -171,5 +189,6 @@
         "description": "Win 10 combined bets"
       }
     }
-  }
+  },
+  "Attacker": "Attacker"
 }

@@ -24,9 +24,9 @@ const MyPredictions = () => {
     <section className="pb-4 items-center">
       <div className="header waki-gradient">
         <div className="p-2">
-          <Link to="/profile">
+          <Link to="/matches">
             <div className="p-4 flex flex-row items-center gap-x-2 text-white text-sm font-normal">
-              <MoveLeft /> {t("navigation.profile")}
+              <MoveLeft /> {t("navigation.matches")}
             </div>
           </Link>
           <div className="flex flex-col justify-center items-center gap-2.5 px-12 pb-3">

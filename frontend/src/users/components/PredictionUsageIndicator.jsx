@@ -10,7 +10,7 @@ const FuturePrediction = ({ date, used, total }) => {
           {format(parseISO(date), "MMM dd")}
         </span>
         <div className="flex flex-row space-x-1">
-          {Array.from({ length: total }, (index) => (
+          {Array.from({ length: total }, (_, index) => (
             <div
               key={index}
               className={`size-[11px] rounded-full ${

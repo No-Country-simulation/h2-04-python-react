@@ -11,7 +11,9 @@
     "registerDescription": "Crea tu cuenta completando los datos",
     "loginButton": "Iniciar sesión",
     "username": "Nombre de usuario",
+    "placeholderUsername": "usuario123",
     "emailOrPhone": "Ingresa tu email o teléfono",
+    "placeholderEmail": "correo@ejemplo.com",
     "forgotPassword": "¿Olvidaste tu contraseña?",
     "email": "Ingresa tu email",
     "phone": "Teléfono",
@@ -46,7 +48,8 @@
     "ranking": "Clasificación",
     "market": "Mercado",
     "rewards": "Premios",
-    "quests": "Misiones"
+    "quests": "Misiones",
+     "details": "Detalles"
   },
   "titles": {
     "playerRanking": "Clasificación de jugadores"
@@ -54,9 +57,11 @@
   "table": {
     "player": "Jugador",
     "released": "Liberado",
-    "price": "Precio",
+    "price": "Valor",
     "username": "Nombre de usuario",
-    "points": "Puntos"
+    "points": "Puntos",
+     "showing": "Mostrando",
+    "of": "de"
   },
   "infoMsg": {
     "infoMatch": "No hay partidos disponibles para esta liga en esta fecha.",
@@ -79,6 +84,18 @@
   "divBronze": "División Bronze",
   "divBronzeDescription": "Esta división no ofrece recompensas. Sube a la división plata para participar por premios.",
   "unlockDiv": "Desbloquear división",
+  "divRewards": {
+    "gold": {
+      "one": "El usuario en el primer puesto de esta división ganará el premio del mes.",
+      "two": "Participar en el sorteo mensual por el premio de la división Oro.",
+      "three": "Participar en el sorteo mensual por el premio de la división Plata.",
+      "four": "Acceso a los tokens de los jugadores de la división Oro y Plata."
+    },
+    "silver": {
+      "one": "Participar en el sorteo mensual por el premio de la división Plata.",
+      "two": "Acceso a los tokens de los jugadores de la división Plata."
+    }
+  },
   "prediction": {
     "all": "Todas",
     "win": "Ganadas",
@@ -110,7 +127,10 @@
     "predictionLoss": "Perdida",
     "filterDate": "Filtrar por fecha:",
     "active": "Activas",
-    "past": "Pasadas"
+    "past": "Pasadas",
+    "zeroPrediction": "¡Tu lista de predicciones está vacía! ¡Anímate a hacer tu primera predicción y descubre si tienes buen ojo!",
+    "zeroWinPrediction": "Aún no tienes ninguna predicción ganadora para celebrar! ¡Haz una predicción y empieza a construir tu racha ganadora!",
+    "zeroLossPrediction": "¡Invicto hasta ahora! ¿Cuánto tiempo podrás mantenerla?"
   },
   "profile": {
     "myPredictions": "Mis predicciones",
@@ -127,27 +147,26 @@
     "previous": "Anteriores",
     "empty": "No tienes notificaciones sin leer."
   },
+  "common": {
+    "nationality": "Nacionalidad"
+  },
   "countries": {
-    "Argentina": "Argentina",
-    "Brazil": "Brasil",
-    "England": "Inglaterra",
-    "France": "Francia",
-    "Germany": "Alemania",
-    "Italy": "Italia",
-    "Spain": "España",
-    "Mexico": "México",
+    "search": "Buscar país...",
+    "noResult": "País no encontrado.",
     "World": "Mundial",
-    "Uruguay": "Uruguay",
-    "USA": "Estados Unidos",
-    "Norway": "Noruega"
+    "England": "Inglaterra"
+
   },
   "filter": {
     "orderBy": "Ordenar por",
-    "Value": "Valor",
-    "Age": "Edad",
-    "Assists": "Asistencias",
-    "Minutes": "Minutos jugados",
-    "league": "Liga"
+    "value": "Valor",
+    "age": "Edad",
+    "assists": "Asistencias",
+    "minutes": "Minutos jugados",
+    "league": "Liga",
+    "leagues": "Ligas",
+    "trending": "Tendencia",
+    "schedule": "Horario"
   },
   "quest": {
     "achievements": "Logros",
@@ -171,5 +190,6 @@
         "description": "Ganá 10 apuestas combinadas"
       }
     }
-  }
+  },
+  "Attacker": "Delantero"
 }

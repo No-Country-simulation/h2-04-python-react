@@ -81,21 +81,6 @@ export default function PredictionsHistory() {
   const hasPendingPredictions = sortedPendingPredictions.length > 0;
 
   const renderPredictions = (predictions) => {
-    // if (predictions.length === 0) {
-    //   return (
-    //     <div className="flex flex-col items-center justify-center space-y-4 p-8">
-    //       <p className="text-lg text-gray-600">
-    //         {t("prediction.noPredictions")}
-    //       </p>
-    //       <Link to="/matches">
-    //         <Button className="bg-purpleWaki hover:bg-purple-700">
-    //           {t("prediction.makePrediction")}
-    //         </Button>
-    //       </Link>
-    //     </div>
-    //   );
-    // }
-
     return predictions.map((prediction) => (
       <Card
         key={prediction.prediction_id}
@@ -311,7 +296,7 @@ export default function PredictionsHistory() {
                 )}
               </div>
 
-              <div className="flex flex-col items-end justify-end">
+              <div className="flex flex-col items-end justify-end pb-4">
                 <Link to="/matches">
                   <Button className="bg-purpleWaki hover:bg-purple-700">
                     {t("prediction.makePrediction")}
@@ -333,18 +318,29 @@ export default function PredictionsHistory() {
                   </div>
                 </div>
               )}
-              <div>
-                <p className="capitalize text-lg text-blueWaki font-medium mb-4">
-                  {t("prediction.past")}
-                </p>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-                  {renderPredictions(
-                    date
-                      ? [...filteredWonPredictions, ...filteredLostPredictions]
-                      : [...sortedWonPredictions, ...sortedLostPredictions]
-                  )}
+
+              {filteredWonPredictions.length > 0 ||
+              filteredLostPredictions.length > 0 ? (
+                <div>
+                  <p className="capitalize text-lg text-blueWaki font-medium mb-4">
+                    {t("prediction.past")}
+                  </p>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                    {renderPredictions(
+                      date
+                        ? [
+                            ...filteredWonPredictions,
+                            ...filteredLostPredictions,
+                          ]
+                        : [...sortedWonPredictions, ...sortedLostPredictions]
+                    )}
+                  </div>
                 </div>
-              </div>
+              ) : (
+                <div className="text-center text-[#555] ">
+                  {t("prediction.zeroPrediction")}
+                </div>
+              )}
             </>
           )}
         </Card>
@@ -383,7 +379,7 @@ export default function PredictionsHistory() {
                             : "Selecciona una fecha"}
                         </span>
                       )}
-                      <CalendarIcon className="size-5" />
+                      <CalendarIcon className="size-5 text-blueWaki" />
                     </Button>
                   </PopoverTrigger>
                   <PopoverContent className="w-auto p-0" align="start">
@@ -413,8 +409,14 @@ export default function PredictionsHistory() {
                 </Link>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-                {renderPredictions(
-                  date ? filteredWonPredictions : sortedWonPredictions
+                {filteredWonPredictions.length === 0 ? (
+                  <div className="text-center text-gray-500">
+                    {t("prediction.zeroWinPrediction")}
+                  </div>
+                ) : (
+                  renderPredictions(
+                    date ? filteredWonPredictions : sortedWonPredictions
+                  )
                 )}
               </div>
             </>
@@ -455,7 +457,7 @@ export default function PredictionsHistory() {
                             : "Selecciona una fecha"}
                         </span>
                       )}
-                      <CalendarIcon className="size-5" />
+                      <CalendarIcon className="size-5 text-blueWaki" />
                     </Button>
                   </PopoverTrigger>
                   <PopoverContent className="w-auto p-0" align="start">
@@ -485,8 +487,14 @@ export default function PredictionsHistory() {
                 </Link>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2  lg:grid-cols-3 gap-5">
-                {renderPredictions(
-                  date ? filteredLostPredictions : sortedLostPredictions
+                {filteredLostPredictions.length === 0 ? (
+                  <div className="text-center text-gray-500">
+                    {t("prediction.zeroLossPrediction")}
+                  </div>
+                ) : (
+                  renderPredictions(
+                    date ? filteredLostPredictions : sortedLostPredictions
+                  )
                 )}
               </div>
             </>

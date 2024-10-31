@@ -37,17 +37,26 @@ const RewardsView = () => {
       <div className="flex flex-col items-center justify-center">
         <img
           src={divisionImage}
-          alt="Division 3"
+          alt="Division logo"
           className="w-20 object-cover"
           width={80}
           height={108}
         />
+
         <p className="mt-2 text-lg font-medium text-gray-600">
-          {currentLanguage === "en"
+          {divisionName === "none"
+            ? currentLanguage === "en"
+              ? "Earn points to enter a"
+              : "Gana puntos para entrar a una"
+            : currentLanguage === "en"
             ? "You are currently in the"
             : "Estás en la"}
         </p>
-        {currentLanguage === "en" ? (
+        {divisionName === "none" ? (
+          <h2 className="text-[22px] font-bold text-blueWaki capitalize">
+            {currentLanguage === "en" ? "Division" : "División"}
+          </h2>
+        ) : currentLanguage === "en" ? (
           <h2 className="text-[22px] font-bold text-blueWaki capitalize">
             {t(divisionName)} Division
           </h2>

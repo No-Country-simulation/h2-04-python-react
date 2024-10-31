@@ -30,6 +30,7 @@ const PasswordInput = ({ control, name, htmlFor, label, id, span }) => {
                 id={id}
                 type={showPassword ? "text" : "password"}
                 {...field}
+                 placeholder="********"
               />
               <Button
                 type="button"

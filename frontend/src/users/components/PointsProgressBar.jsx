@@ -58,7 +58,7 @@ const PointsProgressBar = ({ currentPoints }) => {
                 className="h-6"
               />
               <span className="text-white text-base font-medium">
-                {t(currentDivision)}
+              {currentDivision === "none" ? "" : t(currentDivision)}
               </span>
             </div>
           </div>

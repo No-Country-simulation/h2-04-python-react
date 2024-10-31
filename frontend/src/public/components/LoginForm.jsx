@@ -22,6 +22,7 @@ import PasswordInput from "./PasswordInput";
 import { useTranslation } from "react-i18next";
 import { useLogin } from "@/api/services/auth";
 import ForgotPasswordDialog from "./ForgotPasswordDialog";
+import { useIsMutating } from "@tanstack/react-query";
 
 const loginSchema = z.object({
   emailOrPhone: z.string().min(1, "Este campo es requerido"),
@@ -30,7 +31,8 @@ const loginSchema = z.object({
 
 const LoginForm = () => {
   const { t } = useTranslation();
-  const { mutate: login, isLoading } = useLogin();
+  const { mutate: login } = useLogin();
+  const isMutating = useIsMutating();
 
   const loginForm = useForm({
     resolver: zodResolver(loginSchema),
@@ -43,6 +45,8 @@ const LoginForm = () => {
   const onLoginSubmit = (data) => {
     login(data);
   };
+
+
 
   return (
     <Card className="border-none border-0 shadow-none">
@@ -91,9 +95,9 @@ const LoginForm = () => {
               <Button
                 type="submit"
                 className="w-full max-w-40 bg-purpleWaki hover:bg-purple-700"
-                disabled={isLoading}
+                disabled={isMutating > 0}
               >
-                {isLoading ? t("auth.loadLogin") : t("auth.login")}
+                {isMutating > 0 ? t("auth.loadLogin") : t("auth.login")}
               </Button>
             </div>
           </form>
