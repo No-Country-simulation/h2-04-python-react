@@ -94,8 +94,8 @@ const TableTokensGold = () => {
       <div className="flex flex-row justify-between items-center">
         <h2 className="text-lg text-[#181818] font-medium my-4">
           {currentLanguage === "en"
-            ? "Silver division tokens"
-            : "Tokens división plata"}
+            ? "Gold division tokens"
+            : "Tokens división oro"}
         </h2>
         <Link to="/players">
           <div className="flex flex-row items-center gap-x-2 text-purpleWaki text-sm font-normal">
