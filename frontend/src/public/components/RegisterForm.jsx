@@ -24,6 +24,7 @@ import PasswordInput from "./PasswordInput";
 import { useTranslation } from "react-i18next";
 import { useRegister } from "@/api/services/auth";
 import { PhoneInput } from "@/common/components/ui/phone-input";
+import { useIsMutating } from "@tanstack/react-query";
 
 const registerSchema = z
   .object({
@@ -51,7 +52,8 @@ const registerSchema = z
 
 const RegisterForm = ({ onSwitchToLogin }) => {
   const { t } = useTranslation();
-  const { mutate: register, isLoading } = useRegister(onSwitchToLogin);
+  const { mutate: register } = useRegister(onSwitchToLogin);
+  const isMutating = useIsMutating();
 
   const form = useForm({
     resolver: zodResolver(registerSchema),
@@ -174,22 +176,16 @@ const RegisterForm = ({ onSwitchToLogin }) => {
             <div className="flex items-center justify-center">
               <Button
                 type="submit"
-                className="w-full max-w-36 bg-purpleWaki hover:bg-purple-700"
-                disabled={isLoading}
+                className="w-full max-w-40 bg-purpleWaki hover:bg-purple-700"
+                disabled={isMutating > 0}
               >
-                {isLoading ? t("auth.loadRegister") : t("auth.register")}
+                {isMutating > 0 ? t("auth.loadRegister") : t("auth.register")}
               </Button>
             </div>
           </form>
         </Form>
       </CardContent>
       <CardFooter className="flex flex-col space-y-4">
-        {/* <div className="text-sm text-center">
-          ¿Ya tienes una cuenta?{" "}
-          <Button variant="link" onClick={onSwitchToLogin}>
-            Iniciar Sesión
-          </Button>
-        </div> */}
         <div className="flex items-center w-full">
           <div className="flex-grow h-px bg-gray-300"></div>
           <span className="px-4 text-sm text-gray-500">

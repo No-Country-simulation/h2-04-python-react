@@ -147,9 +147,13 @@
     "previous": "Anteriores",
     "empty": "No tienes notificaciones sin leer."
   },
+  "common": {
+    "nationality": "Nacionalidad"
+  },
   "countries": {
     "search": "Buscar país...",
     "noResult": "País no encontrado.",
+    "World": "Mundial",
     "Argentina": "Argentina",
     "Brazil": "Brasil",
     "England": "Inglaterra",
@@ -158,10 +162,10 @@
     "Italy": "Italia",
     "Spain": "España",
     "Mexico": "México",
-    "World": "Mundial",
     "Uruguay": "Uruguay",
     "USA": "Estados Unidos",
-    "Norway": "Noruega"
+    "Norway": "Noruega",
+    "Belgium": "Bélgica"
   },
   "filter": {
     "orderBy": "Ordenar por",

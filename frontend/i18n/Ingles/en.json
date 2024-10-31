@@ -147,6 +147,9 @@
     "previous": "Previous",
     "empty": "You have no unread notifications."
   },
+  "common": {
+    "nationality": "Nationality"
+  },
   "countries": {
     "search": "Search country...",
     "noResult": "No country found.",
@@ -161,7 +164,8 @@
     "World": "World",
     "Uruguay": "Uruguay",
     "USA": "United States",
-    "Norway": "Norway"
+    "Norway": "Norway",
+    "Belgium": "Belgium"
   },
   "filter": {
     "orderBy": "Order by",

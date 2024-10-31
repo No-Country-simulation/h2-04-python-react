@@ -6,6 +6,7 @@ import {
   franceFlag,
   englandFlag,
   norwayFlag,
+  belgiumFlag,
 } from "@/common/assets";
 import { useTranslation } from "react-i18next";
 
@@ -18,6 +19,7 @@ const PlayerNationality = ({ nationality }) => {
         France: franceFlag,
         England: englandFlag,
         Norway: norwayFlag,
+        Belgium: belgiumFlag
       };
 
       const flagSrc = flagImages[nationality] || 'https://via.placeholder.com/24';
@@ -32,7 +34,7 @@ const PlayerNationality = ({ nationality }) => {
           className="w-auto h-6 object-cover"
         />
         <div className="flex flex-col ">
-          <p className="text-sm text-normal text-[#8d8d8d]">Nacionalidad</p>
+          <p className="text-sm text-normal text-[#8d8d8d]">{t('common.nationality')}</p>
           <p className="text-sm text-normal text-[#181818]">{t(`countries.${nationality}`)}</p>
         </div>
       </div>
