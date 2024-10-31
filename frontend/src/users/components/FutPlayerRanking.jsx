@@ -17,6 +17,7 @@ import {
   Star,
   ChevronFirst,
   Shield,
+  Loader2,
 } from "lucide-react";
 import { Input } from "@/common/components/ui/input";
 import {
@@ -34,7 +35,6 @@ import {
   TableRow,
 } from "@/common/components/ui/table";
 import { liga1, liga2, liga3 } from "@/common/assets";
-import { futPlayers } from "../data/footballPlayers";
 import { useTranslation } from "react-i18next";
 import useLanguageStore from "@/api/store/language-store";
 import {
@@ -45,6 +45,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/common/components/ui/pagination";
+import { usePlayers } from "@/common/hooks/usePlayers";
 
 export default function FootballPlayersTable() {
   const { t } = useTranslation();
@@ -52,6 +53,8 @@ export default function FootballPlayersTable() {
   const [globalFilter, setGlobalFilter] = useState("");
   const [filterBy, setFilterBy] = useState("value");
   const navigate = useNavigate();
+
+  const { data: players, isLoading, isError } = usePlayers();
 
   const filterOptions = [
     {
@@ -72,7 +75,8 @@ export default function FootballPlayersTable() {
   ];
 
   const sortedPlayers = useMemo(() => {
-    return [...futPlayers].sort((a, b) => {
+    if (!players) return [];
+    return [...players].sort((a, b) => {
       switch (filterBy) {
         case "value":
           return b.price - a.price;
@@ -88,7 +92,7 @@ export default function FootballPlayersTable() {
           return 0;
       }
     });
-  }, [filterBy]);
+  }, [players, filterBy]);
 
   const columns = useMemo(
     () => [
@@ -104,28 +108,31 @@ export default function FootballPlayersTable() {
       },
       {
         accessorKey: "name",
-        header: t("table.player"),
-        cell: ({ row }) => (
-          <div className="flex items-center justify-start pl-2">
-            <span>{`${row.original.name} ${row.original.lastName}`}</span>
-          </div>
-        ),
+        header: () => <div className="text-left pl-2">{t("table.player")}</div>,
+        cell: ({ row }) => {
+          const firstName = row.original.player_name.split(' ')[0];
+          const firstLastName = row.original.player_last_name.split(' ')[0];
+          return (
+            <div className="flex items-center justify-start text-left pl-2">
+              <span>{`${firstName} ${firstLastName}`}</span>
+            </div>
+          );
+        },
       },
       {
         accessorKey: "division",
         header: "Div.",
-        size: 50,
         cell: ({ row }) => (
           <div className="flex justify-center">
             <img
               src={
-                row.original.division === 1
+                row.original.category === "Gold"
                   ? liga1
-                  : row.original.division === 2
+                  : row.original.category === "Silver"
                   ? liga2
                   : liga3
               }
-              alt={`Liga ${row.original.division}`}
+              alt={`Div ${row.original.category}`}
               className="w-6 h-6"
             />
           </div>
@@ -133,16 +140,21 @@ export default function FootballPlayersTable() {
       },
       {
         accessorKey: "released",
-        header: t("table.released"),
-        size: 100,
+        header: () => <div className="text-center">{t("table.released")}</div>,
+        cell: ({ row }) => {
+          return (
+            <div className="flex items-center justify-center text-center">
+              <span>{row.original.burned_tokens}</span>
+            </div>
+          );
+        },
       },
       {
         accessorKey: "price",
         header: t("table.price"),
-        size: 100,
         cell: ({ row }) => (
-          <div className="flex items-center justify-end">
-            <span className="mr-2">{row.original.price}</span>
+          <div className="flex items-center justify-center">
+            <span className="mr-2">{row.original.price.toFixed(2)}</span>
             <ChevronRight className="w-5 h-5 text-blue-500" />
           </div>
         ),
@@ -171,7 +183,23 @@ export default function FootballPlayersTable() {
         pageSize: 10,
       },
     },
-  })
+  });
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-64">
+        <Loader2 className="w-8 h-8 animate-spin" />
+      </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <div className="flex justify-center items-center h-64">
+        <p className="text-red-500">{t("infoMsg.fetchPlayersError")}</p>
+      </div>
+    );
+  }
 
   return (
     <div className="p-4">
@@ -243,7 +271,7 @@ export default function FootballPlayersTable() {
               <TableRow
                 key={row.id}
                 className="group cursor-pointer hover:bg-gray-100"
-                onClick={() => navigate(`/players/${row.original.id}`)}
+                onClick={() => navigate(`/players/${row.original.player_id}`)}
               >
                 {row.getVisibleCells().map((cell) => (
                   <TableCell key={cell.id} className="text-center">

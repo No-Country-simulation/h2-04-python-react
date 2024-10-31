@@ -8,16 +8,23 @@ import {
 } from "@/common/components/ui/table";
 import { ChevronRight, MoveRight } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
-import { futPlayers } from "../data/footballPlayers";
 import { useTranslation } from "react-i18next";
 import useLanguageStore from "@/api/store/language-store";
-import { getCoreRowModel, useReactTable, flexRender } from "@tanstack/react-table";
+import {
+  getCoreRowModel,
+  useReactTable,
+  flexRender,
+} from "@tanstack/react-table";
 import { useMemo } from "react";
+import { usePlayers } from "@/common/hooks/usePlayers";
 
 const TableTokensSilver = () => {
   const { t } = useTranslation();
   const { currentLanguage } = useLanguageStore();
-  const filteredPlayers = futPlayers.filter(player => player.division === 2);
+  const { data: players } = usePlayers();
+  const filteredPlayers = players.filter(
+    (player) => player.category === "Silver"
+  );
   const navigate = useNavigate();
 
   const columns = useMemo(
@@ -35,29 +42,35 @@ const TableTokensSilver = () => {
       {
         accessorKey: "name",
         header: t("table.player"),
-        cell: ({ row }) => (
-          <div className="flex flex-row items-center space-x-2">
-            <img
-              src={row.original.image}
-              alt={`${row.original.name} ${row.original.lastName}`}
-              className="size-7 rounded-full"
-            />
-            <span>{`${row.original.name} ${row.original.lastName}`}</span>
-          </div>
-        ),
+
+        cell: ({ row }) => {
+          const firstName = row.original.player_name.split(" ")[0];
+          const firstLastName = row.original.player_last_name.split(" ")[0];
+          return (
+            <div className="flex flex-row items-center">
+
+              <span>{`${firstName} ${firstLastName}`}</span>
+            </div>
+          );
+        },
       },
       {
         accessorKey: "released",
-        header: t("table.released"),
-        size: 100,
+        header: () => <div className="text-center">{t("table.released")}</div>,
+        cell: ({ row }) => {
+          return (
+            <div className="flex items-center justify-center text-center">
+              <span>{row.original.burned_tokens}</span>
+            </div>
+          );
+        },
       },
       {
         accessorKey: "price",
         header: t("table.price"),
-        size: 100,
         cell: ({ row }) => (
-          <div className="flex items-center justify-end">
-            <span className="mr-2">{row.original.price}</span>
+          <div className="flex items-center justify-center">
+            <span className="mr-2">{row.original.price.toFixed(2)}</span>
             <ChevronRight className="w-5 h-5 text-blue-500" />
           </div>
         ),
@@ -75,22 +88,25 @@ const TableTokensSilver = () => {
         pageSize: 5,
       },
     },
-  })
+  });
 
   return (
     <div>
       <div className="flex flex-row justify-between items-center">
         <h2 className="text-lg text-[#181818] font-medium my-4">
-          {currentLanguage === "en" ? "Silver division tokens" : "Tokens división plata"}
+          {currentLanguage === "en"
+            ? "Silver division tokens"
+            : "Tokens división plata"}
         </h2>
         <Link to="/players">
           <div className="flex flex-row items-center gap-x-2 text-purpleWaki text-sm font-normal">
-          {t('navigation.goToRank')}<MoveRight />
+            {t("navigation.goToRank")}
+            <MoveRight />
           </div>
         </Link>
       </div>
       <div className="bg-white rounded-t-[19px] rounded-b-[9px] waki-shadow overflow-hidden">
-      <Table>
+        <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
@@ -114,7 +130,7 @@ const TableTokensSilver = () => {
               <TableRow
                 key={row.id}
                 className="group cursor-pointer hover:bg-gray-100"
-                onClick={() => navigate(`/players/${row.original.id}`)}
+                onClick={() => navigate(`/players/${row.original.player_id}`)}
               >
                 {row.getVisibleCells().map((cell) => (
                   <TableCell key={cell.id} className="text-center">

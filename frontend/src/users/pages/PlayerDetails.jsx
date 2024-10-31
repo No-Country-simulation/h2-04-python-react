@@ -10,7 +10,6 @@ import {
 import { Calendar, MoveLeft } from "lucide-react";
 import { Card } from "@/common/components/ui/card";
 import { redCard, soccerField, yellowCard } from "@/common/assets";
-import { futPlayers } from "../data/footballPlayers";
 import { Button } from "@/common/components/ui/button";
 import {
   TokenChart,
@@ -19,6 +18,7 @@ import {
 } from "../components/TokenChart";
 import PlayerNationality from "../components/PlayerNationality";
 import useLanguageStore from "@/api/store/language-store";
+import { useTokenizablePlayers } from "@/common/hooks/usePlayers";
 
 const PlayerDetails = () => {
   const [activeTab, setActiveTab] = useState("details");
@@ -28,30 +28,42 @@ const PlayerDetails = () => {
   const [player, setPlayer] = useState(null);
   const [error, setError] = useState(null);
 
+  const { data: players, isLoading, isError } = useTokenizablePlayers();
+  
+
   useEffect(() => {
-    const playerId = parseInt(id, 10);
+    if (players) {
+      const playerId = parseInt(id, 10);
 
-    if (isNaN(playerId)) {
-      setError("Invalid player ID");
-      return;
+      if (isNaN(playerId)) {
+        setError("Invalid player ID");
+        return;
+      }
+
+      const selectedPlayer = players.find((p) => p.id === playerId);
+
+      if (selectedPlayer) {
+        setPlayer(selectedPlayer);
+      } else {
+        setError(`No player found with ID ${playerId}`);
+      }
     }
+  }, [id, players]);
 
-    const selectedPlayer = futPlayers.find((p) => p.id === playerId);
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
-    if (selectedPlayer) {
-      setPlayer(selectedPlayer);
-    } else {
-      setError(`No player found with ID ${playerId}`);
-    }
-  }, [id]);
-
-  if (error) {
-    return <div>Error: {error}</div>;
+  if (isError || error) {
+    return <div>Error: {error || t("infoMsg.fetchPlayersError")}</div>;
   }
 
   if (!player) {
-    return <div>Loading...</div>;
+    return <div>Player not found</div>;
   }
+
+  const firstName = player.name.split(' ')[0];
+  const firstLastName = player.lastname.split(' ')[0];
 
   return (
     <section className="pb-4 mb-28 items-center">
@@ -64,7 +76,7 @@ const PlayerDetails = () => {
         {activeTab === "details" ? (
           <div className="flex flex-col justify-center items-center gap-2.5 px-12 pb-3">
             <img
-              src={player.image}
+              src={player.photo}
               alt={`${player.name} Photo`}
               width={128}
               height={128}
@@ -72,13 +84,13 @@ const PlayerDetails = () => {
             />
 
             <h1 className="font-semibold text-xl text-[#181818] leading-8">
-              {player.name} {player.lastName}
+            {firstName} {firstLastName}
             </h1>
           </div>
         ) : (
           <div className="flex flex-col justify-center items-center gap-2.5 px-12 pb-3">
             <img
-              src={player.image}
+              src={player.photo}
               alt={`${player.name} Photo`}
               width={80}
               height={80}
@@ -86,14 +98,16 @@ const PlayerDetails = () => {
             />
 
             <h1 className="font-semibold text-xl text-[#181818] uppercase leading-8">
-              {player.lastName}/USDT
+              {firstLastName}/USDT
             </h1>
             <Button
               type="submit"
               className="w-full max-w-40 bg-purpleWaki hover:bg-purple-700"
               disabled
             >
-              {currentLanguage === "en" ? "See all tokens" : "Ver todos los tokens"}
+              {currentLanguage === "en"
+                ? "See all tokens"
+                : "Ver todos los tokens"}
             </Button>
           </div>
         )}
@@ -105,7 +119,7 @@ const PlayerDetails = () => {
             value="details"
             className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-blueWaki data-[state=active]:rounded-none data-[state=inactive]:text-[#616161] data-[state=inactive]:font-normal data-[state=active]:font-medium data-[state=active]:text-blueWaki"
           >
-            {t('tabs.details')}
+            {t("tabs.details")}
           </TabsTrigger>
           <TabsTrigger
             value="token"
@@ -118,7 +132,9 @@ const PlayerDetails = () => {
         <TabsContent value="details">
           <div className="p-5">
             <h2 className="font-medium text-base text-[#181818] leading-6 mb-2.5">
-              {currentLanguage === "en" ? "Player profile" : "Datos del jugador"}
+              {currentLanguage === "en"
+                ? "Player profile"
+                : "Datos del jugador"}
             </h2>
             <Card className="w-full max-w-md mx-auto bg-white rounded-lg shadow-none waki-shadow border-none overflow-hidden">
               <PlayerNationality nationality={player.nationality} />
@@ -131,7 +147,9 @@ const PlayerDetails = () => {
                   />
 
                   <div className="flex flex-col ">
-                    <p className="text-sm text-normal text-[#8d8d8d] ">{currentLanguage === "en" ? "Age" : "Edad"}</p>
+                    <p className="text-sm text-normal text-[#8d8d8d] ">
+                      {currentLanguage === "en" ? "Age" : "Edad"}
+                    </p>
                     <p className="text-sm text-normal text-[#181818]">
                       {player.age}
                     </p>
@@ -148,10 +166,10 @@ const PlayerDetails = () => {
                   />
                   <div className="flex flex-col ">
                     <p className="text-sm text-normal text-[#8d8d8d]">
-                    {currentLanguage === "en" ? "Position" : "Posición"}
+                      {currentLanguage === "en" ? "Position" : "Posición"}
                     </p>
                     <p className="text-sm text-normal text-[#181818]  ">
-                      {player.position}
+                      {t(player.position)}
                     </p>
                   </div>
                 </div>
@@ -161,33 +179,17 @@ const PlayerDetails = () => {
 
           <div className="px-5 flex flex-col gap-y-4">
             <h2 className="font-medium text-base text-[#181818] leading-6">
-            {currentLanguage === "en" ? "Performance" : "Estadísticas"}
+              {currentLanguage === "en" ? "Performance" : "Estadísticas"}
             </h2>
 
             <div className="grid grid-cols-4 items-center justify-items-center gap-x-1.5">
               <Card className="w-[82px] h-[74px] flex items-center justify-center bg-white rounded-[9px] waki-shadow border-none overflow-hidden">
                 <div className="flex flex-col items-center justify-center">
-                  <p className="text-sm text-normal text-[#8d8d8d]">{currentLanguage === "en" ? "Goals" : "Goles"}</p>
-                  <p className="text-lg text-medium text-[#181818]">
-                    {player.totalGoals}
+                  <p className="text-sm text-normal text-[#8d8d8d]">
+                    {currentLanguage === "en" ? "Goals" : "Goles"}
                   </p>
-                </div>
-              </Card>
-
-              <Card className="w-[82px] h-[74px] flex items-center justify-center bg-white rounded-[9px] waki-shadow border-none overflow-hidden">
-                <div className="flex flex-col items-center justify-center">
-                  <p className="text-sm text-normal text-[#8d8d8d]">{currentLanguage === "en" ? "Matches" : "Partidos"}</p>
                   <p className="text-lg text-medium text-[#181818]">
-                    {player.matchesPlayed}
-                  </p>
-                </div>
-              </Card>
-
-              <Card className="w-[82px] h-[74px] flex items-center justify-center bg-white rounded-[9px] waki-shadow border-none overflow-hidden">
-                <div className="flex flex-col items-center justify-center">
-                  <p className="text-sm text-normal text-[#8d8d8d]">{currentLanguage === "en" ? "Minutes" : "Minutos"}</p>
-                  <p className="text-lg text-medium text-[#181818]">
-                    {player.minutesPlayed}
+                    {player.goals}
                   </p>
                 </div>
               </Card>
@@ -195,7 +197,29 @@ const PlayerDetails = () => {
               <Card className="w-[82px] h-[74px] flex items-center justify-center bg-white rounded-[9px] waki-shadow border-none overflow-hidden">
                 <div className="flex flex-col items-center justify-center">
                   <p className="text-sm text-normal text-[#8d8d8d]">
-                  {currentLanguage === "en" ? "Assists" : "Asistencia"}
+                    {currentLanguage === "en" ? "Matches" : "Partidos"}
+                  </p>
+                  <p className="text-lg text-medium text-[#181818]">
+                    {player.matches_played}
+                  </p>
+                </div>
+              </Card>
+
+              <Card className="w-[82px] h-[74px] flex items-center justify-center bg-white rounded-[9px] waki-shadow border-none overflow-hidden">
+                <div className="flex flex-col items-center justify-center">
+                  <p className="text-sm text-normal text-[#8d8d8d]">
+                    {currentLanguage === "en" ? "Minutes" : "Minutos"}
+                  </p>
+                  <p className="text-lg text-medium text-[#181818]">
+                    {player.minutes}
+                  </p>
+                </div>
+              </Card>
+
+              <Card className="w-[82px] h-[74px] flex items-center justify-center bg-white rounded-[9px] waki-shadow border-none overflow-hidden">
+                <div className="flex flex-col items-center justify-center">
+                  <p className="text-sm text-normal text-[#8d8d8d]">
+                    {currentLanguage === "en" ? "Assists" : "Asistencia"}
                   </p>
                   <p className="text-lg text-medium text-[#181818]">
                     {player.assists}
@@ -214,11 +238,13 @@ const PlayerDetails = () => {
                       className="w-auto h-[19px] object-cover"
                     />
                     <p className="text-sm text-normal text-[#181818]">
-                    {currentLanguage === "en" ? "Yellow cards" : "Tarjetas amarillas"}
+                      {currentLanguage === "en"
+                        ? "Yellow cards"
+                        : "Tarjetas amarillas"}
                     </p>
                   </div>
                   <p className="text-sm text-normal text-[#181818]">
-                    {player.totalYellowCards}
+                    {player.cards_yellow}
                   </p>
                 </div>
               </div>
@@ -232,11 +258,13 @@ const PlayerDetails = () => {
                       className="w-auto h-[19px] object-cover"
                     />
                     <p className="text-sm text-normal text-[#181818]">
-                    {currentLanguage === "en" ? "Red cards" : "Tarjetas rojas"}
+                      {currentLanguage === "en"
+                        ? "Red cards"
+                        : "Tarjetas rojas"}
                     </p>
                   </div>
                   <p className="text-sm text-normal text-[#181818]">
-                    {player.totalRedCards}
+                    {player.cards_red}
                   </p>
                 </div>
               </div>
@@ -245,7 +273,7 @@ const PlayerDetails = () => {
 
           <div className="px-5 pt-5 flex flex-col gap-y-4">
             <h2 className="font-medium text-base text-[#181818] leading-6">
-               {currentLanguage === "en" ? "Achievements" : "Logros"}
+              {currentLanguage === "en" ? "Achievements" : "Logros"}
             </h2>
 
             <Card className="w-full max-w-md mx-auto bg-white rounded-lg shadow-none waki-shadow border-none overflow-hidden">
@@ -256,9 +284,9 @@ const PlayerDetails = () => {
                 >
                   <div className="flex flex-row w-full items-center justify-between">
                     <p className="text-sm text-normal text-[#181818]">
-                      {achievement}
+                      {achievement.description}
                     </p>
-                    <p className="text-xs text-normal text-[#8d8d8d]">2023</p>
+                    <p className="text-xs text-normal text-[#8d8d8d]">{achievement.year}</p>
                   </div>
                 </div>
               ))}
@@ -287,21 +315,27 @@ const PlayerDetails = () => {
           <div className="py-5 px-3 flex flex-col gap-4">
             <div className="">
               <h2 className="font-medium text-base text-[#181818] leading-6 mb-2.5">
-                {currentLanguage === "en" ? "Annual Cumulative Token Release" : "Liberación Acumulada del Token Anual"}
+                {currentLanguage === "en"
+                  ? "Annual Cumulative Token Release"
+                  : "Liberación Acumulada del Token Anual"}
               </h2>
-              <TokenChart lastName={player.lastName} />
+              <TokenChart lastName={player.lastname} />
             </div>
 
             <div className="">
               <h2 className="font-medium text-base text-[#181818] leading-6 mb-2.5">
-                {currentLanguage === "en" ? "Annual Token Release" : "Liberación de Tokens Anual"}
+                {currentLanguage === "en"
+                  ? "Annual Token Release"
+                  : "Liberación de Tokens Anual"}
               </h2>
               <YearTokenChart lastName={player.lastName} />
             </div>
 
             <div className="">
               <h2 className="font-medium text-base text-[#181818] leading-6 mb-2.5">
-                {currentLanguage === "en" ? "Tokens Released vs. Burned" : "Tokens Liberados vs. Quemados"}
+                {currentLanguage === "en"
+                  ? "Tokens Released vs. Burned"
+                  : "Tokens Liberados vs. Quemados"}
               </h2>
               <TokenDistributionChart />
             </div>
