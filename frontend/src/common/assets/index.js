@@ -21,6 +21,7 @@ import yellowCard from "./icons/yellowCard.svg";
 import redCard from "./icons/redCard.svg";
 import balon from "./icons/balon.svg";
 import signal from "./icons/signal.svg";
+import shield from "./icons/shield.svg";
 import argentinaFlag from "./icons/Argentina.svg";
 import brazilFlag from "./icons/Brazil.svg";
 import spainFlag from "./icons/España.svg";
@@ -30,6 +31,7 @@ import norwayFlag from "./icons/Noruega.svg";
 import belgiumFlag from "./icons/Belgium.svg";
 
 export {
+  shield,
   argentinaFlag,
   brazilFlag,
   spainFlag,

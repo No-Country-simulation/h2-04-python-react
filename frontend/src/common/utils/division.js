@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { useDivisionThresholds } from '@/api/services/useDivision';
-import { liga1, liga2, liga3, locked } from "@/common/assets";
+import { liga1, liga2, liga3, locked, shield } from "@/common/assets";
 
 const divisionImages = {
   bronze: liga3,
@@ -12,7 +12,7 @@ export const getDivisionInfo = (points) => {
   const { data: divisions, isLoading, error } = useDivisionThresholds();
 
   if (isLoading) {
-    return { threshold: 0, name: "", image: null, nextLevel: null, maxPoints: 0 };
+    return { threshold: 0, name: "", image: shield, nextLevel: 0, maxPoints: 0 };
   }
 
   if (error || !divisions) {
