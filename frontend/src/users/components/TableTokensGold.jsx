@@ -21,8 +21,8 @@ import { usePlayers } from "@/common/hooks/usePlayers";
 const TableTokensGold = () => {
   const { t } = useTranslation();
   const { currentLanguage } = useLanguageStore();
-  const { data: players } = usePlayers();
-  const filteredPlayers = players.filter(
+  const { data: players, isLoading } = usePlayers();
+  const filteredPlayers = players?.filter(
     (player) => player.category === "Gold"
   );
   const navigate = useNavigate();
@@ -48,7 +48,6 @@ const TableTokensGold = () => {
           const firstLastName = row.original.player_last_name.split(" ")[0];
           return (
             <div className="flex flex-row items-center">
-
               <span>{`${firstName} ${firstLastName}`}</span>
             </div>
           );
@@ -106,41 +105,48 @@ const TableTokensGold = () => {
         </Link>
       </div>
       <div className="bg-white rounded-t-[19px] rounded-b-[9px] waki-shadow overflow-hidden">
-        <Table>
-          <TableHeader>
-            {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => (
-                  <TableHead key={header.id} className="text-center">
-                    {header.isPlaceholder ? null : (
-                      <div>
-                        {flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
-                      </div>
-                    )}
-                  </TableHead>
-                ))}
-              </TableRow>
-            ))}
-          </TableHeader>
-          <TableBody>
-            {table.getRowModel().rows.map((row) => (
-              <TableRow
-                key={row.id}
-                className="group cursor-pointer hover:bg-gray-100"
-                onClick={() => navigate(`/players/${row.original.player_id}`)}
-              >
-                {row.getVisibleCells().map((cell) => (
-                  <TableCell key={cell.id} className="text-center">
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </TableCell>
-                ))}
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+        {isLoading ? (
+          <p className="px-5 py-2">{currentLanguage === "en" ? "Loading..." : "Cargando..."}</p>
+        ) : (
+          <Table>
+            <TableHeader>
+              {table.getHeaderGroups().map((headerGroup) => (
+                <TableRow key={headerGroup.id}>
+                  {headerGroup.headers.map((header) => (
+                    <TableHead key={header.id} className="text-center">
+                      {header.isPlaceholder ? null : (
+                        <div>
+                          {flexRender(
+                            header.column.columnDef.header,
+                            header.getContext()
+                          )}
+                        </div>
+                      )}
+                    </TableHead>
+                  ))}
+                </TableRow>
+              ))}
+            </TableHeader>
+            <TableBody>
+              {table.getRowModel().rows.map((row) => (
+                <TableRow
+                  key={row.id}
+                  className="group cursor-pointer hover:bg-gray-100"
+                  onClick={() => navigate(`/players/${row.original.player_id}`)}
+                >
+                  {row.getVisibleCells().map((cell) => (
+                    <TableCell key={cell.id} className="text-center">
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        )}
       </div>
     </div>
   );
