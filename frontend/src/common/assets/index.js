@@ -9,7 +9,7 @@ import coin from "./icons/coin.svg";
 import banderin from "./icons/banderin.svg";
 import locked from "./icons/locked.svg";
 import spain from "./icons/spain.svg";
-import usa from "./icons/unitedStates.svg";
+import usa from "./icons/usa.svg";
 import betIcon from "./icons/BettingSlipIcon.svg";
 import betIconEmpty from "./icons/BettingSlipEmpty.svg";
 import whistle from "./icons/whistle.svg";
@@ -22,23 +22,9 @@ import redCard from "./icons/redCard.svg";
 import balon from "./icons/balon.svg";
 import signal from "./icons/signal.svg";
 import shield from "./icons/shield.svg";
-import argentinaFlag from "./icons/Argentina.svg";
-import brazilFlag from "./icons/Brazil.svg";
-import spainFlag from "./icons/España.svg";
-import franceFlag from "./icons/Francia.svg";
-import englandFlag from "./icons/Inglaterra.svg";
-import norwayFlag from "./icons/Noruega.svg";
-import belgiumFlag from "./icons/Belgium.svg";
 
 export {
   shield,
-  argentinaFlag,
-  brazilFlag,
-  spainFlag,
-  franceFlag,
-  englandFlag,
-  norwayFlag,
-  belgiumFlag,
   signal,
   balon,
   yellowCard,

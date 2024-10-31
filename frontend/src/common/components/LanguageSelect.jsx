@@ -28,21 +28,21 @@ export default function LanguageSelect() {
       <SelectTrigger className="w-[70px] border-none focus:ring-0" aria-label={t("selectLanguage")}>
         <SelectValue>
           {currentLanguage === "es" ? (
-            <img src={spain} alt={t("Español")} />
+            <img src={spain} alt={t("Español")} className="w-auto h-5" />
           ) : (
-            <img src={usa} alt={t("Inglés")} />
+            <img src={usa} alt={t("Inglés")} className="w-auto h-5" />
           )}
         </SelectValue>
       </SelectTrigger>
       <SelectContent>
         <SelectItem value="es">
           <div className="flex flex-row gap-x-2">
-            <img src={spain} alt={t("Español")} /> {t("Español")}
+            <img src={spain} alt={t("Español")} className="w-auto h-5" /> {t("Español")}
           </div>
         </SelectItem>
         <SelectItem value="en">
           <div className="flex flex-row gap-x-2">
-            <img src={usa} alt={t("Inglés")} /> {t("Inglés")}
+            <img src={usa} alt={t("Inglés")} className="w-auto h-5" /> {t("Inglés")}
           </div>
         </SelectItem>
       </SelectContent>
