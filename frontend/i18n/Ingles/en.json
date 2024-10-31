@@ -153,19 +153,8 @@
   "countries": {
     "search": "Search country...",
     "noResult": "No country found.",
-    "Argentina": "Argentina",
-    "Brazil": "Brazil",
     "England": "England",
-    "France": "France",
-    "Germany": "Germany",
-    "Italy": "Italy",
-    "Spain": "Spain",
-    "Mexico": "Mexico",
-    "World": "World",
-    "Uruguay": "Uruguay",
-    "USA": "United States",
-    "Norway": "Norway",
-    "Belgium": "Belgium"
+    "World": "World"
   },
   "filter": {
     "orderBy": "Order by",

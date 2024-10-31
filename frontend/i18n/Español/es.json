@@ -154,18 +154,8 @@
     "search": "Buscar país...",
     "noResult": "País no encontrado.",
     "World": "Mundial",
-    "Argentina": "Argentina",
-    "Brazil": "Brasil",
-    "England": "Inglaterra",
-    "France": "Francia",
-    "Germany": "Alemania",
-    "Italy": "Italia",
-    "Spain": "España",
-    "Mexico": "México",
-    "Uruguay": "Uruguay",
-    "USA": "Estados Unidos",
-    "Norway": "Noruega",
-    "Belgium": "Bélgica"
+    "England": "Inglaterra"
+
   },
   "filter": {
     "orderBy": "Ordenar por",
