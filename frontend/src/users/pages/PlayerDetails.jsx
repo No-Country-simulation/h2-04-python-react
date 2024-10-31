@@ -19,6 +19,7 @@ import {
 import PlayerNationality from "../components/PlayerNationality";
 import useLanguageStore from "@/api/store/language-store";
 import { useTokenizablePlayers } from "@/common/hooks/usePlayers";
+import { Skeleton } from "@/common/components/ui/skeleton";
 
 const PlayerDetails = () => {
   const [activeTab, setActiveTab] = useState("details");
@@ -51,7 +52,14 @@ const PlayerDetails = () => {
   }, [id, players]);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex flex-col items-center justify-center space-y-2 p-4">
+        <Skeleton className="size-32 rounded-full" />
+        <Skeleton className="h-7" />
+        <Skeleton className="h-16" />
+        <Skeleton className="h-12" />
+      </div>
+    );
   }
 
   if (isError || error) {

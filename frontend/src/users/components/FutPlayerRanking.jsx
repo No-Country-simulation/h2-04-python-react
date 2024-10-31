@@ -17,7 +17,6 @@ import {
   Star,
   ChevronFirst,
   Shield,
-  Loader2,
 } from "lucide-react";
 import { Input } from "@/common/components/ui/input";
 import {
@@ -25,6 +24,7 @@ import {
   SelectContent,
   SelectItem,
   SelectTrigger,
+  SelectValue,
 } from "@/common/components/ui/select";
 import {
   Table,
@@ -45,7 +45,8 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/common/components/ui/pagination";
-import { usePlayers } from "@/common/hooks/usePlayers";
+import { usePlayers, useTokenizablePlayers } from "@/common/hooks/usePlayers";
+import { Skeleton } from "@/common/components/ui/skeleton";
 
 export default function FootballPlayersTable() {
   const { t } = useTranslation();
@@ -54,7 +55,32 @@ export default function FootballPlayersTable() {
   const [filterBy, setFilterBy] = useState("value");
   const navigate = useNavigate();
 
-  const { data: players, isLoading, isError } = usePlayers();
+  const {
+    data: players,
+    isLoading: playersLoading,
+    isError: playersError,
+  } = usePlayers();
+  const {
+    data: tokenizablePlayers,
+    isLoading: tokenizableLoading,
+    isError: tokenizableError,
+  } = useTokenizablePlayers();
+
+  const isLoading = playersLoading || tokenizableLoading;
+  const isError = playersError || tokenizableError;
+
+  const mergedPlayers = useMemo(() => {
+    if (!players || !tokenizablePlayers) return [];
+    return players.map((player) => {
+      const tokenizablePlayer = tokenizablePlayers.find(
+        (tp) => tp.id === player.player_id
+      );
+      return {
+        ...player,
+        ...tokenizablePlayer,
+      };
+    });
+  }, [players, tokenizablePlayers]);
 
   const filterOptions = [
     {
@@ -75,24 +101,27 @@ export default function FootballPlayersTable() {
   ];
 
   const sortedPlayers = useMemo(() => {
-    if (!players) return [];
-    return [...players].sort((a, b) => {
+    if (!mergedPlayers) return [];
+    return [...mergedPlayers].sort((a, b) => {
       switch (filterBy) {
         case "value":
           return b.price - a.price;
         case "league":
-          return a.division - b.division;
+          return (
+            (a.category === "Gold" ? 1 : a.category === "Silver" ? 2 : 3) -
+            (b.category === "Gold" ? 1 : b.category === "Silver" ? 2 : 3)
+          );
         case "minutes":
-          return b.minutesPlayed - a.minutesPlayed;
+          return (b.minutes || 0) - (a.minutes || 0);
         case "assists":
-          return b.assists - a.assists;
+          return (b.assists || 0) - (a.assists || 0);
         case "age":
-          return a.age - b.age;
+          return (a.age || 0) - (b.age || 0);
         default:
           return 0;
       }
     });
-  }, [players, filterBy]);
+  }, [mergedPlayers, filterBy]);
 
   const columns = useMemo(
     () => [
@@ -110,8 +139,8 @@ export default function FootballPlayersTable() {
         accessorKey: "name",
         header: () => <div className="text-left pl-2">{t("table.player")}</div>,
         cell: ({ row }) => {
-          const firstName = row.original.player_name.split(' ')[0];
-          const firstLastName = row.original.player_last_name.split(' ')[0];
+          const firstName = row.original.player_name.split(" ")[0];
+          const firstLastName = row.original.player_last_name.split(" ")[0];
           return (
             <div className="flex items-center justify-start text-left pl-2">
               <span>{`${firstName} ${firstLastName}`}</span>
@@ -141,13 +170,11 @@ export default function FootballPlayersTable() {
       {
         accessorKey: "released",
         header: () => <div className="text-center">{t("table.released")}</div>,
-        cell: ({ row }) => {
-          return (
-            <div className="flex items-center justify-center text-center">
-              <span>{row.original.burned_tokens}</span>
-            </div>
-          );
-        },
+        cell: ({ row }) => (
+          <div className="flex items-center justify-center text-center">
+            <span>{row.original.burned_tokens}</span>
+          </div>
+        ),
       },
       {
         accessorKey: "price",
@@ -175,7 +202,8 @@ export default function FootballPlayersTable() {
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
     globalFilterFn: (row, columnId, filterValue) => {
-      const fullName = `${row.original.name} ${row.original.lastName}`.toLowerCase();
+      const fullName =
+        `${row.original.player_name} ${row.original.player_last_name}`.toLowerCase();
       return fullName.includes(filterValue.toLowerCase());
     },
     initialState: {
@@ -187,8 +215,10 @@ export default function FootballPlayersTable() {
 
   if (isLoading) {
     return (
-      <div className="flex justify-center items-center h-64">
-        <Loader2 className="w-8 h-8 animate-spin" />
+      <div className="flex flex-col space-y-2 p-4">
+        <Skeleton className="h-5" />
+        <Skeleton className="h-20" />
+        <Skeleton className="h-96" />
       </div>
     );
   }
@@ -220,13 +250,15 @@ export default function FootballPlayersTable() {
         </div>
         <Select value={filterBy} onValueChange={setFilterBy}>
           <SelectTrigger className="w-64 max-w-sm border-none shadow-none">
-            <div className="flex items-center">
-              <ArrowUpDown className="mr-2 h-4 w-4 text-purple-500" />
-              <span className="mr-2 text-sm">{t("filter.orderBy")}:</span>
-              <span className="text-sm text-[#B1B1B1]">
-                {t(`filter.${filterBy}`)}
-              </span>
-            </div>
+            <SelectValue>
+              <div className="flex items-center">
+                <ArrowUpDown className="mr-2 h-4 w-4 text-purple-500" />
+                <span className="mr-2 text-sm">{t("filter.orderBy")}:</span>
+                <span className="text-sm text-[#B1B1B1]">
+                  {t(`filter.${filterBy}`)}
+                </span>
+              </div>
+            </SelectValue>
           </SelectTrigger>
           <SelectContent position="popper" sideOffset={5}>
             {filterOptions.map((option) => (
@@ -315,7 +347,7 @@ export default function FootballPlayersTable() {
           {table.getState().pagination.pageIndex *
             table.getState().pagination.pageSize +
             1}
-           -
+          -
           {Math.min(
             (table.getState().pagination.pageIndex + 1) *
               table.getState().pagination.pageSize,
