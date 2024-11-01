@@ -4,6 +4,7 @@ from .models import User, League, Match, Prediction, PredictionDetail, ConfigMod
 from django.contrib import messages
 from .resources import AchievementsResource
 from import_export.admin import ImportExportModelAdmin
+
 # Register your models here.
 
 @admin.action(description="Poner en cero los puntos de los usuarios")
@@ -27,6 +28,7 @@ class UserAdmin(admin.ModelAdmin):
 
 class PlayersAdmin(admin.ModelAdmin):
     search_fields = ['name', 'lastname', 'teams__name'] 
+    
 
 class TeamsAdmin(admin.ModelAdmin):
     search_fields = ['name']
@@ -42,7 +44,7 @@ class TokenAdmin(admin.ModelAdmin):
     actions = ['delete_all_tokens']
 
     list_filter = ('is_burned',)
-    
+
     def delete_all_tokens(self, request, queryset):
         # Asegúrate de que el usuario quiere borrar todos los registros
 
