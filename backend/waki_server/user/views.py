@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from utils.apiresponse import ApiResponse
 from rest_framework.views import APIView
-from .serializers import UserSerializer, UserUpdateSerializer, LoginSerializer
+from .serializers import UserSerializer, UserUpdateSerializer, LoginSerializer, UserMeSerializer
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from core.models import User, Prediction
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -86,7 +86,7 @@ class UserMeView(APIView):
         
         Utiliza el serializer `UserSerializer` para serializar los datos del usuario.
         """
-        serializer = UserSerializer(request.user)
+        serializer = UserMeSerializer(request.user)
         return Response({
             "status_code": 200,
             "data": serializer.data,

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from core.models import User
+from core.models import User, Token, Players
 from django.core.exceptions import ValidationError
 from django.contrib.auth import authenticate
 
@@ -97,3 +97,33 @@ class UserUpdateSerializer(serializers.ModelSerializer):
         instance.profile_image = validated_data.get('profile_image', instance.profile_image)
         instance.save()
         return instance
+    
+
+
+class PlayerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Players
+        fields = ['id', 'name','lastname','photo_tokens']  # Agrega otros campos necesarios
+
+
+class TokenSerializer(serializers.ModelSerializer):
+    player = PlayerSerializer(read_only=True)
+
+    class Meta:
+        model = Token
+        fields = ['id', 'year', 'created_at', 'is_burned', 'player']
+
+
+    
+class UserMeSerializer(serializers.ModelSerializer):
+    total_points = serializers.SerializerMethodField()
+    rewards_points = serializers.DecimalField(max_digits=10, decimal_places=2, coerce_to_string=False)
+    tokens = TokenSerializer(many=True, read_only=True, source='token_set')  # Cambia 'token_set' si has definido un related_name diferente
+
+    class Meta:
+        model = User
+        fields = ['id','full_name', 'email', 'phone', 'profile_image', 'type_user','total_points', 'rewards_points','is_superuser', 'tokens']
+
+    def get_total_points(self, obj):
+        # Retorna la suma de total_points y rewards_points
+        return (obj.total_points or 0) + (obj.rewards_points or 0)

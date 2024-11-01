@@ -88,6 +88,7 @@ class PlayerStatisticsAPIView(APIView):
 
         for token in tokens:
             price = 10000 / (10000 - token['burned_tokens'])
+            released_tokens =  token['total_tokens'] - token['burned_tokens']
             player = Players.objects.get(id=token['player_id'])  # Obtiene el jugador usando el ID
             players_statistics.append({
                 'player_id': token['player_id'],
@@ -96,6 +97,7 @@ class PlayerStatisticsAPIView(APIView):
                 'token_assign': token['token_assign'],
                 'total_tokens': token['total_tokens'],
                 'burned_tokens': token['burned_tokens'],
+                'released_tokens' : released_tokens,
                 'price': price
             })
 

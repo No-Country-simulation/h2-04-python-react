@@ -162,6 +162,7 @@ class Players(models.Model):
     number = models.IntegerField(null=True, blank=True)  # Número puede ser nulo
     position = models.CharField(max_length=50)
     photo = models.URLField(max_length=200)  # URL para la foto del jugador
+    photo_tokens = models.URLField(max_length=250, blank=True)  # URL para la foto del jugador
     teams = models.ManyToManyField(Teams, related_name='players')  # Relación con Teams
     height = models.CharField(max_length=25, blank=True)
     weight =  models.CharField(max_length=25, blank=True)
