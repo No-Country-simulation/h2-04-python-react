@@ -49,7 +49,9 @@
     "market": "Market",
     "rewards": "Rewards",
     "quests": "Quests",
-    "details": "Details"
+    "details": "Details",
+    "predictions": "Predictions",
+    "classification": "Classification"
   },
   "titles": {
     "playerRanking": "Player ranking"
@@ -61,7 +63,13 @@
     "username": "Username",
     "points": "Points",
     "showing": "Showing",
-    "of": "of"
+    "of": "of",
+    "goals": "Goals",
+    "pos": "Rank",
+    "team": "Team",
+    "matches": "Matches",
+    "results": "Results",
+    "day": "Day"
   },
   "infoMsg": {
     "infoMatch": "No matches are available for this league on this date.",
