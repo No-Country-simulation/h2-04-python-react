@@ -80,7 +80,7 @@ const ClassificationDetails = ({ leagueId, leagueName }) => {
         accessorKey: "Goles",
         header: () => <div className="text-center">{t("table.goals")}</div>,
         cell: ({ row }) => (
-          <div className="text-center w-auto">
+          <div className="text-center w-auto min-w-12">
             {row.original.all.goals.for} - {row.original.all.goals.against}
           </div>
         ),
