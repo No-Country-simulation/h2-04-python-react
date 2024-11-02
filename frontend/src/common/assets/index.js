@@ -22,8 +22,12 @@ import redCard from "./icons/redCard.svg";
 import balon from "./icons/balon.svg";
 import signal from "./icons/signal.svg";
 import shield from "./icons/shield.svg";
+import goalsIcon from "./icons/goals.svg";
+import cardsIcon from "./icons/cards.svg";
 
 export {
+  goalsIcon,
+  cardsIcon,
   shield,
   signal,
   balon,
