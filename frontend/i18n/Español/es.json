@@ -51,7 +51,8 @@
     "quests": "Misiones",
     "details": "Detalles",
     "predictions": "Predicciones",
-    "classification": "Clasificación"
+    "classification": "Clasificación",
+    "statistics": "Estadísticas token"
   },
   "titles": {
     "playerRanking": "Clasificación de jugadores"

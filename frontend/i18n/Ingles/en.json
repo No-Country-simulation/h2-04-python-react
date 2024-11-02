@@ -51,7 +51,8 @@
     "quests": "Quests",
     "details": "Details",
     "predictions": "Predictions",
-    "classification": "Classification"
+    "classification": "Classification",
+    "statistics": "Token statistics"
   },
   "titles": {
     "playerRanking": "Player ranking"
