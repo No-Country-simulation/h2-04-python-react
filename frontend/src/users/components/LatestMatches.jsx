@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/prop-types */
 import { useQuery } from "@tanstack/react-query";
 import {
@@ -55,19 +56,21 @@ const LatestMatches = ({ homeTeam, awayTeam }) => {
   });
 
   const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    const days = ["Dom", "Lun", "Mar", "Mier", "Jue", "Vier", "Sab"];
-    const day = days[date.getDay()];
+    const date = new Date(dateString)
+    const daysEs = ["Dom", "Lun", "Mar", "Mier", "Jue", "Vier", "Sab"]
+    const daysEn = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
+    const day = currentLanguage === "en" ? daysEn[date.getDay()] : daysEs[date.getDay()]
     const formattedDate = `${String(date.getDate()).padStart(2, "0")}/${String(
       date.getMonth() + 1
-    ).padStart(2, "0")} `;
+    ).padStart(2, "0")}/${date.getFullYear()} `
+
     return (
       <div className="flex flex-col justify-center">
-        <span>{day}</span> <span>{formattedDate}</span>{" "}
-        <span>{date.getFullYear()}</span>
+        <span>{day}</span>
+        <span>{formattedDate}</span>
       </div>
-    );
-  };
+    )
+  }
 
   const columns = useMemo(
     () => [
