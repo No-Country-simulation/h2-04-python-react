@@ -31,16 +31,28 @@ i18next.use(initReactI18next).init({
 const queryClient = new QueryClient();
 
 createRoot(document.getElementById("root")).render(
-    <StrictMode>
-      <QueryClientProvider client={queryClient}>
-        <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
-          <LanguageProvider>
-            <BrowserRouter>
-              <App />
-              <Toaster position="top-right" expand={true} richColors />
-            </BrowserRouter>
-          </LanguageProvider>
-        </ThemeProvider>
-      </QueryClientProvider>
-    </StrictMode>
+  <StrictMode>
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
+        <LanguageProvider>
+          <BrowserRouter>
+            <App />
+            <Toaster
+              position="top-right"
+              expand={true}
+              richColors
+              toastOptions={{
+                classNames: {
+                  error: "bg-red-400",
+                  success: "text-green-400",
+                  warning: "text-yellow-400",
+                  info: "bg-blue-400",
+                },
+              }}
+            />
+          </BrowserRouter>
+        </LanguageProvider>
+      </ThemeProvider>
+    </QueryClientProvider>
+  </StrictMode>
 );

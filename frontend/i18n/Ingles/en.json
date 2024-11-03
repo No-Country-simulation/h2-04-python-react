@@ -30,7 +30,9 @@
     "emailError": "Please enter a valid email",
     "fieldRequired": "This field is required",
     "loginSuccess": "Welcome!",
-    "registerSuccess": "Registration successful! Please log in"
+    "registerSuccess": "Registration successful! Please log in",
+     "invalidCredentials": "Invalid credentials.",
+    "tryAgain": "Please, try again."
   },
   "navigation": {
     "scoutPlayers": "Scout Players",

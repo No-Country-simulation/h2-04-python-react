@@ -26,13 +26,18 @@ export const fetchData = async (endpoint, method = 'GET', body = null, accessTok
 
     if (!response.ok) {
       if (response.status === 401) {
-          throw new Error('Unauthorized');
+        throw new Error('Unauthorized');
       } else if (response.status === 500) {
-          throw new Error(t("infoMsg.error500"));
+        throw new Error(t("infoMsg.error500"));
+      } else if (response.status === 400) {
+        const errorData = await response.json();
+        if (errorData.non_field_errors && errorData.non_field_errors.includes("Credenciales inválidas.")) {
+          throw new Error("Credenciales inválidas");
+        }
       }
       const errorData = await response.json();
       throw new Error(errorData.detail || t("infoMsg.requestError"));
-  }
+    }
 
     return await response.json();
   };

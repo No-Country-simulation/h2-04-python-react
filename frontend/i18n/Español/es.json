@@ -30,7 +30,9 @@
     "emailError": "Ingrese un correo electrónico válido",
     "fieldRequired": "Este campo es requerido",
     "loginSuccess": "Bienvenido!",
-    "registerSuccess": "Registro exitoso! Por favor, inicia sesión."
+    "registerSuccess": "Registro exitoso! Por favor, inicia sesión.",
+    "invalidCredentials": "Credenciales inválidas",
+    "tryAgain": "Por favor, inténtalo de nuevo."
   },
   "navigation": {
     "scoutPlayers": "Jugadores",
