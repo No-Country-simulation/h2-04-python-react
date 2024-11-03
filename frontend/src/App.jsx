@@ -47,7 +47,7 @@ const App = () => {
             <Route path="/profile" element={<Profile />} />
             <Route path="/profile/my-predictions" element={<MyPredictions/>} />
             <Route path="/profile/buy-predictions" element={<BuyPredictions />} />
-            <Route path="/match/:slug/:id" element={<MatchDetail />} />
+            <Route path="/matches/match/:slug/:id" element={<MatchDetail />} />
           </Route>
         </Route>
 

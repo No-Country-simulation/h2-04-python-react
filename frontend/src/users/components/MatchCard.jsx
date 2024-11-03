@@ -69,7 +69,7 @@ const MatchCard = ({
       <div className="p-4 mt-2">
         <div className="flex items-center justify-between mb-4">
         <Link
-            to={`/match/${createSlug(homeTeam.name, awayTeam.name)}/${matchId}`}
+            to={`/matches/match/${createSlug(homeTeam.name, awayTeam.name)}/${matchId}`}
             className="flex items-center justify-between w-full"
           >
             <div className="flex flex-col items-center space-y-2 flex-1">
