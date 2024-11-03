@@ -14,6 +14,7 @@ from user.views import UserViewSet, LoginView, DivisionThresholdsView
 from football_api.views import fetch_leagues, search_leagues, fetch_match, search_match, update_match, update_match_odds, fetch_teams, fetch_players, fetch_players_statistics
 from match.views import PredictionCreateView, PredictionListView, predicciones_disponibles
 from players.views import PlayersListView
+from market.views import OrdenViewSet, SellTokenViewSet, BuyTokenViewSet, UserTokensViewSet
 from tokens.views import PlayerTokenBurnAPIView , PlayerStatisticsAPIView
 from raffle.views import RaffleListView
 
@@ -76,7 +77,11 @@ urlpatterns = [
 
     
 
-
+    ###tokens market
+    path('market/', OrdenViewSet.as_view({'get': 'list'}), name='market-list'),
+    path('market/sell-token/', SellTokenViewSet.as_view({'post': 'create'}), name='sell-token'),
+    path('market/buy-token/', BuyTokenViewSet.as_view({'post': 'create'}), name='buy-token'),
+    path('market/user-tokens/', UserTokensViewSet.as_view({'get': 'list'}), name='user-tokens'),
 ]
 
 if settings.DEBUG:

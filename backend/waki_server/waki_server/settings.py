@@ -76,6 +76,7 @@ INSTALLED_APPS = [
     'match',
     'tokens',
     'raffle',
+    'market',
 
 ]
 
