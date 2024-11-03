@@ -214,6 +214,8 @@
     "fouls": "Fouls",
     "yellowCards": "Yellow Cards",
     "redCards": "Red Cards",
-    "totalPasses": "Total Passes"
+    "totalPasses": "Total Passes",
+    "totalCompletes": "Completed Passes",
+    "goalkeeperSaves": "Goalkeeper Saves"
   }
 }

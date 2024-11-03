@@ -35,10 +35,12 @@ export default function Statistics({ data }) {
     { label: t("stats.blockedShots"), type: "Blocked Shots" },
     { label: t("stats.cornerKicks"), type: "Corner Kicks" },
     { label: t("stats.offsides"), type: "Offsides" },
+    {label: t("stats.goalkeeperSaves"), type: "Goalkeeper Saves"},
     { label: t("stats.fouls"), type: "Fouls" },
     { label: t("stats.yellowCards"), type: "Yellow Cards" },
     { label: t("stats.redCards"), type: "Red Cards" },
     { label: t("stats.totalPasses"), type: "Total passes" },
+    { label: t("stats.totalCompletes"), type: "Passes accurate" },
   ];
 
   if (matchData.length < 2) {

@@ -214,6 +214,8 @@
     "fouls": "Faltas",
     "yellowCards": "Tarjetas amarillas",
     "redCards": "Tarjetas rojas",
-    "totalPasses": "Pases totales"
+    "totalPasses": "Pases totales",
+    "totalCompletes": "Pases completados",
+    "goalkeeperSaves": "Paradas"
   }
 }
