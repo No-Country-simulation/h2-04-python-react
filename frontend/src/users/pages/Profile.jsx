@@ -2,20 +2,11 @@ import useAuthStore from "@/api/store/authStore";
 import useUserDataStore from "@/api/store/userStore";
 import LanguageSelect from "@/common/components/LanguageSelect";
 import { Card } from "@/common/components/ui/card";
-import {
-  Bell,
-  Bolt,
-  CreditCard,
-  Globe,
-  LogOut,
-  Mail,
-  Star,
-  UserRound,
-} from "lucide-react";
+import { Bell, Bolt, CreditCard, Globe, LogOut } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { Link, useNavigate } from "react-router-dom";
 import ProfileImageUploader from "../components/ProfileImageUploader";
-import { soccerField, subtract, whistle } from "@/common/assets";
+import { subtract } from "@/common/assets";
 import {
   Dialog,
   DialogContent,
@@ -24,6 +15,8 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/common/components/ui/dialog";
+import UserAchievements from "../components/UserAchievements";
+import PredictionStats from "../components/PredictionStats";
 
 const Profile = () => {
   const { t } = useTranslation();
@@ -65,7 +58,7 @@ const Profile = () => {
           onUpdateSuccess={handleUpdateSuccess}
         />
         <span className="capitalize text-base font-bold">{username}</span>
-        
+
         <div className="flex flex-row space-x-8 items-center pt-4">
           <div className="flex flex-row items-center gap-1">
             <img
@@ -88,31 +81,33 @@ const Profile = () => {
                 </div>
               )}
             </DialogTrigger>
-            <DialogContent align="end" className="w-80 rounded-[9px] p-3 text-center">
+            <DialogContent
+              align="end"
+              className="w-80 rounded-[9px] p-3 text-center"
+            >
               <DialogHeader>
-                <DialogTitle className="text-left">{t("notifications.notificationTitle")}</DialogTitle>
+                <DialogTitle className="text-left">
+                  {t("notifications.notificationTitle")}
+                </DialogTitle>
                 <DialogDescription className="hidden"></DialogDescription>
               </DialogHeader>
               {t("notifications.empty")}
             </DialogContent>
           </Dialog>
           <Link to={"/profile/buy-predictions"}>
-          <CreditCard className="size-7 text-purpleWaki" />
+            <CreditCard className="size-7 text-purpleWaki" />
           </Link>
         </div>
       </div>
       <section className="p-2 pt-6">
         <Card className="w-full max-w-md mx-auto bg-white rounded-lg shadow-none waki-shadow border-none overflow-hidden">
           <Link to={"/profile/my-predictions"}>
-            <div className="flex flex-row items-center justify-between p-4 border-b">
-              <div className="flex flex-row items-center justify-between space-x-4">
-                <Star strokeWidth={1.5} className="text-purpleWaki size-6" />
-                <p className="text-xs ">{t("profile.myPredictions")}</p>
-              </div>
-            </div>
+            <PredictionStats />
           </Link>
 
-          <div className="flex flex-row items-center justify-between p-4 border-b last:border-b-0">
+          <UserAchievements />
+
+          {/* <div className="flex flex-row items-center justify-between p-4 border-b last:border-b-0">
             <div className="flex flex-row items-center justify-between space-x-4">
               <img
                 src={soccerField}
@@ -121,9 +116,9 @@ const Profile = () => {
               />
               <p className="text-xs ">{t("profile.favoriteTeams")}</p>
             </div>
-          </div>
+          </div> */}
 
-          <div className="flex flex-row items-center justify-between p-4 border-b last:border-b-0">
+          {/* <div className="flex flex-row items-center justify-between p-4 border-b last:border-b-0">
             <div className="flex flex-row items-center justify-between space-x-4">
               <img
                 src={whistle}
@@ -132,27 +127,29 @@ const Profile = () => {
               />
               <p className="text-xs ">{t("profile.friends")}</p>
             </div>
-          </div>
+          </div> */}
 
-          <div className="flex flex-row items-center justify-between p-4 border-b last:border-b-0">
+          {/* <div className="flex flex-row items-center justify-between p-4 border-b last:border-b-0">
             <div className="flex flex-row items-center justify-between space-x-4">
               <Mail strokeWidth={1.5} className="text-purpleWaki" />
               <p className="text-xs ">{t("profile.messages")}</p>
             </div>
-          </div>
+          </div> */}
 
-          <div className="flex flex-row items-center justify-between p-4 border-b last:border-b-0">
+          {/* <div className="flex flex-row items-center justify-between p-4 border-b last:border-b-0">
             <div className="flex flex-row items-center justify-between space-x-4">
               <UserRound strokeWidth={1.5} className="text-purpleWaki" />
               <p className="text-xs ">{t("profile.information")}</p>
             </div>
-          </div>
+          </div> */}
+
           <div className="flex flex-row items-center justify-between p-4 border-b last:border-b-0">
             <div className="flex flex-row items-center justify-between space-x-4">
               <Bolt strokeWidth={1.5} className="text-purpleWaki" />
               <p className="text-xs ">{t("profile.settings")}</p>
             </div>
           </div>
+
           <div className="flex flex-row items-center justify-between p-4 border-b last:border-b-0">
             <div className="flex flex-row items-center justify-between space-x-4">
               <Globe strokeWidth={1.5} className="text-purpleWaki" />

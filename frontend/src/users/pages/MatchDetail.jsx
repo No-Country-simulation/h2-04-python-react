@@ -11,6 +11,7 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import { Calendar, ListFilter, Minus, MoveLeft } from "lucide-react";
 import { format } from "date-fns";
+import { es } from "date-fns/locale";
 import { Link, useParams } from "react-router-dom";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -98,14 +99,33 @@ const MatchDetail = () => {
   const leagueName = match?.league?.name;
   const homeTeamId = match?.teams?.home.id;
   const awayTeamId = match?.teams?.away.id;
+
+  const formatDate = (date) => {
+    if (currentLanguage === "es") {
+      const formattedDate = format(date, "dd 'de' MMMM, yyyy. HH:mm aaa", {
+        locale: es,
+      });
+      return formattedDate.replace(/^De /, "de ");
+    }
+    return format(date, "MMMM dd, yyyy. HH:mm aaa");
+  };
+
   const date = new Date(match.fixture.date);
-  const matchDate = format(date, "dd MMMM yyyy HH:mm aaa");
+  const matchDate = formatDate(date);
+
   const formattedTime = format(date, "HH:mm");
   const formattedDate = format(date, "dd MMM");
-  const isLive = ["1H", "HT", "2H"].includes(match?.fixture?.status?.short);
-  const isFinished = match?.fixture?.status?.short === "FT";
+
+  const isLive = ["1H", "HT", "2H", "ET", "P", "SUSP", "INT"].includes(
+    match?.fixture?.status?.short
+  );
+  const isFinished = ["FT", "AET", "PEN"].includes(
+    match?.fixture?.status?.short
+  );
   const isFinishedOrInProgress = isFinished || isLive;
-  const isPostponed = match?.fixture?.status?.short === "PST";
+  const isPostponedOrCancelled = ["PST", "CANC", "ABD"].includes(
+    match?.fixture?.status?.short
+  );
 
   const events = match?.events || [];
   const goals = events.filter((event) => event.type === "Goal");
@@ -118,12 +138,36 @@ const MatchDetail = () => {
 
   const getStatusText = () => {
     switch (match.fixture.status.short) {
-      case "HT":
-        return currentLanguage === "en" ? "Half-time" : "Entre tiempo";
       case "1H":
         return currentLanguage === "en" ? "First Half" : "Primer Tiempo";
+      case "HT":
+        return currentLanguage === "en" ? "Half-time" : "Entre tiempo";
       case "2H":
         return currentLanguage === "en" ? "Second Half" : "Segundo Tiempo";
+      case "ET":
+        return currentLanguage === "en" ? "Extra Time" : "Tiempo Extra";
+      case "P":
+        return currentLanguage === "en" ? "Penalties" : "Penalti";
+      case "PST":
+        return currentLanguage === "en" ? "Postponed" : "Pospuesto";
+      case "SUSP":
+        return currentLanguage === "en" ? "Suspended" : "Suspendido";
+      case "INT":
+        return currentLanguage === "en" ? "Interrupted" : "Interrumpido";
+      case "CANC":
+        return currentLanguage === "en" ? "Cancellend" : "Cancelado";
+      case "ABD":
+        return currentLanguage === "en" ? "Abandoned" : "Abandonado";
+        case "FT":
+        return currentLanguage === "en" ? "Finished" : "Finalizado";
+      case "AET":
+        return currentLanguage === "en"
+          ? "Finished after extra time"
+          : "Finalizado en tiempo extra";
+      case "PEN":
+        return currentLanguage === "en"
+          ? "Finished after the penalty shootout"
+          : "Finalizado en tanda de penales";
       default:
         return match.fixture.status.short;
     }
@@ -184,9 +228,7 @@ const MatchDetail = () => {
                   </div>
                 )}
                 {!isLive && isFinished && (
-                  <span className="text-sm font-normal">
-                    {currentLanguage === "en" ? "Match Finished" : "Finalizado"}
-                  </span>
+                  <span className="text-sm font-normal text-pretty text-center">{getStatusText()}</span>
                 )}
                 <div className="score space-x-2 flex flex-row items-center">
                   <span className="font-semibold text-black text-4xl">
@@ -198,10 +240,10 @@ const MatchDetail = () => {
                   </span>
                 </div>
               </div>
-            ) : isPostponed ? (
+            ) : isPostponedOrCancelled ? (
               <div className="flex flex-col items-center justify-center space-y-4">
                 <span className="text-sm font-normal text-red-600">
-                  {currentLanguage === "en" ? "Postponed" : "Pospuesto"}
+                  {getStatusText()}
                 </span>
               </div>
             ) : (

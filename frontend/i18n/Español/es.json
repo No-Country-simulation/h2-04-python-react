@@ -153,7 +153,14 @@
     "messages": "Mensajes",
     "information": "Informacion personal",
     "settings": "Ajustes",
-    "language": "Idioma preferido"
+    "language": "Idioma preferido",
+    "achievements": "Mis logros",
+    "quests": "Misiones completadas",
+    "pointsEarned": "Puntos ganados",
+    "totalPoints": "Puntos totales",
+    "wonPredictions": "Predicciones ganadas",
+    "lossPredictions": "Predicciones perdidas",
+    "click": "Haz click para ver todas las predicciones"
   },
   "notifications": {
     "notificationTitle": "Notificaciones",

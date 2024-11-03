@@ -9,20 +9,27 @@ import {
 } from "@/common/components/ui/tooltip";
 import { useTranslation } from "react-i18next";
 import useLanguageStore from "@/api/store/language-store";
+import useIsDesktop from "@/common/hooks/useIsDesktop";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/common/components/ui/popover";
 
 export default function Statistics({ data }) {
   const { t } = useTranslation();
   const { currentLanguage } = useLanguageStore();
   const matchData = data?.response || [];
+  const isDesktop = useIsDesktop();
 
   const getStatValue = (team, statType) => {
-    const stat = team.statistics.find((s) => s.type === statType)
+    const stat = team.statistics.find((s) => s.type === statType);
     if (!stat) {
-      return null
+      return null;
     }
 
     const value =
-      typeof stat.value === "string" ? stat.value : stat?.value?.toString()
+      typeof stat.value === "string" ? stat.value : stat?.value?.toString();
     return value ? value.replace("%", "") : null;
   };
 
@@ -35,7 +42,7 @@ export default function Statistics({ data }) {
     { label: t("stats.blockedShots"), type: "Blocked Shots" },
     { label: t("stats.cornerKicks"), type: "Corner Kicks" },
     { label: t("stats.offsides"), type: "Offsides" },
-    {label: t("stats.goalkeeperSaves"), type: "Goalkeeper Saves"},
+    { label: t("stats.goalkeeperSaves"), type: "Goalkeeper Saves" },
     { label: t("stats.fouls"), type: "Fouls" },
     { label: t("stats.yellowCards"), type: "Yellow Cards" },
     { label: t("stats.redCards"), type: "Red Cards" },
@@ -43,10 +50,36 @@ export default function Statistics({ data }) {
     { label: t("stats.totalCompletes"), type: "Passes accurate" },
   ];
 
-  if (matchData.length < 2) {
+  const InfoIconWithTooltip = ({ content }) => {
+    if (!isDesktop) {
+      return (
+        <Popover>
+          <PopoverTrigger>
+            <InfoIcon className="w-4 h-4" />
+          </PopoverTrigger>
+          <PopoverContent className="max-w-52 text-xs p-2 text-pretty bg-primary text-primary-foreground">
+            <p>{content}</p>
+          </PopoverContent>
+        </Popover>
+      );
+    }
+
     return (
-      null
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger>
+            <InfoIcon className="w-4 h-4" />
+          </TooltipTrigger>
+          <TooltipContent className="max-w-64">
+            <p>{content}</p>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
     );
+  };
+
+  if (matchData.length < 2) {
+    return null;
   }
 
   return (
@@ -73,46 +106,43 @@ export default function Statistics({ data }) {
         </div>
 
         <div className="space-y-3">
-        {stats.map((stat, index) => {
-            const leftValue = getStatValue(matchData[0], stat.type)
-            const rightValue = getStatValue(matchData[1], stat.type)
-            
-            let leftPercentage, rightPercentage
+          {stats.map((stat, index) => {
+            const leftValue = getStatValue(matchData[0], stat.type);
+            const rightValue = getStatValue(matchData[1], stat.type);
+
+            let leftPercentage, rightPercentage;
 
             if (leftValue === null || rightValue === null) {
-              leftPercentage = 50
-              rightPercentage = 50
+              leftPercentage = 50;
+              rightPercentage = 50;
             } else {
-              const total = parseFloat(leftValue) + parseFloat(rightValue)
-              leftPercentage = (parseFloat(leftValue) / total) * 100
-              rightPercentage = (parseFloat(rightValue) / total) * 100
+              const total = parseFloat(leftValue) + parseFloat(rightValue);
+              leftPercentage = (parseFloat(leftValue) / total) * 100;
+              rightPercentage = (parseFloat(rightValue) / total) * 100;
             }
 
             return (
               <div key={index} className="space-y-1">
                 <div className="flex justify-between text-sm text-[#181818]">
                   <span>
-                    {leftValue !== null ? leftValue : '-'}
-                    {stat.type === "Ball Possession" && leftValue !== null ? "%" : ""}
+                    {leftValue !== null ? leftValue : "-"}
+                    {stat.type === "Ball Possession" && leftValue !== null
+                      ? "%"
+                      : ""}
                   </span>
                   <div className="flex items-center gap-1">
                     {stat.label}
                     {stat.type === "expected_goals" && (
-                      <TooltipProvider>
-                        <Tooltip>
-                          <TooltipTrigger>
-                            <InfoIcon className="w-4 h-4" />
-                          </TooltipTrigger>
-                          <TooltipContent className="max-w-64">
-                            <p>{t("infoMsg.expectedGoals")}</p>
-                          </TooltipContent>
-                        </Tooltip>
-                      </TooltipProvider>
+                      <InfoIconWithTooltip
+                        content={t("infoMsg.expectedGoals")}
+                      />
                     )}
                   </div>
                   <span>
-                    {rightValue !== null ? rightValue : '-'}
-                    {stat.type === "Ball Possession" && rightValue !== null ? "%" : ""}
+                    {rightValue !== null ? rightValue : "-"}
+                    {stat.type === "Ball Possession" && rightValue !== null
+                      ? "%"
+                      : ""}
                   </span>
                 </div>
                 <div className="flex h-2 bg-gray-800 rounded-full overflow-hidden">
@@ -126,7 +156,7 @@ export default function Statistics({ data }) {
                   />
                 </div>
               </div>
-            )
+            );
           })}
         </div>
       </Card>

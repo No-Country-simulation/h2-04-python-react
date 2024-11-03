@@ -29,9 +29,12 @@ const MatchCard = ({
   const matchDate = format(date, "yyyy-MM-dd");
   const formattedTime = format(date, "HH:mm");
   const formattedDate = format(date, "dd MMM");
-  const isLive = ["1H", "HT", "2H"].includes(status.short);
-  const isFinishedOrInProgress = status.short === "FT" || isLive;
-  const isPostponed = status.short === "PST";
+  const isLive = ["1H", "HT", "2H", "ET", "P", "SUSP", "INT"].includes(
+    status?.short
+  );
+  const isFinished = ["FT", "AET", "PEN"].includes(status?.short);
+  const isFinishedOrInProgress = isFinished || isLive;
+  const isPostponedOrCancelled = ["PST", "CANC", "ABD"].includes(status?.short);
 
   const handleOddsClick = (selectedTeam, odds) => {
     onOddsSelect({
@@ -48,17 +51,40 @@ const MatchCard = ({
 
   const getStatusText = () => {
     switch (status.short) {
-      case "HT":
-        return currentLanguage === "en" ? "Half-time" : "Entre tiempo";
       case "1H":
         return currentLanguage === "en" ? "First Half" : "Primer Tiempo";
+      case "HT":
+        return currentLanguage === "en" ? "Half-time" : "Entre tiempo";
       case "2H":
         return currentLanguage === "en" ? "Second Half" : "Segundo Tiempo";
+      case "ET":
+        return currentLanguage === "en" ? "Extra Time" : "Tiempo Extra";
+      case "P":
+        return currentLanguage === "en" ? "Penalties" : "Penalti";
+      case "PST":
+        return currentLanguage === "en" ? "Postponed" : "Pospuesto";
+      case "SUSP":
+        return currentLanguage === "en" ? "Suspended" : "Suspendido";
+      case "INT":
+        return currentLanguage === "en" ? "Interrupted" : "Interrumpido";
+      case "CANC":
+        return currentLanguage === "en" ? "Cancellend" : "Cancelado";
+      case "ABD":
+        return currentLanguage === "en" ? "Abandoned" : "Abandonado";
+      case "FT":
+        return currentLanguage === "en" ? "Finished" : "Finalizado";
+      case "AET":
+        return currentLanguage === "en"
+          ? "Finished after extra time"
+          : "Finalizado en tiempo extra";
+      case "PEN":
+        return currentLanguage === "en"
+          ? "Finished after the penalty shootout"
+          : "Finalizado en tanda de penales";
       default:
         return status.short;
     }
   };
-
 
   return (
     <Card className="matchCard w-full max-w-sm overflow-hidden rounded-xl bg-[#F3F4F5] shadow-lg my-2">
@@ -68,8 +94,11 @@ const MatchCard = ({
       </div>
       <div className="p-4 mt-2">
         <div className="flex items-center justify-between mb-4">
-        <Link
-            to={`/matches/match/${createSlug(homeTeam.name, awayTeam.name)}/${matchId}`}
+          <Link
+            to={`/matches/match/${createSlug(
+              homeTeam.name,
+              awayTeam.name
+            )}/${matchId}`}
             className="flex items-center justify-between w-full"
           >
             <div className="flex flex-col items-center space-y-2 flex-1">
@@ -100,11 +129,9 @@ const MatchCard = ({
                       </span>
                     </div>
                   )}
-                  {!isLive && status.short === "FT" && (
-                    <span className="text-sm font-normal">
-                      {currentLanguage === "en"
-                        ? "Match Finished"
-                        : "Finalizado"}
+                  {!isLive && isFinished && (
+                    <span className="text-sm font-normal text-pretty text-center">
+                      {getStatusText()}
                     </span>
                   )}
                   <div className="score space-x-2 flex flex-row items-center">
@@ -117,10 +144,10 @@ const MatchCard = ({
                     </span>
                   </div>
                 </div>
-              ) : isPostponed ? (
+              ) : isPostponedOrCancelled ? (
                 <div className="flex flex-col items-center justify-center space-y-4">
                   <span className="text-sm font-normal text-red-600">
-                    {currentLanguage === "en" ? "Postponed" : "Pospuesto"}
+                    {getStatusText()}
                   </span>
                 </div>
               ) : (
@@ -142,7 +169,7 @@ const MatchCard = ({
         </div>
         <div className="flex justify-around text-sm">
           {!isFinishedOrInProgress &&
-            !isPostponed &&
+            !isPostponedOrCancelled &&
             (displayData.type === "odds" && displayData.value ? (
               displayData.oddsAvailable ? (
                 <>

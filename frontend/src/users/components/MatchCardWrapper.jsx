@@ -15,8 +15,10 @@ const parseMatchStatus = (statusString) => {
 
 const MatchCardWrapper = ({ match, onOddsSelect }) => {
   const matchStatus = parseMatchStatus(match.match_status);
-  const isMatchLive = ["1H", "HT", "2H"].includes(matchStatus.short);
-  const isMatchFinished = matchStatus.short === "FT";
+  const isMatchLive = ["1H", "HT", "2H", "ET", "P", "SUSP", "INT"].includes(
+    matchStatus.short);
+  const isMatchFinished = ["FT", "AET", "PEN"].includes(matchStatus.short);
+
 
   let displayData;
   if (isMatchFinished || isMatchLive) {
