@@ -21,11 +21,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/common/components/ui/select";
+import TradingView from "../components/TradingView";
 
 const Players = () => {
   const [activeTab, setActiveTab] = useState("Ranking");
   const { t } = useTranslation();
   const { currentLanguage } = useLanguageStore();
+  const [value, setValue] = useState("MESSI");
 
   return (
     <section className="py-4 mb-28">
@@ -60,21 +62,24 @@ const Players = () => {
           <FutPlayerRanking />
         </TabsContent>
 
-        <TabsContent value="Market"></TabsContent>
+        <TabsContent value="Market">
+          <TradingView />
+        </TabsContent>
 
         <TabsContent value="Statistics">
           <div className="py-5 px-3 flex flex-col gap-4">
-          <Select>
-            <SelectTrigger className="w-44 max-w-sm border-none shadow-none">
-              <SelectValue placeholder={currentLanguage === "en" ? "Select a token" : "Selecciona un token"} />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                <SelectItem value="MESSI">MESSI/USDT</SelectItem>
-                <SelectItem value="MBAPPE">MBAPPE/USDT</SelectItem>
-              </SelectGroup>
-            </SelectContent>
-          </Select>
+            <Select value={value} onValueChange={setValue} disabled>
+              <SelectTrigger className="w-44 max-w-sm border border-input bg-background">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectItem value="MESSI">MESSI/USDT</SelectItem>
+                  <SelectItem value="MBAPPE">MBAPPE/USDT</SelectItem>
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+
             <div className="">
               <h2 className="font-medium text-base text-[#181818] leading-6 mb-2.5">
                 {currentLanguage === "en"
