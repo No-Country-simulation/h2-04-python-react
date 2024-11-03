@@ -49,7 +49,10 @@
     "market": "Market",
     "rewards": "Rewards",
     "quests": "Quests",
-    "details": "Details"
+    "details": "Details",
+    "predictions": "Predictions",
+    "classification": "Classification",
+    "statistics": "Token statistics"
   },
   "titles": {
     "playerRanking": "Player ranking"
@@ -61,7 +64,13 @@
     "username": "Username",
     "points": "Points",
     "showing": "Showing",
-    "of": "of"
+    "of": "of",
+    "goals": "Goals",
+    "pos": "Rank",
+    "team": "Teams",
+    "matches": "Matches",
+    "results": "Results",
+    "day": "Day"
   },
   "infoMsg": {
     "infoMatch": "No matches are available for this league on this date.",
@@ -70,7 +79,9 @@
     "error500": "Internal Server Error. Please try again later.",
     "refreshError": "Session expired. Please log in again.",
     "requestError": "An error occurred in the request",
-    "fetchPlayersError": "Error fetching players"
+    "fetchPlayersError": "Error fetching players",
+    "expectedGoals": "The number of goals that a certain team or player is expected to score based on the quality and quantity of shots.",
+    "errorStatics": "Error loading match statistics. Please try again later."
   },
   "Rewards": "Rewards",
   "MonthlyPrizes": "Monthly prizes",
@@ -190,5 +201,19 @@
       }
     }
   },
-  "Attacker": "Attacker"
+  "Attacker": "Attacker",
+  "stats": {
+    "ballPossession": "Ball Possession",
+    "expectedGoals": "Expected Goals (xG)",
+    "totalShots": "Total Shots",
+    "shotsOnGoal": "Shots on Goal",
+    "shotsOffGoal": "Shots off Goal",
+    "blockedShots": "Blocked Shots",
+    "cornerKicks": "Corner Kicks",
+    "offsides": "Offsides",
+    "fouls": "Fouls",
+    "yellowCards": "Yellow Cards",
+    "redCards": "Red Cards",
+    "totalPasses": "Total Passes"
+  }
 }
