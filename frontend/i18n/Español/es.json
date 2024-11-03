@@ -67,7 +67,7 @@
     "of": "de",
     "goals": "Goles",
     "pos": "Pos",
-    "team": "Equipo",
+    "team": "Equipos",
     "matches": "Partidos",
     "results": "Resultados",
     "day": "Jornada"
@@ -79,7 +79,9 @@
     "error500": "Error del servidor. Por favor, intenta más tarde.",
     "refreshError": "Sesión expirada. Por favor inicia sesión nuevamente.",
     "requestError": "Ocurrió un error en la solicitud",
-    "fetchPlayersError": "Error encontrando los jugadores"
+    "fetchPlayersError": "Error encontrando los jugadores",
+    "expectedGoals": "El número de goles que se espera marque cierto equipo o jugador basado en la calidad y el número de remates.",
+    "errorStatics": "Error cargando las estadísticas del partido. Por favor, intenta de nuevo más tarde."
   },
   "Rewards": "Recompenzas",
   "MonthlyPrizes": "Premios del mes",
@@ -199,5 +201,19 @@
       }
     }
   },
-  "Attacker": "Delantero"
+  "Attacker": "Delantero",
+  "stats": {
+    "ballPossession": "Posesión de balón",
+    "expectedGoals": "Goles esperados (xG)",
+    "totalShots": "Remates",
+    "shotsOnGoal": "Remates a puerta",
+    "shotsOffGoal": "Remates fuera",
+    "blockedShots": "Remates rechazados",
+    "cornerKicks": "Tiros de esquina",
+    "offsides": "Fueras de juego",
+    "fouls": "Faltas",
+    "yellowCards": "Tarjetas amarillas",
+    "redCards": "Tarjetas rojas",
+    "totalPasses": "Pases totales"
+  }
 }

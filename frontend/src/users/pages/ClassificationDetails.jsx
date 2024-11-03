@@ -45,19 +45,13 @@ const ClassificationDetails = ({ leagueId, leagueName }) => {
   const columns = useMemo(
     () => [
       {
-        accessorKey: "Pos",
-        header: () => <div className="text-center">{t("table.pos")}</div>,
-        cell: ({ row }) => (
-          <div className="font-semibold text-blue-500 text-center">
-            {row.original.rank}
-          </div>
-        ),
-      },
-      {
         accessorKey: "equipo",
-        header: () => <div className="text-left">{t("table.team")}</div>,
+        header: () => <div className="text-left pl-2">{t("table.team")}</div>,
         cell: ({ row }) => (
           <div className="flex items-center space-x-2">
+            <div className="font-semibold text-blueWaki text-center">
+            {row.original.rank}
+          </div>
             <img
               src={row.original.team.logo}
               alt={`Logo de ${row.original.team.name}`}

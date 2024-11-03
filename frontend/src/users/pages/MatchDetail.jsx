@@ -30,6 +30,7 @@ import {
 import ClassificationDetails from "./ClassificationDetails";
 import LatestMatches from "../components/LatestMatches";
 import { Skeleton } from "@/common/components/ui/skeleton";
+import Statistics from "../components/MatchStatics";
 
 const MatchDetail = () => {
   const { id } = useParams();
@@ -263,7 +264,9 @@ const MatchDetail = () => {
 
                   <div className="flex flex-col ">
                     <p className="text-sm text-normal text-[#8d8d8d] ">
-                      {currentLanguage === "en" ? "Date and time" : "Fecha y hora"}
+                      {currentLanguage === "en"
+                        ? "Date and time"
+                        : "Fecha y hora"}
                     </p>
                     <p className="text-sm text-normal text-[#181818]">
                       {matchDate}
@@ -301,10 +304,11 @@ const MatchDetail = () => {
                     <p className="text-sm text-normal text-[#8d8d8d]">
                       {currentLanguage === "en" ? "Position" : "Copa"}
                     </p>
-                    <p className="text-sm text-normal text-[#181818]  "></p>
+                    <p className="text-sm text-normal text-[#181818]"></p>
                   </div>
                 </div>
               </div> */}
+
               <div className="flex flex-row items-center justify-between px-5 py-2.5 border-b last:border-b-0">
                 <div className="flex flex-row items-center justify-between space-x-4">
                   <img
@@ -348,21 +352,21 @@ const MatchDetail = () => {
                 <h2 className="font-medium text-base text-[#181818] leading-6">
                   {currentLanguage === "en"
                     ? "Match details"
-                    : "Momento claves"}
+                    : "Momentos claves"}
                 </h2>
 
                 <Accordion
                   type="single"
                   collapsible
-                  className="w-full bg-white rounded-md waki-shadow"
+                  className="w-full bg-white rounded-md shadow-md"
                 >
-                  <AccordionItem value={goals}>
-                    <AccordionTrigger className="px-2 custom-accordion-item">
+                  <AccordionItem value="goals">
+                    <AccordionTrigger className="px-2 hover:bg-gray-100">
                       <div className="flex items-center w-full">
                         <img
                           src={goalsIcon}
-                          alt="FutBall icon"
-                          className="size-7 object-contain mx-2"
+                          alt="Football icon"
+                          className="w-7 h-7 object-contain mx-2"
                         />
                         <div className="flex flex-row space-x-2 items-center">
                           <span className="text-[#181818] font-semibold"></span>
@@ -373,86 +377,106 @@ const MatchDetail = () => {
                       </div>
                     </AccordionTrigger>
                     <AccordionContent className="p-0 lg:p-2 bg-[#F3F4F5]">
-                      <div className="p-1 grid md:grid-cols-2 md:gap-1 justify-items-center">
-                        {goals.map((goal, index) => (
-                          <div
-                            key={index}
-                            className="flex flex-row gap-x-3 items-center justify-center border-b w-full px-4 py-2.5"
-                          >
-                            <span className="text-[#181818] font-semibold ">
-                              {goal.time.elapsed}&apos;
-                            </span>
-                            <span className="text-[#555] text-sm">
-                              {goal.player.name}
-                            </span>
-                            <span className="text-[#555] text-sm">
-                              <img
-                                src={goal.team.logo}
-                                alt={goal.team.name}
-                                className="w-auto h-5 object-cover"
-                              />
-                            </span>
-                          </div>
-                        ))}
-                      </div>
-                    </AccordionContent>
-                  </AccordionItem>
-
-                  <AccordionItem value="cards">
-                    <AccordionTrigger className="px-2 custom-accordion-item">
-                      <div className="flex items-center w-full">
-                        <img
-                          src={cardsIcon}
-                          alt="Cards icon"
-                          className="size-7 object-contain mx-2"
-                        />
-                        <div className="flex flex-row space-x-2 items-center">
-                          <span className="text-[#181818] font-semibold"></span>
-                          <span className="text-[#555] text-sm">{currentLanguage === "en" ? "Cards" : "Tarjetas"}</span>
-                        </div>
-                      </div>
-                    </AccordionTrigger>
-                    <AccordionContent className="p-0 lg:p-2 bg-[#F3F4F5]">
-                      <div className="p-1 grid md:grid-cols-2 md:gap-1 justify-items-center">
-                        {[...redCards, ...yellowCards]
-                          .sort((a, b) => a.time.elapsed - b.time.elapsed)
-                          .map((card, index) => (
+                      {goals.length > 0 ? (
+                        <div className="p-1 grid md:grid-cols-2 md:gap-1 justify-items-center">
+                          {goals.map((goal, index) => (
                             <div
                               key={index}
-                              className="flex flex-row gap-x-3 items-center border-b w-full px-4 py-2.5"
+                              className="flex flex-row gap-x-3 items-center justify-center border-b w-full px-4 py-2.5"
                             >
-                              <img
-                                src={
-                                  card.detail === "Red Card"
-                                    ? redCard
-                                    : yellowCard
-                                }
-                                alt={
-                                  card.detail === "Red Card"
-                                    ? "Red Card"
-                                    : "Yellow Card"
-                                }
-                                className="w-4 h-6 object-contain"
-                              />
-                              <span className="text-[#181818] font-semibold">
-                                {card.time.elapsed}&apos;
+                              <span className="text-[#181818] font-semibold ">
+                                {goal.time.elapsed}&apos;
                               </span>
                               <span className="text-[#555] text-sm">
-                                {card.player.name}
+                                {goal.player.name}
                               </span>
                               <span className="text-[#555] text-sm">
                                 <img
-                                  src={card.team.logo}
-                                  alt={card.team.name}
+                                  src={goal.team.logo}
+                                  alt={goal.team.name}
                                   className="w-auto h-5 object-cover"
                                 />
                               </span>
                             </div>
                           ))}
+                        </div>
+                      ) : (
+                        <div className="p-4 text-center text-[#555]">
+                          {currentLanguage === "en"
+                            ? "No goals in this match."
+                            : "No hubieron goles en este partido."}
+                        </div>
+                      )}
+                    </AccordionContent>
+                  </AccordionItem>
+
+                  <AccordionItem value="cards">
+                    <AccordionTrigger className="px-2 hover:bg-gray-100">
+                      <div className="flex items-center w-full">
+                        <img
+                          src={cardsIcon}
+                          alt="Cards icon"
+                          className="w-7 h-7 object-contain mx-2"
+                        />
+                        <div className="flex flex-row space-x-2 items-center">
+                          <span className="text-[#181818] font-semibold"></span>
+                          <span className="text-[#555] text-sm">
+                            {currentLanguage === "en" ? "Cards" : "Tarjetas"}
+                          </span>
+                        </div>
                       </div>
+                    </AccordionTrigger>
+                    <AccordionContent className="p-0 lg:p-2 bg-[#F3F4F5]">
+                      {redCards.length > 0 || yellowCards.length > 0 ? (
+                        <div className="p-1 grid md:grid-cols-2 md:gap-1 justify-items-center">
+                          {[...redCards, ...yellowCards]
+                            .sort((a, b) => a.time.elapsed - b.time.elapsed)
+                            .map((card, index) => (
+                              <div
+                                key={index}
+                                className="flex flex-row gap-x-3 items-center border-b w-full px-4 py-2.5"
+                              >
+                                <img
+                                  src={
+                                    card.detail === "Red Card"
+                                      ? redCard
+                                      : yellowCard
+                                  }
+                                  alt={
+                                    card.detail === "Red Card"
+                                      ? "Red Card"
+                                      : "Yellow Card"
+                                  }
+                                  className="w-4 h-6 object-contain"
+                                />
+                                <span className="text-[#181818] font-semibold">
+                                  {card.time.elapsed}&apos;
+                                </span>
+                                <span className="text-[#555] text-sm">
+                                  {card.player.name}
+                                </span>
+                                <span className="text-[#555] text-sm">
+                                  <img
+                                    src={card.team.logo}
+                                    alt={card.team.name}
+                                    className="w-auto h-5 object-cover"
+                                  />
+                                </span>
+                              </div>
+                            ))}
+                        </div>
+                      ) : (
+                        <div className="p-4 text-center text-[#555]">
+                          {currentLanguage === "en"
+                            ? "No cards in this match."
+                            : "No hubieron tarjetas en este partido."}
+                        </div>
+                      )}
                     </AccordionContent>
                   </AccordionItem>
                 </Accordion>
+
+                <Statistics />
               </>
             )}
 
