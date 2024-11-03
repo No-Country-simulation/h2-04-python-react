@@ -24,8 +24,10 @@ import signal from "./icons/signal.svg";
 import shield from "./icons/shield.svg";
 import goalsIcon from "./icons/goals.svg";
 import cardsIcon from "./icons/cards.svg";
+import mercadoPago from "./icons/mercado-pago-wordmark.svg"
 
 export {
+  mercadoPago,
   goalsIcon,
   cardsIcon,
   shield,

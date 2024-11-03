@@ -96,8 +96,9 @@ const Profile = () => {
               {t("notifications.empty")}
             </DialogContent>
           </Dialog>
-
+          <Link to={"/profile/buy-predictions"}>
           <CreditCard className="size-7 text-purpleWaki" />
+          </Link>
         </div>
       </div>
       <section className="p-2 pt-6">

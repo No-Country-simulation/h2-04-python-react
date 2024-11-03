@@ -39,7 +39,8 @@
     "matches": "Partidos",
     "divisions": "Divisiones",
     "profile": "Perfil",
-    "goToRank": "Ir al ranking"
+    "goToRank": "Ir al ranking",
+    "prediction": "Tus predicciones"
   },
   "errorPage": {
     "notFound": "Página no encontrada",
