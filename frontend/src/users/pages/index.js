@@ -6,6 +6,7 @@ import DivisionRewards from "./DivisionRewards";
 import MyPredictions from "./MyPredictions";
 import PlayerDetails from "./PlayerDetails";
 import MatchDetail from "./MatchDetail";
+import BuyPredictions from "./BuyPredictions";
 
 export {
   Divisions,
@@ -16,4 +17,5 @@ export {
   MyPredictions,
   PlayerDetails,
   MatchDetail,
+  BuyPredictions
 };

@@ -39,7 +39,8 @@
     "matches": "Matches",
     "divisions": "Divisions",
     "profile": "Profile",
-    "goToRank": "Go to ranking"
+    "goToRank": "Go to ranking",
+    "prediction": "Your predictions"
   },
   "errorPage": {
     "notFound": "Page not found",
