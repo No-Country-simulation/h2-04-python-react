@@ -7,6 +7,7 @@ import { ErrorPage } from "./public/pages/ErrorPage";
 import { SplashScreenWrapper } from "./public/components/SplashScreen";
 import {Players, Matches, Divisions, Profile, DivisionRewards, MyPredictions, PlayerDetails, MatchDetail, BuyPredictions} from "@/users/pages/index";
 import { useEffect } from "react";
+import { Analytics } from "@vercel/analytics/react";
 
 const App = () => { 
   const ScrollToTop = () => {
@@ -21,6 +22,7 @@ const App = () => {
 
   return (
     <div className="font-poppins">
+      <Analytics id="prj_XSufyHfH00NCmVMAraR35T4Yg1s1" />
       <ScrollToTop />
       <Routes>
         {/* Rutas públicas */}
