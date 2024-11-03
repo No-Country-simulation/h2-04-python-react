@@ -40,7 +40,7 @@ const TradingView = () => {
   return (
     <div className="p-4">
       <div className="flex flex-col items-start mb-2">
-        <Select defaultValue="MESSI">
+        <Select defaultValue="MESSI" disabled>
           <SelectTrigger className="w-48 border-none shadow-none p-0 text-xl font-semibold focus:ring-0 [&>span]:flex [&>span]:items-center [&>span]:gap-2">
             <SelectValue placeholder="Select trading pair" />
           </SelectTrigger>
@@ -224,7 +224,7 @@ const TradingView = () => {
                 className="flex-1 text-xs border-0 text-center [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
                 disabled
               />
-              <Button variant="ghost" className="rounded-none border-0 px-2">
+              <Button variant="ghost" className="rounded-none border-0 px-2" disabled>
                 <Plus className="size-3" />
               </Button>
             </div>
