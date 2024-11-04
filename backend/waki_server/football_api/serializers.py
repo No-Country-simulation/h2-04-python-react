@@ -4,7 +4,7 @@ from core.models import League, Match
 class LeagueSerializer(serializers.ModelSerializer):
     class Meta:
         model = League
-        fields = ['id_league', 'name', 'logo', 'country', 'confederacion', 'is_active']
+        fields = ['id_league', 'name', 'logo', 'country', 'confederacion', 'is_active','order']
 
 class MatchSerializer(serializers.ModelSerializer):
     league = LeagueSerializer(read_only=True) 

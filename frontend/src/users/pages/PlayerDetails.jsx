@@ -309,14 +309,14 @@ const PlayerDetails = () => {
               className="w-full max-w-40 bg-purpleWaki hover:bg-purple-700"
               disabled
             >
-              {currentLanguage === "en" ? "Buy" : "Compra"}
+              {currentLanguage === "en" ? "Purchase" : "Compra"}
             </Button>
             <Button
               type="submit"
               className="w-full max-w-40 border-2 border-purpleWaki bg-transparent hover:bg-purpleWaki text-purpleWaki hover:text-white"
               disabled
             >
-              {currentLanguage === "en" ? "Sell" : "Venta"}
+              {currentLanguage === "en" ? "Sale" : "Venta"}
             </Button>
           </div>
 

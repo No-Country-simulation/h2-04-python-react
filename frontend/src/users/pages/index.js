@@ -5,15 +5,13 @@ import Profile from "./Profile";
 import DivisionRewards from "./DivisionRewards";
 import MyPredictions from "./MyPredictions";
 import PlayerDetails from "./PlayerDetails";
-import MatchDetail from "./MatchDetail";
 
 export {
-  Divisions,
-  Matches,
-  Players,
-  Profile,
-  DivisionRewards,
-  MyPredictions,
-  PlayerDetails,
-  MatchDetail,
-};
+    Divisions,
+    Matches,
+    Players,
+    Profile,
+    DivisionRewards,
+    MyPredictions,
+    PlayerDetails
+}

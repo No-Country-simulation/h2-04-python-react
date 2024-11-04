@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import User, League, Match, Prediction, PredictionDetail, ConfigModel, Teams, Players, MonthlyRaffle, Achievements, Token
+from .models import User, League, Match, Prediction, PredictionDetail, ConfigModel, Teams, Players, MonthlyRaffle, Achievements, Token, Order
 from django.contrib import messages
 from .resources import AchievementsResource
 from import_export.admin import ImportExportModelAdmin
@@ -28,6 +28,7 @@ class UserAdmin(admin.ModelAdmin):
 
 class PlayersAdmin(admin.ModelAdmin):
     search_fields = ['name', 'lastname', 'teams__name'] 
+    list_filter = ('tokenizable',)
     
 
 class TeamsAdmin(admin.ModelAdmin):
@@ -43,7 +44,8 @@ class TokenAdmin(admin.ModelAdmin):
     search_fields = ['player__name', 'year']
     actions = ['delete_all_tokens']
 
-    list_filter = ('is_burned',)
+    list_filter = ('is_burned','is_in_order',)
+
 
     def delete_all_tokens(self, request, queryset):
         # Asegúrate de que el usuario quiere borrar todos los registros
@@ -62,3 +64,4 @@ admin.site.register(ConfigModel)
 admin.site.register(Players, PlayersAdmin)
 admin.site.register(Teams, TeamsAdmin)
 admin.site.register(MonthlyRaffle)
+admin.site.register(Order)

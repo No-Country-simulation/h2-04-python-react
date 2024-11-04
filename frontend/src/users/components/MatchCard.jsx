@@ -5,13 +5,6 @@ import { format } from "date-fns";
 import { Lock, Minus } from "lucide-react";
 import useLanguageStore from "@/api/store/language-store";
 import { signal } from "@/common/assets";
-import { Link } from "react-router-dom";
-
-const createSlug = (homeTeam, awayTeam) => {
-  return `${homeTeam.toLowerCase().replace(/\s+/g, "-")}-vs-${awayTeam
-    .toLowerCase()
-    .replace(/\s+/g, "-")}`;
-};
 
 const MatchCard = ({
   leagueName,
@@ -59,7 +52,6 @@ const MatchCard = ({
     }
   };
 
-
   return (
     <Card className="matchCard w-full max-w-sm overflow-hidden rounded-xl bg-[#F3F4F5] shadow-lg my-2">
       <div className="bg-white p-2 flex items-center space-x-2 pl-4">
@@ -68,77 +60,70 @@ const MatchCard = ({
       </div>
       <div className="p-4 mt-2">
         <div className="flex items-center justify-between mb-4">
-        <Link
-            to={`/match/${createSlug(homeTeam.name, awayTeam.name)}/${matchId}`}
-            className="flex items-center justify-between w-full"
-          >
-            <div className="flex flex-col items-center space-y-2 flex-1">
-              <img
-                src={homeTeam.logo}
-                alt={homeTeam.name}
-                className="w-auto h-10"
-              />
-              <span className="font-normal text-center">{homeTeam.name}</span>
-            </div>
-            <div className="flex flex-col items-center justify-center flex-1">
-              {isFinishedOrInProgress ? (
-                <div className="flex flex-col items-center justify-center space-y-2">
-                  {isLive && (
-                    <div className="flex flex-col justify-center items-center space-y-1">
-                      <div className="flex flex-row items-baseline gap-x-1">
-                        <div className="size-2 bg-purpleWaki rounded-full animate-pulse" />
-                        <img
-                          src={signal}
-                          alt="Signal icon"
-                          width={19}
-                          height={21}
-                          className="object-cover animate-pulse"
-                        />
-                      </div>
-                      <span className="text-xs font-medium text-green-600">
-                        {getStatusText()}
-                      </span>
+          <div className="flex flex-col items-center space-y-2 flex-1">
+            <img
+              src={homeTeam.logo}
+              alt={homeTeam.name}
+              className="w-auto h-10"
+            />
+            <span className="font-normal text-center">{homeTeam.name}</span>
+          </div>
+          <div className="flex flex-col items-center justify-center flex-1">
+            {isFinishedOrInProgress ? (
+              <div className="flex flex-col items-center justify-center space-y-2">
+                {isLive && (
+                  <div className="flex flex-col justify-center items-center space-y-1">
+                    <div className="flex flex-row items-baseline gap-x-1">
+                      <div className="size-2 bg-purpleWaki rounded-full animate-pulse" />
+                    <img
+                      src={signal}
+                      alt="Signal icon"
+                      width={19}
+                      height={21}
+                      className="object-cover animate-pulse"
+                    />
                     </div>
-                  )}
-                  {!isLive && status.short === "FT" && (
-                    <span className="text-sm font-normal">
-                      {currentLanguage === "en"
-                        ? "Match Finished"
-                        : "Finalizado"}
-                    </span>
-                  )}
-                  <div className="score space-x-2 flex flex-row items-center">
-                    <span className="font-semibold text-black text-lg">
-                      {displayData.homeTeamGoals}
-                    </span>
-                    <Minus className="size-4" />
-                    <span className="font-semibold text-black text-lg">
-                      {displayData.awayTeamGoals}
+                    <span className="text-xs font-medium text-green-600">
+                      {getStatusText()}
                     </span>
                   </div>
-                </div>
-              ) : isPostponed ? (
-                <div className="flex flex-col items-center justify-center space-y-4">
-                  <span className="text-sm font-normal text-red-600">
-                    {currentLanguage === "en" ? "Postponed" : "Pospuesto"}
+                )}
+                {!isLive && status.short === "FT" && (
+                  <span className="text-sm font-normal">
+                    {currentLanguage === "en" ? "Match Finished" : "Finalizado"}
+                  </span>
+                )}
+                <div className="score space-x-2 flex flex-row items-center">
+                  <span className="font-semibold text-black text-lg">
+                    {displayData.homeTeamGoals}
+                  </span>
+                  <Minus className="size-4" />
+                  <span className="font-semibold text-black text-lg">
+                    {displayData.awayTeamGoals}
                   </span>
                 </div>
-              ) : (
-                <div className="flex flex-col items-center justify-around space-y-2">
-                  <span className="text-sm font-medium">{formattedDate}</span>
-                  <span className="text-base font-medium">{formattedTime}</span>
-                </div>
-              )}
-            </div>
-            <div className="flex flex-col items-center space-y-2 flex-1">
-              <img
-                src={awayTeam.logo}
-                alt={awayTeam.name}
-                className="w-auto h-10"
-              />
-              <span className="font-normal text-center">{awayTeam.name}</span>
-            </div>
-          </Link>
+              </div>
+            ) : isPostponed ? (
+              <div className="flex flex-col items-center justify-center space-y-4">
+                <span className="text-sm font-normal text-red-600">
+                  {currentLanguage === "en" ? "Postponed" : "Pospuesto"}
+                </span>
+              </div>
+            ) : (
+              <div className="flex flex-col items-center justify-around space-y-2">
+                <span className="text-sm font-medium">{formattedDate}</span>
+                <span className="text-base font-medium">{formattedTime}</span>
+              </div>
+            )}
+          </div>
+          <div className="flex flex-col items-center space-y-2 flex-1">
+            <img
+              src={awayTeam.logo}
+              alt={awayTeam.name}
+              className="w-auto h-10"
+            />
+            <span className="font-normal text-center">{awayTeam.name}</span>
+          </div>
         </div>
         <div className="flex justify-around text-sm">
           {!isFinishedOrInProgress &&

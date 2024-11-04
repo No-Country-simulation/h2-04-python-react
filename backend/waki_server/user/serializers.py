@@ -67,8 +67,7 @@ class RegisterSerializer(serializers.ModelSerializer):
 
 class UserSerializer(serializers.ModelSerializer):
     total_points = serializers.SerializerMethodField()
-    rewards_points = serializers.DecimalField(max_digits=10, decimal_places=2, coerce_to_string=False,required=False)
-
+    rewards_points = serializers.DecimalField(max_digits=10, decimal_places=2, coerce_to_string=False)
     class Meta:
         model = User
         fields = ['id','full_name', 'email', 'phone', 'profile_image', 'type_user','total_points', 'rewards_points','is_superuser']
@@ -79,7 +78,6 @@ class UserSerializer(serializers.ModelSerializer):
 
 class UserUpdateSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, required=False)
-    rewards_point = serializers.IntegerField(required=False) 
 
     class Meta:
         model = User

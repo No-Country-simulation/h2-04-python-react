@@ -69,7 +69,7 @@ const TableTokensSilver = () => {
         header: t("table.price"),
         cell: ({ row }) => (
           <div className="flex items-center justify-center">
-            <span className="mr-2">{row.original.price.toFixed(3)}</span>
+            <span className="mr-2">{row.original.price.toFixed(2)}</span>
             <ChevronRight className="w-5 h-5 text-blue-500" />
           </div>
         ),

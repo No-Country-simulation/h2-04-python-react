@@ -49,10 +49,7 @@
     "market": "Mercado",
     "rewards": "Premios",
     "quests": "Misiones",
-    "details": "Detalles",
-    "predictions": "Predicciones",
-    "classification": "Clasificación",
-    "statistics": "Estadísticas token"
+     "details": "Detalles"
   },
   "titles": {
     "playerRanking": "Clasificación de jugadores"
@@ -63,14 +60,8 @@
     "price": "Valor",
     "username": "Nombre de usuario",
     "points": "Puntos",
-    "showing": "Mostrando",
-    "of": "de",
-    "goals": "Goles",
-    "pos": "Pos",
-    "team": "Equipos",
-    "matches": "Partidos",
-    "results": "Resultados",
-    "day": "Jornada"
+     "showing": "Mostrando",
+    "of": "de"
   },
   "infoMsg": {
     "infoMatch": "No hay partidos disponibles para esta liga en esta fecha.",
@@ -79,9 +70,7 @@
     "error500": "Error del servidor. Por favor, intenta más tarde.",
     "refreshError": "Sesión expirada. Por favor inicia sesión nuevamente.",
     "requestError": "Ocurrió un error en la solicitud",
-    "fetchPlayersError": "Error encontrando los jugadores",
-    "expectedGoals": "El número de goles que se espera marque cierto equipo o jugador basado en la calidad y el número de remates.",
-    "errorStatics": "Error cargando las estadísticas del partido. Por favor, intenta de nuevo más tarde."
+    "fetchPlayersError": "Error encontrando los jugadores"
   },
   "Rewards": "Recompenzas",
   "MonthlyPrizes": "Premios del mes",
@@ -166,6 +155,7 @@
     "noResult": "País no encontrado.",
     "World": "Mundial",
     "England": "Inglaterra"
+
   },
   "filter": {
     "orderBy": "Ordenar por",
@@ -201,19 +191,5 @@
       }
     }
   },
-  "Attacker": "Delantero",
-  "stats": {
-    "ballPossession": "Posesión de balón",
-    "expectedGoals": "Goles esperados (xG)",
-    "totalShots": "Remates",
-    "shotsOnGoal": "Remates a puerta",
-    "shotsOffGoal": "Remates fuera",
-    "blockedShots": "Remates rechazados",
-    "cornerKicks": "Tiros de esquina",
-    "offsides": "Fueras de juego",
-    "fouls": "Faltas",
-    "yellowCards": "Tarjetas amarillas",
-    "redCards": "Tarjetas rojas",
-    "totalPasses": "Pases totales"
-  }
+  "Attacker": "Delantero"
 }
