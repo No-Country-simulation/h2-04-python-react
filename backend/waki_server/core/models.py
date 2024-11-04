@@ -69,6 +69,7 @@ class League(models.Model):
     country = models.CharField(max_length=255)
     confederacion = models.CharField(max_length=55)
     is_active = models.BooleanField(default=False)
+    order = models.IntegerField(default=999)
 
     def __str__(self):
         return self.name
