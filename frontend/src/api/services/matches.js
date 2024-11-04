@@ -110,6 +110,15 @@ export const useLeagues = (accessToken) => {
 
       // Ordenar las ligas alfabéticamente por país traducido
       const sortedLeagues = [...response.data.results].sort((a, b) => {
+        // Primero, ordenar por el campo 'order'
+        if (a.order !== b.order) {
+          // Tratar 999 como el valor más alto
+          if (a.order === 999) return 1;
+          if (b.order === 999) return -1;
+          return a.order - b.order;
+        }
+        
+        // Si tienen el mismo 'order', ordenar alfabéticamente por país
         const countryA = t(`countries.${a.country}`, { defaultValue: a.country });
         const countryB = t(`countries.${b.country}`, { defaultValue: b.country });
         return countryA.localeCompare(countryB, i18n.language, { sensitivity: 'base' });

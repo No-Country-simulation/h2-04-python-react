@@ -175,7 +175,8 @@
     "search": "Search country...",
     "noResult": "No country found.",
     "England": "England",
-    "World": "World"
+    "World": "World",
+    "Netherlands": "Netherlands"
   },
   "filter": {
     "orderBy": "Order by",

@@ -6,6 +6,7 @@ import { Lock, Minus } from "lucide-react";
 import useLanguageStore from "@/api/store/language-store";
 import { signal } from "@/common/assets";
 import { Link } from "react-router-dom";
+import { es } from "date-fns/locale";
 
 const createSlug = (homeTeam, awayTeam) => {
   return `${homeTeam.toLowerCase().replace(/\s+/g, "-")}-vs-${awayTeam
@@ -28,7 +29,10 @@ const MatchCard = ({
   const date = new Date(fixtureDate);
   const matchDate = format(date, "yyyy-MM-dd");
   const formattedTime = format(date, "HH:mm");
-  const formattedDate = format(date, "dd MMM");
+  const formattedDate = format(date, "dd MMM", {
+    locale: es,
+  });
+
   const isLive = ["1H", "HT", "2H", "ET", "P", "SUSP", "INT"].includes(
     status?.short
   );
@@ -152,7 +156,7 @@ const MatchCard = ({
                 </div>
               ) : (
                 <div className="flex flex-col items-center justify-around space-y-2">
-                  <span className="text-sm font-medium">{formattedDate}</span>
+                  <span className="text-sm font-medium capitalize">{formattedDate}</span>
                   <span className="text-base font-medium">{formattedTime}</span>
                 </div>
               )}

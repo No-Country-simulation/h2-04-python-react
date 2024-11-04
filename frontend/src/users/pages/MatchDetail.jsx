@@ -114,7 +114,9 @@ const MatchDetail = () => {
   const matchDate = formatDate(date);
 
   const formattedTime = format(date, "HH:mm");
-  const formattedDate = format(date, "dd MMM");
+  const formattedDate = format(date, "dd MMM", {
+    locale: es,
+  });
 
   const isLive = ["1H", "HT", "2H", "ET", "P", "SUSP", "INT"].includes(
     match?.fixture?.status?.short
@@ -248,7 +250,7 @@ const MatchDetail = () => {
               </div>
             ) : (
               <div className="flex flex-col items-center justify-around space-y-2">
-                <span className="text-lg font-medium">{formattedDate}</span>
+                <span className="text-lg font-medium capitalize">{formattedDate}</span>
                 <span className="text-4xl font-medium">{formattedTime}</span>
               </div>
             )}
