@@ -78,10 +78,11 @@ class UserSerializer(serializers.ModelSerializer):
 
 class UserUpdateSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, required=False)
+    rewards_points = serializers.CharField(required=False)
 
     class Meta:
         model = User
-        fields = ['full_name', 'email', 'phone', 'profile_image',  'password', 'rewards_point']
+        fields = ['full_name', 'email', 'phone', 'profile_image',  'password', 'rewards_points']
 
     def validate(self, data):
         if 'password' in data and len(data['password']) < 6:
