@@ -67,6 +67,12 @@ class PredictionListView(APIView):
                 type=OpenApiTypes.STR, 
                 description='Filtrar las predicciones por status (e.g., "ganada", "perdida", "pendiente")',
                 required=False
+            ),
+            OpenApiParameter(
+                name='match_id', 
+                type=OpenApiTypes.INT, 
+                description='Filtrar las predicciones por ID del partido (id_fixture)',
+                required=False
             )
         ],
         responses={200: PredictionSerializer(many=True), 400: 'Bad Request'},
@@ -78,6 +84,10 @@ class PredictionListView(APIView):
         status_filter = request.query_params.get('status')
         if status_filter:
             predictions = predictions.filter(status=status_filter)
+
+        match_id_filter = request.query_params.get('match_id')
+        if match_id_filter:
+            predictions = predictions.filter(predictiondetail__match__id_fixture=match_id_filter).distinct()
 
         # Agregar detalles a cada predicción
         response_data = []
