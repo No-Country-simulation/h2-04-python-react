@@ -11,6 +11,7 @@ import {
 } from "@/common/components/ui/select";
 import { Input } from "@/common/components/ui/input";
 import useLanguageStore from "@/api/store/language-store";
+import GradientText from "./GradientText";
 
 const TradingView = () => {
   const { currentLanguage } = useLanguageStore();
@@ -78,7 +79,8 @@ const TradingView = () => {
           </div>
         </div>
         <div className="max-w-44">
-          <div className="flex gap-3 mb-6">
+          <GradientText />
+          <div className="flex gap-3 my-2">
             <Button
               className="flex-1 max-w-20 bg-purpleWaki hover:bg-purple-600"
               disabled
@@ -94,7 +96,7 @@ const TradingView = () => {
             </Button>
           </div>
           <Select defaultValue="limit" className="max-w-[150px]" disabled>
-            <SelectTrigger className="w-full mb-4">
+            <SelectTrigger className="w-full mb-2">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
@@ -107,7 +109,7 @@ const TradingView = () => {
             <div className="w-full max-w-sm space-y-2">
               <label className="text-sm text-muted-foreground">
                 {currentLanguage === "en" ? "Price (USDT)" : "Precio (USDT)"}
-              </label>
+              
               <div className="flex h-10 w-full overflow-hidden rounded-md border border-input shadow-sm">
                 <Button
                   variant="ghost"
@@ -126,7 +128,7 @@ const TradingView = () => {
                   <Minus className="size-3" />
                 </Button>
                 <Input
-                  id="number-input"
+                  id="number-input-1"
                   type="text"
                   value={price}
                   min={0}
@@ -152,6 +154,7 @@ const TradingView = () => {
                   <Plus className="size-3" />
                 </Button>
               </div>
+              </label>
             </div>
 
             <div className="w-full max-w-sm space-y-2">
@@ -167,7 +170,7 @@ const TradingView = () => {
                   <Minus className="size-3" />
                 </Button>
                 <Input
-                  id="number-input"
+                  id="number-input-2"
                   type="number"
                   min={0}
                   max={9999}
@@ -218,7 +221,7 @@ const TradingView = () => {
                 <Minus className="size-3" />
               </Button>
               <Input
-                id="number-input"
+                id="number-input-3"
                 type="text"
                 value="Total (USDT)"
                 className="flex-1 text-xs border-0 text-center [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"

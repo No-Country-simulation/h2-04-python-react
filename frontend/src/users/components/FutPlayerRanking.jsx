@@ -246,6 +246,7 @@ export default function FootballPlayersTable() {
             value={globalFilter ?? ""}
             onChange={(e) => setGlobalFilter(String(e.target.value))}
             className="pl-10"
+            name="search-players"
           />
         </div>
         <Select value={filterBy} onValueChange={setFilterBy}>
