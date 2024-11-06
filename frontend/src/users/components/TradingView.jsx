@@ -59,7 +59,7 @@ const TradingView = () => {
         <div className="grid grid-cols-2 gap-4 mb-6 max-w-44">
           <div className="flex flex-col items-center justify-center">
             <h3 className="text-sm text-muted-foreground mb-2">
-              Precio (USDT)
+              {currentLanguage === "en" ? "Price (USDT)" : "Precio (USDT)"}
             </h3>
             {mockOrderBook.map((order, index) => (
               <div key={index} className="text-purpleWaki text-sm mb-2">
@@ -69,7 +69,7 @@ const TradingView = () => {
           </div>
           <div className="flex flex-col items-center justify-center">
             <h3 className="text-sm text-center text-muted-foreground mb-2">
-              Monto (MESSI)
+              {currentLanguage === "en" ? "Amount (MESSI)" : "Monto (MESSI)"}
             </h3>
             {mockOrderBook.map((order, index) => (
               <div key={index} className="text-right text-[#555] text-sm mb-2">
@@ -176,7 +176,7 @@ const TradingView = () => {
                   max={9999}
                   className="flex-1 text-xs border-0 text-center [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
                   value={value}
-                  placeholder="Monto (MESSI)"
+                  placeholder={currentLanguage === "en" ? "Amount (MESSI)" : "Monto (MESSI)"}
                   onChange={handleInputChange}
                   disabled
                 />
