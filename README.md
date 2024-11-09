@@ -62,9 +62,11 @@ Waki te permite convertirte en un verdadero fanático del fútbol y obtener reco
 
 ## 🖼 Capturas de pantalla 📷
 
-[![369shots-so.png](https://i.postimg.cc/sfYNmnfR/369shots-so.png)](https://postimg.cc/jCjcd4J8)
-[![137shots-so.png](https://i.postimg.cc/65z1JyGj/137shots-so.png)](https://postimg.cc/vcgv58hf)
-[![548shots-so.png](https://i.postimg.cc/PJQVqqVq/548shots-so.png)](https://postimg.cc/QKVJ4j3L)
+[![66shots-so.png](https://i.postimg.cc/k5Rfj3tw/66shots-so.png)](https://postimg.cc/2qmQ6tGB)
+[![864shots-so.png](https://i.postimg.cc/c1z7b50b/864shots-so.png)](https://postimg.cc/dD8T7672)
+[![629shots-so.png](https://i.postimg.cc/hGv0XFrc/629shots-so.png)](https://postimg.cc/VSythVpV)
+[![565shots-so.png](https://i.postimg.cc/htWwVrJb/565shots-so.png)](https://postimg.cc/ykjvH0yk)
+[![307shots-so.png](https://i.postimg.cc/nhH2t99s/307shots-so.png)](https://postimg.cc/kBpKQ4c9)
 
 
 
