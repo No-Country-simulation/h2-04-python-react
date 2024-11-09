@@ -17,7 +17,7 @@ import { useMemo } from "react";
 import { Skeleton } from "@/common/components/ui/skeleton";
 import { useTranslation } from "react-i18next";
 
-const ClassificationDetails = ({ leagueId, leagueName }) => {
+const ClassificationDetails = ({ leagueId, leagueName, leagueLogo }) => {
   const { t } = useTranslation();
 
   const fetchStandings = async () => {
@@ -124,9 +124,12 @@ const ClassificationDetails = ({ leagueId, leagueName }) => {
 
   return (
     <div className="container mx-auto p-2">
-      <h2 className="font-medium text-base text-[#181818] leading-6 pl-2 mb-3">
+      <div className="flex flex-row items-center gap-x-1 pl-2 mb-3">
+      <img src={leagueLogo} alt={leagueName} className="w-auto h-7 object-contain mx-2" />
+      <h2 className="font-medium text-base text-[#181818] leading-6">
         {leagueName}
       </h2>
+      </div>
       {standings.length > 0 ? (
         <div className="bg-white rounded-t-[19px] rounded-b-[9px] waki-shadow overflow-hidden">
           <Table>

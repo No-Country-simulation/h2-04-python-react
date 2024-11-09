@@ -96,6 +96,7 @@ const MatchDetail = () => {
 
   const match = data?.response?.[0];
   const leagueId = match?.league?.id;
+  const leagueLogo = match?.league?.logo;
   const leagueName = match?.league?.name;
   const homeTeamId = match?.teams?.home.id;
   const awayTeamId = match?.teams?.away.id;
@@ -402,7 +403,7 @@ const MatchDetail = () => {
                 <Accordion
                   type="single"
                   collapsible
-                  className="w-full bg-white rounded-md shadow-md"
+                  className="w-full bg-white rounded-md waki-shadow"
                 >
                   <AccordionItem value="goals">
                     <AccordionTrigger className="px-2 hover:bg-gray-100">
@@ -532,6 +533,7 @@ const MatchDetail = () => {
           {leagueId && (
             <ClassificationDetails
               leagueId={leagueId}
+              leagueLogo={leagueLogo}
               leagueName={leagueName}
             />
           )}
