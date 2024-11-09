@@ -1,10 +1,6 @@
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import {
-  Tabs,
-  TabsList,
-  TabsTrigger,
-} from "@/common/components/ui/tabs";
+import { Tabs, TabsList, TabsTrigger } from "@/common/components/ui/tabs";
 import { MoveLeft } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/common/components/ui/button";
@@ -15,11 +11,12 @@ import { useLimiteDiario } from "@/api/services/predictions";
 const MyPredictions = () => {
   const [activeTab, setActiveTab] = useState("All");
   const { t } = useTranslation();
-  const today = useMemo(() => format(new Date(), 'yyyy-MM-dd'), []);
+  const today = useMemo(() => format(new Date(), "yyyy-MM-dd"), []);
   const { predictionData } = useLimiteDiario([today]);
 
-  const availablePredictions = predictionData?.[today]?.predicciones_disponibles || 0;
-  
+  const availablePredictions =
+    predictionData?.[today]?.predicciones_disponibles || 0;
+
   return (
     <section className="pb-4 items-center">
       <div className="header waki-gradient">
@@ -69,9 +66,11 @@ const MyPredictions = () => {
               <p className="font-normal text-[#555] text-xs pl-3">
                 {t("prediction.outPredictions")}
               </p>
-              <Button className="bg-purpleWaki hover:bg-purple-700">
-                {t("prediction.buyPrediction")}
-              </Button>
+              <Link to="/profile/buy-predictions">
+                <Button className="bg-purpleWaki hover:bg-purple-700">
+                  {t("prediction.buyPrediction")}
+                </Button>
+              </Link>
             </div>
           </div>
 

@@ -1,4 +1,3 @@
-import { useState } from "react";
 import {
   Tabs,
   TabsContent,
@@ -9,9 +8,10 @@ import RewardsView from "../components/RewardsView";
 import DivisionRanking from "./DivisionRanking";
 import { useTranslation } from "react-i18next";
 import Quest from "../components/Quest";
+import useTab from "@/common/hooks/useTab";
 
 const Divisions = () => {
-  const [activeTab, setActiveTab] = useState("Rewards");
+  const { activeTab, setActiveTab } = useTab();
   const { t } = useTranslation();
 
   return (

@@ -1,15 +1,29 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import UserLayout from "./common/components/layout/UserLayout";
 import Home from "./public/pages/Home";
 import { AuthPage } from "./public/pages/AuthPage";
 import { ProtectedRoute } from "./common/components/ProtectedRoute";
 import { ErrorPage } from "./public/pages/ErrorPage";
 import { SplashScreenWrapper } from "./public/components/SplashScreen";
-import {Players, Matches, Divisions, Profile, DivisionRewards, MyPredictions, PlayerDetails} from "@/users/pages/index";
+import {Players, Matches, Divisions, Profile, DivisionRewards, MyPredictions, PlayerDetails, MatchDetail, BuyPredictions} from "@/users/pages/index";
+import { useEffect } from "react";
+import { Analytics } from "@vercel/analytics/react";
 
-const App = () => {  
+const App = () => { 
+  const ScrollToTop = () => {
+    const { pathname } = useLocation()
+  
+    useEffect(() => {
+      window.scrollTo(0, 0)
+    }, [pathname])
+  
+    return null
+  }
+
   return (
     <div className="font-poppins">
+      <Analytics id="prj_XSufyHfH00NCmVMAraR35T4Yg1s1" />
+      <ScrollToTop />
       <Routes>
         {/* Rutas públicas */}
         <Route
@@ -32,6 +46,8 @@ const App = () => {
             <Route path="/divisions/:leagueType" element={<DivisionRewards />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/profile/my-predictions" element={<MyPredictions/>} />
+            <Route path="/profile/buy-predictions" element={<BuyPredictions />} />
+            <Route path="/matches/match/:slug/:id" element={<MatchDetail />} />
           </Route>
         </Route>
 

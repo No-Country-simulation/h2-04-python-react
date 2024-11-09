@@ -59,7 +59,7 @@ const TableTokensSilver = () => {
         cell: ({ row }) => {
           return (
             <div className="flex items-center justify-center text-center">
-              <span>{row.original.burned_tokens}</span>
+              <span>{row.original.released_tokens}</span>
             </div>
           );
         },

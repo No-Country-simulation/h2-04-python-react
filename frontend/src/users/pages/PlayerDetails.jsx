@@ -291,7 +291,7 @@ const PlayerDetails = () => {
                   className="flex flex-row items-center justify-between px-5 py-2.5 border-b last:border-b-0"
                 >
                   <div className="flex flex-row w-full items-center justify-between">
-                    <p className="text-sm text-normal text-[#181818]">
+                    <p className="text-sm text-normal text-[#181818] max-w-48">
                       {achievement.description}
                     </p>
                     <p className="text-xs text-normal text-[#8d8d8d]">{achievement.year}</p>

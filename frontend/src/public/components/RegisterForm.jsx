@@ -35,7 +35,6 @@ const registerSchema = z
     email: z.string().email("Correo electrónico inválido"),
     phone: z
       .string()
-      .optional()
       .refine(
         (phone) => !phone || /^\+\d{10,15}$/.test(phone),
         "Número de teléfono inválido"
@@ -138,14 +137,13 @@ const RegisterForm = ({ onSwitchToLogin }) => {
               name="phone"
               render={({ field }) => (
                 <FormItem className="flex flex-col items-start">
-                  <FormLabel>{t("auth.phone")}</FormLabel>
+                  <FormLabel>{t("auth.phone")} <span className="text-red-400 text-xs">*</span></FormLabel>
                   <FormControl className="w-full">
                     <PhoneInput
                       placeholder="9 11 2345-6789"
                       {...field}
                       defaultCountry="AR"
                       international
-                      withCountryCallingCode
                       value={field.value}
                       onChange={field.onChange}
                     />

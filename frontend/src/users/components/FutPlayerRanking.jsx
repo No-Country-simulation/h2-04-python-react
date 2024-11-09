@@ -172,7 +172,7 @@ export default function FootballPlayersTable() {
         header: () => <div className="text-center">{t("table.released")}</div>,
         cell: ({ row }) => (
           <div className="flex items-center justify-center text-center">
-            <span>{row.original.burned_tokens}</span>
+            <span>{row.original.released_tokens}</span>
           </div>
         ),
       },
@@ -246,6 +246,7 @@ export default function FootballPlayersTable() {
             value={globalFilter ?? ""}
             onChange={(e) => setGlobalFilter(String(e.target.value))}
             className="pl-10"
+            name="search-players"
           />
         </div>
         <Select value={filterBy} onValueChange={setFilterBy}>

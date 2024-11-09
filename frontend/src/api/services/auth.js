@@ -38,8 +38,8 @@ export const useLogin = () => {
     onError: (error) => {
       console.error("Error de inicio de sesión:", error);
       if (error.message === "Credenciales inválidas") {
-        toast.error("Credenciales inválidas", {
-          description: "Por favor, inténtalo de nuevo.",
+        toast.error(t("auth.invalidCredentials"), {
+          description: t("auth.tryAgain"),
           duration: 2500,
         });
       } else {

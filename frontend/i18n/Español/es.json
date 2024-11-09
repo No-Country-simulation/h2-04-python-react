@@ -30,14 +30,17 @@
     "emailError": "Ingrese un correo electrónico válido",
     "fieldRequired": "Este campo es requerido",
     "loginSuccess": "Bienvenido!",
-    "registerSuccess": "Registro exitoso! Por favor, inicia sesión."
+    "registerSuccess": "Registro exitoso! Por favor, inicia sesión.",
+    "invalidCredentials": "Credenciales inválidas",
+    "tryAgain": "Por favor, inténtalo de nuevo."
   },
   "navigation": {
     "scoutPlayers": "Jugadores",
     "matches": "Partidos",
     "divisions": "Divisiones",
     "profile": "Perfil",
-    "goToRank": "Ir al ranking"
+    "goToRank": "Ir al ranking",
+    "prediction": "Tus predicciones"
   },
   "errorPage": {
     "notFound": "Página no encontrada",
@@ -139,7 +142,14 @@
     "messages": "Mensajes",
     "information": "Informacion personal",
     "settings": "Ajustes",
-    "language": "Idioma preferido"
+    "language": "Idioma preferido",
+    "achievements": "Mis logros",
+    "quests": "Misiones completadas",
+    "pointsEarned": "Puntos ganados",
+    "totalPoints": "Puntos totales",
+    "wonPredictions": "Predicciones ganadas",
+    "lossPredictions": "Predicciones perdidas",
+    "click": "Haz click para ver todas las predicciones"
   },
   "notifications": {
     "notificationTitle": "Notificaciones",
@@ -154,8 +164,8 @@
     "search": "Buscar país...",
     "noResult": "País no encontrado.",
     "World": "Mundial",
-    "England": "Inglaterra"
-
+    "England": "Inglaterra",
+    "Netherlands": "Países Bajos"
   },
   "filter": {
     "orderBy": "Ordenar por",
@@ -191,5 +201,21 @@
       }
     }
   },
-  "Attacker": "Delantero"
+  "Attacker": "Delantero",
+  "stats": {
+    "ballPossession": "Posesión de balón",
+    "expectedGoals": "Goles esperados (xG)",
+    "totalShots": "Remates",
+    "shotsOnGoal": "Remates a puerta",
+    "shotsOffGoal": "Remates fuera",
+    "blockedShots": "Remates rechazados",
+    "cornerKicks": "Tiros de esquina",
+    "offsides": "Fueras de juego",
+    "fouls": "Faltas",
+    "yellowCards": "Tarjetas amarillas",
+    "redCards": "Tarjetas rojas",
+    "totalPasses": "Pases totales",
+    "totalCompletes": "Pases completados",
+    "goalkeeperSaves": "Paradas"
+  }
 }

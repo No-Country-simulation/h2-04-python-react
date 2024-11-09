@@ -43,6 +43,10 @@ const specialTranslations = {
   'USA': {
     'es': 'Estados Unidos',
     'en': 'USA'
+  },
+  'Netherlands': {
+    'es': 'Países Bajos',
+    'en': 'Netherlands'
   }
 };
 

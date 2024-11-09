@@ -30,14 +30,17 @@
     "emailError": "Please enter a valid email",
     "fieldRequired": "This field is required",
     "loginSuccess": "Welcome!",
-    "registerSuccess": "Registration successful! Please log in"
+    "registerSuccess": "Registration successful! Please log in",
+     "invalidCredentials": "Invalid credentials.",
+    "tryAgain": "Please, try again."
   },
   "navigation": {
     "scoutPlayers": "Scout Players",
     "matches": "Matches",
     "divisions": "Divisions",
     "profile": "Profile",
-    "goToRank": "Go to ranking"
+    "goToRank": "Go to ranking",
+    "prediction": "Your predictions"
   },
   "errorPage": {
     "notFound": "Page not found",
@@ -139,7 +142,14 @@
     "messages": "Messages",
     "information": "Personal information",
     "settings": "Settings",
-    "language": "Preferred language"
+    "language": "Preferred language",
+    "achievements": "My Achievements",
+    "quests": "Quests Completed",
+    "pointsEarned": "Points Earned",
+    "totalPoints": "Total Points",
+    "wonPredictions": "Correct Predictions",
+    "lossPredictions": "Incorrect Predictions",
+    "click": "Click to see all predictions"
   },
   "notifications": {
     "notificationTitle": "Notifications",
@@ -154,7 +164,8 @@
     "search": "Search country...",
     "noResult": "No country found.",
     "England": "England",
-    "World": "World"
+    "World": "World",
+    "Netherlands": "Netherlands"
   },
   "filter": {
     "orderBy": "Order by",
@@ -190,5 +201,21 @@
       }
     }
   },
-  "Attacker": "Attacker"
+  "Attacker": "Attacker",
+  "stats": {
+    "ballPossession": "Ball Possession",
+    "expectedGoals": "Expected Goals (xG)",
+    "totalShots": "Total Shots",
+    "shotsOnGoal": "Shots on Goal",
+    "shotsOffGoal": "Shots off Goal",
+    "blockedShots": "Blocked Shots",
+    "cornerKicks": "Corner Kicks",
+    "offsides": "Offsides",
+    "fouls": "Fouls",
+    "yellowCards": "Yellow Cards",
+    "redCards": "Red Cards",
+    "totalPasses": "Total Passes",
+    "totalCompletes": "Completed Passes",
+    "goalkeeperSaves": "Goalkeeper Saves"
+  }
 }

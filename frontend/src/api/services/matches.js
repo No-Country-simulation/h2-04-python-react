@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { fetchData } from "./fetchData";
 import useAuthStore from "../store/authStore";
-import { compareAsc, isAfter, parseISO } from "date-fns";
+import { compareAsc, isAfter, isSameDay, parseISO } from "date-fns";
 import { useTranslation } from "react-i18next";
 
 export const useMatches = (league, date) => {
@@ -33,8 +33,8 @@ export const useMatches = (league, date) => {
         );
       }
     },
-    staleTime: 1000 * 60 * 5, // 5 minutos
-    cacheTime: 1000 * 60 * 30, // 30 minutos
+    staleTime: 1000 * 60 * 5,
+    cacheTime: 1000 * 60 * 30,
   });
 };
 
@@ -59,14 +59,14 @@ export const useSearchMatches = (searchTerm) => {
       const upcomingMatches = response.data.results
         .filter((match) => {
           const matchDate = parseISO(match.date);
-          // Verificar que el partido no esta finalizado
           return (
-            isAfter(matchDate, currentDate) &&
+            (isAfter(matchDate, currentDate) ||
+              isSameDay(matchDate, currentDate)) &&
             (match.home_team.toLowerCase().includes(searchTerm.toLowerCase()) ||
               match.away_team.toLowerCase().includes(searchTerm.toLowerCase()))
           );
         })
-        .sort((a, b) => compareAsc(parseISO(a.date), parseISO(b.date))); // ordenar por fecha
+        .sort((a, b) => compareAsc(parseISO(a.date), parseISO(b.date)));
 
       return upcomingMatches;
     },
@@ -85,8 +85,8 @@ export const useSearchMatches = (searchTerm) => {
         );
       }
     },
-    staleTime: 1000 * 60 * 5, // 5 min
-    cacheTime: 1000 * 60 * 30, // 30 min
+    staleTime: 1000 * 60 * 5,
+    cacheTime: 1000 * 60 * 30,
     enabled: !!searchTerm && searchTerm.length >= 3,
   });
 };
@@ -105,14 +105,25 @@ export const useLeagues = (accessToken) => {
       );
 
       if (!response.data || !Array.isArray(response.data.results)) {
-        throw new Error('Failed to fetch leagues or invalid data format');
+        throw new Error("Failed to fetch leagues or invalid data format");
       }
 
-      // Ordenar las ligas alfabéticamente por país traducido
       const sortedLeagues = [...response.data.results].sort((a, b) => {
-        const countryA = t(`countries.${a.country}`, { defaultValue: a.country });
-        const countryB = t(`countries.${b.country}`, { defaultValue: b.country });
-        return countryA.localeCompare(countryB, i18n.language, { sensitivity: 'base' });
+        if (a.order !== b.order) {
+          if (a.order === 999) return 1;
+          if (b.order === 999) return -1;
+          return a.order - b.order;
+        }
+
+        const countryA = t(`countries.${a.country}`, {
+          defaultValue: a.country,
+        });
+        const countryB = t(`countries.${b.country}`, {
+          defaultValue: b.country,
+        });
+        return countryA.localeCompare(countryB, i18n.language, {
+          sensitivity: "base",
+        });
       });
 
       return sortedLeagues;
@@ -120,4 +131,3 @@ export const useLeagues = (accessToken) => {
     staleTime: 1000 * 60 * 60,
   });
 };
-

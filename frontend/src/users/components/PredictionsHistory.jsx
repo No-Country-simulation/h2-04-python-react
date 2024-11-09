@@ -79,6 +79,8 @@ export default function PredictionsHistory() {
   );
 
   const hasPendingPredictions = sortedPendingPredictions.length > 0;
+  const hasWonPredictions = filteredWonPredictions.length > 0;
+  const hasLostPredictions = filteredLostPredictions.length > 0;
 
   const renderPredictions = (predictions) => {
     return predictions.map((prediction) => (
@@ -319,8 +321,7 @@ export default function PredictionsHistory() {
                 </div>
               )}
 
-              {filteredWonPredictions.length > 0 ||
-              filteredLostPredictions.length > 0 ? (
+              {hasWonPredictions || hasLostPredictions ? (
                 <div>
                   <p className="capitalize text-lg text-blueWaki font-medium mb-4">
                     {t("prediction.past")}
@@ -337,9 +338,13 @@ export default function PredictionsHistory() {
                   </div>
                 </div>
               ) : (
-                <div className="text-center text-[#555] ">
-                  {t("prediction.zeroPrediction")}
-                </div>
+                !hasPendingPredictions &&
+                !hasWonPredictions &&
+                !hasLostPredictions && (
+                  <div className="text-center text-[#555]">
+                    {t("prediction.zeroPrediction")}
+                  </div>
+                )
               )}
             </>
           )}
