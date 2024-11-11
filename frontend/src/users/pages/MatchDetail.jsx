@@ -5,7 +5,6 @@ import {
   redCard,
   signal,
   soccerField,
-  whistle,
   yellowCard,
 } from "@/common/assets";
 import { useQuery } from "@tanstack/react-query";
@@ -32,6 +31,7 @@ import ClassificationDetails from "./ClassificationDetails";
 import LatestMatches from "../components/LatestMatches";
 import { Skeleton } from "@/common/components/ui/skeleton";
 import Statistics from "../components/MatchStatics";
+import RefereeNationality from "../components/RefereeNationality";
 
 const MatchDetail = () => {
   const { id } = useParams();
@@ -100,6 +100,9 @@ const MatchDetail = () => {
   const leagueName = match?.league?.name;
   const homeTeamId = match?.teams?.home.id;
   const awayTeamId = match?.teams?.away.id;
+  const refereeName = match?.fixture?.referee?.split(',')[0] || '';
+  const refereeNationality = match?.fixture?.referee?.split(',')[1]?.trim() || '';
+  console.log('Nombre: ', refereeName, 'Nacionalidad: ' , refereeNationality)
 
   const formatDate = (date) => {
     if (currentLanguage === "es") {
@@ -372,7 +375,9 @@ const MatchDetail = () => {
                 </div>
               </div>
 
-              <div className="flex flex-row items-center justify-between px-5 py-2.5 border-b last:border-b-0">
+              <RefereeNationality refereeName={refereeName} refereeNationality={refereeNationality} />
+
+              {/* <div className="flex flex-row items-center justify-between px-5 py-2.5 border-b last:border-b-0">
                 <div className="flex flex-row items-center justify-between space-x-4">
                   <img
                     src={whistle}
@@ -388,7 +393,7 @@ const MatchDetail = () => {
                     </p>
                   </div>
                 </div>
-              </div>
+              </div> */}
             </Card>
 
             {isFinished && (
