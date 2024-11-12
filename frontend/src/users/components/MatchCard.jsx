@@ -7,6 +7,7 @@ import useLanguageStore from "@/api/store/language-store";
 import { signal } from "@/common/assets";
 import { Link } from "react-router-dom";
 import { es } from "date-fns/locale";
+import { getStatusText } from "@/common/utils/matchUtils";
 
 const createSlug = (homeTeam, awayTeam) => {
   return `${homeTeam.toLowerCase().replace(/\s+/g, "-")}-vs-${awayTeam
@@ -53,42 +54,7 @@ const MatchCard = ({
     });
   };
 
-  const getStatusText = () => {
-    switch (status.short) {
-      case "1H":
-        return currentLanguage === "en" ? "First Half" : "Primer Tiempo";
-      case "HT":
-        return currentLanguage === "en" ? "Half-time" : "Entre tiempo";
-      case "2H":
-        return currentLanguage === "en" ? "Second Half" : "Segundo Tiempo";
-      case "ET":
-        return currentLanguage === "en" ? "Extra Time" : "Tiempo Extra";
-      case "P":
-        return currentLanguage === "en" ? "Penalties" : "Penalti";
-      case "PST":
-        return currentLanguage === "en" ? "Postponed" : "Pospuesto";
-      case "SUSP":
-        return currentLanguage === "en" ? "Suspended" : "Suspendido";
-      case "INT":
-        return currentLanguage === "en" ? "Interrupted" : "Interrumpido";
-      case "CANC":
-        return currentLanguage === "en" ? "Cancellend" : "Cancelado";
-      case "ABD":
-        return currentLanguage === "en" ? "Abandoned" : "Abandonado";
-      case "FT":
-        return currentLanguage === "en" ? "Finished" : "Finalizado";
-      case "AET":
-        return currentLanguage === "en"
-          ? "Finished after extra time"
-          : "Finalizado en tiempo extra";
-      case "PEN":
-        return currentLanguage === "en"
-          ? "Finished after the penalty shootout"
-          : "Finalizado en tanda de penales";
-      default:
-        return status.short;
-    }
-  };
+  const statusText = getStatusText(status.short, currentLanguage === 'en' ? 'en' : 'es');
 
   return (
     <Card className="matchCard w-full max-w-sm overflow-hidden rounded-xl bg-[#F3F4F5] shadow-lg my-2">
@@ -129,13 +95,13 @@ const MatchCard = ({
                         />
                       </div>
                       <span className="text-xs font-medium text-green-600">
-                        {getStatusText()}
+                        {statusText}
                       </span>
                     </div>
                   )}
                   {!isLive && isFinished && (
                     <span className="text-sm font-normal text-pretty text-center">
-                      {getStatusText()}
+                      {statusText}
                     </span>
                   )}
                   <div className="score space-x-2 flex flex-row items-center">
@@ -151,7 +117,7 @@ const MatchCard = ({
               ) : isPostponedOrCancelled ? (
                 <div className="flex flex-col items-center justify-center space-y-4">
                   <span className="text-sm font-normal text-red-600">
-                    {getStatusText()}
+                    {statusText}
                   </span>
                 </div>
               ) : (

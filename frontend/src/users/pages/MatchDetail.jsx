@@ -27,11 +27,13 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/common/components/ui/accordion";
+import { fetchFromAPI } from "@/api/services/fetchApi";
 import ClassificationDetails from "./ClassificationDetails";
 import LatestMatches from "../components/LatestMatches";
 import { Skeleton } from "@/common/components/ui/skeleton";
 import Statistics from "../components/MatchStatics";
 import RefereeNationality from "../components/RefereeNationality";
+import { getStatusText } from "@/common/utils/matchUtils";
 
 const MatchDetail = () => {
   const { id } = useParams();
@@ -41,20 +43,14 @@ const MatchDetail = () => {
 
   const fetchMatchDetails = async ({ queryKey }) => {
     const [matchId] = queryKey;
-    const response = await fetch(
-      `https://v3.football.api-sports.io/fixtures?id=${matchId}`,
-      {
-        headers: {
-          "x-rapidapi-host": "v3.football.api-sports.io",
-          "x-rapidapi-key": "3340e6dc57da7cc7c941644d11f7ef1c",
-        },
-      }
-    );
+    try {
+      const response = await fetchFromAPI(`fixtures?id=${matchId}`);
 
-    if (!response.ok) {
-      throw new Error("Network response was not ok");
+      return response;
+    } catch (error) {
+      console.error("Error fetching match details:", error);
+      throw error;
     }
-    return response.json();
   };
 
   const { data, isLoading, error } = useQuery({
@@ -100,9 +96,9 @@ const MatchDetail = () => {
   const leagueName = match?.league?.name;
   const homeTeamId = match?.teams?.home.id;
   const awayTeamId = match?.teams?.away.id;
-  const refereeName = match?.fixture?.referee?.split(',')[0] || '';
-  const refereeNationality = match?.fixture?.referee?.split(',')[1]?.trim() || '';
-  console.log('Nombre: ', refereeName, 'Nacionalidad: ' , refereeNationality)
+  const refereeName = match?.fixture?.referee?.split(",")[0] || "";
+  const refereeNationality =
+    match?.fixture?.referee?.split(",")[1]?.trim() || "";
 
   const formatDate = (date) => {
     if (currentLanguage === "es") {
@@ -142,42 +138,7 @@ const MatchDetail = () => {
     (event) => event.type === "Card" && event.detail === "Yellow Card"
   );
 
-  const getStatusText = () => {
-    switch (match.fixture.status.short) {
-      case "1H":
-        return currentLanguage === "en" ? "First Half" : "Primer Tiempo";
-      case "HT":
-        return currentLanguage === "en" ? "Half-time" : "Entre tiempo";
-      case "2H":
-        return currentLanguage === "en" ? "Second Half" : "Segundo Tiempo";
-      case "ET":
-        return currentLanguage === "en" ? "Extra Time" : "Tiempo Extra";
-      case "P":
-        return currentLanguage === "en" ? "Penalties" : "Penalti";
-      case "PST":
-        return currentLanguage === "en" ? "Postponed" : "Pospuesto";
-      case "SUSP":
-        return currentLanguage === "en" ? "Suspended" : "Suspendido";
-      case "INT":
-        return currentLanguage === "en" ? "Interrupted" : "Interrumpido";
-      case "CANC":
-        return currentLanguage === "en" ? "Cancellend" : "Cancelado";
-      case "ABD":
-        return currentLanguage === "en" ? "Abandoned" : "Abandonado";
-        case "FT":
-        return currentLanguage === "en" ? "Finished" : "Finalizado";
-      case "AET":
-        return currentLanguage === "en"
-          ? "Finished after extra time"
-          : "Finalizado en tiempo extra";
-      case "PEN":
-        return currentLanguage === "en"
-          ? "Finished after the penalty shootout"
-          : "Finalizado en tanda de penales";
-      default:
-        return match.fixture.status.short;
-    }
-  };
+  const statusText = getStatusText(match.fixture.status.short, currentLanguage === 'en' ? 'en' : 'es');
 
   if (!match) {
     return (
@@ -229,12 +190,14 @@ const MatchDetail = () => {
                       />
                     </div>
                     <span className="text-xs font-medium text-green-600">
-                      {getStatusText()}
+                      {statusText}
                     </span>
                   </div>
                 )}
                 {!isLive && isFinished && (
-                  <span className="text-sm font-normal text-pretty text-center">{getStatusText()}</span>
+                  <span className="text-sm font-normal text-pretty text-center">
+                    {statusText}
+                  </span>
                 )}
                 <div className="score space-x-2 flex flex-row items-center">
                   <span className="font-semibold text-black text-4xl">
@@ -249,12 +212,14 @@ const MatchDetail = () => {
             ) : isPostponedOrCancelled ? (
               <div className="flex flex-col items-center justify-center space-y-4">
                 <span className="text-sm font-normal text-red-600">
-                  {getStatusText()}
+                  {statusText}
                 </span>
               </div>
             ) : (
               <div className="flex flex-col items-center justify-around space-y-2">
-                <span className="text-lg font-medium capitalize">{formattedDate}</span>
+                <span className="text-lg font-medium capitalize">
+                  {formattedDate}
+                </span>
                 <span className="text-4xl font-medium">{formattedTime}</span>
               </div>
             )}
@@ -375,7 +340,10 @@ const MatchDetail = () => {
                 </div>
               </div>
 
-              <RefereeNationality refereeName={refereeName} refereeNationality={refereeNationality} />
+              <RefereeNationality
+                refereeName={refereeName}
+                refereeNationality={refereeNationality}
+              />
 
               {/* <div className="flex flex-row items-center justify-between px-5 py-2.5 border-b last:border-b-0">
                 <div className="flex flex-row items-center justify-between space-x-4">

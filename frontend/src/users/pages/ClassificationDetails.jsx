@@ -16,25 +16,22 @@ import {
 import { useMemo } from "react";
 import { Skeleton } from "@/common/components/ui/skeleton";
 import { useTranslation } from "react-i18next";
+import { fetchFromAPI } from "@/api/services/fetchApi";
 
 const ClassificationDetails = ({ leagueId, leagueName, leagueLogo }) => {
   const { t } = useTranslation();
 
   const fetchStandings = async () => {
-    const response = await fetch(
-      `https://v3.football.api-sports.io/standings?league=${leagueId}&season=2024`,
-      {
-        headers: {
-          "x-rapidapi-host": "v3.football.api-sports.io",
-          "x-rapidapi-key": "3340e6dc57da7cc7c941644d11f7ef1c",
-        },
-      }
-    );
+    try {
+      const response = await fetchFromAPI(
+        `standings?league=${leagueId}&season=2024`
+      );
 
-    if (!response.ok) {
-      throw new Error("Network response was not ok");
+      return response;
+    } catch (error) {
+      console.error("Error fetching match details:", error);
+      throw error;
     }
-    return response.json();
   };
 
   const { data, isLoading, error } = useQuery({
@@ -50,8 +47,8 @@ const ClassificationDetails = ({ leagueId, leagueName, leagueLogo }) => {
         cell: ({ row }) => (
           <div className="flex items-center space-x-2">
             <div className="font-semibold text-blueWaki text-center">
-            {row.original.rank}
-          </div>
+              {row.original.rank}
+            </div>
             <img
               src={row.original.team.logo}
               alt={`Logo de ${row.original.team.name}`}
@@ -125,10 +122,14 @@ const ClassificationDetails = ({ leagueId, leagueName, leagueLogo }) => {
   return (
     <div className="container mx-auto p-2">
       <div className="flex flex-row items-center gap-x-1 pl-2 mb-3">
-      <img src={leagueLogo} alt={leagueName} className="w-auto h-7 object-contain mx-2" />
-      <h2 className="font-medium text-base text-[#181818] leading-6">
-        {leagueName}
-      </h2>
+        <img
+          src={leagueLogo}
+          alt={leagueName}
+          className="w-auto h-7 object-contain mx-2"
+        />
+        <h2 className="font-medium text-base text-[#181818] leading-6">
+          {leagueName}
+        </h2>
       </div>
       {standings.length > 0 ? (
         <div className="bg-white rounded-t-[19px] rounded-b-[9px] waki-shadow overflow-hidden">

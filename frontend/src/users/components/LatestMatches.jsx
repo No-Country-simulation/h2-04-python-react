@@ -27,6 +27,7 @@ import { Skeleton } from "@/common/components/ui/skeleton";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/common/components/ui/button";
 import { useTranslation } from "react-i18next";
+import { fetchFromAPI } from "@/api/services/fetchApi";
 
 const LatestMatches = ({ homeTeam, awayTeam }) => {
   const { currentLanguage } = useLanguageStore();
@@ -34,20 +35,16 @@ const LatestMatches = ({ homeTeam, awayTeam }) => {
   const [currentPage, setCurrentPage] = useState(0);
 
   const fetchLatestMatches = async () => {
-    const response = await fetch(
-      `https://v3.football.api-sports.io/fixtures/headtohead?h2h=${homeTeam}-${awayTeam}`,
-      {
-        headers: {
-          "x-rapidapi-host": "v3.football.api-sports.io",
-          "x-rapidapi-key": "3340e6dc57da7cc7c941644d11f7ef1c",
-        },
-      }
-    );
+    try {
+      const response = await fetchFromAPI(
+        `fixtures/headtohead?h2h=${homeTeam}-${awayTeam}`
+      );
 
-    if (!response.ok) {
-      throw new Error("Network response was not ok");
+      return response;
+    } catch (error) {
+      console.error("Error fetching match details:", error);
+      throw error;
     }
-    return response.json();
   };
 
   const { data, isLoading, error } = useQuery({
@@ -56,27 +53,30 @@ const LatestMatches = ({ homeTeam, awayTeam }) => {
   });
 
   const formatDate = (dateString) => {
-    const date = new Date(dateString)
-    const daysEs = ["Dom", "Lun", "Mar", "Mier", "Jue", "Vier", "Sab"]
-    const daysEn = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
-    const day = currentLanguage === "en" ? daysEn[date.getDay()] : daysEs[date.getDay()]
+    const date = new Date(dateString);
+    const daysEs = ["Dom", "Lun", "Mar", "Mier", "Jue", "Vier", "Sab"];
+    const daysEn = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+    const day =
+      currentLanguage === "en" ? daysEn[date.getDay()] : daysEs[date.getDay()];
     const formattedDate = `${String(date.getDate()).padStart(2, "0")}/${String(
       date.getMonth() + 1
-    ).padStart(2, "0")}/${date.getFullYear()} `
+    ).padStart(2, "0")}/${date.getFullYear()} `;
 
     return (
       <div className="flex flex-col justify-center">
         <span>{day}</span>
         <span>{formattedDate}</span>
       </div>
-    )
-  }
+    );
+  };
 
   const columns = useMemo(
     () => [
       {
         accessorKey: "teams",
-        header: () => <div className="pl-2 text-left">{t("table.matches")}</div>,
+        header: () => (
+          <div className="pl-2 text-left">{t("table.matches")}</div>
+        ),
         cell: ({ row }) => (
           <div className="flex flex-col items-start justify-start gap-2 pl-2">
             <div className="flex flex-row gap-1 items-center">
